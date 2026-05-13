@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "134997593443",
+    "project_id": "hibalo-c1967",
+    "storage_bucket": "hibalo-c1967.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134997593443:android:fdbf2a7cf18d2342419756",
+        "android_client_info": {
+          "package_name": "com.example.hibalo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMsMVK0Lww7GkdjP6MS_ljE25Wjp2dbvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134997593443:android:95ce7548186a1598419756",
+        "android_client_info": {
+          "package_name": "com.example.hibalo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMsMVK0Lww7GkdjP6MS_ljE25Wjp2dbvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,47 @@
+name: Hibalo
+description: "HalinSalin - Hiligaynon and Filipino Realtime Translator"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ── UI ─────────────────────────────────────
+  cupertino_icons: ^1.0.8
+  provider: ^6.1.2
+
+  # ── Speech Recognition ─────────────────────
+  speech_to_text: ^7.0.0
+  permission_handler: ^11.3.1
+
+  # ── Firebase ───────────────────────────────
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.0
+  cloud_firestore: ^5.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+  # ── App Icon Generator ─────────────────────
+  flutter_launcher_icons: ^0.13.1
+
+# ── APP ICON CONFIG ──────────────────────────
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+
+flutter:
+  uses-material-design: true
+
+  # ── ASSETS ─────────────────────────────────
+  assets:
+    - assets/logo.png
