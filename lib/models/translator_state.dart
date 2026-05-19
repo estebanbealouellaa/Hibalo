@@ -27,11 +27,11 @@ class TranslatorState {
     String? partialSpeechText,
   }) {
     return TranslatorState(
-      originalText:     originalText     ?? this.originalText,
-      translatedText:   translatedText   ?? this.translatedText,
-      isListening:      isListening      ?? this.isListening,
-      sourceLanguage:   sourceLanguage   ?? this.sourceLanguage,
-      isTranslating:    isTranslating    ?? this.isTranslating,
+      originalText: originalText ?? this.originalText,
+      translatedText: translatedText ?? this.translatedText,
+      isListening: isListening ?? this.isListening,
+      sourceLanguage: sourceLanguage ?? this.sourceLanguage,
+      isTranslating: isTranslating ?? this.isTranslating,
       recognitionError: recognitionError ?? this.recognitionError,
       partialSpeechText: partialSpeechText ?? this.partialSpeechText,
     );

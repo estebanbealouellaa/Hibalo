@@ -32,86 +32,90 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [purple900, purple800, Color(0xFF0f051d)],
-        ),
-      ),
-      child: Stack(
-        children: [
-          // Animated page content
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            transitionBuilder: (child, animation) =>
-                FadeTransition(opacity: animation, child: child),
-            child: KeyedSubtree(
-              key: ValueKey(_currentPage),
-              child: _buildPage(_pages[_currentPage]),
-            ),
+    // ── FIX: Scaffold resets the default text style, removing the yellow underline
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [purple900, purple800, Color(0xFF0f051d)],
           ),
-          // Bottom navigation row
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Back button
-                  if (_currentPage > 0)
-                    _NavCircleButton(
-                      onTap: () => setState(() => _currentPage--),
-                      child: const Text(
-                        '←',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      color: purple600,
-                    )
-                  else
-                    const SizedBox(width: 48, height: 48),
-                  // Dots
-                  Row(
-                    children: List.generate(3, (i) {
-                      final active = i == _currentPage;
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        width: active ? 10 : 6,
-                        height: active ? 10 : 6,
-                        margin: const EdgeInsets.symmetric(horizontal: 3),
-                        decoration: BoxDecoration(
-                          color: active ? purple400 : purple600,
-                          shape: BoxShape.circle,
-                        ),
-                      );
-                    }),
-                  ),
-                  // Next / Finish
-                  _NavCircleButton(
-                    onTap: () {
-                      if (_currentPage < 2) {
-                        setState(() => _currentPage++);
-                      } else {
-                        widget.onFinish();
-                      }
-                    },
-                    child: const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                      size: 22,
-                    ),
-                    color: purple400,
-                  ),
-                ],
+        ),
+        child: Stack(
+          children: [
+            // Animated page content
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) =>
+                  FadeTransition(opacity: animation, child: child),
+              child: KeyedSubtree(
+                key: ValueKey(_currentPage),
+                child: _buildPage(_pages[_currentPage]),
               ),
             ),
-          ),
-        ],
+            // Bottom navigation row
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Back button
+                    if (_currentPage > 0)
+                      _NavCircleButton(
+                        onTap: () => setState(() => _currentPage--),
+                        child: const Text(
+                          '←',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        color: purple600,
+                      )
+                    else
+                      const SizedBox(width: 48, height: 48),
+                    // Dots
+                    Row(
+                      children: List.generate(3, (i) {
+                        final active = i == _currentPage;
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: active ? 10 : 6,
+                          height: active ? 10 : 6,
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          decoration: BoxDecoration(
+                            color: active ? purple400 : purple600,
+                            shape: BoxShape.circle,
+                          ),
+                        );
+                      }),
+                    ),
+                    // Next / Finish
+                    _NavCircleButton(
+                      onTap: () {
+                        if (_currentPage < 2) {
+                          setState(() => _currentPage++);
+                        } else {
+                          widget.onFinish();
+                        }
+                      },
+                      child: const Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: 22,
+                      ),
+                      color: purple400,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -141,13 +145,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
                 color: purple200,
+                decoration:
+                    TextDecoration.none, // ── FIX: explicitly no underline
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Text(
               page.subtitle,
-              style: const TextStyle(fontSize: 16, color: purple400),
+              style: const TextStyle(
+                fontSize: 16,
+                color: purple400,
+                decoration:
+                    TextDecoration.none, // ── FIX: explicitly no underline
+              ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -157,7 +168,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-// ── Simple data class ─────────────────────────────────────────────────────────
+// ── Simple data class ──────────────────────────────────────────────────────
 class _OnboardingPage {
   final String emoji;
   final String title;
@@ -169,7 +180,7 @@ class _OnboardingPage {
   });
 }
 
-// ── Circle icon button ────────────────────────────────────────────────────────
+// ── Circle icon button ─────────────────────────────────────────────────────
 class _NavCircleButton extends StatelessWidget {
   final VoidCallback onTap;
   final Widget child;
