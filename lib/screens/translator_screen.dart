@@ -146,17 +146,17 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
 
           child: Column(
             children: [
               // ─────────────────────────────
-              // TOP CARD
+              // TOP CARD - REDUCED PADDING
               // ─────────────────────────────
               Container(
                 width: double.infinity,
 
-                padding: const EdgeInsets.all(22),
+                padding: const EdgeInsets.all(16),
 
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -165,7 +165,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                     end: Alignment.bottomRight,
                   ),
 
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(24),
 
                   boxShadow: [
                     BoxShadow(
@@ -184,34 +184,34 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                       'Realtime Voice Translation',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 6),
 
                     Text(
-                      'Translate Filipino ↔ Hiligaynon instantly using voice and text.',
+                      'Translate Filipino ↔ Hiligaynon instantly.',
                       style: TextStyle(
                         color: Colors.white.withOpacity(.9),
-                        fontSize: 15,
+                        fontSize: 13,
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 14),
 
-                    // LANGUAGE SWITCH
+                    // LANGUAGE SWITCH - SMALLER
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 14,
+                        horizontal: 12,
+                        vertical: 10,
                       ),
 
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(.18),
 
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(16),
                       ),
 
                       child: Row(
@@ -227,7 +227,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 14,
                               ),
                             ),
                           ),
@@ -244,18 +244,18 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                             },
 
                             child: Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(8),
 
                               decoration: BoxDecoration(
                                 color: Colors.white,
 
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(12),
                               ),
 
                               child: Icon(
                                 Icons.swap_horiz_rounded,
                                 color: primary,
-                                size: 28,
+                                size: 22,
                               ),
                             ),
                           ),
@@ -269,7 +269,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 14,
                               ),
                             ),
                           ),
@@ -280,20 +280,20 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
 
               // ─────────────────────────────
-              // INPUT CARD
+              // INPUT CARD - SMALLER
               // ─────────────────────────────
               Container(
                 width: double.infinity,
 
-                padding: const EdgeInsets.all(22),
+                padding: const EdgeInsets.all(16),
 
                 decoration: BoxDecoration(
                   color: cardColor,
 
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(24),
 
                   boxShadow: [
                     BoxShadow(
@@ -310,7 +310,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.edit_note_rounded, color: primary),
+                        Icon(Icons.edit_note_rounded, color: primary, size: 22),
 
                         const SizedBox(width: 8),
 
@@ -318,21 +318,21 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                           _isFilToHil ? 'Filipino Input' : 'Hiligaynon Input',
 
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 18),
+                    const SizedBox(height: 12),
 
                     TextField(
                       controller: _inputController,
 
-                      maxLines: 6,
+                      maxLines: 3,
 
-                      style: const TextStyle(fontSize: 18, height: 1.5),
+                      style: const TextStyle(fontSize: 15, height: 1.4),
 
                       decoration: InputDecoration(
                         hintText: 'Type something here...',
@@ -342,15 +342,15 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                         filled: true,
                         fillColor: background,
 
-                        contentPadding: const EdgeInsets.all(20),
+                        contentPadding: const EdgeInsets.all(14),
 
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(22),
+                          borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide.none,
                         ),
 
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(22),
+                          borderRadius: BorderRadius.circular(16),
 
                           borderSide: BorderSide(color: primary, width: 2),
                         ),
@@ -364,10 +364,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 16),
 
               // ─────────────────────────────
-              // MIC BUTTON
+              // MIC BUTTON - SMALLER
               // ─────────────────────────────
               GestureDetector(
                 onLongPressStart: (_) {
@@ -381,8 +381,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
 
-                  width: _isListening ? 120 : 105,
-                  height: _isListening ? 120 : 105,
+                  width: _isListening ? 90 : 80,
+                  height: _isListening ? 90 : 80,
 
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -401,12 +401,12 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                   child: Icon(
                     _isListening ? Icons.mic : Icons.mic_none_rounded,
                     color: Colors.white,
-                    size: 46,
+                    size: 38,
                   ),
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
               Text(
                 _isListening
@@ -415,20 +415,20 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
                 style: TextStyle(
                   color: Colors.grey.shade700,
-                  fontSize: 16,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 14),
 
               // ─────────────────────────────
-              // OUTPUT CARD
+              // OUTPUT CARD - SMALLER
               // ─────────────────────────────
               Container(
                 width: double.infinity,
 
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(16),
 
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -438,7 +438,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                     ],
                   ),
 
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(24),
 
                   boxShadow: [
                     BoxShadow(
@@ -455,7 +455,11 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                   children: [
                     Row(
                       children: const [
-                        Icon(Icons.translate_rounded, color: Colors.white),
+                        Icon(
+                          Icons.translate_rounded,
+                          color: Colors.white,
+                          size: 22,
+                        ),
 
                         SizedBox(width: 8),
 
@@ -464,13 +468,13 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
 
                     Text(
                       _translatedText.isEmpty
@@ -479,16 +483,16 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        height: 1.5,
+                        height: 1.4,
                       ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
             ],
           ),
         ),

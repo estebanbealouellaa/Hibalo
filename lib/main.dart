@@ -6,13 +6,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 
+// PROVIDERS
 import 'providers/translator_provider.dart';
+import 'models/user_stats.dart';
 
+// SCREENS
 import 'screens/splash_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 
+// THEME
 import 'theme/app_colors.dart';
 
 void main() async {
@@ -22,8 +26,15 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => TranslatorProvider(),
+    MultiProvider(
+      providers: [
+        // TRANSLATOR PROVIDER
+        ChangeNotifierProvider(create: (_) => TranslatorProvider()),
+
+        // USER STATS PROVIDER
+        ChangeNotifierProvider(create: (_) => UserStats()),
+      ],
+
       child: const HibaloApp(),
     ),
   );
@@ -61,6 +72,7 @@ class HibaloApp extends StatelessWidget {
             backgroundColor: purple600,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
             ),
@@ -96,6 +108,7 @@ class HibaloApp extends StatelessWidget {
           color: Colors.white,
           elevation: 2,
           shadowColor: Colors.black12,
+
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -114,13 +127,10 @@ class HibaloApp extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────
 // APP ROOT
-//
-// Launch flow for NEW users:       Splash → Onboarding → Auth → Home
-// Launch flow for RETURNING users: Splash → Home  (already logged in)
-//                                  Splash → Auth  (logged out, seen onboarding)
-// ─────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────
+
 enum _Phase { splash, onboarding, auth, home }
 
 class AppRoot extends StatefulWidget {
@@ -143,46 +153,54 @@ class _AppRootState extends State<AppRoot> {
 
   Widget _buildPhase() {
     switch (_phase) {
-      // ── 1. SPLASH ──────────────────────────────────────────────────
+      // ── SPLASH ─────────────────────────────
       case _Phase.splash:
         return SplashScreen(
           key: const ValueKey('splash'),
           onFinish: _onSplashFinished,
         );
 
-      // ── 2. ONBOARDING (new users only) ─────────────────────────────
+      // ── ONBOARDING ────────────────────────
       case _Phase.onboarding:
         return OnboardingScreen(
           key: const ValueKey('onboarding'),
           onFinish: _onOnboardingFinished,
         );
 
-      // ── 3. AUTH ────────────────────────────────────────────────────
+      // ── AUTH ──────────────────────────────
       case _Phase.auth:
         return AuthScreen(
           key: const ValueKey('auth'),
-          onAuthSuccess: () => setState(() => _phase = _Phase.home),
+
+          onAuthSuccess: () {
+            setState(() {
+              _phase = _Phase.home;
+            });
+          },
         );
 
-      // ── 4. HOME ────────────────────────────────────────────────────
+      // ── HOME ──────────────────────────────
       case _Phase.home:
-        return HomeScreen(
-          key: const ValueKey('home'),
-          onLogout: _onLogout, // ── FIX: pass logout callback
-        );
+        return HomeScreen(key: const ValueKey('home'), onLogout: _onLogout);
     }
   }
 
-  // ── SPLASH FINISHED ─────────────────────────────────────────────
+  // ── SPLASH FINISHED ─────────────────────
   Future<void> _onSplashFinished() async {
     final user = FirebaseAuth.instance.currentUser;
 
+    // USER ALREADY LOGGED IN
     if (user != null) {
-      setState(() => _phase = _Phase.home);
+      setState(() {
+        _phase = _Phase.home;
+      });
+
       return;
     }
 
+    // CHECK ONBOARDING
     final prefs = await SharedPreferences.getInstance();
+
     final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
 
     setState(() {
@@ -190,15 +208,21 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── ONBOARDING FINISHED ─────────────────────────────────────────
+  // ── ONBOARDING FINISHED ─────────────────
   Future<void> _onOnboardingFinished() async {
     final prefs = await SharedPreferences.getInstance();
+
     await prefs.setBool('hasSeenOnboarding', true);
-    setState(() => _phase = _Phase.auth);
+
+    setState(() {
+      _phase = _Phase.auth;
+    });
   }
 
-  // ── LOGOUT ──────────────────────────────────────────────────────
+  // ── LOGOUT ──────────────────────────────
   void _onLogout() {
-    setState(() => _phase = _Phase.auth);
+    setState(() {
+      _phase = _Phase.auth;
+    });
   }
 }
