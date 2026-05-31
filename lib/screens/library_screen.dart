@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../theme/app_colors.dart';
 import '../models/user_stats.dart';
 
@@ -50,97 +54,33 @@ List<LessonUnit> _buildUnits() => [
     emoji: '👋',
     accentColor: teal300,
     isUnlocked: true,
-    completedLessons: 2,
+    completedLessons: 0,
     words: [
-      const WordEntry(
-        filipino: 'Kamusta',
-        hiligaynon: 'Kumusta',
-        category: 'Greetings',
-      ),
-      const WordEntry(
-        filipino: 'Magandang Umaga',
-        hiligaynon: 'Maayong Aga',
-        category: 'Greetings',
-      ),
-      const WordEntry(
-        filipino: 'Magandang Hapon',
-        hiligaynon: 'Maayong Hapon',
-        category: 'Greetings',
-      ),
-      const WordEntry(
-        filipino: 'Magandang Gabi',
-        hiligaynon: 'Maayong Gab-i',
-        category: 'Greetings',
-      ),
-      const WordEntry(
-        filipino: 'Paalam',
-        hiligaynon: 'Paalam / Babay',
-        category: 'Greetings',
-      ),
-      const WordEntry(
-        filipino: 'Salamat',
-        hiligaynon: 'Salamat Gid',
-        category: 'Greetings',
-      ),
-      const WordEntry(
-        filipino: 'Walang Anuman',
-        hiligaynon: 'Wala Sing Anu-ano',
-        category: 'Greetings',
-      ),
-      const WordEntry(
-        filipino: 'Kumusta Ka Na',
-        hiligaynon: 'Kamusta Ka Na',
-        category: 'Greetings',
-      ),
+      const WordEntry(filipino: 'Kamusta', hiligaynon: 'Kumusta', category: 'Greetings'),
+      const WordEntry(filipino: 'Magandang Umaga', hiligaynon: 'Maayong Aga', category: 'Greetings'),
+      const WordEntry(filipino: 'Magandang Hapon', hiligaynon: 'Maayong Hapon', category: 'Greetings'),
+      const WordEntry(filipino: 'Magandang Gabi', hiligaynon: 'Maayong Gab-i', category: 'Greetings'),
+      const WordEntry(filipino: 'Paalam', hiligaynon: 'Paalam / Babay', category: 'Greetings'),
+      const WordEntry(filipino: 'Salamat', hiligaynon: 'Salamat Gid', category: 'Greetings'),
+      const WordEntry(filipino: 'Walang Anuman', hiligaynon: 'Wala Sing Anu-ano', category: 'Greetings'),
+      const WordEntry(filipino: 'Kumusta Ka Na', hiligaynon: 'Kamusta Ka Na', category: 'Greetings'),
     ],
   ),
   LessonUnit(
     title: 'Family',
     emoji: '👨‍👩‍👧',
     accentColor: pink500,
-    isUnlocked: true,
+    isUnlocked: false,
     completedLessons: 0,
     words: [
-      const WordEntry(
-        filipino: 'Nanay',
-        hiligaynon: 'Nanay / Iloy',
-        category: 'Family',
-      ),
-      const WordEntry(
-        filipino: 'Tatay',
-        hiligaynon: 'Tatay / Amay',
-        category: 'Family',
-      ),
-      const WordEntry(
-        filipino: 'Kapatid',
-        hiligaynon: 'Bugto',
-        category: 'Family',
-      ),
-      const WordEntry(
-        filipino: 'Lolo',
-        hiligaynon: 'Lolo / Apoy',
-        category: 'Family',
-      ),
-      const WordEntry(
-        filipino: 'Lola',
-        hiligaynon: 'Lola / Apoy',
-        category: 'Family',
-      ),
-      const WordEntry(
-        filipino: 'Anak',
-        hiligaynon: 'Bata / Anak',
-        category: 'Family',
-      ),
-      const WordEntry(
-        filipino: 'Asawa',
-        hiligaynon: 'Asawa',
-        category: 'Family',
-      ),
-      const WordEntry(
-        filipino: 'Pamilya',
-        hiligaynon: 'Pamilya',
-        category: 'Family',
-      ),
+      const WordEntry(filipino: 'Nanay', hiligaynon: 'Nanay / Iloy', category: 'Family'),
+      const WordEntry(filipino: 'Tatay', hiligaynon: 'Tatay / Amay', category: 'Family'),
+      const WordEntry(filipino: 'Kapatid', hiligaynon: 'Bugto', category: 'Family'),
+      const WordEntry(filipino: 'Lolo', hiligaynon: 'Lolo / Apoy', category: 'Family'),
+      const WordEntry(filipino: 'Lola', hiligaynon: 'Lola / Apoy', category: 'Family'),
+      const WordEntry(filipino: 'Anak', hiligaynon: 'Bata / Anak', category: 'Family'),
+      const WordEntry(filipino: 'Asawa', hiligaynon: 'Asawa', category: 'Family'),
+      const WordEntry(filipino: 'Pamilya', hiligaynon: 'Pamilya', category: 'Family'),
     ],
   ),
   LessonUnit(
@@ -149,30 +89,14 @@ List<LessonUnit> _buildUnits() => [
     accentColor: purple600,
     isUnlocked: false,
     words: [
-      const WordEntry(
-        filipino: 'Kanin',
-        hiligaynon: 'Kan-on',
-        category: 'Food',
-      ),
+      const WordEntry(filipino: 'Kanin', hiligaynon: 'Kan-on', category: 'Food'),
       const WordEntry(filipino: 'Ulam', hiligaynon: 'Sud-an', category: 'Food'),
       const WordEntry(filipino: 'Tubig', hiligaynon: 'Tubig', category: 'Food'),
-      const WordEntry(
-        filipino: 'Masarap',
-        hiligaynon: 'Namit',
-        category: 'Food',
-      ),
+      const WordEntry(filipino: 'Masarap', hiligaynon: 'Namit', category: 'Food'),
       const WordEntry(filipino: 'Gutom', hiligaynon: 'Gutom', category: 'Food'),
       const WordEntry(filipino: 'Busog', hiligaynon: 'Busog', category: 'Food'),
-      const WordEntry(
-        filipino: 'Kain Na',
-        hiligaynon: 'Kaon Na',
-        category: 'Food',
-      ),
-      const WordEntry(
-        filipino: 'Lutuin',
-        hiligaynon: 'Lutoon',
-        category: 'Food',
-      ),
+      const WordEntry(filipino: 'Kain Na', hiligaynon: 'Kaon Na', category: 'Food'),
+      const WordEntry(filipino: 'Lutuin', hiligaynon: 'Lutoon', category: 'Food'),
     ],
   ),
   LessonUnit(
@@ -182,41 +106,13 @@ List<LessonUnit> _buildUnits() => [
     isUnlocked: false,
     words: [
       const WordEntry(filipino: 'Aso', hiligaynon: 'Ido', category: 'Animals'),
-      const WordEntry(
-        filipino: 'Pusa',
-        hiligaynon: 'Kuring',
-        category: 'Animals',
-      ),
-      const WordEntry(
-        filipino: 'Manok',
-        hiligaynon: 'Manok',
-        category: 'Animals',
-      ),
-      const WordEntry(
-        filipino: 'Baboy',
-        hiligaynon: 'Baboy',
-        category: 'Animals',
-      ),
-      const WordEntry(
-        filipino: 'Baka',
-        hiligaynon: 'Baka',
-        category: 'Animals',
-      ),
-      const WordEntry(
-        filipino: 'Isda',
-        hiligaynon: 'Isda',
-        category: 'Animals',
-      ),
-      const WordEntry(
-        filipino: 'Ibon',
-        hiligaynon: 'Pispis',
-        category: 'Animals',
-      ),
-      const WordEntry(
-        filipino: 'Kabayo',
-        hiligaynon: 'Kabayo',
-        category: 'Animals',
-      ),
+      const WordEntry(filipino: 'Pusa', hiligaynon: 'Kuring', category: 'Animals'),
+      const WordEntry(filipino: 'Manok', hiligaynon: 'Manok', category: 'Animals'),
+      const WordEntry(filipino: 'Baboy', hiligaynon: 'Baboy', category: 'Animals'),
+      const WordEntry(filipino: 'Baka', hiligaynon: 'Baka', category: 'Animals'),
+      const WordEntry(filipino: 'Isda', hiligaynon: 'Isda', category: 'Animals'),
+      const WordEntry(filipino: 'Ibon', hiligaynon: 'Pispis', category: 'Animals'),
+      const WordEntry(filipino: 'Kabayo', hiligaynon: 'Kabayo', category: 'Animals'),
     ],
   ),
   LessonUnit(
@@ -226,41 +122,13 @@ List<LessonUnit> _buildUnits() => [
     isUnlocked: false,
     words: [
       const WordEntry(filipino: 'Isa', hiligaynon: 'Isa', category: 'Numbers'),
-      const WordEntry(
-        filipino: 'Dalawa',
-        hiligaynon: 'Duha',
-        category: 'Numbers',
-      ),
-      const WordEntry(
-        filipino: 'Tatlo',
-        hiligaynon: 'Tatlo',
-        category: 'Numbers',
-      ),
-      const WordEntry(
-        filipino: 'Apat',
-        hiligaynon: 'Apat',
-        category: 'Numbers',
-      ),
-      const WordEntry(
-        filipino: 'Lima',
-        hiligaynon: 'Lima',
-        category: 'Numbers',
-      ),
-      const WordEntry(
-        filipino: 'Anim',
-        hiligaynon: 'Anom',
-        category: 'Numbers',
-      ),
-      const WordEntry(
-        filipino: 'Pito',
-        hiligaynon: 'Pito',
-        category: 'Numbers',
-      ),
-      const WordEntry(
-        filipino: 'Walo',
-        hiligaynon: 'Walo',
-        category: 'Numbers',
-      ),
+      const WordEntry(filipino: 'Dalawa', hiligaynon: 'Duha', category: 'Numbers'),
+      const WordEntry(filipino: 'Tatlo', hiligaynon: 'Tatlo', category: 'Numbers'),
+      const WordEntry(filipino: 'Apat', hiligaynon: 'Apat', category: 'Numbers'),
+      const WordEntry(filipino: 'Lima', hiligaynon: 'Lima', category: 'Numbers'),
+      const WordEntry(filipino: 'Anim', hiligaynon: 'Anom', category: 'Numbers'),
+      const WordEntry(filipino: 'Pito', hiligaynon: 'Pito', category: 'Numbers'),
+      const WordEntry(filipino: 'Walo', hiligaynon: 'Walo', category: 'Numbers'),
     ],
   ),
   LessonUnit(
@@ -269,52 +137,56 @@ List<LessonUnit> _buildUnits() => [
     accentColor: teal300,
     isUnlocked: false,
     words: [
-      const WordEntry(
-        filipino: 'Masaya',
-        hiligaynon: 'Malipayon',
-        category: 'Emotions',
-      ),
-      const WordEntry(
-        filipino: 'Malungkot',
-        hiligaynon: 'Masulub-on',
-        category: 'Emotions',
-      ),
-      const WordEntry(
-        filipino: 'Galit',
-        hiligaynon: 'Naakig',
-        category: 'Emotions',
-      ),
-      const WordEntry(
-        filipino: 'Takot',
-        hiligaynon: 'Hadlok',
-        category: 'Emotions',
-      ),
-      const WordEntry(
-        filipino: 'Pagod',
-        hiligaynon: 'Kapoy',
-        category: 'Emotions',
-      ),
-      const WordEntry(
-        filipino: 'Mahal Kita',
-        hiligaynon: 'Palangga Ta Ka',
-        category: 'Emotions',
-      ),
-      const WordEntry(
-        filipino: 'Naiinis',
-        hiligaynon: 'Nauyangan',
-        category: 'Emotions',
-      ),
-      const WordEntry(
-        filipino: 'Naguguluhan',
-        hiligaynon: 'Nagapalibog',
-        category: 'Emotions',
-      ),
+      const WordEntry(filipino: 'Masaya', hiligaynon: 'Malipayon', category: 'Emotions'),
+      const WordEntry(filipino: 'Malungkot', hiligaynon: 'Masulub-on', category: 'Emotions'),
+      const WordEntry(filipino: 'Galit', hiligaynon: 'Naakig', category: 'Emotions'),
+      const WordEntry(filipino: 'Takot', hiligaynon: 'Hadlok', category: 'Emotions'),
+      const WordEntry(filipino: 'Pagod', hiligaynon: 'Kapoy', category: 'Emotions'),
+      const WordEntry(filipino: 'Mahal Kita', hiligaynon: 'Palangga Ta Ka', category: 'Emotions'),
+      const WordEntry(filipino: 'Naiinis', hiligaynon: 'Nauyangan', category: 'Emotions'),
+      const WordEntry(filipino: 'Naguguluhan', hiligaynon: 'Nagapalibog', category: 'Emotions'),
     ],
   ),
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LIBRARY SCREEN (Modern gradient-based design)
+// PROGRESS PERSISTENCE SERVICE
+// ─────────────────────────────────────────────────────────────────────────────
+class ProgressService {
+  static const String _completedKey = 'completed_lessons_';
+  static const String _unlockedKey = 'unlocked_units_';
+
+  static Future<void> saveUnitProgress(
+    String unitTitle,
+    int completedLessons,
+    bool isUnlocked,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('$_completedKey$unitTitle', completedLessons);
+    await prefs.setBool('$_unlockedKey$unitTitle', isUnlocked);
+  }
+
+  static Future<void> loadProgress(List<LessonUnit> units) async {
+    final prefs = await SharedPreferences.getInstance();
+    for (final unit in units) {
+      final completed = prefs.getInt('$_completedKey${unit.title}');
+      final unlocked = prefs.getBool('$_unlockedKey${unit.title}');
+      if (completed != null) unit.completedLessons = completed;
+      if (unlocked != null) unit.isUnlocked = unlocked;
+    }
+  }
+
+  static Future<void> saveAllUnits(List<LessonUnit> units) async {
+    final prefs = await SharedPreferences.getInstance();
+    for (final unit in units) {
+      await prefs.setInt('$_completedKey${unit.title}', unit.completedLessons);
+      await prefs.setBool('$_unlockedKey${unit.title}', unit.isUnlocked);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LIBRARY SCREEN
 // ─────────────────────────────────────────────────────────────────────────────
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({super.key});
@@ -325,9 +197,25 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> {
   final List<LessonUnit> _units = _buildUnits();
+  bool _isLoading = true;
 
-  void _onLessonComplete(int unitIndex, int xpEarned) {
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedProgress();
+  }
+
+  Future<void> _loadSavedProgress() async {
+    await ProgressService.loadProgress(_units);
+    if (mounted) setState(() => _isLoading = false);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // UPDATED: saves to Firestore + updates streak
+  // ─────────────────────────────────────────────────────────────────────────
+  Future<void> _onLessonComplete(int unitIndex, int xpEarned) async {
     final userStats = context.read<UserStats>();
+    final user = FirebaseAuth.instance.currentUser;
 
     setState(() {
       _units[unitIndex].completedLessons++;
@@ -336,14 +224,74 @@ class _LibraryScreenState extends State<LibraryScreen> {
       }
     });
 
-    // Update global stats
+    await ProgressService.saveAllUnits(_units);
     userStats.addXp(xpEarned);
-    userStats.addWordsLearned(5); // 5 words per lesson
+    userStats.addWordsLearned(5);
     userStats.completeLesson();
+
+    // ── SAVE TO FIRESTORE ───────────────────────────────────────────────────
+    if (user != null) {
+      final ref = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid);
+
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+
+      final docSnap = await ref.get();
+      final data = docSnap.data() as Map<String, dynamic>? ?? {};
+
+      // ── STREAK LOGIC ──────────────────────────────────────────────────────
+      int currentStreak = data['dayStreak'] ?? 0;
+      final lastActiveTs = data['lastActiveDate'];
+
+      if (lastActiveTs != null) {
+        final lastActive = (lastActiveTs as Timestamp).toDate();
+        final lastDay = DateTime(
+          lastActive.year,
+          lastActive.month,
+          lastActive.day,
+        );
+        final diff = today.difference(lastDay).inDays;
+
+        if (diff == 1) {
+          currentStreak += 1; // consecutive day → increment
+        } else if (diff > 1) {
+          currentStreak = 1;  // streak broken → reset to 1
+        }
+        // diff == 0 → same day, streak stays the same
+      } else {
+        currentStreak = 1; // first time completing a lesson
+      }
+
+      await ref.update({
+        'xp': FieldValue.increment(xpEarned),
+        'wordsLearned': FieldValue.increment(5),
+        'lessonsCompleted': FieldValue.increment(1),
+        'dayStreak': currentStreak,
+        'lastActiveDate': Timestamp.fromDate(today),
+      });
+
+      // ── SYNC LOCAL STATS WITH FIRESTORE VALUES ────────────────────────────
+      userStats.initializeFromFirestore(
+        xp: (data['xp'] ?? 0) + xpEarned,
+        streak: currentStreak,
+        wordsLearned: (data['wordsLearned'] ?? 0) + 5,
+        quizzesCompleted: data['quizzesCompleted'] ?? 0,
+        lessonsCompleted: (data['lessonsCompleted'] ?? 0) + 1,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -365,7 +313,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  // ── TOP BAR ─────────────────────────────────
   Widget _buildTopBar() {
     return Consumer<UserStats>(
       builder: (context, userStats, _) {
@@ -380,10 +327,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -392,10 +336,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     ],
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.3),
-                    width: 1,
-                  ),
+                  border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1),
                 ),
                 child: const Row(
                   children: [
@@ -448,14 +389,16 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  // ── SECTION HEADER ──────────────────────────────────────────────
   Widget _buildSectionHeader() {
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 20, 16, 24),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.blue.withOpacity(0.1), Colors.blue.withOpacity(0.05)],
+          colors: [
+            Colors.blue.withOpacity(0.1),
+            Colors.blue.withOpacity(0.05),
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -511,11 +454,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  // ── LESSON PATH (Asymmetric grid layout) ───────────────────────
   List<Widget> _buildLessonPath() {
     List<Widget> items = [];
     final positions = [0.15, 0.65, 0.25, 0.75, 0.2, 0.7];
-
     for (int i = 0; i < _units.length; i++) {
       final align = positions[i % positions.length];
       items.add(_buildUnitNode(_units[i], i, align));
@@ -528,7 +469,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   Widget _buildUnitNode(LessonUnit unit, int index, double alignFraction) {
     final isLocked = !unit.isUnlocked;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Align(
@@ -634,9 +574,13 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
-                    '${unit.completedLessons}/${unit.totalLessons} lessons',
+                    unit.isCompleted
+                        ? '✅ Tapos na!'
+                        : '${unit.completedLessons}/${unit.totalLessons} lessons',
                     style: TextStyle(
-                      color: unit.accentColor.withOpacity(0.7),
+                      color: unit.isCompleted
+                          ? teal300
+                          : unit.accentColor.withOpacity(0.7),
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                     ),
@@ -739,8 +683,11 @@ class _LibraryScreenState extends State<LibraryScreen> {
     HapticFeedback.lightImpact();
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
       builder: (_) => _LessonBottomSheet(
         unit: unit,
         onStart: () {
@@ -748,9 +695,19 @@ class _LibraryScreenState extends State<LibraryScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => _LessonScreen(
+              builder: (_) => _LearnScreen(
                 unit: unit,
-                onComplete: (xp) => _onLessonComplete(unitIndex, xp),
+                onLearningComplete: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => _LessonScreen(
+                        unit: unit,
+                        onComplete: (xp) => _onLessonComplete(unitIndex, xp),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           );
@@ -761,11 +718,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CUSTOM PAINTER FOR CONNECTORS
+// CONNECTOR PAINTER
 // ─────────────────────────────────────────────────────────────────────────────
 class _ConnectorPainter extends CustomPainter {
   final Color color;
-
   _ConnectorPainter({required this.color});
 
   @override
@@ -774,11 +730,9 @@ class _ConnectorPainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
-
     const dashWidth = 4.0;
     const dashSpace = 4.0;
     double startY = 0;
-
     while (startY < size.height) {
       canvas.drawLine(
         Offset(size.width / 2, startY),
@@ -799,7 +753,6 @@ class _ConnectorPainter extends CustomPainter {
 class _LessonBottomSheet extends StatelessWidget {
   final LessonUnit unit;
   final VoidCallback onStart;
-
   const _LessonBottomSheet({required this.unit, required this.onStart});
 
   @override
@@ -807,11 +760,7 @@ class _LessonBottomSheet extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.white, Colors.grey.withOpacity(0.05)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        color: Colors.white,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(
           top: BorderSide(color: Colors.grey.withOpacity(0.2), width: 1),
@@ -856,6 +805,22 @@ class _LessonBottomSheet extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _flowStep('📖', 'Aralin', teal300),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 16,
+                  color: Colors.black26,
+                ),
+              ),
+              _flowStep('🧠', 'Quiz', pink500),
+            ],
+          ),
           const SizedBox(height: 18),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -895,7 +860,7 @@ class _LessonBottomSheet extends StatelessWidget {
                 elevation: 0,
               ),
               child: const Text(
-                'START LESSON',
+                'MAGSIMULA',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -920,15 +885,415 @@ class _LessonBottomSheet extends StatelessWidget {
       ),
     );
   }
+
+  Widget _flowStep(String emoji, String label, Color color) {
+    return Column(
+      children: [
+        Text(emoji, style: const TextStyle(fontSize: 20)),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            color: color,
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LESSON SCREEN (Interactive quiz) - UPDATED
+// LEARN SCREEN
+// ─────────────────────────────────────────────────────────────────────────────
+class _LearnScreen extends StatefulWidget {
+  final LessonUnit unit;
+  final VoidCallback onLearningComplete;
+  const _LearnScreen({required this.unit, required this.onLearningComplete});
+
+  @override
+  State<_LearnScreen> createState() => _LearnScreenState();
+}
+
+class _LearnScreenState extends State<_LearnScreen> {
+  int _currentIndex = 0;
+  bool _isPlaying = false;
+  late FlutterTts _tts;
+  late List<WordEntry> _learnWords;
+
+  String _imagePath(WordEntry word) {
+    final category = word.category.toLowerCase();
+    final filename = word.filipino
+        .toLowerCase()
+        .replaceAll(' ', '_')
+        .replaceAll('/', '_');
+    return 'lib/assets/images/$category/$filename.png';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _learnWords = widget.unit.words;
+    _initTts();
+  }
+
+  Future<void> _initTts() async {
+    _tts = FlutterTts();
+    await _tts.setLanguage('fil-PH');
+    await _tts.setSpeechRate(0.45);
+    await _tts.setVolume(1.0);
+    await _tts.setPitch(1.0);
+    _tts.setCompletionHandler(() {
+      if (mounted) setState(() => _isPlaying = false);
+    });
+  }
+
+  Future<void> _speak() async {
+    if (_isPlaying) {
+      await _tts.stop();
+      setState(() => _isPlaying = false);
+      return;
+    }
+    setState(() => _isPlaying = true);
+    await _tts.speak(_learnWords[_currentIndex].hiligaynon);
+  }
+
+  void _nextCard() {
+    HapticFeedback.lightImpact();
+    _tts.stop();
+    if (_currentIndex + 1 >= _learnWords.length) {
+      widget.onLearningComplete();
+      return;
+    }
+    setState(() {
+      _currentIndex++;
+      _isPlaying = false;
+    });
+  }
+
+  void _prevCard() {
+    if (_currentIndex <= 0) return;
+    HapticFeedback.selectionClick();
+    _tts.stop();
+    setState(() {
+      _currentIndex--;
+      _isPlaying = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _tts.stop();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final word = _learnWords[_currentIndex];
+    final progress = (_currentIndex + 1) / _learnWords.length;
+    final isLast = _currentIndex + 1 >= _learnWords.length;
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.grey.withOpacity(0.15),
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _tts.stop();
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close_rounded,
+                      color: Colors.black.withOpacity(0.4),
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        backgroundColor: Colors.grey.withOpacity(0.15),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          widget.unit.accentColor,
+                        ),
+                        minHeight: 11,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Text(
+                    '${_currentIndex + 1}/${_learnWords.length}',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: widget.unit.accentColor.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '📖 Aralin',
+                      style: TextStyle(
+                        color: widget.unit.accentColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    widget.unit.title,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(28),
+                    border: Border.all(
+                      color: widget.unit.accentColor.withOpacity(0.25),
+                      width: 2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: widget.unit.accentColor.withOpacity(0.1),
+                        blurRadius: 24,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(24, 28, 24, 12),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              _imagePath(word),
+                              fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) => Container(
+                                decoration: BoxDecoration(
+                                  color: widget.unit.accentColor.withOpacity(0.08),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    widget.unit.emoji,
+                                    style: const TextStyle(fontSize: 72),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Divider(
+                          color: Colors.grey.withOpacity(0.15),
+                          height: 1,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      word.hiligaynon,
+                                      style: TextStyle(
+                                        color: widget.unit.accentColor,
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.1,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      word.filipino,
+                                      style: TextStyle(
+                                        color: Colors.black.withOpacity(0.45),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'I-tap ang 🔊 para marinig',
+                                      style: TextStyle(
+                                        color: Colors.black.withOpacity(0.3),
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              GestureDetector(
+                                onTap: _speak,
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  width: 64,
+                                  height: 64,
+                                  decoration: BoxDecoration(
+                                    color: _isPlaying
+                                        ? widget.unit.accentColor
+                                        : widget.unit.accentColor.withOpacity(0.12),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: widget.unit.accentColor.withOpacity(0.4),
+                                      width: 2,
+                                    ),
+                                    boxShadow: _isPlaying
+                                        ? [
+                                            BoxShadow(
+                                              color: widget.unit.accentColor.withOpacity(0.4),
+                                              blurRadius: 16,
+                                              spreadRadius: 2,
+                                            ),
+                                          ]
+                                        : [],
+                                  ),
+                                  child: Icon(
+                                    _isPlaying
+                                        ? Icons.stop_rounded
+                                        : Icons.volume_up_rounded,
+                                    color: _isPlaying
+                                        ? Colors.white
+                                        : widget.unit.accentColor,
+                                    size: 30,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey.withOpacity(0.15),
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  if (_currentIndex > 0)
+                    OutlinedButton(
+                      onPressed: _prevCard,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        side: BorderSide(color: Colors.grey.withOpacity(0.4)),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  if (_currentIndex > 0) const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _nextCard,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isLast ? pink500 : widget.unit.accentColor,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        isLast ? '🧠  SIMULAN ANG QUIZ' : 'SUSUNOD →',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LESSON SCREEN (Quiz phase)
 // ─────────────────────────────────────────────────────────────────────────────
 class _LessonScreen extends StatefulWidget {
   final LessonUnit unit;
   final Function(int xp) onComplete;
-
   const _LessonScreen({required this.unit, required this.onComplete});
 
   @override
@@ -953,7 +1318,6 @@ class _LessonScreenState extends State<_LessonScreen>
     super.initState();
     _lessonWords = widget.unit.words.take(5).toList();
     _choices = _lessonWords.map((w) => _generateChoices(w)).toList();
-
     _shakeCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -972,29 +1336,24 @@ class _LessonScreenState extends State<_LessonScreen>
   }
 
   List<String> _generateChoices(WordEntry correct) {
-    final allWords =
-        widget.unit.words
-            .where((w) => w.hiligaynon != correct.hiligaynon)
-            .toList()
-          ..shuffle();
+    final allWords = widget.unit.words
+        .where((w) => w.hiligaynon != correct.hiligaynon)
+        .toList()
+      ..shuffle();
     final wrong = allWords.take(3).map((w) => w.hiligaynon).toList();
-    final choices = [...wrong, correct.hiligaynon]..shuffle();
-    return choices;
+    return [...wrong, correct.hiligaynon]..shuffle();
   }
 
   void _selectAnswer(String answer) {
     if (_answered) return;
     HapticFeedback.lightImpact();
-
     final correct = _lessonWords[_currentIndex].hiligaynon;
     final isCorrect = answer == correct;
-
     setState(() {
       _selectedAnswer = answer;
       _answered = true;
       _isCorrect = isCorrect;
     });
-
     if (isCorrect) {
       _xpEarned += 4;
       _bounceCtrl.forward(from: 0);
@@ -1009,12 +1368,10 @@ class _LessonScreenState extends State<_LessonScreen>
       _showResultScreen(false);
       return;
     }
-
     if (_currentIndex + 1 >= _lessonWords.length) {
       _showResultScreen(true);
       return;
     }
-
     setState(() {
       _currentIndex++;
       _selectedAnswer = null;
@@ -1041,6 +1398,7 @@ class _LessonScreenState extends State<_LessonScreen>
   Widget build(BuildContext context) {
     final word = _lessonWords[_currentIndex];
     final progress = (_currentIndex + 1) / _lessonWords.length;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -1049,13 +1407,38 @@ class _LessonScreenState extends State<_LessonScreen>
           child: Column(
             children: [
               _buildLessonTopBar(progress),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: pink500.withOpacity(0.12),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '🧠 Quiz',
+                        style: TextStyle(
+                          color: pink500,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 12),
                       Text(
                         'Ano ang Hiligaynon ng...',
                         style: TextStyle(
@@ -1085,8 +1468,8 @@ class _LessonScreenState extends State<_LessonScreen>
                             border: Border.all(
                               color: _answered
                                   ? _isCorrect
-                                        ? teal300.withOpacity(0.5)
-                                        : pink500.withOpacity(0.5)
+                                      ? teal300.withOpacity(0.5)
+                                      : pink500.withOpacity(0.5)
                                   : Colors.grey.withOpacity(0.3),
                               width: 2,
                             ),
@@ -1323,7 +1706,6 @@ class _ResultScreen extends StatelessWidget {
   final bool passed;
   final int xpEarned;
   final LessonUnit unit;
-
   const _ResultScreen({
     required this.passed,
     required this.xpEarned,
@@ -1340,7 +1722,10 @@ class _ResultScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(passed ? '🎉' : '💔', style: const TextStyle(fontSize: 80)),
+              Text(
+                passed ? '🎉' : '💔',
+                style: const TextStyle(fontSize: 80),
+              ),
               const SizedBox(height: 28),
               Text(
                 passed ? 'Napakahusay!' : 'Subukan Ulit!',
@@ -1362,9 +1747,7 @@ class _ResultScreen extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
-
               const SizedBox(height: 44),
-
               if (passed)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1374,13 +1757,12 @@ class _ResultScreen extends StatelessWidget {
                     _buildStat('⭐', 'Excellent', purple400),
                   ],
                 ),
-
               const SizedBox(height: 48),
-
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () =>
+                      Navigator.popUntil(context, (r) => r.isFirst),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: passed ? teal300 : purple600,
                     foregroundColor: Colors.white,
