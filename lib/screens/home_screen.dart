@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../theme/app_colors.dart';
 import '../models/user_stats.dart';
+import '../widgets/admin_entry_button.dart';
 import 'camera_translate_screen.dart';
 import 'translator_screen.dart';
 import 'library_screen.dart';
@@ -111,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
+            // ── HEADER CARD WITH ADMIN BUTTON ──────────
             Container(
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(24),
@@ -173,29 +175,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
 
-                      Container(
-                        width: 70,
-                        height: 70,
+                      // ── AVATAR + ADMIN BUTTON COLUMN ───
+                      Column(
+                        children: [
+                          // Admin shield — only visible for admins
+                          const AdminEntryButton(),
 
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
+                          Container(
+                            width: 70,
+                            height: 70,
 
-                          border: Border.all(color: Colors.white70, width: 2),
-                        ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.white70,
+                                width: 2,
+                              ),
+                            ),
 
-                        child: Center(
-                          child: Text(
-                            userName.isNotEmpty
-                                ? userName[0].toUpperCase()
-                                : 'U',
+                            child: Center(
+                              child: Text(
+                                userName.isNotEmpty
+                                    ? userName[0].toUpperCase()
+                                    : 'U',
 
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),

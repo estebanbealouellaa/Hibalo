@@ -2,10 +2,8 @@ name: hibalo_app
 description: "Hibalo - Hiligaynon and Filipino Realtime Translator"
 publish_to: 'none'
 version: 1.0.0+1
-
 environment:
   sdk: ^3.11.5
-
 dependencies:
   flutter:
     sdk: flutter
@@ -20,25 +18,25 @@ dependencies:
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.0
   cloud_firestore: ^5.5.0
+  intl: ^0.20.2
   # ── Camera & OCR ───────────────────────────
   image_picker: ^1.1.2
   google_mlkit_text_recognition: ^0.13.0
   # ── Storage ────────────────────────────────
   shared_preferences: ^2.3.0
-
+  # ── URL Launcher ───────────────────────────
+  url_launcher: ^6.3.0              # ← ADDED for Help & Support email button
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
   # ── App Icon Generator ─────────────────────
   flutter_launcher_icons: ^0.13.1
-
 # ── APP ICON CONFIG ──────────────────────────
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/logo.png"
-
 flutter:
   uses-material-design: true
   # ── ASSETS ─────────────────────────────────

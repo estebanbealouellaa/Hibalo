@@ -4,8 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../theme/app_colors.dart';
 import '../models/user_stats.dart';
+import 'edit_profile_screen.dart';
+import 'help_support_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  // ← changed to StatefulWidget
   final String userName;
   final int dayStreak;
   final VoidCallback onLogout;
@@ -17,9 +20,44 @@ class ProfileScreen extends StatelessWidget {
     required this.onLogout,
   });
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late String _displayName;
+  String? _photoUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    // Prefer Firebase Auth values; fall back to the widget prop.
+    _displayName = user?.displayName ?? widget.userName;
+    _photoUrl = user?.photoURL;
+  }
+
   Future<void> _logout() async {
     await FirebaseAuth.instance.signOut();
-    onLogout();
+    widget.onLogout();
+  }
+
+  // ── Navigate to EditProfileScreen ─────────────────────────────────────────
+  void _openEditProfile() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => EditProfileScreen(
+          currentUsername: _displayName,
+          currentPhotoUrl: _photoUrl,
+          onSaved: (newUsername, newPhotoUrl) {
+            setState(() {
+              _displayName = newUsername;
+              _photoUrl = newPhotoUrl;
+            });
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -53,23 +91,15 @@ class ProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white70, width: 3),
+                        color: purple800,
                       ),
-                      child: Center(
-                        child: Text(
-                          userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                      child: ClipOval(child: _avatarWidget()),
                     ),
 
                     const SizedBox(height: 18),
 
                     Text(
-                      userName,
+                      _displayName,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 30,
@@ -181,11 +211,13 @@ class ProfileScreen extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
+                    // ── Edit Profile now calls _openEditProfile ──────────────
                     _buildMenuCard(
                       icon: Icons.person,
                       title: 'Edit Profile',
                       subtitle: 'Name, photo, preferences',
                       color: pink500,
+                      onTap: _openEditProfile, // ← NEW
                     ),
 
                     _buildMenuCard(
@@ -207,6 +239,11 @@ class ProfileScreen extends StatelessWidget {
                       title: 'Help & Support',
                       subtitle: 'FAQ, contact us',
                       color: purple600,
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const HelpSupportScreen(),
+                        ),
+                      ),
                     ),
 
                     const SizedBox(height: 20),
@@ -246,6 +283,31 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // ── Avatar display ─────────────────────────────────────────────────────────
+  Widget _avatarWidget() {
+    if (_photoUrl != null && _photoUrl!.isNotEmpty) {
+      return Image.network(
+        _photoUrl!,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _initialAvatar(),
+      );
+    }
+    return _initialAvatar();
+  }
+
+  Widget _initialAvatar() {
+    return Center(
+      child: Text(
+        _displayName.isNotEmpty ? _displayName[0].toUpperCase() : 'U',
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 36,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
   // ── STAT CARD ─────────────────────────────────────
   Widget _buildStatCard({
     required String title,
@@ -255,9 +317,7 @@ class ProfileScreen extends StatelessWidget {
     return Column(
       children: [
         Text(icon, style: const TextStyle(fontSize: 24)),
-
         const SizedBox(height: 8),
-
         Text(
           title,
           style: const TextStyle(
@@ -266,9 +326,7 @@ class ProfileScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-
         const SizedBox(height: 4),
-
         Text(
           subtitle,
           style: TextStyle(
@@ -286,66 +344,65 @@ class ProfileScreen extends StatelessWidget {
     return Container(width: 1, height: 60, color: purple600.withOpacity(0.2));
   }
 
-  // ── MENU CARD ─────────────────────────────────────
+  // ── MENU CARD (added optional onTap) ──────────────
   Widget _buildMenuCard({
     required IconData icon,
     required String title,
     required String subtitle,
     required Color color,
+    VoidCallback? onTap, // ← NEW
   }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: purple800.withOpacity(0.6),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: color.withOpacity(0.2), width: 1),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: color.withOpacity(.15),
-              borderRadius: BorderRadius.circular(16),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 14),
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: purple800.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: color.withOpacity(0.2), width: 1),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: color.withOpacity(.15),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(icon, color: color, size: 24),
             ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-
-          const SizedBox(width: 16),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                    color: Colors.white,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-
-                const SizedBox(height: 4),
-
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                    fontSize: 13,
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.5),
+                      fontSize: 13,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 18,
-            color: Colors.white.withOpacity(0.3),
-          ),
-        ],
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 18,
+              color: Colors.white.withOpacity(0.3),
+            ),
+          ],
+        ),
       ),
     );
   }

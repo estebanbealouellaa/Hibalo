@@ -8,6 +8,7 @@ import 'firebase_options.dart';
 
 // PROVIDERS
 import 'providers/translator_provider.dart';
+import 'providers/auth_provider.dart' as app;
 import 'models/user_stats.dart';
 
 // SCREENS
@@ -15,6 +16,7 @@ import 'screens/splash_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/admin_dashboard_screen.dart'; // ← ADDED
 
 // THEME
 import 'theme/app_colors.dart';
@@ -33,6 +35,9 @@ void main() async {
 
         // USER STATS PROVIDER
         ChangeNotifierProvider(create: (_) => UserStats()),
+
+        // AUTH PROVIDER
+        ChangeNotifierProvider(create: (_) => app.AuthProvider()),
       ],
 
       child: const HibaloApp(),
@@ -131,7 +136,7 @@ class HibaloApp extends StatelessWidget {
 // APP ROOT
 // ─────────────────────────────────────────────────────
 
-enum _Phase { splash, onboarding, auth, home }
+enum _Phase { splash, onboarding, auth, home, admin } // ← admin ADDED
 
 class AppRoot extends StatefulWidget {
   const AppRoot({super.key});
@@ -171,36 +176,49 @@ class _AppRootState extends State<AppRoot> {
       case _Phase.auth:
         return AuthScreen(
           key: const ValueKey('auth'),
-
-          onAuthSuccess: () {
-            setState(() {
-              _phase = _Phase.home;
-            });
-          },
+          onAuthSuccess: _onAuthSuccess, // ← uses helper now
         );
 
       // ── HOME ──────────────────────────────
       case _Phase.home:
         return HomeScreen(key: const ValueKey('home'), onLogout: _onLogout);
+
+      // ── ADMIN DASHBOARD ───────────────────
+      case _Phase.admin:
+        return AdminDashboardScreen(
+          key: const ValueKey('admin'),
+          onLogout: _onLogout, // ← we'll add this param below
+        );
     }
   }
 
-  // ── SPLASH FINISHED ─────────────────────
+  // ── AUTH SUCCESS — check role then route ────────────
+  void _onAuthSuccess() {
+    final authProvider = context.read<app.AuthProvider>();
+    setState(() {
+      _phase = authProvider.isAdmin ? _Phase.admin : _Phase.home;
+    });
+  }
+
+  // ── SPLASH FINISHED ─────────────────────────────────
   Future<void> _onSplashFinished() async {
     final user = FirebaseAuth.instance.currentUser;
 
     // USER ALREADY LOGGED IN
     if (user != null) {
+      final authProvider = context.read<app.AuthProvider>();
+      await authProvider.refreshAdminRole(user.uid);
+      if (!mounted) return;
       setState(() {
-        _phase = _Phase.home;
+        _phase = authProvider.isAdmin
+            ? _Phase.admin
+            : _Phase.home; // ← route by role
       });
-
       return;
     }
 
     // CHECK ONBOARDING
     final prefs = await SharedPreferences.getInstance();
-
     final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
 
     setState(() {
@@ -208,10 +226,9 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── ONBOARDING FINISHED ─────────────────
+  // ── ONBOARDING FINISHED ─────────────────────────────
   Future<void> _onOnboardingFinished() async {
     final prefs = await SharedPreferences.getInstance();
-
     await prefs.setBool('hasSeenOnboarding', true);
 
     setState(() {
@@ -219,7 +236,7 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── LOGOUT ──────────────────────────────
+  // ── LOGOUT ──────────────────────────────────────────
   void _onLogout() {
     setState(() {
       _phase = _Phase.auth;

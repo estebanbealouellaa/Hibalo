@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart' as app_auth;
 
 // ── Hibalo Theme Colors ─────────────────────────────────────────────
 const Color _purple900 = Color(0xFF6D28D9);
@@ -71,7 +72,6 @@ class _AuthScreenState extends State<AuthScreen>
   // ── SWITCH LOGIN/SIGNUP ──────────────────────────────────────────
   void _switchMode() {
     _formKey.currentState?.reset();
-
     _animCtrl.reset();
 
     setState(() {
@@ -81,84 +81,46 @@ class _AuthScreenState extends State<AuthScreen>
     _animCtrl.forward();
   }
 
-  // ── FIREBASE AUTH ────────────────────────────────────────────────
+  // ── SUBMIT — now uses AuthProvider so admin role is detected ─────
   Future<void> _submit() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
-    setState(() {
-      _loading = true;
-    });
+    setState(() => _loading = true);
 
-    try {
-      if (_isLogin) {
-        // ── LOGIN ───────────────────────────
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailCtrl.text.trim(),
-          password: _passwordCtrl.text.trim(),
-        );
-      } else {
-        // ── REGISTER ────────────────────────
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-              email: _emailCtrl.text.trim(),
-              password: _passwordCtrl.text.trim(),
-            );
+    // Use AuthProvider instead of FirebaseAuth directly
+    final authProvider = context.read<app_auth.AuthProvider>();
 
-        // ── SAVE USER TO FIRESTORE ──────────
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userCredential.user!.uid)
-            .set({
-              'uid': userCredential.user!.uid,
-              'username': _usernameCtrl.text.trim(),
-              'email': _emailCtrl.text.trim(),
-              'role': 'user',
-              'createdAt': Timestamp.now(),
-            });
-      }
+    bool success = false;
+    String? errorMsg;
 
-      if (mounted) {
-        widget.onAuthSuccess();
-      }
-    } on FirebaseAuthException catch (e) {
-      String message = 'Authentication failed';
-
-      switch (e.code) {
-        case 'user-not-found':
-          message = 'User not found';
-          break;
-
-        case 'wrong-password':
-          message = 'Wrong password';
-          break;
-
-        case 'email-already-in-use':
-          message = 'Email already exists';
-          break;
-
-        case 'weak-password':
-          message = 'Weak password';
-          break;
-
-        case 'invalid-email':
-          message = 'Invalid email';
-          break;
-      }
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
+    if (_isLogin) {
+      // ── LOGIN ─────────────────────────────────
+      success = await authProvider.signIn(
+        email: _emailCtrl.text.trim(),
+        password: _passwordCtrl.text.trim(),
+      );
+      errorMsg = authProvider.errorMessage;
+    } else {
+      // ── REGISTER ──────────────────────────────
+      success = await authProvider.signUp(
+        name: _usernameCtrl.text.trim(),
+        email: _emailCtrl.text.trim(),
+        password: _passwordCtrl.text.trim(),
+      );
+      errorMsg = authProvider.errorMessage;
     }
 
-    if (mounted) {
-      setState(() {
-        _loading = false;
-      });
+    if (!mounted) return;
+
+    if (success) {
+      widget.onAuthSuccess();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg ?? 'Authentication failed')),
+      );
     }
+
+    if (mounted) setState(() => _loading = false);
   }
 
   // ── UI ───────────────────────────────────────────────────────────
@@ -188,9 +150,7 @@ class _AuthScreenState extends State<AuthScreen>
                   child: Column(
                     children: [
                       _buildHeader(),
-
                       const SizedBox(height: 32),
-
                       _buildCard(),
                     ],
                   ),
@@ -215,7 +175,6 @@ class _AuthScreenState extends State<AuthScreen>
             shape: BoxShape.circle,
             border: Border.all(color: _white.withOpacity(0.25), width: 2),
           ),
-
           child: const Center(
             child: Text('🐝', style: TextStyle(fontSize: 46)),
           ),
@@ -248,7 +207,6 @@ class _AuthScreenState extends State<AuthScreen>
   Widget _buildCard() {
     return Container(
       width: double.infinity,
-
       padding: const EdgeInsets.all(28),
 
       decoration: BoxDecoration(
@@ -273,20 +231,17 @@ class _AuthScreenState extends State<AuthScreen>
 
             const SizedBox(height: 24),
 
-            // USERNAME
+            // USERNAME (signup only)
             if (!_isLogin) ...[
               _buildField(
                 controller: _usernameCtrl,
                 label: 'Username',
                 icon: Icons.person_outline,
                 validator: (v) {
-                  if (v == null || v.trim().isEmpty) {
-                    return 'Enter username';
-                  }
+                  if (v == null || v.trim().isEmpty) return 'Enter username';
                   return null;
                 },
               ),
-
               const SizedBox(height: 14),
             ],
 
@@ -297,14 +252,8 @@ class _AuthScreenState extends State<AuthScreen>
               icon: Icons.email_outlined,
               keyboardType: TextInputType.emailAddress,
               validator: (v) {
-                if (v == null || v.trim().isEmpty) {
-                  return 'Enter email';
-                }
-
-                if (!v.contains('@')) {
-                  return 'Invalid email';
-                }
-
+                if (v == null || v.trim().isEmpty) return 'Enter email';
+                if (!v.contains('@')) return 'Invalid email';
                 return null;
               },
             ),
@@ -317,47 +266,27 @@ class _AuthScreenState extends State<AuthScreen>
               label: 'Password',
               icon: Icons.lock_outline,
               obscure: _obscurePass,
-
-              onToggleObscure: () {
-                setState(() {
-                  _obscurePass = !_obscurePass;
-                });
-              },
-
+              onToggleObscure: () =>
+                  setState(() => _obscurePass = !_obscurePass),
               validator: (v) {
-                if (v == null || v.isEmpty) {
-                  return 'Enter password';
-                }
-
-                if (v.length < 6) {
-                  return 'Minimum 6 characters';
-                }
-
+                if (v == null || v.isEmpty) return 'Enter password';
+                if (v.length < 6) return 'Minimum 6 characters';
                 return null;
               },
             ),
 
-            // CONFIRM PASSWORD
+            // CONFIRM PASSWORD (signup only)
             if (!_isLogin) ...[
               const SizedBox(height: 14),
-
               _buildField(
                 controller: _confirmCtrl,
                 label: 'Confirm Password',
                 icon: Icons.lock_outline,
                 obscure: _obscureConfirm,
-
-                onToggleObscure: () {
-                  setState(() {
-                    _obscureConfirm = !_obscureConfirm;
-                  });
-                },
-
+                onToggleObscure: () =>
+                    setState(() => _obscureConfirm = !_obscureConfirm),
                 validator: (v) {
-                  if (v != _passwordCtrl.text) {
-                    return 'Passwords do not match';
-                  }
-
+                  if (v != _passwordCtrl.text) return 'Passwords do not match';
                   return null;
                 },
               ),
@@ -365,23 +294,19 @@ class _AuthScreenState extends State<AuthScreen>
 
             const SizedBox(height: 28),
 
-            // BUTTON
+            // SUBMIT BUTTON
             SizedBox(
               width: double.infinity,
               height: 54,
-
               child: ElevatedButton(
                 onPressed: _loading ? null : _submit,
-
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _purple700,
                   foregroundColor: _white,
-
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-
                 child: _loading
                     ? const SizedBox(
                         width: 24,
@@ -413,10 +338,8 @@ class _AuthScreenState extends State<AuthScreen>
                       : "Already have an account? ",
                   style: TextStyle(color: Colors.grey.shade700),
                 ),
-
                 GestureDetector(
                   onTap: _switchMode,
-
                   child: Text(
                     _isLogin ? 'Sign Up' : 'Sign In',
                     style: const TextStyle(
@@ -440,15 +363,12 @@ class _AuthScreenState extends State<AuthScreen>
         color: _purpleLight,
         borderRadius: BorderRadius.circular(12),
       ),
-
       padding: const EdgeInsets.all(4),
-
       child: Row(
         children: [
           _toggleBtn('Sign In', _isLogin, () {
             if (!_isLogin) _switchMode();
           }),
-
           _toggleBtn('Sign Up', !_isLogin, () {
             if (_isLogin) _switchMode();
           }),
@@ -461,21 +381,16 @@ class _AuthScreenState extends State<AuthScreen>
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
-
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
-
           padding: const EdgeInsets.symmetric(vertical: 10),
-
           decoration: BoxDecoration(
             color: active ? _purple700 : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
           ),
-
           child: Text(
             label,
             textAlign: TextAlign.center,
-
             style: TextStyle(
               color: active ? _white : _purple700,
               fontWeight: FontWeight.w600,
@@ -501,37 +416,29 @@ class _AuthScreenState extends State<AuthScreen>
       keyboardType: keyboardType,
       obscureText: obscure,
       validator: validator,
-
       decoration: InputDecoration(
         labelText: label,
-
         prefixIcon: Icon(icon, color: _purple600),
-
         suffixIcon: onToggleObscure != null
             ? IconButton(
                 onPressed: onToggleObscure,
                 icon: Icon(obscure ? Icons.visibility_off : Icons.visibility),
               )
             : null,
-
         filled: true,
         fillColor: const Color(0xFFFAF5FF),
-
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,
         ),
-
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
-
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: _purple700, width: 1.5),
         ),
-
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,
