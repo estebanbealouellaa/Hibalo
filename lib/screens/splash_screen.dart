@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: purple900,
+      backgroundColor: purpleDark,
       body: AnimatedOpacity(
         opacity: _exit ? 0.0 : 1.0,
         duration: const Duration(milliseconds: 400),
@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen>
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [purple900, purple800, Color(0xFF0f051d)],
+              colors: [purpleDark, purple, purpleMid],
             ),
           ),
           child: SafeArea(
@@ -70,8 +70,8 @@ class _SplashScreenState extends State<SplashScreen>
                           child: Container(
                             width: 140,
                             height: 140,
-                            decoration: const BoxDecoration(
-                              color: purple800,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
                               shape: BoxShape.circle,
                             ),
                             child: const Center(
@@ -94,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen>
                             style: TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
-                              color: purple200,
+                              color: Colors.white,
                               decoration: TextDecoration.none,
                             ),
                           ),
@@ -111,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen>
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: purple400,
+                              color: purpleLight,
                               letterSpacing: 3,
                               decoration: TextDecoration.none,
                             ),
@@ -130,7 +130,7 @@ class _SplashScreenState extends State<SplashScreen>
                             child: CircularProgressIndicator(
                               strokeWidth: 3,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                purple400,
+                                purpleLight,
                               ),
                             ),
                           ),
@@ -150,7 +150,7 @@ class _SplashScreenState extends State<SplashScreen>
                       '© 2026 Hibalo. All Rights Reserved.',
                       style: TextStyle(
                         fontSize: 12,
-                        color: purple600,
+                        color: purpleLight,
                         letterSpacing: 1,
                         decoration: TextDecoration.none,
                       ),

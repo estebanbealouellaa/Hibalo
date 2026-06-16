@@ -19,7 +19,7 @@ import 'screens/home_screen.dart';
 import 'screens/admin_dashboard_screen.dart'; // ← ADDED
 
 // THEME
-import 'theme/app_colors.dart';
+import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,78 +54,7 @@ class HibaloApp extends StatelessWidget {
       title: 'Hibalo',
       debugShowCheckedModeBanner: false,
 
-      // ── APP THEME ───────────────────────────────────
-      theme: ThemeData(
-        useMaterial3: true,
-
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: purple600,
-          brightness: Brightness.light,
-        ),
-
-        scaffoldBackgroundColor: Colors.white,
-
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          centerTitle: true,
-        ),
-
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: purple600,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-        ),
-
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.grey.shade100,
-
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide.none,
-          ),
-
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide.none,
-          ),
-
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: purple600, width: 2),
-          ),
-
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
-          ),
-        ),
-
-        cardTheme: CardThemeData(
-          color: Colors.white,
-          elevation: 2,
-          shadowColor: Colors.black12,
-
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          selectedItemColor: purple600,
-          unselectedItemColor: Colors.grey,
-          backgroundColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-        ),
-      ),
+      theme: AppTheme.light(),
 
       home: const AppRoot(),
     );

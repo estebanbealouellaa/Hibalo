@@ -3,12 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart' as app_auth;
 
-// ── Hibalo Theme Colors ─────────────────────────────────────────────
-const Color _purple900 = Color(0xFF6D28D9);
-const Color _purple700 = Color(0xFF7C3AED);
-const Color _purple600 = Color(0xFF9333EA);
-const Color _purpleLight = Color(0xFFF3E8FF);
-const Color _white = Colors.white;
+import '../theme/app_colors.dart';
 
 class AuthScreen extends StatefulWidget {
   final VoidCallback onAuthSuccess;
@@ -129,8 +124,8 @@ class _AuthScreenState extends State<AuthScreen>
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [_purple900, _purple700, Color(0xFF5B21B6)],
+          gradient: const LinearGradient(
+            colors: [purpleDark, purple, purpleMid],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -171,9 +166,9 @@ class _AuthScreenState extends State<AuthScreen>
           width: 95,
           height: 95,
           decoration: BoxDecoration(
-            color: _white.withOpacity(0.15),
+            color: Colors.white.withOpacity(0.15),
             shape: BoxShape.circle,
-            border: Border.all(color: _white.withOpacity(0.25), width: 2),
+            border: Border.all(color: Colors.white.withOpacity(0.25), width: 2),
           ),
           child: const Center(
             child: Text('🐝', style: TextStyle(fontSize: 46)),
@@ -187,7 +182,7 @@ class _AuthScreenState extends State<AuthScreen>
           style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: _white,
+            color: Colors.white,
           ),
         ),
 
@@ -197,7 +192,7 @@ class _AuthScreenState extends State<AuthScreen>
           _isLogin
               ? 'Sign in to continue translating'
               : 'Create your account to get started',
-          style: TextStyle(color: _white.withOpacity(0.75), fontSize: 14),
+          style: TextStyle(color: Colors.white.withOpacity(0.75), fontSize: 14),
         ),
       ],
     );
@@ -210,7 +205,7 @@ class _AuthScreenState extends State<AuthScreen>
       padding: const EdgeInsets.all(28),
 
       decoration: BoxDecoration(
-        color: _white,
+        color: white,
         borderRadius: BorderRadius.circular(24),
 
         boxShadow: [
@@ -301,8 +296,8 @@ class _AuthScreenState extends State<AuthScreen>
               child: ElevatedButton(
                 onPressed: _loading ? null : _submit,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _purple700,
-                  foregroundColor: _white,
+                  backgroundColor: purple,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
@@ -312,7 +307,7 @@ class _AuthScreenState extends State<AuthScreen>
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(
-                          color: _white,
+                          color: Colors.white,
                           strokeWidth: 2.5,
                         ),
                       )
@@ -343,7 +338,7 @@ class _AuthScreenState extends State<AuthScreen>
                   child: Text(
                     _isLogin ? 'Sign Up' : 'Sign In',
                     style: const TextStyle(
-                      color: _purple700,
+                      color: purple,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -360,7 +355,7 @@ class _AuthScreenState extends State<AuthScreen>
   Widget _buildToggle() {
     return Container(
       decoration: BoxDecoration(
-        color: _purpleLight,
+        color: purplePale,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(4),
@@ -385,14 +380,14 @@ class _AuthScreenState extends State<AuthScreen>
           duration: const Duration(milliseconds: 250),
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: active ? _purple700 : Colors.transparent,
+            color: active ? purple : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: active ? _white : _purple700,
+              color: active ? Colors.white : purple,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -418,7 +413,7 @@ class _AuthScreenState extends State<AuthScreen>
       validator: validator,
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(icon, color: _purple600),
+        prefixIcon: Icon(icon, color: purple),
         suffixIcon: onToggleObscure != null
             ? IconButton(
                 onPressed: onToggleObscure,
@@ -426,7 +421,7 @@ class _AuthScreenState extends State<AuthScreen>
               )
             : null,
         filled: true,
-        fillColor: const Color(0xFFFAF5FF),
+        fillColor: offWhite,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,
@@ -437,7 +432,7 @@ class _AuthScreenState extends State<AuthScreen>
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: _purple700, width: 1.5),
+          borderSide: const BorderSide(color: purple, width: 1.5),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,

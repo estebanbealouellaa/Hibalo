@@ -93,32 +93,33 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: purple900,
+      backgroundColor: white,
       appBar: AppBar(
-        backgroundColor: purple900,
+        backgroundColor: white,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
+            color: ink,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
+        title: Text(
           'Help & Support',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+            color: ink,
+            fontWeight: FontWeight.w600,
             fontSize: 20,
+            fontFamily: 'Playfair Display',
           ),
         ),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: pink500,
+          indicatorColor: purple,
           indicatorWeight: 3,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white38,
+          labelColor: purple,
+          unselectedLabelColor: inkMuted,
           labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
@@ -161,8 +162,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
             height: 100,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: purple600.withOpacity(0.3),
-              border: Border.all(color: purple400.withOpacity(0.3), width: 2),
+              color: purplePale,
+              border: Border.all(color: borderMid, width: 2),
             ),
             child: const Center(
               child: Text('💌', style: TextStyle(fontSize: 48)),
@@ -174,9 +175,10 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
           const Text(
             'Kumusta ka?',
             style: TextStyle(
-              color: Colors.white,
+              color: ink,
               fontSize: 24,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Playfair Display',
             ),
           ),
 
@@ -187,7 +189,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
             'Tutugon kami sa lalong madaling panahon.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.6),
+              color: inkMuted,
               fontSize: 14,
               height: 1.6,
             ),
@@ -199,19 +201,19 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: purple800.withOpacity(0.6),
+              color: offWhite,
               borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: purple600.withOpacity(0.3), width: 1),
+              border: Border.all(color: borderMid, width: 1),
             ),
             child: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: pink500.withOpacity(0.15),
+                    color: purplePale,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Icon(Icons.email_rounded, color: pink500, size: 26),
+                  child: const Icon(Icons.email_rounded, color: purple, size: 26),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -221,7 +223,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
                       Text(
                         'Email',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
+                          color: inkMuted,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 1,
@@ -231,9 +233,9 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
                       const Text(
                         'hibalo@gmail.com',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: ink,
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -256,7 +258,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: pink500,
+                backgroundColor: purple,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
@@ -347,14 +349,10 @@ class _FaqItemState extends State<_FaqItem>
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: _expanded
-              ? purple600.withOpacity(0.25)
-              : purple800.withOpacity(0.6),
+          color: _expanded ? purplePale : offWhite,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: _expanded
-                ? purple400.withOpacity(0.5)
-                : purple600.withOpacity(0.3),
+            color: _expanded ? purple : borderMid,
             width: 1.5,
           ),
         ),
@@ -367,17 +365,17 @@ class _FaqItemState extends State<_FaqItem>
                   child: Text(
                     widget.question,
                     style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      color: ink,
+                      fontWeight: FontWeight.w600,
                       fontSize: 15,
                     ),
                   ),
                 ),
                 RotationTransition(
                   turns: _iconTurn,
-                  child: Icon(
+                  child: const Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    color: Colors.white.withOpacity(0.6),
+                    color: purpleMid,
                     size: 22,
                   ),
                 ),
@@ -388,7 +386,7 @@ class _FaqItemState extends State<_FaqItem>
               Text(
                 widget.answer,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
+                  color: inkSoft.withOpacity(0.85),
                   fontSize: 14,
                   height: 1.6,
                 ),

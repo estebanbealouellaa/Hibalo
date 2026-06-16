@@ -1,8 +1,13 @@
+class Languages {
+  static const String hiligaynon = 'hiligaynon';
+  static const String tagalog = 'tagalog';
+}
+
 class TranslatorState {
   final String originalText;
   final String translatedText;
   final bool isListening;
-  final String sourceLanguage; // "hiligaynon" or "tagalog"
+  final String sourceLanguage;
   final bool isTranslating;
   final String recognitionError;
   final String partialSpeechText;
@@ -11,7 +16,7 @@ class TranslatorState {
     this.originalText = '',
     this.translatedText = '',
     this.isListening = false,
-    this.sourceLanguage = 'hiligaynon',
+    this.sourceLanguage = Languages.tagalog, // FIX: Filipino ang default
     this.isTranslating = false,
     this.recognitionError = '',
     this.partialSpeechText = '',

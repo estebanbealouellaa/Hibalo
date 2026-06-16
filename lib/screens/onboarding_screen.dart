@@ -40,7 +40,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [purple900, purple800, Color(0xFF0f051d)],
+            colors: [purpleDark, purple, purpleMid],
           ),
         ),
         child: Stack(
@@ -74,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           '←',
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
-                        color: purple600,
+                        color: purple,
                       )
                     else
                       const SizedBox(width: 48, height: 48),
@@ -88,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           height: active ? 10 : 6,
                           margin: const EdgeInsets.symmetric(horizontal: 3),
                           decoration: BoxDecoration(
-                            color: active ? purple400 : purple600,
+                            color: active ? purpleLight : purple,
                             shape: BoxShape.circle,
                           ),
                         );
@@ -108,7 +108,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         color: Colors.white,
                         size: 22,
                       ),
-                      color: purple400,
+                      color: purpleLight,
                     ),
                   ],
                 ),
@@ -130,8 +130,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Container(
               width: 120,
               height: 120,
-              decoration: const BoxDecoration(
-                color: purple800,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
                 shape: BoxShape.circle,
               ),
               child: Center(
@@ -144,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: purple200,
+                color: Colors.white,
                 decoration:
                     TextDecoration.none, // ── FIX: explicitly no underline
               ),
@@ -155,7 +155,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               page.subtitle,
               style: const TextStyle(
                 fontSize: 16,
-                color: purple400,
+                color: purpleLight,
                 decoration:
                     TextDecoration.none, // ── FIX: explicitly no underline
               ),

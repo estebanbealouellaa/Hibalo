@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-import '../data/translator_data.dart';
+import '../services/database_service.dart';
+import '../services/nlp_service.dart';
 import '../models/translator_state.dart';
 
 class TranslatorProvider extends ChangeNotifier {
@@ -10,6 +11,7 @@ class TranslatorProvider extends ChangeNotifier {
   TranslatorState get state => _state;
 
   final stt.SpeechToText _speech = stt.SpeechToText();
+  final NLPService _nlp = NLPService();
 
   bool _speechAvailable = false;
 
@@ -115,46 +117,33 @@ class TranslatorProvider extends ChangeNotifier {
   // ─────────────────────────────────────────────
   // TRANSLATE
   // ─────────────────────────────────────────────
-  String _doTranslate(String text, String sourceLanguage) {
-    final input = text.toLowerCase().trim();
+  Future<String> _doTranslate(String text, String sourceLanguage) async {
+    final cleaned = _nlp.preprocess(text);
 
-    // HILIGAYNON → FILIPINO
     if (sourceLanguage == 'hiligaynon') {
-      if (TranslatorData.hilWords.containsKey(input)) {
-        return TranslatorData.hilWords[input]!;
-      }
+      final result = await DatabaseService.translateToFilipino(cleaned);
 
-      return input
-          .split(' ')
-          .map((word) => TranslatorData.hilWords[word] ?? word)
-          .join(' ');
-    }
-    // FILIPINO → HILIGAYNON
-    else {
-      if (TranslatorData.filToHil.containsKey(input)) {
-        return TranslatorData.filToHil[input]!;
-      }
+      return result ?? cleaned;
+    } else {
+      final result = await DatabaseService.translateToHiligaynon(cleaned);
 
-      return input
-          .split(' ')
-          .map((word) => TranslatorData.filWords[word] ?? word)
-          .join(' ');
+      return result ?? cleaned;
     }
   }
 
   // ─────────────────────────────────────────────
   // UPDATE ORIGINAL TEXT
   // ─────────────────────────────────────────────
-  void updateOriginalText(String text) {
+  Future<void> updateOriginalText(String text) async {
     _state = _state.copyWith(originalText: text);
 
-    _performTranslation(text);
+    await _performTranslation(text);
   }
 
   // ─────────────────────────────────────────────
   // PERFORM TRANSLATION
   // ─────────────────────────────────────────────
-  void _performTranslation(String text) {
+  Future<void> _performTranslation(String text) async {
     if (text.isEmpty) {
       _state = _state.copyWith(translatedText: '');
 
@@ -167,7 +156,7 @@ class TranslatorProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    final result = _doTranslate(text, _state.sourceLanguage);
+    final result = await _doTranslate(text, _state.sourceLanguage);
 
     _state = _state.copyWith(translatedText: result, isTranslating: false);
 
@@ -182,13 +171,19 @@ class TranslatorProvider extends ChangeNotifier {
         ? 'tagalog'
         : 'hiligaynon';
 
+    final newOriginal = _state.translatedText;
+
     _state = _state.copyWith(
       sourceLanguage: newSource,
-      originalText: _state.translatedText,
-      translatedText: _state.originalText,
+      originalText: newOriginal,
+      translatedText: '',
     );
 
     notifyListeners();
+
+    if (newOriginal.isNotEmpty) {
+      _performTranslation(newOriginal);
+    }
   }
 
   // ─────────────────────────────────────────────

@@ -3,12 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_theme.dart';
+import '../widgets/hibalo_ui.dart';
 import '../models/user_stats.dart';
 import 'edit_profile_screen.dart';
 import 'help_support_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  // ← changed to StatefulWidget
   final String userName;
   final int dayStreak;
   final VoidCallback onLogout;
@@ -32,7 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     final user = FirebaseAuth.instance.currentUser;
-    // Prefer Firebase Auth values; fall back to the widget prop.
     _displayName = user?.displayName ?? widget.userName;
     _photoUrl = user?.photoURL;
   }
@@ -42,7 +42,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     widget.onLogout();
   }
 
-  // ── Navigate to EditProfileScreen ─────────────────────────────────────────
   void _openEditProfile() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -63,219 +62,179 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: purple900,
+      backgroundColor: white,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 100),
           child: Column(
             children: [
-              // ── TOP HEADER ─────────────────────────────
+              // ── HERO ─────────────────────────────────────
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 40),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(40),
-                  ),
-                  gradient: LinearGradient(
-                    colors: [purple600, purple400],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+                decoration: const BoxDecoration(
+                  gradient: hibaloProfileHeroGradient,
                 ),
-                child: Column(
+                child: Row(
                   children: [
-                    // AVATAR
                     Container(
-                      width: 90,
-                      height: 90,
+                      width: 58,
+                      height: 58,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white70, width: 3),
-                        color: purple800,
+                        color: Colors.white.withOpacity(0.2),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.4),
+                          width: 2,
+                        ),
                       ),
                       child: ClipOval(child: _avatarWidget()),
                     ),
-
-                    const SizedBox(height: 18),
-
-                    Text(
-                      _displayName,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.15),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        '🌱 Beginner',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _displayName,
+                            style: AppTheme.displayMedium.copyWith(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.18),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              'Beginner',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 28),
-
-              // ── REAL-TIME STATS ────────────────────────
-              Consumer<UserStats>(
-                builder: (context, userStats, _) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 24,
-                      ),
+              // ── STATS ROW (overlapping) ──────────────────
+              Transform.translate(
+                offset: const Offset(0, -16),
+                child: Consumer<UserStats>(
+                  builder: (context, userStats, _) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 18),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            purple800.withOpacity(0.8),
-                            purple800.withOpacity(0.4),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: purple600.withOpacity(0.3),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildStatCard(
-                            title: '${userStats.streak}',
-                            subtitle: 'DAY STREAK',
-                            icon: '🔥',
-                          ),
-
-                          _buildDivider(),
-
-                          _buildStatCard(
-                            title: '${userStats.wordsLearned}',
-                            subtitle: 'WORDS',
-                            icon: '📚',
-                          ),
-
-                          _buildDivider(),
-
-                          _buildStatCard(
-                            title: '${userStats.quizzesCompleted}',
-                            subtitle: 'QUIZZES',
-                            icon: '⚡',
+                        color: white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: purple.withOpacity(0.15),
+                            blurRadius: 20,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                    ),
-                  );
-                },
+                      child: Row(
+                        children: [
+                          _buildStatItem(
+                            Icons.local_fire_department_outlined,
+                            '${userStats.streak}',
+                            'Day Streak',
+                          ),
+                          _buildStatDivider(),
+                          _buildStatItem(
+                            Icons.menu_book_outlined,
+                            '${userStats.wordsLearned}',
+                            'Words',
+                          ),
+                          _buildStatDivider(),
+                          _buildStatItem(
+                            Icons.quiz_outlined,
+                            '${userStats.quizzesCompleted}',
+                            'Quizzes',
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
 
-              const SizedBox(height: 32),
-
-              // ── ACCOUNT SECTION ──────────────────────
+              // ── MENU ─────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.fromLTRB(18, 0, 18, 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'My Account',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2, bottom: 10),
+                      child: Text('MY ACCOUNT', style: AppTheme.labelCaps),
                     ),
-
-                    const SizedBox(height: 20),
-
-                    // ── Edit Profile now calls _openEditProfile ──────────────
-                    _buildMenuCard(
-                      icon: Icons.person,
+                    _buildMenuItem(
+                      icon: Icons.person_outline_rounded,
                       title: 'Edit Profile',
                       subtitle: 'Name, photo, preferences',
-                      color: pink500,
-                      onTap: _openEditProfile, // ← NEW
+                      onTap: _openEditProfile,
                     ),
-
-                    _buildMenuCard(
-                      icon: Icons.notifications,
-                      title: 'Notifications',
-                      subtitle: 'Daily reminders, streaks',
-                      color: teal300,
-                    ),
-
-                    _buildMenuCard(
-                      icon: Icons.bar_chart,
-                      title: 'Progress Report',
-                      subtitle: 'View your learning stats',
-                      color: purple400,
-                    ),
-
-                    _buildMenuCard(
-                      icon: Icons.help,
+                    _buildMenuItem(
+                      icon: Icons.help_outline_rounded,
                       title: 'Help & Support',
                       subtitle: 'FAQ, contact us',
-                      color: purple600,
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => const HelpSupportScreen(),
                         ),
                       ),
                     ),
-
-                    const SizedBox(height: 20),
-
-                    // ── LOGOUT BUTTON ─────────────────────
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: () => _logout(),
-                        icon: const Icon(Icons.logout),
-                        label: const Text(
-                          'Logout',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    const SizedBox(height: 4),
+                    GestureDetector(
+                      onTap: _logout,
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 13),
+                        decoration: BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: logoutRed, width: 1.5),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.logout_rounded,
+                              color: logoutRed,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Logout',
+                              style: AppTheme.bodyLarge.copyWith(
+                                color: logoutRed,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -283,7 +242,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // ── Avatar display ─────────────────────────────────────────────────────────
   Widget _avatarWidget() {
     if (_photoUrl != null && _photoUrl!.isNotEmpty) {
       return Image.network(
@@ -296,111 +254,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _initialAvatar() {
-    return Center(
-      child: Text(
-        _displayName.isNotEmpty ? _displayName[0].toUpperCase() : 'U',
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 36,
-          fontWeight: FontWeight.bold,
-        ),
+    return Image.asset(
+      'assets/Account.png',
+      width: 58,
+      height: 58,
+      fit: BoxFit.cover,
+    );
+  }
+
+  Widget _buildStatItem(IconData icon, String value, String label) {
+    return Expanded(
+      child: Column(
+        children: [
+          Icon(icon, size: 16, color: purple),
+          const SizedBox(height: 3),
+          Text(
+            value,
+            style: AppTheme.displaySmall.copyWith(fontSize: 19, color: ink),
+          ),
+          Text(
+            label.toUpperCase(),
+            style: AppTheme.labelCaps.copyWith(fontSize: 10),
+          ),
+        ],
       ),
     );
   }
 
-  // ── STAT CARD ─────────────────────────────────────
-  Widget _buildStatCard({
-    required String title,
-    required String subtitle,
-    required String icon,
-  }) {
-    return Column(
-      children: [
-        Text(icon, style: const TextStyle(fontSize: 24)),
-        const SizedBox(height: 8),
-        Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          subtitle,
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
-            color: Colors.white.withOpacity(0.6),
-          ),
-        ),
-      ],
-    );
+  Widget _buildStatDivider() {
+    return Container(width: 1, height: 40, color: borderLight);
   }
 
-  // ── DIVIDER ───────────────────────────────────────
-  Widget _buildDivider() {
-    return Container(width: 1, height: 60, color: purple600.withOpacity(0.2));
-  }
-
-  // ── MENU CARD (added optional onTap) ──────────────
-  Widget _buildMenuCard({
+  Widget _buildMenuItem({
     required IconData icon,
     required String title,
     required String subtitle,
-    required Color color,
-    VoidCallback? onTap, // ← NEW
+    VoidCallback? onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 14),
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: purple800.withOpacity(0.6),
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: color.withOpacity(0.2), width: 1),
-        ),
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.all(14),
+        decoration: AppTheme.cardDecoration(),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(14),
+              width: 36,
+              height: 36,
               decoration: BoxDecoration(
-                color: color.withOpacity(.15),
-                borderRadius: BorderRadius.circular(16),
+                color: purplePale,
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: color, size: 24),
+              child: Icon(icon, color: purple, size: 17),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                      color: Colors.white,
+                    style: AppTheme.bodyLarge.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
                     ),
                   ),
-                  const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
-                      fontSize: 13,
-                    ),
+                    style: AppTheme.bodyMedium.copyWith(fontSize: 11),
                   ),
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 18,
-              color: Colors.white.withOpacity(0.3),
-            ),
+            Icon(Icons.chevron_right_rounded, color: purpleMid, size: 18),
           ],
         ),
       ),

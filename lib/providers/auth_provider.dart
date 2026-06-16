@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/database_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,7 +19,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isAdmin => _isAdmin;
 
   // ─────────────────────────────────────────────────
-  // Sign Up — unchanged from your original
+  // Sign Up
   // ─────────────────────────────────────────────────
   Future<bool> signUp({
     required String name,
@@ -27,6 +28,7 @@ class AuthProvider extends ChangeNotifier {
   }) async {
     try {
       _isLoading = true;
+      _errorMessage = null;
       notifyListeners();
 
       final credential = await _auth.createUserWithEmailAndPassword(
@@ -36,18 +38,15 @@ class AuthProvider extends ChangeNotifier {
 
       final user = credential.user;
       if (user != null) {
-        await _firestore.collection('users').doc(user.uid).set({
-          'uid': user.uid,
-          'username': name,
-          'email': email,
-          'role': 'user',
-          'createdAt': Timestamp.now(),
-          'lastActive': Timestamp.now(),
-        });
+        // Use DatabaseService to keep user creation in one place
+        await DatabaseService.createUser(
+          uid: user.uid,
+          username: name,
+          email: email,
+        );
+        await _checkAdminRole(user.uid);
       }
 
-      _isAdmin = false;
-      _errorMessage = null;
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = e.message;
@@ -59,11 +58,12 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // ─────────────────────────────────────────────────
-  // Sign In — checks role after login
+  // Sign In
   // ─────────────────────────────────────────────────
   Future<bool> signIn({required String email, required String password}) async {
     try {
       _isLoading = true;
+      _errorMessage = null;
       notifyListeners();
 
       final credential = await _auth.signInWithEmailAndPassword(
@@ -77,7 +77,6 @@ class AuthProvider extends ChangeNotifier {
         await _updateLastActive(uid);
       }
 
-      _errorMessage = null;
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = e.message;
@@ -94,16 +93,24 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signOut() async {
     await _auth.signOut();
     _isAdmin = false;
+    _errorMessage = null;
     notifyListeners();
   }
 
   // ─────────────────────────────────────────────────
-  // Called by main.dart on splash (already logged in)
-  // and after onAuthSuccess so isAdmin is always fresh
+  // Refresh role — called by main.dart on splash
   // ─────────────────────────────────────────────────
   Future<void> refreshAdminRole(String uid) async {
     await _checkAdminRole(uid);
     await _updateLastActive(uid);
+    notifyListeners();
+  }
+
+  // ─────────────────────────────────────────────────
+  // Clear error (call before retrying auth)
+  // ─────────────────────────────────────────────────
+  void clearError() {
+    _errorMessage = null;
     notifyListeners();
   }
 

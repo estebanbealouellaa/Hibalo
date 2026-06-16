@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_colors.dart';
+
 class MicButton extends StatelessWidget {
   final bool isListening;
   final VoidCallback onPressStart;
@@ -28,7 +30,7 @@ class MicButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
 
-          color: isListening ? Colors.redAccent : Colors.deepPurple,
+          color: isListening ? Colors.redAccent : purple,
         ),
 
         child: Icon(

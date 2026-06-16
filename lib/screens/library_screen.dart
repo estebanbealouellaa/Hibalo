@@ -6,7 +6,9 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_theme.dart';
 import '../models/user_stats.dart';
+import '../widgets/hibalo_ui.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA MODELS
@@ -57,7 +59,7 @@ List<LessonUnit> _buildUnits() => [
   LessonUnit(
     title: 'Greetings',
     emoji: '👋',
-    accentColor: teal300,
+    accentColor: purple,
     isUnlocked: true,
     completedLessons: 0,
     words: [
@@ -106,7 +108,7 @@ List<LessonUnit> _buildUnits() => [
   LessonUnit(
     title: 'Family',
     emoji: '👨‍👩‍👧',
-    accentColor: pink500,
+    accentColor: purpleMid,
     isUnlocked: false,
     completedLessons: 0,
     words: [
@@ -231,7 +233,7 @@ List<LessonUnit> _buildUnits() => [
   LessonUnit(
     title: 'Numbers',
     emoji: '🔢',
-    accentColor: pink300,
+    accentColor: purpleDark,
     isUnlocked: false,
     words: [
       const WordEntry(filipino: 'Isa', hiligaynon: 'Isa', category: 'Numbers'),
@@ -275,7 +277,7 @@ List<LessonUnit> _buildUnits() => [
   LessonUnit(
     title: 'Emotions',
     emoji: '😊',
-    accentColor: teal300,
+    accentColor: purpleLight,
     isUnlocked: false,
     words: [
       const WordEntry(
@@ -447,16 +449,17 @@ class _LibraryScreenState extends State<LibraryScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(child: CircularProgressIndicator()),
+        backgroundColor: white,
+        body: Center(child: CircularProgressIndicator(color: purple)),
       );
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       body: SafeArea(
+        bottom: false,
         child: Container(
-          color: Colors.white,
+          color: white,
           child: Column(
             children: [
               _buildTopBar(),
@@ -476,53 +479,16 @@ class _LibraryScreenState extends State<LibraryScreen> {
   Widget _buildTopBar() {
     return Consumer<UserStats>(
       builder: (context, userStats, _) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(
-              bottom: BorderSide(color: Colors.grey.withOpacity(0.2), width: 1),
-            ),
-          ),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.grey.withOpacity(0.1),
-                      Colors.grey.withOpacity(0.05),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-                child: const Row(
-                  children: [
-                    Text('🇵🇭', style: TextStyle(fontSize: 16)),
-                    SizedBox(width: 8),
-                    Text(
-                      'Filipino',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
+              Text('Library', style: AppTheme.screenTitle),
+              HibaloStatsBadge(
+                streak: userStats.streak,
+                xp: userStats.xp,
               ),
-              const Spacer(),
-              _buildTopStat('🔥', '${userStats.streak}', teal300),
-              const SizedBox(width: 10),
-              _buildTopStat('⚡', '${userStats.xp}', pink500),
             ],
           ),
         );
@@ -530,50 +496,17 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  Widget _buildTopStat(String icon, String value, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
-      ),
-      child: Row(
-        children: [
-          Text(icon, style: const TextStyle(fontSize: 15)),
-          const SizedBox(width: 6),
-          Text(
-            value,
-            style: TextStyle(
-              color: color,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildSectionHeader() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 20, 16, 24),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.fromLTRB(18, 0, 18, 14),
+      padding: const EdgeInsets.all(18),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.blue.withOpacity(0.1), Colors.blue.withOpacity(0.05)],
+          colors: [purple, purpleMid],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.blue.withOpacity(0.2), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        borderRadius: BorderRadius.all(Radius.circular(22)),
       ),
       child: Row(
         children: [
@@ -584,33 +517,44 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 Text(
                   'SECTION 1',
                   style: TextStyle(
-                    color: Colors.black.withOpacity(0.5),
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
+                    color: Colors.white.withOpacity(0.55),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1,
                   ),
                 ),
-                const SizedBox(height: 6),
-                const Text(
+                const SizedBox(height: 4),
+                Text(
                   'Basic Filipino & Hiligaynon',
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                  style: AppTheme.displayMedium.copyWith(
+                    color: Colors.white,
+                    fontSize: 22,
                     height: 1.2,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${_units.length} topics · Start learning',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 12,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 16),
           Container(
-            padding: const EdgeInsets.all(12),
+            width: 44,
+            height: 44,
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.white.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Text('📖', style: TextStyle(fontSize: 32)),
+            child: const Icon(
+              Icons.menu_book_rounded,
+              color: Colors.white,
+              size: 22,
+            ),
           ),
         ],
       ),
@@ -618,150 +562,117 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   List<Widget> _buildLessonPath() {
-    List<Widget> items = [];
-    final positions = [0.15, 0.65, 0.25, 0.75, 0.2, 0.7];
+    final items = <Widget>[];
     for (int i = 0; i < _units.length; i++) {
-      final align = positions[i % positions.length];
-      items.add(_buildUnitNode(_units[i], i, align));
+      items.add(_buildUnitRow(_units[i], i));
       if (i < _units.length - 1) {
-        items.add(_buildConnector(_units[i], _units[i + 1]));
+        items.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 45),
+            child: Container(
+              width: 2,
+              height: 27,
+              decoration: BoxDecoration(
+                color: purpleLight,
+                borderRadius: BorderRadius.circular(1),
+              ),
+            ),
+          ),
+        );
       }
     }
     return items;
   }
 
-  Widget _buildUnitNode(LessonUnit unit, int index, double alignFraction) {
+  Widget _buildUnitRow(LessonUnit unit, int index) {
     final isLocked = !unit.isUnlocked;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Align(
-        alignment: Alignment(alignFraction * 2 - 1, 0),
-        child: GestureDetector(
-          onTap: isLocked
-              ? () => _showLockedDialog()
-              : () => _showLessonDialog(unit, index),
-          child: Column(
-            children: [
-              if (unit.isCompleted)
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: Text('👑', style: TextStyle(fontSize: 18)),
-                ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  if (!isLocked)
-                    Container(
-                      width: 92,
-                      height: 92,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: unit.accentColor.withOpacity(0.4),
-                            blurRadius: 24,
-                            spreadRadius: 2,
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+      child: GestureDetector(
+        onTap: isLocked
+            ? () => _showLockedDialog()
+            : () => _showLessonDialog(unit, index),
+        child: Row(
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isLocked ? surface : purple,
+                border: isLocked
+                    ? Border.all(color: purpleLight, width: 2)
+                    : null,
+                boxShadow: isLocked
+                    ? null
+                    : [
+                        BoxShadow(
+                          color: purple.withOpacity(0.35),
+                          blurRadius: 14,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+              ),
+              child: Center(
+                child: isLocked
+                    ? Icon(Icons.lock_outline_rounded,
+                        color: purpleMid, size: 20)
+                    : unit.isCompleted
+                        ? const Text('👑', style: TextStyle(fontSize: 22))
+                        : Icon(
+                            Icons.volume_up_rounded,
+                            color: white,
+                            size: 22,
                           ),
-                        ],
-                      ),
-                    ),
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: isLocked
-                          ? LinearGradient(
-                              colors: [
-                                Colors.grey.withOpacity(0.3),
-                                Colors.grey.withOpacity(0.2),
-                              ],
-                            )
-                          : LinearGradient(
-                              colors: [
-                                unit.accentColor,
-                                unit.accentColor.withOpacity(0.7),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                      border: Border.all(
-                        color: isLocked
-                            ? Colors.grey.withOpacity(0.3)
-                            : unit.accentColor.withOpacity(0.6),
-                        width: 2,
-                      ),
-                    ),
-                    child: Center(
-                      child: isLocked
-                          ? const Icon(
-                              Icons.lock_rounded,
-                              color: Colors.black26,
-                              size: 28,
-                            )
-                          : Text(
-                              unit.emoji,
-                              style: const TextStyle(fontSize: 36),
-                            ),
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    unit.title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: isLocked ? inkMuted : ink,
                     ),
                   ),
-                  if (!isLocked &&
-                      !unit.isCompleted &&
-                      unit.completedLessons > 0)
-                    SizedBox(
-                      width: 88,
-                      height: 88,
-                      child: CircularProgressIndicator(
-                        value: unit.progress,
-                        strokeWidth: 3.5,
-                        backgroundColor: unit.accentColor.withOpacity(0.15),
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          unit.accentColor,
-                        ),
-                      ),
+                  Text(
+                    isLocked
+                        ? 'Locked'
+                        : unit.isCompleted
+                            ? '✅ Tapos na!'
+                            : '${unit.completedLessons} / ${unit.totalLessons} lessons',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight:
+                          isLocked ? FontWeight.w400 : FontWeight.w500,
+                      color: isLocked ? inkMuted : purple,
                     ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 12),
-              Text(
-                unit.title,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+              decoration: BoxDecoration(
+                color: purplePale,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: borderMid),
+              ),
+              child: const Text(
+                '+20 XP',
                 style: TextStyle(
-                  color: isLocked
-                      ? Colors.black.withOpacity(0.4)
-                      : Colors.black87,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
+                  fontSize: 10,
+                  color: purple,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-              if (!isLocked)
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    unit.isCompleted
-                        ? '✅ Tapos na!'
-                        : '${unit.completedLessons}/${unit.totalLessons} lessons',
-                    style: TextStyle(
-                      color: unit.isCompleted
-                          ? teal300
-                          : unit.accentColor.withOpacity(0.7),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildConnector(LessonUnit current, LessonUnit next) {
-    return SizedBox(
-      height: 16,
-      child: CustomPaint(
-        painter: _ConnectorPainter(color: Colors.grey.withOpacity(0.2)),
-        child: const SizedBox.expand(),
       ),
     );
   }
@@ -883,33 +794,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
 // ─────────────────────────────────────────────────────────────────────────────
 // CONNECTOR PAINTER
 // ─────────────────────────────────────────────────────────────────────────────
-class _ConnectorPainter extends CustomPainter {
-  final Color color;
-  _ConnectorPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
-    const dashWidth = 4.0;
-    const dashSpace = 4.0;
-    double startY = 0;
-    while (startY < size.height) {
-      canvas.drawLine(
-        Offset(size.width / 2, startY),
-        Offset(size.width / 2, startY + dashWidth),
-        paint,
-      );
-      startY += dashWidth + dashSpace;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // LESSON BOTTOM SHEET
 // ─────────────────────────────────────────────────────────────────────────────

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../theme/app_colors.dart';
 
@@ -95,6 +96,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       await user.updateDisplayName(newUsername);
       await user.updatePhotoURL(_selectedAvatarUrl);
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'username': newUsername,
+        'photoUrl': _selectedAvatarUrl,
+      }, SetOptions(merge: true));
+      await user.reload();
 
       widget.onSaved(newUsername, _selectedAvatarUrl);
       if (mounted) Navigator.of(context).pop();
@@ -109,23 +115,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: purple900,
+      backgroundColor: white,
       appBar: AppBar(
-        backgroundColor: purple900,
+        backgroundColor: white,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
+            color: ink,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
+        title: Text(
           'Edit Profile',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+            color: ink,
+            fontWeight: FontWeight.w600,
             fontSize: 20,
+            fontFamily: 'Playfair Display',
           ),
         ),
         centerTitle: true,
@@ -142,8 +149,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 height: 110,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: purple400, width: 3),
-                  color: purple800,
+                  border: Border.all(color: purple, width: 3),
+                  color: purplePale,
                 ),
                 child: ClipOval(
                   child: Image.network(
@@ -166,7 +173,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Text(
                   'Choose Avatar',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: inkMuted,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1,
@@ -199,13 +206,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: isSelected
-                              ? pink500
-                              : purple600.withOpacity(0.3),
+                              ? purple
+                              : borderMid,
                           width: isSelected ? 3 : 1.5,
                         ),
                         color: isSelected
-                            ? pink500.withOpacity(0.12)
-                            : purple800.withOpacity(0.5),
+                            ? purplePale
+                            : offWhite,
                       ),
                       child: Stack(
                         children: [
@@ -235,7 +242,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 child: Icon(
                                   Icons.check_rounded,
-                                  color: pink500,
+                                  color: purple,
                                   size: 14,
                                 ),
                               ),
@@ -255,7 +262,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Text(
                   'Username',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: inkMuted,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1,
@@ -268,28 +275,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               TextField(
                 controller: _usernameController,
                 maxLength: 30,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: const TextStyle(color: ink, fontSize: 16),
                 decoration: InputDecoration(
-                  counterStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
-                  prefixIcon: Icon(
+                  counterStyle: TextStyle(color: inkMuted.withOpacity(0.6)),
+                  prefixIcon: const Icon(
                     Icons.person_outline_rounded,
-                    color: purple400,
+                    color: purple,
                   ),
                   filled: true,
-                  fillColor: purple800.withOpacity(0.6),
+                  fillColor: offWhite,
                   hintText: 'Enter your username',
-                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                  hintStyle: TextStyle(color: inkMuted.withOpacity(0.5)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide(color: purple600.withOpacity(0.3)),
+                    borderSide: const BorderSide(color: borderMid),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide(color: purple600.withOpacity(0.3)),
+                    borderSide: const BorderSide(color: borderMid),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide(color: purple400, width: 1.5),
+                    borderSide: const BorderSide(color: purple, width: 1.5),
                   ),
                 ),
               ),
@@ -311,9 +318,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: ElevatedButton(
                   onPressed: _isSaving ? null : _save,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: purple400,
+                    backgroundColor: purple,
                     foregroundColor: Colors.white,
-                    disabledBackgroundColor: purple600,
+                    disabledBackgroundColor: purpleMid,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),

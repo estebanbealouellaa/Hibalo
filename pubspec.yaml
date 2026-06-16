@@ -26,6 +26,8 @@ dependencies:
   shared_preferences: ^2.3.0
   # ── URL Launcher ───────────────────────────
   url_launcher: ^6.3.0              # ← ADDED for Help & Support email button
+  # ── NLP ────────────────────────────────────
+  string_similarity: ^2.1.1         # ← ADDED for fuzzy text matching in NLPService
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,3 +50,8 @@ flutter:
     - lib/assets/images/animals/
     - lib/assets/images/numbers/
     - lib/assets/images/emotions/
+    - assets/Picture.png
+    - assets/Book.png
+    - assets/Voice.png
+    - assets/Translate.png
+    - assets/Account.png
