@@ -16,7 +16,18 @@ const Color inkMuted = Color(0xFF8878AA);
 const Color borderLight = Color(0x1F6E54AD);
 const Color borderMid = Color(0x386E54AD);
 
-// Quick-action card gradients
+// Home screen (Figma node 204:3203)
+const Color heroPurple = Color(0xFF6948B8);
+const Color searchBarBg = Color(0xFFF3EFFE);
+const Color searchPlaceholder = Color(0xFF7152BC);
+
+// Discover feature cards
+const Color qaTranslate = Color(0xFFFCCE76);
+const Color qaCamera = Color(0xFF10D1CC);
+const Color qaLessons = Color(0xFFFD7FAE);
+const Color qaVoice = Color(0xFF9268F7);
+
+// Quick-action card gradients (legacy screens)
 const Color qaCameraStart = Color(0xFF7C64BB);
 const Color qaLibraryStart = Color(0xFF5A449A);
 const Color qaLibraryEnd = Color(0xFF7C64BB);
@@ -37,3 +48,5 @@ const Color pink300 = Color(0xFFF472B6);
 const Color pink200 = Color(0xFFFBCFE8);
 
 const Color logoutRed = Color(0xFFE74C3C);
+const Color streakRed = Color(0xFFEF4444);
+const Color lessonGreen = Color(0xFF22C55E);

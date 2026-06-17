@@ -40,7 +40,7 @@ class HibaloStatsBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(Icons.local_fire_department_outlined,
-              size: 13, color: purple),
+              size: 13, color: streakRed),
           const SizedBox(width: 4),
           Text(
             '$streak',

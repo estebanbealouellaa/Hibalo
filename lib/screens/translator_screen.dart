@@ -8,8 +8,7 @@ import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../models/user_stats.dart';
-import '../widgets/hibalo_ui.dart';
-import 'camera_translate_screen.dart';
+import '../widgets/lessons/lessons_header.dart';
 
 class _CommonPhrase {
   final String category;
@@ -96,11 +95,14 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Consumer<UserStats>(
-                builder: (context, stats, _) => HibaloScreenHeader(
-                  title: 'Translate',
-                  streak: stats.streak,
-                  xp: stats.xp,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: Consumer<UserStats>(
+                  builder: (context, stats, _) => LessonsHeader(
+                    title: 'Translate',
+                    streak: stats.streak,
+                    lessonsCompleted: stats.lessonsCompleted,
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -110,8 +112,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
                 decoration: BoxDecoration(
-                  color: purple,
-                  borderRadius: BorderRadius.circular(26),
+                  color: heroPurple,
+                  borderRadius: BorderRadius.circular(22),
                 ),
                 child: Stack(
                   clipBehavior: Clip.none,
@@ -187,91 +189,93 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
               // ── INPUT BOX ────────────────────────────────
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 18),
-                padding: const EdgeInsets.all(18),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(19),
                 decoration: BoxDecoration(
                   color: offWhite,
                   borderRadius: BorderRadius.circular(22),
-                  border: Border.all(color: borderMid),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'YOUR TEXT',
-                      style: AppTheme.labelCaps.copyWith(fontSize: 10),
+                      style: AppTheme.labelCaps.copyWith(
+                        fontSize: 10,
+                        color: inkMuted,
+                        letterSpacing: 1,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     SizedBox(
                       height: _translatorTextAreaHeight,
-                      child: TextField(
-                        controller: _inputController,
-                        maxLines: 3,
-                        style: const TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w400,
-                          color: ink,
-                          height: 1.5,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Magandang umaga',
-                          hintStyle: TextStyle(
-                            color: inkMuted.withOpacity(0.6),
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          inputDecorationTheme: const InputDecorationTheme(
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
                           ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.zero,
-                          isDense: true,
                         ),
-                        onChanged: (value) {
-                          context.read<TranslatorProvider>().updateOriginalText(
-                            value,
-                          );
-                        },
+                        child: TextField(
+                          controller: _inputController,
+                          maxLines: 3,
+                          style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w400,
+                            color: ink,
+                            height: 1.5,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Magandang umaga',
+                            hintStyle: TextStyle(
+                              color: inkMuted.withValues(alpha: 0.6),
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                            isDense: true,
+                          ),
+                          onChanged: (value) {
+                            context
+                                .read<TranslatorProvider>()
+                                .updateOriginalText(value);
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        _actionChip(
-                          icon: Icons.camera_alt_outlined,
-                          label: 'Camera',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const CameraTranslateScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            context
-                                .read<TranslatorProvider>()
-                                .updateOriginalText(_inputController.text);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: purple,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: purple),
-                            ),
-                            child: Text(
-                              'Translate',
-                              style: AppTheme.bodyMedium.copyWith(
-                                color: white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 11,
-                              ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          context.read<TranslatorProvider>().updateOriginalText(
+                            _inputController.text,
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 7,
+                          ),
+                          decoration: BoxDecoration(
+                            color: purple,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'Translate',
+                            style: AppTheme.bodyMedium.copyWith(
+                              color: white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 11,
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -281,10 +285,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
               // ── RESULT BOX ───────────────────────────────
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 18),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: purple,
+                  color: heroPurple,
                   borderRadius: BorderRadius.circular(22),
                 ),
                 child: Column(
@@ -477,36 +481,6 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _actionChip({
-    required IconData icon,
-    required String label,
-    bool highlighted = false,
-    VoidCallback? onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
-        decoration: BoxDecoration(
-          color: highlighted ? purplePale : white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: highlighted ? purple : borderMid),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 12, color: purpleMid),
-            const SizedBox(width: 5),
-            Text(
-              label,
-              style: AppTheme.bodyMedium.copyWith(fontSize: 11, color: inkSoft),
-            ),
-          ],
-        ),
       ),
     );
   }
