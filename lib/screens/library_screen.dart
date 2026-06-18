@@ -9,6 +9,9 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../models/user_stats.dart';
 import '../widgets/hibalo_ui.dart';
+import '../widgets/lessons/lessons_header.dart';
+import '../widgets/lessons/lessons_path_node.dart';
+import '../widgets/lessons/lessons_section_banner.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA MODELS
@@ -462,11 +465,37 @@ class _LibraryScreenState extends State<LibraryScreen> {
           color: white,
           child: Column(
             children: [
-              _buildTopBar(),
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.only(bottom: 100),
-                  children: [_buildSectionHeader(), ..._buildLessonPath()],
+                  padding: const EdgeInsets.only(bottom: 24),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 30),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Consumer<UserStats>(
+                              builder: (context, stats, _) {
+                                return LessonsHeader(
+                                  streak: stats.streak,
+                                  lessonsCompleted: stats.lessonsCompleted,
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: LessonsSectionBanner(
+                              topicCount: _units.length,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _buildLessonPath(),
+                  ],
                 ),
               ),
             ],
@@ -476,205 +505,34 @@ class _LibraryScreenState extends State<LibraryScreen> {
     );
   }
 
-  Widget _buildTopBar() {
-    return Consumer<UserStats>(
-      builder: (context, userStats, _) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Library', style: AppTheme.screenTitle),
-              HibaloStatsBadge(
-                streak: userStats.streak,
-                xp: userStats.xp,
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  Widget _buildLessonPath() {
+    final nodes = <LessonsPathNode>[];
+    final connectorActive = <bool>[];
 
-  Widget _buildSectionHeader() {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(18, 0, 18, 14),
-      padding: const EdgeInsets.all(18),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [purple, purpleMid],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(22)),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'SECTION 1',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.55),
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Basic Filipino & Hiligaynon',
-                  style: AppTheme.displayMedium.copyWith(
-                    color: Colors.white,
-                    fontSize: 22,
-                    height: 1.2,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${_units.length} topics · Start learning',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.menu_book_rounded,
-              color: Colors.white,
-              size: 22,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<Widget> _buildLessonPath() {
-    final items = <Widget>[];
     for (int i = 0; i < _units.length; i++) {
-      items.add(_buildUnitRow(_units[i], i));
+      final unit = _units[i];
+      final isLocked = !unit.isUnlocked;
+      nodes.add(
+        LessonsPathNode(
+          title: unit.title,
+          subtitle: isLocked
+              ? 'Locked'
+              : unit.isCompleted
+                  ? '✅ Tapos na!'
+                  : '${unit.completedLessons} / ${unit.totalLessons} lessons',
+          isLocked: isLocked,
+          isCompleted: unit.isCompleted,
+          onTap: isLocked
+              ? _showLockedDialog
+              : () => _showLessonDialog(unit, i),
+        ),
+      );
       if (i < _units.length - 1) {
-        items.add(
-          Padding(
-            padding: const EdgeInsets.only(left: 45),
-            child: Container(
-              width: 2,
-              height: 27,
-              decoration: BoxDecoration(
-                color: purpleLight,
-                borderRadius: BorderRadius.circular(1),
-              ),
-            ),
-          ),
-        );
+        connectorActive.add(unit.isUnlocked);
       }
     }
-    return items;
-  }
 
-  Widget _buildUnitRow(LessonUnit unit, int index) {
-    final isLocked = !unit.isUnlocked;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-      child: GestureDetector(
-        onTap: isLocked
-            ? () => _showLockedDialog()
-            : () => _showLessonDialog(unit, index),
-        child: Row(
-          children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isLocked ? surface : purple,
-                border: isLocked
-                    ? Border.all(color: purpleLight, width: 2)
-                    : null,
-                boxShadow: isLocked
-                    ? null
-                    : [
-                        BoxShadow(
-                          color: purple.withOpacity(0.35),
-                          blurRadius: 14,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-              ),
-              child: Center(
-                child: isLocked
-                    ? Icon(Icons.lock_outline_rounded,
-                        color: purpleMid, size: 20)
-                    : unit.isCompleted
-                        ? const Text('👑', style: TextStyle(fontSize: 22))
-                        : Icon(
-                            Icons.volume_up_rounded,
-                            color: white,
-                            size: 22,
-                          ),
-              ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    unit.title,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: isLocked ? inkMuted : ink,
-                    ),
-                  ),
-                  Text(
-                    isLocked
-                        ? 'Locked'
-                        : unit.isCompleted
-                            ? '✅ Tapos na!'
-                            : '${unit.completedLessons} / ${unit.totalLessons} lessons',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight:
-                          isLocked ? FontWeight.w400 : FontWeight.w500,
-                      color: isLocked ? inkMuted : purple,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-              decoration: BoxDecoration(
-                color: purplePale,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: borderMid),
-              ),
-              child: const Text(
-                '+20 XP',
-                style: TextStyle(
-                  fontSize: 10,
-                  color: purple,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return LessonsPathList(nodes: nodes, connectorActive: connectorActive);
   }
 
   void _showLockedDialog() {
