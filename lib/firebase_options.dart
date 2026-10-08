@@ -41,48 +41,46 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDU4H6xlyK37vzXNRBPJJ80ZIB2H1U_7Qg',
-    appId: '1:134997593443:web:ca6eb1003ffa9729419756',
-    messagingSenderId: '134997593443',
-    projectId: 'hibalo-c1967',
-    authDomain: 'hibalo-c1967.firebaseapp.com',
-    storageBucket: 'hibalo-c1967.firebasestorage.app',
-    measurementId: 'G-KZMQ89668P',
+    apiKey: 'AIzaSyDrTGUASn0hqhyd2Wr3D4fPacYJgBWjvTM',
+    appId: '1:558675229569:web:d597bfd980a30f304e8680',
+    messagingSenderId: '558675229569',
+    projectId: 'hibalo',
+    authDomain: 'hibalo.firebaseapp.com',
+    storageBucket: 'hibalo.firebasestorage.app',
+    measurementId: 'G-EXLBSW4V58',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAMsMVK0Lww7GkdjP6MS_ljE25Wjp2dbvs',
-    appId: '1:134997593443:android:95ce7548186a1598419756',
-    messagingSenderId: '134997593443',
-    projectId: 'hibalo-c1967',
-    storageBucket: 'hibalo-c1967.firebasestorage.app',
+    apiKey: 'AIzaSyDcdcCw3SrjnHYHPDJouo6CGNVATpgbkpg',
+    appId: '1:558675229569:android:371129da51c72e344e8680',
+    messagingSenderId: '558675229569',
+    projectId: 'hibalo',
+    storageBucket: 'hibalo.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBxd69VHGI5cJBGn1z_MJnIm2Svd5Znnzk',
-    appId: '1:134997593443:ios:42487bdf41d4cfcc419756',
-    messagingSenderId: '134997593443',
-    projectId: 'hibalo-c1967',
-    storageBucket: 'hibalo-c1967.firebasestorage.app',
+    apiKey: 'AIzaSyDWHcYyyNPgE5W1GUxIawtMNxOgaGu6J-o',
+    appId: '1:558675229569:ios:4025ac1d548f056b4e8680',
+    messagingSenderId: '558675229569',
+    projectId: 'hibalo',
+    storageBucket: 'hibalo.firebasestorage.app',
     iosBundleId: 'com.example.hibaloApp',
   );
-
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBxd69VHGI5cJBGn1z_MJnIm2Svd5Znnzk',
-    appId: '1:134997593443:ios:42487bdf41d4cfcc419756',
-    messagingSenderId: '134997593443',
-    projectId: 'hibalo-c1967',
-    storageBucket: 'hibalo-c1967.firebasestorage.app',
+    apiKey: 'AIzaSyDWHcYyyNPgE5W1GUxIawtMNxOgaGu6J-o',
+    appId: '1:558675229569:ios:4025ac1d548f056b4e8680',
+    messagingSenderId: '558675229569',
+    projectId: 'hibalo',
+    storageBucket: 'hibalo.firebasestorage.app',
     iosBundleId: 'com.example.hibaloApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDU4H6xlyK37vzXNRBPJJ80ZIB2H1U_7Qg',
-    appId: '1:134997593443:web:022910747582c331419756',
-    messagingSenderId: '134997593443',
-    projectId: 'hibalo-c1967',
-    authDomain: 'hibalo-c1967.firebaseapp.com',
-    storageBucket: 'hibalo-c1967.firebasestorage.app',
-    measurementId: 'G-53VPB54JVZ',
+    apiKey: 'AIzaSyDrTGUASn0hqhyd2Wr3D4fPacYJgBWjvTM',
+    appId: '1:558675229569:web:0c5ce2be6b5769df4e8680',
+    messagingSenderId: '558675229569',
+    projectId: 'hibalo',
+    authDomain: 'hibalo.firebaseapp.com',
+    storageBucket: 'hibalo.firebasestorage.app',
+    measurementId: 'G-HE95177MNJ',
   );
 }

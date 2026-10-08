@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -16,257 +18,132 @@ class VoiceTranslateScreen extends StatefulWidget {
 }
 
 class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final FlutterTts _tts = FlutterTts();
 
-  late AnimationController _pulseController;
-  late Animation<double> _pulseOuter;
-  late Animation<double> _pulseInner;
+  /// Drives the rings and the waveform while the mic is open.
+  late final AnimationController _pulse;
+
+  /// One-shot swap animation for the language pill.
+  late final AnimationController _swap;
+
+  bool _speaking = false;
+  bool _copied = false;
 
   @override
   void initState() {
     super.initState();
     _tts.setLanguage('fil-PH');
+    _tts.setSpeechRate(0.45);
+    _tts.setCompletionHandler(() {
+      if (mounted) setState(() => _speaking = false);
+    });
+    _tts.setCancelHandler(() {
+      if (mounted) setState(() => _speaking = false);
+    });
 
-    _pulseController = AnimationController(
+    _pulse = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat(reverse: true);
+      duration: const Duration(milliseconds: 1400),
+    )..repeat();
 
-    _pulseOuter = Tween<double>(begin: 1.0, end: 1.22).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
-    );
-    _pulseInner = Tween<double>(begin: 1.0, end: 1.12).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    _swap = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 420),
     );
   }
 
   @override
   void dispose() {
-    _pulseController.dispose();
+    _pulse.dispose();
+    _swap.dispose();
     _tts.stop();
     super.dispose();
   }
 
+  // ── Actions ─────────────────────────────────────────────────────────────
   Future<void> _speak(String text) async {
     if (text.isEmpty) return;
+    if (_speaking) {
+      await _tts.stop();
+      if (mounted) setState(() => _speaking = false);
+      return;
+    }
+    setState(() => _speaking = true);
     await _tts.speak(text);
   }
 
   void _copy(String text) {
     if (text.isEmpty) return;
+    HapticFeedback.selectionClick();
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Copied to clipboard'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+    setState(() => _copied = true);
+    Future.delayed(const Duration(milliseconds: 1600), () {
+      if (mounted) setState(() => _copied = false);
+    });
   }
 
+  void _toggleMic(TranslatorProvider provider, bool listening) {
+    HapticFeedback.mediumImpact();
+    if (listening) {
+      provider.stopListening();
+    } else {
+      provider.startListening();
+    }
+  }
+
+  // ── UI ──────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<TranslatorProvider>();
     final state = provider.state;
     final isFilToHil = state.sourceLanguage == Languages.tagalog;
+    final listening = state.isListening;
+    final hasResult = state.translatedText.isNotEmpty;
 
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: const Color(0xFFF7F5FF),
       body: Column(
         children: [
-          // ── TOP RESULT PANEL (gradient bg) ──────────────
+          // ── Result panel ──
           Expanded(
-            flex: 55,
-            child: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [purple, purpleMid],
-                ),
+            flex: 54,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(34),
               ),
-              child: SafeArea(
-                bottom: false,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [purple, purpleMid],
+                  ),
+                ),
+                child: Stack(
                   children: [
-                    // ── APP BAR ─────────────────────────────
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 4, 16, 0),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Voice Translate',
-                              style: AppTheme.displaySmall.copyWith(
-                                color: Colors.white,
-                                fontSize: 17,
-                              ),
-                            ),
-                          ),
-                          // Language swap pill
-                          GestureDetector(
-                            onTap: () => provider.swapLanguages(),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.25),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    isFilToHil ? 'Fil' : 'Hil',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 4,
-                                    ),
-                                    child: Icon(
-                                      Icons.swap_horiz_rounded,
-                                      color: Colors.white,
-                                      size: 14,
-                                    ),
-                                  ),
-                                  Text(
-                                    isFilToHil ? 'Hil' : 'Fil',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // ── TRANSLATION RESULT ──────────────────
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Source text (dim)
-                            if (state.originalText.isNotEmpty) ...[
-                              Text(
-                                isFilToHil ? 'FILIPINO' : 'HILIGAYNON',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  letterSpacing: 1.1,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white.withOpacity(0.45),
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                state.originalText,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white.withOpacity(0.65),
-                                  height: 1.5,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 16),
-                            ],
-
-                            // Translation result (prominent)
-                            Text(
-                              isFilToHil ? 'HILIGAYNON' : 'FILIPINO',
-                              style: TextStyle(
-                                fontSize: 10,
-                                letterSpacing: 1.1,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white.withOpacity(0.45),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Expanded(
-                              child: state.isTranslating
-                                  ? const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                  : SingleChildScrollView(
-                                      child: Text(
-                                        state.translatedText.isEmpty
-                                            ? 'Your translation appears here…'
-                                            : state.translatedText,
-                                        style: state.translatedText.isEmpty
-                                            ? TextStyle(
-                                                fontSize: 22,
-                                                color: Colors.white.withOpacity(
-                                                  0.35,
-                                                ),
-                                                height: 1.45,
-                                                fontWeight: FontWeight.w300,
-                                              )
-                                            : AppTheme.displayMedium.copyWith(
-                                                color: Colors.white,
-                                                fontSize: 26,
-                                                height: 1.4,
-                                              ),
-                                      ),
-                                    ),
-                            ),
-                          ],
+                    // Soft light behind the text.
+                    Positioned(
+                      right: -70,
+                      top: -40,
+                      child: Container(
+                        width: 220,
+                        height: 220,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.07),
                         ),
                       ),
                     ),
-
-                    // ── ACTION ICONS ROW ────────────────────
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-                      child: Row(
+                    SafeArea(
+                      bottom: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _iconBtn(
-                            Icons.volume_up_outlined,
-                            onTap: () => _speak(state.translatedText),
-                            enabled: state.translatedText.isNotEmpty,
-                          ),
-                          const SizedBox(width: 8),
-                          _iconBtn(
-                            Icons.copy_outlined,
-                            onTap: () => _copy(state.translatedText),
-                            enabled: state.translatedText.isNotEmpty,
-                          ),
-                          const SizedBox(width: 8),
-                          _iconBtn(
-                            Icons.share_outlined,
-                            onTap: () => Clipboard.setData(
-                              ClipboardData(text: state.translatedText),
-                            ),
-                            enabled: state.translatedText.isNotEmpty,
-                          ),
+                          _appBar(provider, isFilToHil),
+                          Expanded(child: _result(state, isFilToHil)),
+                          _actions(state),
                         ],
                       ),
                     ),
@@ -276,166 +153,34 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
             ),
           ),
 
-          // ── BOTTOM MIC PANEL ────────────────────────────
+          // ── Mic panel ──
           Expanded(
-            flex: 45,
-            child: Container(
-              width: double.infinity,
-              color: offWhite,
+            flex: 46,
+            child: SafeArea(
+              top: false,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Partial / status text
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Text(
-                      state.isListening
-                          ? state.partialSpeechText.isNotEmpty
-                                ? state.partialSpeechText
-                                : 'Listening…'
-                          : state.recognitionError.isNotEmpty
-                          ? state.recognitionError
-                          : 'Hold to speak',
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: state.isListening
-                            ? purple
-                            : state.recognitionError.isNotEmpty
-                            ? Colors.red.shade400
-                            : inkSoft,
-                        fontWeight: state.isListening
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 28),
-
-                  // ── MIC BUTTON WITH PULSE ──────────────
-                  GestureDetector(
-                    onLongPressStart: (_) {
-                      HapticFeedback.mediumImpact();
-                      provider.startListening();
-                    },
-                    onLongPressEnd: (_) {
-                      HapticFeedback.lightImpact();
-                      provider.stopListening();
-                    },
-                    child: AnimatedBuilder(
-                      animation: _pulseController,
-                      builder: (context, _) {
-                        final listening = state.isListening;
-                        return SizedBox(
-                          width: 140,
-                          height: 140,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              // Outermost ring
-                              if (listening)
-                                Transform.scale(
-                                  scale: _pulseOuter.value,
-                                  child: Container(
-                                    width: 128,
-                                    height: 128,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: purple.withOpacity(0.10),
-                                    ),
-                                  ),
-                                ),
-                              // Middle ring
-                              if (listening)
-                                Transform.scale(
-                                  scale: _pulseInner.value,
-                                  child: Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: purple.withOpacity(0.18),
-                                    ),
-                                  ),
-                                ),
-                              // Core button
-                              Container(
-                                width: 76,
-                                height: 76,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: listening ? purple : white,
-                                  border: Border.all(
-                                    color: listening ? purple : borderMid,
-                                    width: 2,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: purple.withOpacity(
-                                        listening ? 0.40 : 0.12,
-                                      ),
-                                      blurRadius: listening ? 24 : 10,
-                                      offset: const Offset(0, 6),
-                                    ),
-                                  ],
-                                ),
-                                child: Icon(
-                                  listening
-                                      ? Icons.mic_rounded
-                                      : Icons.mic_none_rounded,
-                                  color: listening ? white : purpleMid,
-                                  size: 32,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 18),
-
+                  _statusLine(state, listening),
+                  const SizedBox(height: 20),
+                  _mic(provider, state, listening),
+                  const SizedBox(height: 16),
                   Text(
-                    state.isListening ? 'Release to translate' : 'Speak now',
+                    listening
+                        ? 'Tap again, or let go, to translate'
+                        : 'Tap to start · hold to talk',
                     style: TextStyle(
-                      fontSize: 13,
-                      color: state.isListening ? purple : inkMuted,
-                      fontWeight: state.isListening
-                          ? FontWeight.w600
-                          : FontWeight.w400,
-                      letterSpacing: 0.3,
+                      fontSize: 12.5,
+                      color: listening ? purple : inkMuted,
+                      fontWeight: listening ? FontWeight.w700 : FontWeight.w500,
+                      letterSpacing: 0.2,
                     ),
                   ),
-
-                  const SizedBox(height: 32),
-
-                  // ── PAUSE / STOP CHIPS ─────────────────
-                  if (state.isListening)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _controlChip(
-                          icon: Icons.pause_rounded,
-                          label: 'Pause',
-                          onTap: () => provider.stopListening(),
-                        ),
-                        const SizedBox(width: 10),
-                        _controlChip(
-                          icon: Icons.stop_rounded,
-                          label: 'Stop',
-                          filled: true,
-                          onTap: () {
-                            provider.stopListening();
-                            provider.updateOriginalText('');
-                          },
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: 20),
+                  if (hasResult && !listening)
+                    _clearChip(provider)
+                  else if (!listening)
+                    _hint(isFilToHil),
                 ],
               ),
             ),
@@ -445,55 +190,482 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
     );
   }
 
-  Widget _iconBtn(
-    IconData icon, {
-    required VoidCallback onTap,
-    bool enabled = true,
-  }) {
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: Opacity(
-        opacity: enabled ? 1.0 : 0.35,
-        child: Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.14),
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white.withOpacity(0.22)),
+  // ── App bar with the language switch ────────────────────────────────────
+  Widget _appBar(TranslatorProvider provider, bool isFilToHil) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 4, 14, 0),
+      child: Row(
+        children: [
+          IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+              size: 18,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-          child: Icon(icon, color: Colors.white, size: 16),
+          Expanded(
+            child: Text(
+              'Voice Translate',
+              style: AppTheme.displaySmall.copyWith(
+                color: Colors.white,
+                fontSize: 17,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              HapticFeedback.selectionClick();
+              _swap.forward(from: 0);
+              provider.swapLanguages();
+            },
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(14, 8, 10, 8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.16),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(color: Colors.white.withOpacity(0.26)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    isFilToHil ? 'Filipino' : 'Hiligaynon',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  RotationTransition(
+                    turns: Tween<double>(begin: 0, end: 0.5).animate(
+                      CurvedAnimation(parent: _swap, curve: Curves.easeOutBack),
+                    ),
+                    child: Container(
+                      width: 22,
+                      height: 22,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.swap_horiz_rounded,
+                        color: Colors.white,
+                        size: 14,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    isFilToHil ? 'Hiligaynon' : 'Filipino',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── The translation itself ──────────────────────────────────────────────
+  Widget _result(TranslatorState state, bool isFilToHil) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 14, 24, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // What was heard.
+          AnimatedSize(
+            duration: const Duration(milliseconds: 260),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topLeft,
+            child: state.originalText.isEmpty
+                ? const SizedBox(width: double.infinity)
+                : Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 18),
+                    padding: const EdgeInsets.all(13),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _tag(
+                          isFilToHil
+                              ? 'You said · Filipino'
+                              : 'You said · Hiligaynon',
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          state.originalText,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white.withOpacity(0.8),
+                            height: 1.45,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
+
+          _tag(isFilToHil ? 'Hiligaynon' : 'Filipino'),
+          const SizedBox(height: 8),
+
+          Expanded(
+            child: state.isTranslating
+                ? _translating()
+                : SingleChildScrollView(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 320),
+                      transitionBuilder: (c, a) => FadeTransition(
+                        opacity: a,
+                        child: SlideTransition(
+                          position: Tween(
+                            begin: const Offset(0, 0.12),
+                            end: Offset.zero,
+                          ).animate(a),
+                          child: c,
+                        ),
+                      ),
+                      child: state.translatedText.isEmpty
+                          ? Text(
+                              'Your translation appears here…',
+                              key: const ValueKey('empty'),
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.white.withOpacity(0.38),
+                                height: 1.45,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
+                          : Text(
+                              state.translatedText,
+                              key: ValueKey(state.translatedText),
+                              style: AppTheme.displayMedium.copyWith(
+                                color: Colors.white,
+                                fontSize: 28,
+                                height: 1.35,
+                              ),
+                            ),
+                    ),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _tag(String text) => Text(
+    text.toUpperCase(),
+    style: TextStyle(
+      fontSize: 10,
+      letterSpacing: 1.2,
+      fontWeight: FontWeight.w800,
+      color: Colors.white.withOpacity(0.5),
+    ),
+  );
+
+  /// Three dots that bounce while the translation is on its way.
+  Widget _translating() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: AnimatedBuilder(
+        animation: _pulse,
+        builder: (_, __) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(3, (i) {
+            final v = math.sin((_pulse.value * 2 + i / 3) * 2 * math.pi);
+            return Container(
+              width: 10,
+              height: 10,
+              margin: const EdgeInsets.only(right: 8),
+              transform: Matrix4.translationValues(0, -v.clamp(0, 1) * 7, 0),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.55 + v.clamp(0, 1) * 0.45),
+                shape: BoxShape.circle,
+              ),
+            );
+          }),
         ),
       ),
     );
   }
 
-  Widget _controlChip({
+  // ── Speak / copy / share ────────────────────────────────────────────────
+  Widget _actions(TranslatorState state) {
+    final on = state.translatedText.isNotEmpty;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 10, 24, 18),
+      child: Row(
+        children: [
+          _actionBtn(
+            icon: _speaking ? Icons.stop_rounded : Icons.volume_up_rounded,
+            label: _speaking ? 'Stop' : 'Listen',
+            enabled: on,
+            primary: true,
+            onTap: () => _speak(state.translatedText),
+          ),
+          const SizedBox(width: 10),
+          _actionBtn(
+            icon: _copied ? Icons.check_rounded : Icons.copy_rounded,
+            label: _copied ? 'Copied' : 'Copy',
+            enabled: on,
+            onTap: () => _copy(state.translatedText),
+          ),
+          const SizedBox(width: 10),
+          _actionBtn(
+            icon: Icons.ios_share_rounded,
+            label: 'Share',
+            enabled: on,
+            onTap: () =>
+                _copy('${state.originalText}\n→ ${state.translatedText}'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _actionBtn({
     required IconData icon,
     required String label,
     required VoidCallback onTap,
-    bool filled = false,
+    bool enabled = true,
+    bool primary = false,
   }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: enabled ? onTap : null,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 200),
+          opacity: enabled ? 1 : 0.4,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 220),
+            padding: const EdgeInsets.symmetric(vertical: 11),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(primary ? 0.22 : 0.12),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.white.withOpacity(0.22)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: Colors.white, size: 17),
+                const SizedBox(width: 7),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ── Status line above the mic ───────────────────────────────────────────
+  Widget _statusLine(TranslatorState state, bool listening) {
+    final error = state.recognitionError.isNotEmpty && !listening;
+    final text = listening
+        ? (state.partialSpeechText.isNotEmpty
+              ? state.partialSpeechText
+              : 'Listening…')
+        : error
+        ? state.recognitionError
+        : 'Hold the mic and speak';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 220),
+        child: Container(
+          key: ValueKey('$listening$error$text'),
+          padding: error
+              ? const EdgeInsets.symmetric(horizontal: 14, vertical: 9)
+              : EdgeInsets.zero,
+          decoration: error
+              ? BoxDecoration(
+                  color: Colors.red.shade50,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: Colors.red.shade200),
+                )
+              : null,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (error) ...[
+                Icon(
+                  Icons.error_outline_rounded,
+                  size: 16,
+                  color: Colors.red.shade400,
+                ),
+                const SizedBox(width: 8),
+              ],
+              Flexible(
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: listening ? 16 : 14,
+                    color: listening
+                        ? purple
+                        : error
+                        ? Colors.red.shade400
+                        : inkSoft,
+                    fontWeight: listening ? FontWeight.w700 : FontWeight.w500,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ── Mic button: rings, waveform, tap or hold ────────────────────────────
+  Widget _mic(
+    TranslatorProvider provider,
+    TranslatorState state,
+    bool listening,
+  ) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => _toggleMic(provider, listening),
+      onLongPressStart: (_) {
+        if (!listening) {
+          HapticFeedback.mediumImpact();
+          provider.startListening();
+        }
+      },
+      onLongPressEnd: (_) {
+        if (state.isListening) {
+          HapticFeedback.lightImpact();
+          provider.stopListening();
+        }
+      },
+      child: AnimatedBuilder(
+        animation: _pulse,
+        builder: (context, _) {
+          final t = _pulse.value;
+          return SizedBox(
+            width: 190,
+            height: 190,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Ripples travelling outward.
+                if (listening)
+                  for (int i = 0; i < 3; i++)
+                    Builder(
+                      builder: (_) {
+                        final p = (t + i / 3) % 1;
+                        return Container(
+                          width: 96 + p * 92,
+                          height: 96 + p * 92,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: purple.withOpacity((1 - p) * 0.35),
+                              width: 2,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                // Live waveform ring.
+                if (listening)
+                  SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: CustomPaint(painter: _WavePainter(t)),
+                  ),
+
+                // Core button.
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOutBack,
+                  width: listening ? 92 : 84,
+                  height: listening ? 92 : 84,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: listening
+                        ? const LinearGradient(
+                            colors: [purple, purpleMid],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
+                        : null,
+                    color: listening ? null : white,
+                    border: listening
+                        ? null
+                        : Border.all(color: borderMid, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: purple.withOpacity(listening ? 0.45 : 0.16),
+                        blurRadius: listening ? 30 : 14,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    listening ? Icons.graphic_eq_rounded : Icons.mic_rounded,
+                    color: listening ? white : purple,
+                    size: 34,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  // ── Bottom helpers ──────────────────────────────────────────────────────
+  Widget _clearChip(TranslatorProvider provider) {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        provider.updateOriginalText('');
+      },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         decoration: BoxDecoration(
-          color: filled ? purple : white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: filled ? purple : borderMid),
+          color: white,
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: borderMid),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 14, color: filled ? white : purpleMid),
-            const SizedBox(width: 5),
+            Icon(Icons.refresh_rounded, size: 16, color: purpleMid),
+            const SizedBox(width: 7),
             Text(
-              label,
+              'New translation',
               style: TextStyle(
-                fontSize: 12,
-                color: filled ? white : inkSoft,
-                fontWeight: FontWeight.w500,
+                fontSize: 12.5,
+                color: inkSoft,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -501,4 +673,71 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
       ),
     );
   }
+
+  Widget _hint(bool isFilToHil) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 36),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.lightbulb_outline_rounded, size: 15, color: inkMuted),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              isFilToHil
+                  ? 'Try: "Magandang umaga, kumusta ka?"'
+                  : 'Try: "Maayong aga, kamusta ka?"',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12.5,
+                color: inkMuted,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+// WAVEFORM RING
+// Bars around the mic that rise and fall while it is listening. They are
+// decorative: the speech plugin does not report volume, so this shows that
+// the app is awake rather than how loud the speaker is.
+// ═════════════════════════════════════════════════════════════════════════════
+class _WavePainter extends CustomPainter {
+  final double t; // 0..1, loops
+  _WavePainter(this.t);
+
+  static const int _bars = 40;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final inner = size.width * 0.33;
+    final paint = Paint()
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 3;
+
+    for (int i = 0; i < _bars; i++) {
+      final a = i / _bars * 2 * math.pi - math.pi / 2;
+      // Two waves at different speeds keep the motion from looking mechanical.
+      final w1 = math.sin((i / _bars * 3 + t) * 2 * math.pi);
+      final w2 = math.sin((i / _bars * 5 - t * 1.6) * 2 * math.pi);
+      final amp = (w1 * 0.6 + w2 * 0.4).abs();
+      final len = 5 + amp * 20;
+
+      paint.color = purple.withOpacity(0.25 + amp * 0.5);
+      canvas.drawLine(
+        center + Offset(math.cos(a), math.sin(a)) * inner,
+        center + Offset(math.cos(a), math.sin(a)) * (inner + len),
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_WavePainter old) => old.t != t;
 }
