@@ -43,7 +43,7 @@ flutter:
   uses-material-design: true
   # ── ASSETS ─────────────────────────────────
   assets:
-    - lib/assets/logo.png
+    - assets/logo.png
     - lib/assets/images/greetings/
     - lib/assets/images/family/
     - lib/assets/images/food/
