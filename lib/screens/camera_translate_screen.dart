@@ -429,9 +429,9 @@ class _ImagePreviewSection extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.45),
+                  Colors.black.withValues(alpha: 0.45),
                   Colors.transparent,
-                  Colors.black.withOpacity(0.5),
+                  Colors.black.withValues(alpha: 0.5),
                 ],
               ),
             ),
@@ -453,10 +453,10 @@ class _ImagePreviewSection extends StatelessWidget {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),
@@ -494,7 +494,7 @@ class _ScanningOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black.withOpacity(0.4),
+      color: Colors.black.withValues(alpha: 0.4),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -506,7 +506,7 @@ class _ScanningOverlay extends StatelessWidget {
                 height: 180,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: purple.withOpacity(0.8), width: 2),
+                  border: Border.all(color: purple.withValues(alpha: 0.8), width: 2),
                 ),
                 child: Stack(
                   children: [
@@ -602,7 +602,7 @@ class _ResultCard extends StatelessWidget {
         color: isHighlighted ? purplePale : offWhite,
         borderRadius: BorderRadius.circular(20),
         border: isHighlighted
-            ? Border.all(color: purple.withOpacity(0.25), width: 1.5)
+            ? Border.all(color: purple.withValues(alpha: 0.25), width: 1.5)
             : null,
       ),
       child: Column(
@@ -613,7 +613,7 @@ class _ResultCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.12),
+                  color: iconColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(icon, size: 16, color: iconColor),

@@ -156,7 +156,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Image.network(
                     _selectedAvatarUrl ?? kAvatars.first['url']!,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => const Icon(
+                    errorBuilder: (_, _, _) => const Icon(
                       Icons.person,
                       color: Colors.white54,
                       size: 50,
@@ -223,7 +223,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: double.infinity,
-                              errorBuilder: (_, __, ___) => const Icon(
+                              errorBuilder: (_, _, _) => const Icon(
                                 Icons.person,
                                 color: Colors.white38,
                               ),
@@ -277,7 +277,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 maxLength: 30,
                 style: const TextStyle(color: ink, fontSize: 16),
                 decoration: InputDecoration(
-                  counterStyle: TextStyle(color: inkMuted.withOpacity(0.6)),
+                  counterStyle: TextStyle(color: inkMuted.withValues(alpha: 0.6)),
                   prefixIcon: const Icon(
                     Icons.person_outline_rounded,
                     color: purple,
@@ -285,7 +285,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   filled: true,
                   fillColor: offWhite,
                   hintText: 'Enter your username',
-                  hintStyle: TextStyle(color: inkMuted.withOpacity(0.5)),
+                  hintStyle: TextStyle(color: inkMuted.withValues(alpha: 0.5)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(18),
                     borderSide: const BorderSide(color: borderMid),

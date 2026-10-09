@@ -68,7 +68,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                   child: ChoiceChip(
                     label: Text(f == 'all' ? 'All' : f.capitalize()),
                     selected: selected,
-                    selectedColor: const Color(0xFF6C63FF).withOpacity(0.25),
+                    selectedColor: const Color(0xFF6C63FF).withValues(alpha: 0.25),
                     backgroundColor: const Color(0xFF1A1D27),
                     labelStyle: TextStyle(
                       color: selected
@@ -130,7 +130,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
                   itemCount: docs.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
+                  separatorBuilder: (_, _) => const SizedBox(height: 8),
                   itemBuilder: (context, i) {
                     final doc = docs[i];
                     final data = doc.data() as Map<String, dynamic>;
@@ -157,8 +157,8 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: isAdmin
-              ? const Color(0xFFFFA726).withOpacity(0.25)
-              : Colors.white.withOpacity(0.05),
+              ? const Color(0xFFFFA726).withValues(alpha: 0.25)
+              : Colors.white.withValues(alpha: 0.05),
         ),
       ),
       child: ListTile(
@@ -168,8 +168,8 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             CircleAvatar(
               radius: 22,
               backgroundColor: isAdmin
-                  ? const Color(0xFFFFA726).withOpacity(0.15)
-                  : const Color(0xFF6C63FF).withOpacity(0.15),
+                  ? const Color(0xFFFFA726).withValues(alpha: 0.15)
+                  : const Color(0xFF6C63FF).withValues(alpha: 0.15),
               child: Text(
                 name.isNotEmpty ? name[0].toUpperCase() : '?',
                 style: TextStyle(

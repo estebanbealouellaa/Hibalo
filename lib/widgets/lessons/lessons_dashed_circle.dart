@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../theme/app_colors.dart';
 
 class DashedCircleBorder extends StatelessWidget {
   final double size;
