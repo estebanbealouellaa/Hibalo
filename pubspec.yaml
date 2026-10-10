@@ -28,8 +28,14 @@ dependencies:
   url_launcher: ^6.3.0              # ← ADDED for Help & Support email button
   # ── NLP ────────────────────────────────────
   string_similarity: ^2.1.1         # ← ADDED for fuzzy text matching in NLPService
+  flutter_onnxruntime: ^1.9.0
+  audioplayers: ^6.8.1
+  path_provider: ^2.1.6
+  flutter_pcm_sound: ^3.3.3
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   flutter_lints: ^6.0.0
   # ── App Icon Generator ─────────────────────
@@ -55,3 +61,8 @@ flutter:
     - assets/Voice.png
     - assets/Translate.png
     - assets/Account.png
+    # Hiligaynon voice v4 (MMS-TTS, seed 7), from
+    # C:/Hibalo-TTS-Mobile/models/hil_0619_v4_onnx_r. The .onnx file is
+    # stored with Git LFS: install Git LFS before cloning/pulling, or the
+    # voice won't load (tested on PC with generate_tts_v4.py).
+    - assets/tts/models/

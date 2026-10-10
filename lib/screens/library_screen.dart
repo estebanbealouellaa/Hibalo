@@ -24,8 +24,8 @@ Color _darken(Color c, [double amount = 0.14]) {
 Route<T> _route<T>(Widget page) => PageRouteBuilder<T>(
   transitionDuration: const Duration(milliseconds: 380),
   reverseTransitionDuration: const Duration(milliseconds: 260),
-  pageBuilder: (_, __, ___) => page,
-  transitionsBuilder: (_, a, __, child) {
+  pageBuilder: (_, _, _) => page,
+  transitionsBuilder: (_, a, _, child) {
     final curved = CurvedAnimation(parent: a, curve: Curves.easeOutCubic);
     return FadeTransition(
       opacity: curved,
@@ -1496,12 +1496,12 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   Positioned(
                     right: -70,
                     top: -40,
-                    child: _Blob(size: 190, color: pink500.withOpacity(0.22)),
+                    child: _Blob(size: 190, color: pink500.withValues(alpha: 0.22)),
                   ),
                   Positioned(
                     left: -60,
                     bottom: -110,
-                    child: _Blob(size: 160, color: teal300.withOpacity(0.16)),
+                    child: _Blob(size: 160, color: teal300.withValues(alpha: 0.16)),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1539,7 +1539,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       Text(
                         '${greet[1]} — that\'s your first Hiligaynon of the day.',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.65),
+                          color: Colors.white.withValues(alpha: 0.65),
                           fontSize: 12.5,
                         ),
                       ),
@@ -1579,7 +1579,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                             tween: Tween(begin: 0, end: progress),
                             duration: const Duration(milliseconds: 900),
                             curve: Curves.easeOutCubic,
-                            builder: (_, v, __) => Stack(
+                            builder: (_, v, _) => Stack(
                               alignment: Alignment.center,
                               children: [
                                 SizedBox.expand(
@@ -1587,7 +1587,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                                     value: v,
                                     strokeWidth: 7,
                                     strokeCap: StrokeCap.round,
-                                    backgroundColor: purple.withOpacity(0.12),
+                                    backgroundColor: purple.withValues(alpha: 0.12),
                                     valueColor:
                                         const AlwaysStoppedAnimation<Color>(
                                           purple,
@@ -1749,8 +1749,8 @@ class _LevelCard extends StatelessWidget {
                                     height: i <= level.step ? 7 : 5,
                                     margin: const EdgeInsets.only(right: 3),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(
-                                        i <= level.step ? 0.95 : 0.45,
+                                      color: Colors.white.withValues(
+                                        alpha: i <= level.step ? 0.95 : 0.45,
                                       ),
                                       shape: BoxShape.circle,
                                     ),
@@ -1761,7 +1761,7 @@ class _LevelCard extends StatelessWidget {
                         ),
                         if (finished)
                           Container(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withValues(alpha: 0.2),
                             alignment: Alignment.center,
                             child: const Icon(
                               Icons.verified_rounded,
@@ -1864,7 +1864,7 @@ class _LevelCard extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: _amber.withOpacity(0.12),
+                  color: _amber.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(13),
                 ),
                 child: Row(
@@ -1897,10 +1897,10 @@ class _LevelCard extends StatelessWidget {
                             tween: Tween(begin: 0, end: progress),
                             duration: const Duration(milliseconds: 700),
                             curve: Curves.easeOutCubic,
-                            builder: (_, v, __) => LinearProgressIndicator(
+                            builder: (_, v, _) => LinearProgressIndicator(
                               value: v,
                               minHeight: 7,
-                              backgroundColor: accent.withOpacity(0.12),
+                              backgroundColor: accent.withValues(alpha: 0.12),
                               valueColor: AlwaysStoppedAnimation<Color>(accent),
                             ),
                           ),
@@ -1982,9 +1982,9 @@ class _LockedLevelCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.75),
+          color: Colors.white.withValues(alpha: 0.75),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.grey.withOpacity(0.2)),
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -2026,13 +2026,13 @@ class _LockedLevelCard extends StatelessWidget {
                         Icon(
                           Icons.lock_rounded,
                           size: 20,
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                         const SizedBox(width: 8),
                         Text(
                           level.name,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.95),
+                            color: Colors.white.withValues(alpha: 0.95),
                             fontSize: 22,
                             fontWeight: FontWeight.w900,
                           ),
@@ -2051,7 +2051,7 @@ class _LockedLevelCard extends StatelessWidget {
                   Text(
                     level.tagline,
                     style: TextStyle(
-                      color: _ink.withOpacity(0.6),
+                      color: _ink.withValues(alpha: 0.6),
                       fontSize: 13.5,
                       height: 1.45,
                     ),
@@ -2064,7 +2064,7 @@ class _LockedLevelCard extends StatelessWidget {
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
-                      color: purple.withOpacity(0.07),
+                      color: purple.withValues(alpha: 0.07),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Row(
@@ -2106,9 +2106,9 @@ class _LevelDots extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(dim ? 0.2 : 0.18),
+        color: Colors.white.withValues(alpha: dim ? 0.2 : 0.18),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -2119,7 +2119,7 @@ class _LevelDots extends StatelessWidget {
               height: i <= step ? 8 : 6,
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(i <= step ? 0.95 : 0.4),
+                color: Colors.white.withValues(alpha: i <= step ? 0.95 : 0.4),
                 shape: BoxShape.circle,
               ),
             ),
@@ -2271,7 +2271,7 @@ class _LevelLessonsScreenState extends State<LevelLessonsScreen> {
                       Text(
                         lv.tagline,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                           fontSize: 13.5,
                           height: 1.4,
                         ),
@@ -2285,7 +2285,7 @@ class _LevelLessonsScreenState extends State<LevelLessonsScreen> {
                               child: LinearProgressIndicator(
                                 value: progress,
                                 minHeight: 8,
-                                backgroundColor: Colors.white.withOpacity(0.25),
+                                backgroundColor: Colors.white.withValues(alpha: 0.25),
                                 valueColor: const AlwaysStoppedAnimation<Color>(
                                   Colors.white,
                                 ),
@@ -2392,7 +2392,7 @@ class _WordOfDayCardState extends State<_WordOfDayCard> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: _amber.withOpacity(0.35), width: 1.5),
+          border: Border.all(color: _amber.withValues(alpha: 0.35), width: 1.5),
         ),
         child: Row(
           children: [
@@ -2401,7 +2401,7 @@ class _WordOfDayCardState extends State<_WordOfDayCard> {
               height: 48,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: _amber.withOpacity(0.16),
+                color: _amber.withValues(alpha: 0.16),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: const Text('✨', style: TextStyle(fontSize: 22)),
@@ -2644,7 +2644,7 @@ class _LessonCard extends StatelessWidget {
                         LessonArt(lessonNumber: lesson.number),
                         if (completed)
                           Container(
-                            color: Colors.black.withOpacity(0.18),
+                            color: Colors.black.withValues(alpha: 0.18),
                             alignment: Alignment.center,
                             child: const Icon(
                               Icons.check_circle_rounded,
@@ -2674,10 +2674,10 @@ class _LessonCard extends StatelessWidget {
                           tween: Tween(begin: 0, end: progress),
                           duration: const Duration(milliseconds: 700),
                           curve: Curves.easeOutCubic,
-                          builder: (_, v, __) => LinearProgressIndicator(
+                          builder: (_, v, _) => LinearProgressIndicator(
                             value: v,
                             minHeight: 7,
-                            backgroundColor: purple.withOpacity(0.1),
+                            backgroundColor: purple.withValues(alpha: 0.1),
                             valueColor: AlwaysStoppedAnimation<Color>(accent),
                           ),
                         ),
@@ -2760,9 +2760,9 @@ class _LockedLessonCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.75),
+          color: Colors.white.withValues(alpha: 0.75),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey.withOpacity(0.2)),
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
         ),
         child: Row(
           children: [
@@ -2771,7 +2771,7 @@ class _LockedLessonCard extends StatelessWidget {
               height: 52,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.12),
+                color: Colors.grey.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Stack(
@@ -2817,7 +2817,7 @@ class _LockedLessonCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 15,
-                      color: _ink.withOpacity(0.65),
+                      color: _ink.withValues(alpha: 0.65),
                       height: 1.25,
                     ),
                   ),
@@ -2868,10 +2868,10 @@ class _LevelGoalCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: done ? teal300.withOpacity(0.12) : Colors.white.withOpacity(0.7),
+        color: done ? teal300.withValues(alpha: 0.12) : Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: done ? teal300.withOpacity(0.5) : Colors.grey.withOpacity(0.2),
+          color: done ? teal300.withValues(alpha: 0.5) : Colors.grey.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -2881,7 +2881,7 @@ class _LevelGoalCard extends StatelessWidget {
             height: 46,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: (done ? teal300 : purple).withOpacity(0.14),
+              color: (done ? teal300 : purple).withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Text(
@@ -3025,7 +3025,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           top: 40,
                           child: _Blob(
                             size: 180,
-                            color: pink500.withOpacity(0.18),
+                            color: pink500.withValues(alpha: 0.18),
                           ),
                         ),
                         Column(
@@ -3048,10 +3048,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                 height: 100,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.14),
+                                  color: Colors.white.withValues(alpha: 0.14),
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: Colors.white.withOpacity(0.25),
+                                    color: Colors.white.withValues(alpha: 0.25),
                                     width: 2,
                                   ),
                                 ),
@@ -3063,7 +3063,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                             Text(
                               'Lesson ${l.number}',
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                                 fontWeight: FontWeight.w700,
                                 fontSize: 13,
                               ),
@@ -3133,7 +3133,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                         width: 24,
                                         height: 24,
                                         decoration: BoxDecoration(
-                                          color: teal300.withOpacity(0.18),
+                                          color: teal300.withValues(alpha: 0.18),
                                           shape: BoxShape.circle,
                                         ),
                                         child: const Icon(
@@ -3191,7 +3191,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
+                  color: Colors.black.withValues(alpha: 0.06),
                   blurRadius: 20,
                   offset: const Offset(0, -6),
                 ),
@@ -3205,7 +3205,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           onTap: () => _openReader(0),
                           color: Colors.white,
                           foreground: purple,
-                          border: purple.withOpacity(0.4),
+                          border: purple.withValues(alpha: 0.4),
                           child: const Text('Review'),
                         ),
                       ),
@@ -3243,7 +3243,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   }
 
   Widget _divider() =>
-      Container(width: 1, height: 32, color: Colors.grey.withOpacity(0.2));
+      Container(width: 1, height: 32, color: Colors.grey.withValues(alpha: 0.2));
 }
 
 class _PathNode extends StatelessWidget {
@@ -3292,13 +3292,13 @@ class _PathNode extends StatelessWidget {
                       border: active
                           ? null
                           : Border.all(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.grey.withValues(alpha: 0.3),
                               width: 2,
                             ),
                       boxShadow: isCurrent
                           ? [
                               BoxShadow(
-                                color: purple.withOpacity(0.35),
+                                color: purple.withValues(alpha: 0.35),
                                 blurRadius: 16,
                                 offset: const Offset(0, 6),
                               ),
@@ -3319,8 +3319,8 @@ class _PathNode extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(vertical: 4),
                       decoration: BoxDecoration(
                         color: isDone
-                            ? teal300.withOpacity(0.5)
-                            : Colors.grey.withOpacity(0.2),
+                            ? teal300.withValues(alpha: 0.5)
+                            : Colors.grey.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -3341,8 +3341,8 @@ class _PathNode extends StatelessWidget {
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
                       color: isCurrent
-                          ? purple.withOpacity(0.55)
-                          : Colors.grey.withOpacity(0.12),
+                          ? purple.withValues(alpha: 0.55)
+                          : Colors.grey.withValues(alpha: 0.12),
                       width: isCurrent ? 2 : 1,
                     ),
                   ),
@@ -3378,7 +3378,7 @@ class _PathNode extends StatelessWidget {
                                       vertical: 2,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: _amber.withOpacity(0.16),
+                                      color: _amber.withValues(alpha: 0.16),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(
@@ -3557,7 +3557,7 @@ class _LessonReaderScreenState extends State<LessonReaderScreen> {
                                   ? teal300
                                   : i == _index
                                   ? purple
-                                  : purple.withOpacity(0.15),
+                                  : purple.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -3582,7 +3582,7 @@ class _LessonReaderScreenState extends State<LessonReaderScreen> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: _amber.withOpacity(0.16),
+                        color: _amber.withValues(alpha: 0.16),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -3622,7 +3622,7 @@ class _LessonReaderScreenState extends State<LessonReaderScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 16,
                     offset: const Offset(0, -4),
                   ),
@@ -3635,7 +3635,7 @@ class _LessonReaderScreenState extends State<LessonReaderScreen> {
                       onTap: () => _go(_index - 1),
                       color: Colors.white,
                       foreground: _muted,
-                      border: Colors.grey.withOpacity(0.3),
+                      border: Colors.grey.withValues(alpha: 0.3),
                       padding: const EdgeInsets.all(16),
                       child: const Icon(Icons.arrow_back_rounded),
                     ),
@@ -3689,7 +3689,7 @@ class _SectionPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: purple.withOpacity(0.3),
+                    color: purple.withValues(alpha: 0.3),
                     blurRadius: 14,
                     offset: const Offset(0, 6),
                   ),
@@ -3838,7 +3838,7 @@ class _LessonCompleteScreenState extends State<LessonCompleteScreen>
               child: IgnorePointer(
                 child: AnimatedBuilder(
                   animation: _c,
-                  builder: (_, __) =>
+                  builder: (_, _) =>
                       CustomPaint(painter: _ConfettiPainter(_bits, _c.value)),
                 ),
               ),
@@ -3872,7 +3872,7 @@ class _LessonCompleteScreenState extends State<LessonCompleteScreen>
                       '${widget.lesson.number}: ${widget.lesson.title}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.75),
+                        color: Colors.white.withValues(alpha: 0.75),
                         fontSize: 14.5,
                         height: 1.4,
                       ),
@@ -3885,7 +3885,7 @@ class _LessonCompleteScreenState extends State<LessonCompleteScreen>
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.14),
+                          color: Colors.white.withValues(alpha: 0.14),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -3952,7 +3952,7 @@ class _LessonCompleteScreenState extends State<LessonCompleteScreen>
                       child: Text(
                         'Back to lesson',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -3984,9 +3984,9 @@ class _ResultTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.12),
+          color: Colors.white.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withOpacity(0.18)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
         ),
         child: Column(
           children: [
@@ -4004,7 +4004,7 @@ class _ResultTile extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withValues(alpha: 0.7),
                 fontSize: 11.5,
                 fontWeight: FontWeight.w600,
               ),
@@ -4043,7 +4043,7 @@ class _ConfettiPainter extends CustomPainter {
       final y = -20 + lt * b.speed * (size.height + 80);
       final x = b.x * size.width + math.sin(lt * math.pi * 2 * b.sway) * 24;
       final paint = Paint()
-        ..color = b.color.withOpacity((1 - lt * 0.8).clamp(0.0, 1.0));
+        ..color = b.color.withValues(alpha: (1 - lt * 0.8).clamp(0.0, 1.0));
       canvas.save();
       canvas.translate(x, y);
       canvas.rotate(lt * b.spin);
@@ -4156,12 +4156,12 @@ class _BlockView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [b.color.withOpacity(0.16), b.color.withOpacity(0.05)],
+            colors: [b.color.withValues(alpha: 0.16), b.color.withValues(alpha: 0.05)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: b.color.withOpacity(0.35)),
+          border: Border.all(color: b.color.withValues(alpha: 0.35)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -4266,10 +4266,10 @@ class _TableView extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.grey.withOpacity(0.15)),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.15)),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.05),
+            color: purple.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -4298,7 +4298,7 @@ class _TableView extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: purple.withOpacity(0.08),
+                  color: purple.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -4315,7 +4315,7 @@ class _TableView extends StatelessWidget {
           ),
           if (rest.isNotEmpty) ...[
             const SizedBox(height: 10),
-            Container(height: 1, color: Colors.grey.withOpacity(0.12)),
+            Container(height: 1, color: Colors.grey.withValues(alpha: 0.12)),
             const SizedBox(height: 10),
             // One line per remaining column: label on the left, value right.
             for (int i = 0; i < rest.length; i++)
@@ -4423,12 +4423,12 @@ class _QuizViewState extends State<_QuizView>
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: _solved ? teal300.withOpacity(0.7) : _amber.withOpacity(0.45),
+          color: _solved ? teal300.withValues(alpha: 0.7) : _amber.withValues(alpha: 0.45),
           width: 1.6,
         ),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.06),
+            color: purple.withValues(alpha: 0.06),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
@@ -4445,7 +4445,7 @@ class _QuizViewState extends State<_QuizView>
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: _amber.withOpacity(0.16),
+                  color: _amber.withValues(alpha: 0.16),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
@@ -4503,7 +4503,7 @@ class _QuizViewState extends State<_QuizView>
                     margin: const EdgeInsets.only(top: 4),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: teal300.withOpacity(0.12),
+                      color: teal300.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Row(
@@ -4548,19 +4548,19 @@ class _QuizViewState extends State<_QuizView>
     final isAnswer = i == q.answer;
     final picked = _picked == i;
 
-    Color border = Colors.grey.withOpacity(0.22);
+    Color border = Colors.grey.withValues(alpha: 0.22);
     Color fill = Colors.white;
     Color badge = purple;
     IconData? trailing;
 
     if (_solved && isAnswer) {
       border = teal300;
-      fill = teal300.withOpacity(0.12);
+      fill = teal300.withValues(alpha: 0.12);
       badge = teal300;
       trailing = Icons.check_circle_rounded;
     } else if (picked && !isAnswer) {
       border = pink500;
-      fill = pink500.withOpacity(0.08);
+      fill = pink500.withValues(alpha: 0.08);
       badge = pink500;
       trailing = Icons.cancel_rounded;
     }
@@ -4588,7 +4588,7 @@ class _QuizViewState extends State<_QuizView>
                   height: 28,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: badge.withOpacity(0.12),
+                    color: badge.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -4730,7 +4730,7 @@ class _LetterCardsViewState extends State<_LetterCardsView> {
                 child: LinearProgressIndicator(
                   value: (_index + 1) / letters.length,
                   minHeight: 6,
-                  backgroundColor: purple.withOpacity(0.12),
+                  backgroundColor: purple.withValues(alpha: 0.12),
                   valueColor: const AlwaysStoppedAnimation<Color>(purple),
                 ),
               ),
@@ -4772,13 +4772,13 @@ class _LetterCardsViewState extends State<_LetterCardsView> {
                     color: i == _index
                         ? purple
                         : _seen.contains(i)
-                        ? purple.withOpacity(0.12)
+                        ? purple.withValues(alpha: 0.12)
                         : Colors.white,
                     borderRadius: BorderRadius.circular(11),
                     border: Border.all(
                       color: i == _index
                           ? purple
-                          : Colors.grey.withOpacity(0.25),
+                          : Colors.grey.withValues(alpha: 0.25),
                     ),
                   ),
                   child: Text(
@@ -4808,7 +4808,7 @@ class _LetterCardsViewState extends State<_LetterCardsView> {
           decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey.withOpacity(0.25)),
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.25)),
           ),
           child: Icon(icon, size: 18, color: purple),
         ),
@@ -4829,10 +4829,10 @@ class _LetterCardsViewState extends State<_LetterCardsView> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: purple.withOpacity(0.18), width: 1.5),
+            border: Border.all(color: purple.withValues(alpha: 0.18), width: 1.5),
             boxShadow: [
               BoxShadow(
-                color: purple.withOpacity(0.08),
+                color: purple.withValues(alpha: 0.08),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),
@@ -4931,9 +4931,9 @@ class _LetterCardsViewState extends State<_LetterCardsView> {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: teal300.withOpacity(0.1),
+                  color: teal300.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: teal300.withOpacity(0.35)),
+                  border: Border.all(color: teal300.withValues(alpha: 0.35)),
                 ),
                 child: Row(
                   children: [
@@ -5125,7 +5125,7 @@ class _FlipCardState extends State<_FlipCard>
       onTap: _flip,
       child: AnimatedBuilder(
         animation: _c,
-        builder: (_, __) {
+        builder: (_, _) {
           final t = Curves.easeInOut.transform(_c.value);
           final angle = t * math.pi;
           final backVisible = angle > math.pi / 2;
@@ -5164,7 +5164,7 @@ class _FlipCardState extends State<_FlipCard>
         border: front ? null : Border.all(color: teal300, width: 1.6),
         boxShadow: [
           BoxShadow(
-            color: (front ? purple : teal300).withOpacity(0.18),
+            color: (front ? purple : teal300).withValues(alpha: 0.18),
             blurRadius: 12,
             offset: const Offset(0, 5),
           ),
@@ -5189,7 +5189,7 @@ class _FlipCardState extends State<_FlipCard>
           Text(
             front ? 'tap to flip' : 'meaning',
             style: TextStyle(
-              color: front ? Colors.white.withOpacity(0.65) : teal300,
+              color: front ? Colors.white.withValues(alpha: 0.65) : teal300,
               fontSize: 10.5,
               fontWeight: FontWeight.w700,
             ),
@@ -5302,10 +5302,10 @@ class _DialogueViewState extends State<_DialogueView> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: Colors.grey.withOpacity(0.15)),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.15)),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.06),
+            color: purple.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -5349,9 +5349,9 @@ class _DialogueViewState extends State<_DialogueView> {
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 12, 10, 12),
       decoration: BoxDecoration(
-        color: purple.withOpacity(0.06),
+        color: purple.withValues(alpha: 0.06),
         border: Border(
-          bottom: BorderSide(color: Colors.grey.withOpacity(0.12)),
+          bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.12)),
         ),
       ),
       child: Row(
@@ -5360,7 +5360,7 @@ class _DialogueViewState extends State<_DialogueView> {
             children: [
               CircleAvatar(
                 radius: 17,
-                backgroundColor: teal300.withOpacity(0.2),
+                backgroundColor: teal300.withValues(alpha: 0.2),
                 child: const Text('🧑', style: TextStyle(fontSize: 17)),
               ),
               Positioned(
@@ -5445,7 +5445,7 @@ class _DialogueViewState extends State<_DialogueView> {
           decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey.withOpacity(0.2)),
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
           ),
           child: Icon(icon, size: 17, color: purple),
         ),
@@ -5458,7 +5458,7 @@ class _DialogueViewState extends State<_DialogueView> {
     final bubble = Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: me ? purple.withOpacity(0.18) : Colors.grey.withOpacity(0.12),
+        color: me ? purple.withValues(alpha: 0.18) : Colors.grey.withValues(alpha: 0.12),
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(18),
           topRight: const Radius.circular(18),
@@ -5471,7 +5471,7 @@ class _DialogueViewState extends State<_DialogueView> {
 
     final avatar = CircleAvatar(
       radius: 14,
-      backgroundColor: (me ? pink500 : teal300).withOpacity(0.18),
+      backgroundColor: (me ? pink500 : teal300).withValues(alpha: 0.18),
       child: Text(me ? '🙂' : '🧑', style: const TextStyle(fontSize: 14)),
     );
 
@@ -5513,7 +5513,7 @@ class _DialogueViewState extends State<_DialogueView> {
 
     final avatar = CircleAvatar(
       radius: 14,
-      backgroundColor: (me ? pink500 : teal300).withOpacity(0.18),
+      backgroundColor: (me ? pink500 : teal300).withValues(alpha: 0.18),
       child: Text(me ? '🙂' : '🧑', style: const TextStyle(fontSize: 14)),
     );
 
@@ -5583,7 +5583,7 @@ class _DialogueViewState extends State<_DialogueView> {
                   style: TextStyle(
                     fontSize: 12.5,
                     height: 1.35,
-                    color: me ? Colors.white.withOpacity(0.85) : _muted,
+                    color: me ? Colors.white.withValues(alpha: 0.85) : _muted,
                   ),
                 ),
               ),
@@ -5683,7 +5683,7 @@ class _TypingDotsState extends State<_TypingDots>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _c,
-      builder: (_, __) => Row(
+      builder: (_, _) => Row(
         mainAxisSize: MainAxisSize.min,
         children: List.generate(3, (i) {
           final v = math.sin((_c.value - i / 6) * 2 * math.pi).clamp(0.0, 1.0);
@@ -5693,7 +5693,7 @@ class _TypingDotsState extends State<_TypingDots>
             margin: EdgeInsets.only(right: i == 2 ? 0 : 5),
             transform: Matrix4.translationValues(0, -v * 4, 0),
             decoration: BoxDecoration(
-              color: widget.color.withOpacity(0.4 + v * 0.6),
+              color: widget.color.withValues(alpha: 0.4 + v * 0.6),
               shape: BoxShape.circle,
             ),
           );
@@ -5914,9 +5914,9 @@ class _GlassChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.14),
+          color: Colors.white.withValues(alpha: 0.14),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.22)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.22)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -5956,7 +5956,7 @@ class _SoftCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.08),
+            color: purple.withValues(alpha: 0.08),
             blurRadius: 24,
             offset: const Offset(0, 10),
           ),
@@ -5971,16 +5971,16 @@ class _Pill extends StatelessWidget {
   final String label;
   final Color color;
   final bool solid;
-  const _Pill({required this.label, required this.color, this.solid = false});
+  const _Pill({required this.label, required this.color}) : solid = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: solid ? color : color.withOpacity(0.18),
+        color: solid ? color : color.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(20),
-        border: solid ? null : Border.all(color: color.withOpacity(0.35)),
+        border: solid ? null : Border.all(color: color.withValues(alpha: 0.35)),
       ),
       child: Text(
         label,
@@ -6052,9 +6052,9 @@ class _CircleIconButton extends StatelessWidget {
         width: 42,
         height: 42,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.16),
+          color: Colors.white.withValues(alpha: 0.16),
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.white.withOpacity(0.25)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
         ),
         child: Icon(icon, color: Colors.white, size: 22),
       ),

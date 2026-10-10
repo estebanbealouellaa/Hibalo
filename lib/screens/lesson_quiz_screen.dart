@@ -22,8 +22,8 @@ Color _dark(Color c, [double amount = 0.14]) {
 
 Route<T> _slideRoute<T>(Widget page) => PageRouteBuilder<T>(
   transitionDuration: const Duration(milliseconds: 380),
-  pageBuilder: (_, __, ___) => page,
-  transitionsBuilder: (_, a, __, child) {
+  pageBuilder: (_, _, _) => page,
+  transitionsBuilder: (_, a, _, child) {
     final curved = CurvedAnimation(parent: a, curve: Curves.easeOutCubic);
     return FadeTransition(opacity: curved, child: child);
   },
@@ -763,7 +763,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
                           ? (i == _index && !_correct ? pink500 : teal300)
                           : i == _index
                           ? purple
-                          : purple.withOpacity(0.15),
+                          : purple.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -775,7 +775,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: teal300.withOpacity(0.16),
+              color: teal300.withValues(alpha: 0.16),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -801,7 +801,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                color: purple.withOpacity(0.1),
+                color: purple.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -899,7 +899,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: purple.withOpacity(0.2), width: 1.5),
+        border: Border.all(color: purple.withValues(alpha: 0.2), width: 1.5),
       ),
       child: Column(
         children: [
@@ -907,7 +907,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: purple.withOpacity(0.1),
+              color: purple.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.mic_rounded, color: purple, size: 34),
@@ -936,20 +936,20 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
     final isAnswer = i == _q.answer;
     final picked = _selected == i;
 
-    Color border = picked ? purple : Colors.grey.withOpacity(0.22);
-    Color fill = picked ? purple.withOpacity(0.06) : Colors.white;
+    Color border = picked ? purple : Colors.grey.withValues(alpha: 0.22);
+    Color fill = picked ? purple.withValues(alpha: 0.06) : Colors.white;
     Color badge = purple;
     IconData? trailing;
 
     if (_checked) {
       if (isAnswer) {
         border = teal300;
-        fill = teal300.withOpacity(0.12);
+        fill = teal300.withValues(alpha: 0.12);
         badge = teal300;
         trailing = Icons.check_circle_rounded;
       } else if (picked) {
         border = pink500;
-        fill = pink500.withOpacity(0.08);
+        fill = pink500.withValues(alpha: 0.08);
         badge = pink500;
         trailing = Icons.cancel_rounded;
       }
@@ -974,7 +974,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
                 height: 28,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: badge.withOpacity(0.12),
+                  color: badge.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -1039,14 +1039,14 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.grey.withOpacity(0.25)),
+              borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.25)),
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
                 color: optional
-                    ? purple.withOpacity(0.3)
-                    : (_correct ? teal300 : pink500).withOpacity(0.6),
+                    ? purple.withValues(alpha: 0.3)
+                    : (_correct ? teal300 : pink500).withValues(alpha: 0.6),
                 width: 1.8,
               ),
             ),
@@ -1085,7 +1085,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
             border: Border.all(
               color: _checked
                   ? (_correct ? teal300 : pink500)
-                  : purple.withOpacity(0.25),
+                  : purple.withValues(alpha: 0.25),
               width: 1.8,
             ),
           ),
@@ -1146,12 +1146,12 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
         borderRadius: BorderRadius.circular(12),
         border: filled
             ? null
-            : Border.all(color: Colors.grey.withOpacity(0.3), width: 1.5),
+            : Border.all(color: Colors.grey.withValues(alpha: 0.3), width: 1.5),
         boxShadow: filled
             ? null
             : [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
+                  color: Colors.grey.withValues(alpha: 0.3),
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -1173,7 +1173,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
 
     Color leftColor(int i) {
       if (!_matched.containsKey(i)) {
-        return _matchLeft == i ? purple : Colors.grey.withOpacity(0.25);
+        return _matchLeft == i ? purple : Colors.grey.withValues(alpha: 0.25);
       }
       if (!_checked) return purple;
       return _matched[i] == i ? teal300 : pink500;
@@ -1230,7 +1230,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
                     final r = _rightOrder[pos];
                     final owner = leftFor(r);
                     final taken = owner != null;
-                    Color c = Colors.grey.withOpacity(0.25);
+                    Color c = Colors.grey.withValues(alpha: 0.25);
                     if (taken) {
                       c = !_checked ? purple : (owner == r ? teal300 : pink500);
                     }
@@ -1255,7 +1255,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
                           color: c,
                           filled: false,
                           italic: false,
-                          tag: taken ? '${owner! + 1}' : null,
+                          tag: taken ? '${owner + 1}' : null,
                         ),
                       ),
                     );
@@ -1279,7 +1279,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
       duration: const Duration(milliseconds: 180),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       decoration: BoxDecoration(
-        color: filled ? color.withOpacity(0.1) : Colors.white,
+        color: filled ? color.withValues(alpha: 0.1) : Colors.white,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: color, width: 1.8),
       ),
@@ -1303,7 +1303,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
               height: 20,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.16),
+                color: color.withValues(alpha: 0.16),
                 shape: BoxShape.circle,
               ),
               child: Text(
@@ -1355,9 +1355,9 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.4)),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1420,9 +1420,9 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: purple.withOpacity(0.07),
+        color: purple.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: purple.withOpacity(0.25)),
+        border: Border.all(color: purple.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1509,7 +1509,7 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -1685,7 +1685,7 @@ class _QuizResultScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: purple.withOpacity(0.08),
+              color: purple.withValues(alpha: 0.08),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -1762,7 +1762,7 @@ class _AudioButtonState extends State<_AudioButton> {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: purple.withOpacity(0.35),
+                  color: purple.withValues(alpha: 0.35),
                   blurRadius: 24,
                   offset: const Offset(0, 10),
                 ),
@@ -1792,7 +1792,7 @@ class _AudioButtonState extends State<_AudioButton> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: purple.withOpacity(0.3)),
+              border: Border.all(color: purple.withValues(alpha: 0.3)),
             ),
             child: Text(
               widget.text,

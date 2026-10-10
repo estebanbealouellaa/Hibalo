@@ -137,7 +137,7 @@ class _SplashScreenState extends State<SplashScreen>
                   child: IgnorePointer(
                     child: AnimatedBuilder(
                       animation: _ambient,
-                      builder: (_, __) => CustomPaint(
+                      builder: (_, _) => CustomPaint(
                         painter: _OrbPainter(reduce ? 0 : _ambient.value),
                       ),
                     ),
@@ -155,7 +155,7 @@ class _SplashScreenState extends State<SplashScreen>
                               // ── Logo: the firefly flies in ──
                               AnimatedBuilder(
                                 animation: Listenable.merge([_intro, _ambient]),
-                                builder: (_, __) => SizedBox(
+                                builder: (_, _) => SizedBox(
                                   width: 160,
                                   height: 160,
                                   child: CustomPaint(
@@ -255,8 +255,8 @@ class _SplashScreenState extends State<SplashScreen>
                                           word[1],
                                           style: TextStyle(
                                             fontSize: 13,
-                                            color: Colors.white.withOpacity(
-                                              0.55,
+                                            color: Colors.white.withValues(
+                                              alpha: 0.55,
                                             ),
                                             decoration: TextDecoration.none,
                                           ),
@@ -281,12 +281,12 @@ class _SplashScreenState extends State<SplashScreen>
                             tween: Tween(begin: 0, end: 1),
                             duration: const Duration(milliseconds: 2200),
                             curve: Curves.easeInOut,
-                            builder: (_, v, __) => ClipRRect(
+                            builder: (_, v, _) => ClipRRect(
                               borderRadius: BorderRadius.circular(4),
                               child: LinearProgressIndicator(
                                 value: v,
                                 minHeight: 5,
-                                backgroundColor: Colors.white.withOpacity(0.16),
+                                backgroundColor: Colors.white.withValues(alpha: 0.16),
                                 valueColor: const AlwaysStoppedAnimation<Color>(
                                   Colors.white,
                                 ),
@@ -308,7 +308,7 @@ class _SplashScreenState extends State<SplashScreen>
                             '© 2026 Hibalo. All rights reserved.',
                             style: TextStyle(
                               fontSize: 11.5,
-                              color: Colors.white.withOpacity(0.45),
+                              color: Colors.white.withValues(alpha: 0.45),
                               letterSpacing: 0.6,
                               decoration: TextDecoration.none,
                             ),
@@ -357,9 +357,7 @@ class _FireflyPainter extends CustomPainter {
   _FireflyPainter({
     required this.t,
     this.entrance = 1,
-    this.flaps = 36,
-    this.glows = 24,
-  });
+  }) : flaps = 36, glows = 24;
 
   static const Color _gold = Color(0xFFFFD45C);
   static const Color _goldDeep = Color(0xFFFFB627);
@@ -385,12 +383,12 @@ class _FireflyPainter extends CustomPainter {
     canvas.drawCircle(
       const Offset(60, 60),
       54 + pulse * 3,
-      Paint()..color = Colors.white.withOpacity((0.06 + pulse * 0.04) * e),
+      Paint()..color = Colors.white.withValues(alpha: (0.06 + pulse * 0.04) * e),
     );
     canvas.drawCircle(
       const Offset(60, 60),
       44,
-      Paint()..color = Colors.white.withOpacity(0.10 * e),
+      Paint()..color = Colors.white.withValues(alpha: 0.10 * e),
     );
 
     // Fly in from the lower left.
@@ -422,7 +420,7 @@ class _FireflyPainter extends CustomPainter {
       canvas.drawCircle(
         Offset(x, y),
         r,
-        Paint()..color = _gold.withOpacity((1 - p) * 0.75 * e),
+        Paint()..color = _gold.withValues(alpha: (1 - p) * 0.75 * e),
       );
     }
   }
@@ -437,8 +435,8 @@ class _FireflyPainter extends CustomPainter {
       Paint()
         ..shader = RadialGradient(
           colors: [
-            _gold.withOpacity((0.55 + pulse * 0.25) * e),
-            _gold.withOpacity(0),
+            _gold.withValues(alpha: (0.55 + pulse * 0.25) * e),
+            _gold.withValues(alpha: 0),
           ],
         ).createShader(Rect.fromCircle(center: c, radius: r)),
     );
@@ -463,12 +461,12 @@ class _FireflyPainter extends CustomPainter {
         canvas.drawOval(
           rect,
           Paint()
-            ..color = Colors.white.withOpacity((layer == 0 ? 0.35 : 0.72) * e),
+            ..color = Colors.white.withValues(alpha: (layer == 0 ? 0.35 : 0.72) * e),
         );
         canvas.drawOval(
           rect,
           Paint()
-            ..color = Colors.white.withOpacity(0.9 * e)
+            ..color = Colors.white.withValues(alpha: 0.9 * e)
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.4,
         );
@@ -476,7 +474,7 @@ class _FireflyPainter extends CustomPainter {
           Offset.zero,
           Offset(0, -h + 8),
           Paint()
-            ..color = Colors.white.withOpacity(0.6 * e)
+            ..color = Colors.white.withValues(alpha: 0.6 * e)
             ..strokeWidth = 1,
         );
         canvas.restore();
@@ -498,14 +496,14 @@ class _FireflyPainter extends CustomPainter {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color.lerp(_goldDeep, _gold, 0.3)!.withOpacity(e),
-            Color.lerp(_gold, Colors.white, pulse * 0.45)!.withOpacity(e),
+            Color.lerp(_goldDeep, _gold, 0.3)!.withValues(alpha: e),
+            Color.lerp(_gold, Colors.white, pulse * 0.45)!.withValues(alpha: e),
           ],
         ).createShader(lantern),
     );
 
     final seg = Paint()
-      ..color = _goldDeep.withOpacity(0.7 * e)
+      ..color = _goldDeep.withValues(alpha: 0.7 * e)
       ..strokeWidth = 1.6
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -524,20 +522,20 @@ class _FireflyPainter extends CustomPainter {
       seg,
     );
 
-    final body = Paint()..color = Colors.white.withOpacity(e);
+    final body = Paint()..color = Colors.white.withValues(alpha: e);
     canvas.drawOval(
       Rect.fromCenter(center: const Offset(60, 55), width: 20, height: 18),
       body,
     );
     canvas.drawCircle(const Offset(60, 41), 8.5, body);
 
-    final eye = Paint()..color = _ink.withOpacity(e);
+    final eye = Paint()..color = _ink.withValues(alpha: e);
     canvas.drawCircle(const Offset(56.5, 40), 2.1, eye);
     canvas.drawCircle(const Offset(63.5, 40), 2.1, eye);
 
     // Antennae with glowing tips.
     final ant = Paint()
-      ..color = Colors.white.withOpacity(e)
+      ..color = Colors.white.withValues(alpha: e)
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -554,7 +552,7 @@ class _FireflyPainter extends CustomPainter {
         ..quadraticBezierTo(68, 24, 75 + sway, 19),
       ant,
     );
-    final tip = Paint()..color = _gold.withOpacity(e);
+    final tip = Paint()..color = _gold.withValues(alpha: e);
     canvas.drawCircle(Offset(45 + sway, 19), 2.6, tip);
     canvas.drawCircle(Offset(75 + sway, 19), 2.6, tip);
   }
@@ -595,8 +593,8 @@ class _OrbPainter extends CustomPainter {
         Paint()
           ..shader = RadialGradient(
             colors: [
-              Colors.white.withOpacity(i.isEven ? 0.07 : 0.05),
-              Colors.white.withOpacity(0),
+              Colors.white.withValues(alpha: i.isEven ? 0.07 : 0.05),
+              Colors.white.withValues(alpha: 0),
             ],
           ).createShader(Rect.fromCircle(center: center, radius: r)),
       );

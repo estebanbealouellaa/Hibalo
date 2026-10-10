@@ -227,12 +227,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                     tween: Tween(begin: 0, end: _overall),
                     duration: const Duration(milliseconds: 900),
                     curve: Curves.easeOutCubic,
-                    builder: (_, v, __) => SizedBox.expand(
+                    builder: (_, v, _) => SizedBox.expand(
                       child: CircularProgressIndicator(
                         value: v,
                         strokeWidth: 4,
                         strokeCap: StrokeCap.round,
-                        backgroundColor: Colors.white.withOpacity(0.25),
+                        backgroundColor: Colors.white.withValues(alpha: 0.25),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Colors.white,
                         ),
@@ -244,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     height: 62,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                     ),
                     child: ClipOval(child: _avatarWidget()),
                   ),
@@ -274,10 +274,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withValues(alpha: 0.3),
                           ),
                         ),
                         child: Row(
@@ -306,7 +306,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       Text(
                         '${(_overall * 100).round()}%',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.75),
+                          color: Colors.white.withValues(alpha: 0.75),
                           fontSize: 11.5,
                           fontWeight: FontWeight.w700,
                         ),
@@ -323,9 +323,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.18),
+                  color: Colors.white.withValues(alpha: 0.18),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withOpacity(0.28)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.28)),
                 ),
                 child: const Icon(
                   Icons.edit_rounded,
@@ -350,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.12),
+            color: purple.withValues(alpha: 0.12),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -398,7 +398,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             width: 34,
             height: 34,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(11),
             ),
             child: Icon(icon, size: 18, color: color),
@@ -442,7 +442,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               borderRadius: BorderRadius.circular(22),
               boxShadow: [
                 BoxShadow(
-                  color: purple.withOpacity(0.08),
+                  color: purple.withValues(alpha: 0.08),
                   blurRadius: 20,
                   offset: const Offset(0, 6),
                 ),
@@ -477,7 +477,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isCurrent ? lv.colors.first.withOpacity(0.06) : null,
+        color: isCurrent ? lv.colors.first.withValues(alpha: 0.06) : null,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
@@ -533,7 +533,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: lv.colors.first.withOpacity(0.14),
+                          color: lv.colors.first.withValues(alpha: 0.14),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -566,10 +566,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                       tween: Tween(begin: 0, end: progress),
                       duration: const Duration(milliseconds: 800),
                       curve: Curves.easeOutCubic,
-                      builder: (_, v, __) => LinearProgressIndicator(
+                      builder: (_, v, _) => LinearProgressIndicator(
                         value: v,
                         minHeight: 6,
-                        backgroundColor: accent.withOpacity(0.14),
+                        backgroundColor: accent.withValues(alpha: 0.14),
                         valueColor: AlwaysStoppedAnimation<Color>(accent),
                       ),
                     ),
@@ -626,9 +626,9 @@ class _ProfileScreenState extends State<ProfileScreen>
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 15),
               decoration: BoxDecoration(
-                color: logoutRed.withOpacity(0.06),
+                color: logoutRed.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: logoutRed.withOpacity(0.35)),
+                border: Border.all(color: logoutRed.withValues(alpha: 0.35)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -668,7 +668,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: purple.withOpacity(0.07),
+              color: purple.withValues(alpha: 0.07),
               blurRadius: 16,
               offset: const Offset(0, 5),
             ),
@@ -718,7 +718,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       return Image.network(
         _photoUrl!,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => _initialAvatar(),
+        errorBuilder: (_, _, _) => _initialAvatar(),
       );
     }
     return _initialAvatar();
@@ -729,9 +729,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     width: 62,
     height: 62,
     fit: BoxFit.cover,
-    errorBuilder: (_, __, ___) => Container(
+    errorBuilder: (_, _, _) => Container(
       alignment: Alignment.center,
-      color: Colors.white.withOpacity(0.2),
+      color: Colors.white.withValues(alpha: 0.2),
       child: Text(
         _displayName.isEmpty ? '?' : _displayName[0].toUpperCase(),
         style: const TextStyle(

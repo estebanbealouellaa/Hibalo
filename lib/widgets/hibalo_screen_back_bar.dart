@@ -43,7 +43,7 @@ class HibaloScreenBackBar extends StatelessWidget {
               ),
             ),
           ),
-          if (trailing != null) trailing!,
+          ?trailing,
         ],
       ),
     );

@@ -177,7 +177,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
               child: IgnorePointer(
                 child: AnimatedBuilder(
                   animation: _ambient,
-                  builder: (_, __) => CustomPaint(
+                  builder: (_, _) => CustomPaint(
                     painter: _OrbPainter(reduce ? 0 : _ambient.value),
                   ),
                 ),
@@ -217,7 +217,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
           height: 104,
           child: AnimatedBuilder(
             animation: _ambient,
-            builder: (_, __) => CustomPaint(
+            builder: (_, _) => CustomPaint(
               painter: _FireflyPainter(t: reduce ? 0.15 : _ambient.value),
             ),
           ),
@@ -254,7 +254,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                     : 'Make an account to save your lessons, XP and streak.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.75),
+                  color: Colors.white.withValues(alpha: 0.75),
                   fontSize: 14,
                   height: 1.4,
                 ),
@@ -267,9 +267,9 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                   vertical: 7,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.12),
+                  color: Colors.white.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -287,7 +287,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                     Text(
                       _isLogin ? 'How are you?' : 'Welcome!',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.65),
+                        color: Colors.white.withValues(alpha: 0.65),
                         fontSize: 12.5,
                       ),
                     ),
@@ -311,7 +311,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.18),
+            color: Colors.black.withValues(alpha: 0.18),
             blurRadius: 40,
             offset: const Offset(0, 18),
           ),
@@ -468,7 +468,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: purple.withOpacity(0.35),
+                        color: purple.withValues(alpha: 0.35),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -586,7 +586,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
             Text(
               _isLogin ? 'New to Hibalo? ' : 'Already have an account? ',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.75),
+                color: Colors.white.withValues(alpha: 0.75),
                 fontSize: 14,
               ),
             ),
@@ -609,7 +609,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
         Text(
           'Hiligaynon · Filipino',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.4),
+            color: Colors.white.withValues(alpha: 0.4),
             fontSize: 11.5,
             letterSpacing: 1.4,
             fontWeight: FontWeight.w600,
@@ -783,7 +783,7 @@ class _FireflyPainter extends CustomPainter {
   /// Wing beats per loop of [t]. A whole number keeps the loop seamless.
   final int flaps;
 
-  _FireflyPainter({required this.t, this.flaps = 30});
+  _FireflyPainter({required this.t}) : flaps = 30;
 
   static const Color _gold = Color(0xFFFFD45C);
   static const Color _goldDeep = Color(0xFFFFB627);
@@ -806,12 +806,12 @@ class _FireflyPainter extends CustomPainter {
     canvas.drawCircle(
       const Offset(60, 60),
       54 + pulse * 3,
-      Paint()..color = Colors.white.withOpacity(0.06 + pulse * 0.04),
+      Paint()..color = Colors.white.withValues(alpha: 0.06 + pulse * 0.04),
     );
     canvas.drawCircle(
       const Offset(60, 60),
       44,
-      Paint()..color = Colors.white.withOpacity(0.10),
+      Paint()..color = Colors.white.withValues(alpha: 0.10),
     );
 
     canvas.translate(0, bob);
@@ -841,7 +841,7 @@ class _FireflyPainter extends CustomPainter {
       canvas.drawCircle(
         Offset(x, y),
         r,
-        Paint()..color = _gold.withOpacity((1 - p) * 0.75),
+        Paint()..color = _gold.withValues(alpha: (1 - p) * 0.75),
       );
     }
   }
@@ -856,8 +856,8 @@ class _FireflyPainter extends CustomPainter {
       Paint()
         ..shader = RadialGradient(
           colors: [
-            _gold.withOpacity(0.55 + pulse * 0.25),
-            _gold.withOpacity(0),
+            _gold.withValues(alpha: 0.55 + pulse * 0.25),
+            _gold.withValues(alpha: 0),
           ],
         ).createShader(Rect.fromCircle(center: c, radius: r)),
     );
@@ -881,12 +881,12 @@ class _FireflyPainter extends CustomPainter {
         );
         canvas.drawOval(
           rect,
-          Paint()..color = Colors.white.withOpacity(layer == 0 ? 0.35 : 0.72),
+          Paint()..color = Colors.white.withValues(alpha: layer == 0 ? 0.35 : 0.72),
         );
         canvas.drawOval(
           rect,
           Paint()
-            ..color = Colors.white.withOpacity(0.9)
+            ..color = Colors.white.withValues(alpha: 0.9)
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.4,
         );
@@ -894,7 +894,7 @@ class _FireflyPainter extends CustomPainter {
           Offset.zero,
           Offset(0, -h + 8),
           Paint()
-            ..color = Colors.white.withOpacity(0.6)
+            ..color = Colors.white.withValues(alpha: 0.6)
             ..strokeWidth = 1,
         );
         canvas.restore();
@@ -923,7 +923,7 @@ class _FireflyPainter extends CustomPainter {
     );
 
     final seg = Paint()
-      ..color = _goldDeep.withOpacity(0.7)
+      ..color = _goldDeep.withValues(alpha: 0.7)
       ..strokeWidth = 1.6
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -1011,8 +1011,8 @@ class _OrbPainter extends CustomPainter {
         Paint()
           ..shader = RadialGradient(
             colors: [
-              Colors.white.withOpacity(i.isEven ? 0.07 : 0.05),
-              Colors.white.withOpacity(0),
+              Colors.white.withValues(alpha: i.isEven ? 0.07 : 0.05),
+              Colors.white.withValues(alpha: 0),
             ],
           ).createShader(Rect.fromCircle(center: center, radius: r)),
       );

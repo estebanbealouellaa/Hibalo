@@ -142,7 +142,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
     return ListView.separated(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       itemCount: kFaqs.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final faq = kFaqs[index];
         return _FaqItem(question: faq['q']!, answer: faq['a']!);
@@ -274,9 +274,9 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: purple800.withOpacity(0.4),
+              color: purple800.withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: purple600.withOpacity(0.2)),
+              border: Border.all(color: purple600.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [
@@ -286,7 +286,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen>
                   child: Text(
                     'Karaniwang tumutugon kami sa loob ng 1–2 araw na trabaho.',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 13,
                     ),
                   ),
@@ -386,7 +386,7 @@ class _FaqItemState extends State<_FaqItem>
               Text(
                 widget.answer,
                 style: TextStyle(
-                  color: inkSoft.withOpacity(0.85),
+                  color: inkSoft.withValues(alpha: 0.85),
                   fontSize: 14,
                   height: 1.6,
                 ),

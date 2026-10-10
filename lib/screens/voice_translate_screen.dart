@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 import '../providers/translator_provider.dart';
+import '../services/tts/translation_speaker.dart';
 import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -19,7 +19,8 @@ class VoiceTranslateScreen extends StatefulWidget {
 
 class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
     with TickerProviderStateMixin {
-  final FlutterTts _tts = FlutterTts();
+  final TranslationSpeaker _speaker = TranslationSpeaker();
+  TranslatorProvider? _translator;
 
   /// Drives the rings and the waveform while the mic is open.
   late final AnimationController _pulse;
@@ -27,20 +28,16 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
   /// One-shot swap animation for the language pill.
   late final AnimationController _swap;
 
-  bool _speaking = false;
   bool _copied = false;
 
   @override
   void initState() {
     super.initState();
-    _tts.setLanguage('fil-PH');
-    _tts.setSpeechRate(0.45);
-    _tts.setCompletionHandler(() {
-      if (mounted) setState(() => _speaking = false);
-    });
-    _tts.setCancelHandler(() {
-      if (mounted) setState(() => _speaking = false);
-    });
+    _speaker.status.addListener(_onSpeakStatus);
+    TranslationSpeaker.warmUp();
+    _translator = context.read<TranslatorProvider>()
+      ..addListener(_prepareVoice);
+    _prepareVoice();
 
     _pulse = AnimationController(
       vsync: this,
@@ -57,20 +54,30 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
   void dispose() {
     _pulse.dispose();
     _swap.dispose();
-    _tts.stop();
+    _translator?.removeListener(_prepareVoice);
+    _speaker.dispose();
     super.dispose();
   }
 
   // ── Actions ─────────────────────────────────────────────────────────────
-  Future<void> _speak(String text) async {
-    if (text.isEmpty) return;
-    if (_speaking) {
-      await _tts.stop();
-      if (mounted) setState(() => _speaking = false);
-      return;
+  void _onSpeakStatus() {
+    if (mounted) setState(() {});
+  }
+
+  /// Starts making the Hiligaynon audio as soon as a translation is shown,
+  /// so "Listen" can play right away.
+  void _prepareVoice() {
+    final s = _translator?.state;
+    if (s == null || s.isTranslating || s.translatedText.isEmpty) return;
+    if (s.sourceLanguage == Languages.tagalog) {
+      TranslationSpeaker.prepare(s.translatedText);
     }
-    setState(() => _speaking = true);
-    await _tts.speak(text);
+  }
+
+  /// Filipino -> Hiligaynon results use the native Hiligaynon voice.
+  Future<void> _speak(String text) {
+    final source = context.read<TranslatorProvider>().state.sourceLanguage;
+    return _speaker.toggle(text, hiligaynon: source == Languages.tagalog);
   }
 
   void _copy(String text) {
@@ -132,7 +139,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                         height: 220,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.07),
+                          color: Colors.white.withValues(alpha: 0.07),
                         ),
                       ),
                     ),
@@ -222,9 +229,9 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
             child: Container(
               padding: const EdgeInsets.fromLTRB(14, 8, 10, 8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.16),
+                color: Colors.white.withValues(alpha: 0.16),
                 borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: Colors.white.withOpacity(0.26)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.26)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -246,7 +253,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                       width: 22,
                       height: 22,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -293,7 +300,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                     margin: const EdgeInsets.only(bottom: 18),
                     padding: const EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.12),
+                      color: Colors.white.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
@@ -311,7 +318,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                             height: 1.45,
                           ),
                         ),
@@ -345,7 +352,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                               key: const ValueKey('empty'),
                               style: TextStyle(
                                 fontSize: 22,
-                                color: Colors.white.withOpacity(0.38),
+                                color: Colors.white.withValues(alpha: 0.38),
                                 height: 1.45,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -373,7 +380,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
       fontSize: 10,
       letterSpacing: 1.2,
       fontWeight: FontWeight.w800,
-      color: Colors.white.withOpacity(0.5),
+      color: Colors.white.withValues(alpha: 0.5),
     ),
   );
 
@@ -383,7 +390,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
       alignment: Alignment.centerLeft,
       child: AnimatedBuilder(
         animation: _pulse,
-        builder: (_, __) => Row(
+        builder: (_, _) => Row(
           mainAxisSize: MainAxisSize.min,
           children: List.generate(3, (i) {
             final v = math.sin((_pulse.value * 2 + i / 3) * 2 * math.pi);
@@ -393,7 +400,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
               margin: const EdgeInsets.only(right: 8),
               transform: Matrix4.translationValues(0, -v.clamp(0, 1) * 7, 0),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.55 + v.clamp(0, 1) * 0.45),
+                color: Colors.white.withValues(alpha: 0.55 + v.clamp(0, 1) * 0.45),
                 shape: BoxShape.circle,
               ),
             );
@@ -411,8 +418,16 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
       child: Row(
         children: [
           _actionBtn(
-            icon: _speaking ? Icons.stop_rounded : Icons.volume_up_rounded,
-            label: _speaking ? 'Stop' : 'Listen',
+            icon: switch (_speaker.status.value) {
+              SpeakStatus.idle => Icons.volume_up_rounded,
+              SpeakStatus.preparing => Icons.hourglass_top_rounded,
+              SpeakStatus.speaking => Icons.stop_rounded,
+            },
+            label: switch (_speaker.status.value) {
+              SpeakStatus.idle => 'Listen',
+              SpeakStatus.preparing => 'Preparing',
+              SpeakStatus.speaking => 'Stop',
+            },
             enabled: on,
             primary: true,
             onTap: () => _speak(state.translatedText),
@@ -454,9 +469,9 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
             duration: const Duration(milliseconds: 220),
             padding: const EdgeInsets.symmetric(vertical: 11),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(primary ? 0.22 : 0.12),
+              color: Colors.white.withValues(alpha: primary ? 0.22 : 0.12),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withOpacity(0.22)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.22)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -584,7 +599,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: purple.withOpacity((1 - p) * 0.35),
+                              color: purple.withValues(alpha: (1 - p) * 0.35),
                               width: 2,
                             ),
                           ),
@@ -621,7 +636,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                         : Border.all(color: borderMid, width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: purple.withOpacity(listening ? 0.45 : 0.16),
+                        color: purple.withValues(alpha: listening ? 0.45 : 0.16),
                         blurRadius: listening ? 30 : 14,
                         offset: const Offset(0, 8),
                       ),
@@ -729,7 +744,7 @@ class _WavePainter extends CustomPainter {
       final amp = (w1 * 0.6 + w2 * 0.4).abs();
       final len = 5 + amp * 20;
 
-      paint.color = purple.withOpacity(0.25 + amp * 0.5);
+      paint.color = purple.withValues(alpha: 0.25 + amp * 0.5);
       canvas.drawLine(
         center + Offset(math.cos(a), math.sin(a)) * inner,
         center + Offset(math.cos(a), math.sin(a)) * (inner + len),

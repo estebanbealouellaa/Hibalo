@@ -70,7 +70,7 @@ class _FilipinianaCheerState extends State<FilipinianaCheer>
       height: widget.size * 1.18,
       child: AnimatedBuilder(
         animation: _c,
-        builder: (_, __) => CustomPaint(
+        builder: (_, _) => CustomPaint(
           painter: _FilipinianaPainter(
             t: reduce ? 0.12 : _c.value,
             gown: widget.gown,
@@ -138,7 +138,7 @@ class _FilipinianaPainter extends CustomPainter {
         width: 118 * tightness,
         height: 16 * tightness,
       ),
-      Paint()..color = Colors.black.withOpacity(0.12),
+      Paint()..color = Colors.black.withValues(alpha: 0.12),
     );
   }
 
@@ -170,7 +170,7 @@ class _FilipinianaPainter extends CustomPainter {
 
     // Fold lines.
     final fold = Paint()
-      ..color = Colors.white.withOpacity(0.16)
+      ..color = Colors.white.withValues(alpha: 0.16)
       ..strokeWidth = 2.4
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -193,7 +193,7 @@ class _FilipinianaPainter extends CustomPainter {
         ..moveTo(44, 240)
         ..quadraticBezierTo(110, 254, 176, 240),
       Paint()
-        ..color = _gold.withOpacity(0.9)
+        ..color = _gold.withValues(alpha: 0.9)
         ..strokeWidth = 5
         ..strokeCap = StrokeCap.round
         ..style = PaintingStyle.stroke,
@@ -237,7 +237,7 @@ class _FilipinianaPainter extends CustomPainter {
         ..moveTo(96, 110)
         ..quadraticBezierTo(110, 124, 124, 110),
       Paint()
-        ..color = _skinShade.withOpacity(0.5)
+        ..color = _skinShade.withValues(alpha: 0.5)
         ..strokeWidth = 2
         ..style = PaintingStyle.stroke,
     );
@@ -274,7 +274,7 @@ class _FilipinianaPainter extends CustomPainter {
         ..moveTo(2, 4)
         ..quadraticBezierTo(28, -12, 44, -4),
       Paint()
-        ..color = _gold.withOpacity(0.75)
+        ..color = _gold.withValues(alpha: 0.75)
         ..strokeWidth = 2.6
         ..strokeCap = StrokeCap.round
         ..style = PaintingStyle.stroke,
@@ -318,7 +318,7 @@ class _FilipinianaPainter extends CustomPainter {
 
     // Motion arcs beside the waving hand.
     final motion = Paint()
-      ..color = Colors.white.withOpacity(0.55)
+      ..color = Colors.white.withValues(alpha: 0.55)
       ..strokeWidth = 2.6
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -396,7 +396,7 @@ class _FilipinianaPainter extends CustomPainter {
     );
 
     // Blush.
-    final blush = Paint()..color = const Color(0xFFE8738A).withOpacity(0.35);
+    final blush = Paint()..color = const Color(0xFFE8738A).withValues(alpha: 0.35);
     canvas.drawOval(
       Rect.fromCenter(center: const Offset(94, 92), width: 13, height: 8),
       blush,
@@ -429,7 +429,7 @@ class _FilipinianaPainter extends CustomPainter {
           (math.sin((t * 2 + i / spots.length) * 2 * math.pi) + 1) / 2;
       final r = 3 + pulse * 4;
       final paint = Paint()
-        ..color = Colors.white.withOpacity(0.25 + pulse * 0.5);
+        ..color = Colors.white.withValues(alpha: 0.25 + pulse * 0.5);
       final c = spots[i];
       // Four-pointed star.
       final p = Path()
@@ -499,9 +499,9 @@ class _LessonArtPainter extends CustomPainter {
   }
 
   Paint _fill(double o) =>
-      Paint()..color = Colors.white.withOpacity(o * opacity);
+      Paint()..color = Colors.white.withValues(alpha: o * opacity);
   Paint _stroke(double o, double w) => Paint()
-    ..color = Colors.white.withOpacity(o * opacity)
+    ..color = Colors.white.withValues(alpha: o * opacity)
     ..strokeWidth = w
     ..strokeCap = StrokeCap.round
     ..style = PaintingStyle.stroke;

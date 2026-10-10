@@ -118,7 +118,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               child: IgnorePointer(
                 child: AnimatedBuilder(
                   animation: _ambient,
-                  builder: (_, __) => CustomPaint(
+                  builder: (_, _) => CustomPaint(
                     painter: _OrbPainter(
                       t: reduce ? 0 : _ambient.value,
                       shift: _offset,
@@ -144,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           child: Text(
                             'Skip',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.75),
+                              color: Colors.white.withValues(alpha: 0.75),
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
                               decoration: TextDecoration.none,
@@ -188,7 +188,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           decoration: BoxDecoration(
                             color: i == _page
                                 ? Colors.white
-                                : Colors.white.withOpacity(0.3),
+                                : Colors.white.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -294,7 +294,7 @@ class _SlideView extends StatelessWidget {
                 height: 210,
                 child: AnimatedBuilder(
                   animation: ambient,
-                  builder: (_, __) => CustomPaint(
+                  builder: (_, _) => CustomPaint(
                     painter: _SlideArtPainter(
                       art: slide.art,
                       t: reduce ? 0.2 : ambient.value,
@@ -332,7 +332,7 @@ class _SlideView extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 15,
                       height: 1.55,
-                      color: Colors.white.withOpacity(0.72),
+                      color: Colors.white.withValues(alpha: 0.72),
                       decoration: TextDecoration.none,
                     ),
                   ),
@@ -345,9 +345,9 @@ class _SlideView extends StatelessWidget {
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.12),
+                      color: Colors.white.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(22),
-                      border: Border.all(color: Colors.white.withOpacity(0.22)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.22)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -375,7 +375,7 @@ class _SlideView extends StatelessWidget {
                         Text(
                           slide.gloss,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withValues(alpha: 0.7),
                             fontSize: 13.5,
                             decoration: TextDecoration.none,
                           ),
@@ -405,7 +405,7 @@ class _SlideArtPainter extends CustomPainter {
   double _pulse([double cycles = 1, double phase = 0]) =>
       (math.sin((t * cycles + phase) * 2 * math.pi) + 1) / 2;
 
-  Paint _w(double o) => Paint()..color = Colors.white.withOpacity(o);
+  Paint _w(double o) => Paint()..color = Colors.white.withValues(alpha: o);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -456,7 +456,7 @@ class _SlideArtPainter extends CustomPainter {
       canvas.drawCircle(
         Offset(60 - p * 40 - i * 2, 112 + p * 28 + math.sin(p * math.pi) * -8),
         4.2 * (1 - p) + 0.8,
-        Paint()..color = gold.withOpacity((1 - p) * 0.75),
+        Paint()..color = gold.withValues(alpha: (1 - p) * 0.75),
       );
     }
 
@@ -473,7 +473,7 @@ class _SlideArtPainter extends CustomPainter {
       gr,
       Paint()
         ..shader = RadialGradient(
-          colors: [gold.withOpacity(0.55 + pulse * 0.25), gold.withOpacity(0)],
+          colors: [gold.withValues(alpha: 0.55 + pulse * 0.25), gold.withValues(alpha: 0)],
         ).createShader(Rect.fromCircle(center: lamp, radius: gr)),
     );
 
@@ -495,7 +495,7 @@ class _SlideArtPainter extends CustomPainter {
         canvas.drawOval(
           rect,
           Paint()
-            ..color = Colors.white.withOpacity(0.9)
+            ..color = Colors.white.withValues(alpha: 0.9)
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.8,
         );
@@ -503,7 +503,7 @@ class _SlideArtPainter extends CustomPainter {
           Offset.zero,
           Offset(0, -h + 10),
           Paint()
-            ..color = Colors.white.withOpacity(0.6)
+            ..color = Colors.white.withValues(alpha: 0.6)
             ..strokeWidth = 1.2,
         );
         canvas.restore();
@@ -525,7 +525,7 @@ class _SlideArtPainter extends CustomPainter {
         ).createShader(lantern),
     );
     final seg = Paint()
-      ..color = goldDeep.withOpacity(0.7)
+      ..color = goldDeep.withValues(alpha: 0.7)
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -591,7 +591,7 @@ class _SlideArtPainter extends CustomPainter {
         const Offset(80, 74),
         26 + p * 40,
         Paint()
-          ..color = Colors.white.withOpacity((1 - p) * 0.3)
+          ..color = Colors.white.withValues(alpha: (1 - p) * 0.3)
           ..strokeWidth = 3
           ..style = PaintingStyle.stroke,
       );
@@ -611,7 +611,7 @@ class _SlideArtPainter extends CustomPainter {
         Offset(72, 54.0 + i * 10),
         Offset(88, 54.0 + i * 10),
         Paint()
-          ..color = purple.withOpacity(0.55)
+          ..color = purple.withValues(alpha: 0.55)
           ..strokeWidth = 2.6
           ..strokeCap = StrokeCap.round,
       );
@@ -676,7 +676,7 @@ class _SlideArtPainter extends CustomPainter {
     );
     // Lines of "text".
     final line = Paint()
-      ..color = purple.withOpacity(0.45)
+      ..color = purple.withValues(alpha: 0.45)
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;
     canvas.drawLine(const Offset(62, 58), const Offset(104, 58), line);
@@ -794,8 +794,8 @@ class _OrbPainter extends CustomPainter {
         Paint()
           ..shader = RadialGradient(
             colors: [
-              Colors.white.withOpacity(i.isEven ? 0.07 : 0.05),
-              Colors.white.withOpacity(0),
+              Colors.white.withValues(alpha: i.isEven ? 0.07 : 0.05),
+              Colors.white.withValues(alpha: 0),
             ],
           ).createShader(Rect.fromCircle(center: center, radius: r)),
       );
@@ -848,7 +848,7 @@ class _PushButtonState extends State<_PushButton> {
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.22),
+              color: Colors.black.withValues(alpha: 0.22),
               offset: Offset(0, _down ? 0 : depth),
             ),
           ],

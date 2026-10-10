@@ -27,7 +27,7 @@ class AdminEntryButton extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 6),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.white54),
         ),

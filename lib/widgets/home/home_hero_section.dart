@@ -116,7 +116,7 @@ class _ProfileAvatar extends StatelessWidget {
                 width: 58,
                 height: 58,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Image(
+                errorBuilder: (_, _, _) => Image(
                   image: fallback,
                   width: 58,
                   height: 58,

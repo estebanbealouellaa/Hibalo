@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 import '../providers/translator_provider.dart';
+import '../services/tts/translation_speaker.dart';
 import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -39,24 +39,21 @@ class _TranslatorScreenState extends State<TranslatorScreen>
     with SingleTickerProviderStateMixin {
   final TextEditingController _inputController = TextEditingController();
   final FocusNode _focus = FocusNode();
-  final FlutterTts _tts = FlutterTts();
+  final TranslationSpeaker _speaker = TranslationSpeaker();
+  TranslatorProvider? _translator;
 
   late final AnimationController _swap;
 
-  bool _speaking = false;
   bool _copied = false;
 
   @override
   void initState() {
     super.initState();
-    _tts.setLanguage('fil-PH');
-    _tts.setSpeechRate(0.45);
-    _tts.setCompletionHandler(() {
-      if (mounted) setState(() => _speaking = false);
-    });
-    _tts.setCancelHandler(() {
-      if (mounted) setState(() => _speaking = false);
-    });
+    _speaker.status.addListener(_onSpeakStatus);
+    TranslationSpeaker.warmUp();
+    _translator = context.read<TranslatorProvider>()
+      ..addListener(_prepareVoice);
+    _prepareVoice();
 
     _swap = AnimationController(
       vsync: this,
@@ -70,7 +67,8 @@ class _TranslatorScreenState extends State<TranslatorScreen>
     _inputController.dispose();
     _focus.dispose();
     _swap.dispose();
-    _tts.stop();
+    _translator?.removeListener(_prepareVoice);
+    _speaker.dispose();
     super.dispose();
   }
 
@@ -107,15 +105,24 @@ class _TranslatorScreenState extends State<TranslatorScreen>
     context.read<TranslatorProvider>().updateOriginalText(text);
   }
 
-  Future<void> _speakResult(String text) async {
-    if (text.isEmpty) return;
-    if (_speaking) {
-      await _tts.stop();
-      if (mounted) setState(() => _speaking = false);
-      return;
+  void _onSpeakStatus() {
+    if (mounted) setState(() {});
+  }
+
+  /// Starts making the Hiligaynon audio as soon as a translation is shown,
+  /// so "Listen" can play right away.
+  void _prepareVoice() {
+    final s = _translator?.state;
+    if (s == null || s.isTranslating || s.translatedText.isEmpty) return;
+    if (s.sourceLanguage == Languages.tagalog) {
+      TranslationSpeaker.prepare(s.translatedText);
     }
-    setState(() => _speaking = true);
-    await _tts.speak(text);
+  }
+
+  /// Filipino -> Hiligaynon results use the native Hiligaynon voice.
+  Future<void> _speakResult(String text) {
+    final source = context.read<TranslatorProvider>().state.sourceLanguage;
+    return _speaker.toggle(text, hiligaynon: source == Languages.tagalog);
   }
 
   void _copyResult(String text) {
@@ -191,7 +198,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.08),
+            color: purple.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 6),
           ),
@@ -225,7 +232,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: purple.withOpacity(0.35),
+                    color: purple.withValues(alpha: 0.35),
                     blurRadius: 14,
                     offset: const Offset(0, 5),
                   ),
@@ -259,7 +266,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
       decoration: BoxDecoration(
-        color: source ? purplePale : purple.withOpacity(0.06),
+        color: source ? purplePale : purple.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -270,7 +277,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
               fontSize: 9.5,
               letterSpacing: 1,
               fontWeight: FontWeight.w800,
-              color: purple.withOpacity(0.6),
+              color: purple.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 4),
@@ -297,12 +304,12 @@ class _TranslatorScreenState extends State<TranslatorScreen>
         color: white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: _focus.hasFocus ? purple.withOpacity(0.5) : borderLight,
+          color: _focus.hasFocus ? purple.withValues(alpha: 0.5) : borderLight,
           width: _focus.hasFocus ? 1.8 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.06),
+            color: purple.withValues(alpha: 0.06),
             blurRadius: 18,
             offset: const Offset(0, 5),
           ),
@@ -428,7 +435,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: purple.withOpacity(0.28),
+            color: purple.withValues(alpha: 0.28),
             blurRadius: 24,
             offset: const Offset(0, 10),
           ),
@@ -442,7 +449,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
               Text(
                 (isFilToHil ? 'HILIGAYNON' : 'FILIPINO'),
                 style: AppTheme.labelCaps.copyWith(
-                  color: Colors.white.withOpacity(0.55),
+                  color: Colors.white.withValues(alpha: 0.55),
                   fontSize: 10,
                   letterSpacing: 1.2,
                 ),
@@ -487,7 +494,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
                         )
                       : TextStyle(
                           fontSize: 19,
-                          color: Colors.white.withOpacity(0.4),
+                          color: Colors.white.withValues(alpha: 0.4),
                           height: 1.5,
                         ),
                 ),
@@ -498,8 +505,16 @@ class _TranslatorScreenState extends State<TranslatorScreen>
           Row(
             children: [
               _resultAction(
-                icon: _speaking ? Icons.stop_rounded : Icons.volume_up_rounded,
-                label: _speaking ? 'Stop' : 'Listen',
+                icon: switch (_speaker.status.value) {
+                  SpeakStatus.idle => Icons.volume_up_rounded,
+                  SpeakStatus.preparing => Icons.hourglass_top_rounded,
+                  SpeakStatus.speaking => Icons.stop_rounded,
+                },
+                label: switch (_speaker.status.value) {
+                  SpeakStatus.idle => 'Listen',
+                  SpeakStatus.preparing => 'Preparing',
+                  SpeakStatus.speaking => 'Stop',
+                },
                 enabled: on,
                 primary: true,
                 onTap: () => _speakResult(state.translatedText),
@@ -543,9 +558,9 @@ class _TranslatorScreenState extends State<TranslatorScreen>
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(primary ? 0.24 : 0.13),
+              color: Colors.white.withValues(alpha: primary ? 0.24 : 0.13),
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withOpacity(0.22)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.22)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -602,7 +617,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 18),
             itemCount: _commonPhrases.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 10),
+            separatorBuilder: (_, _) => const SizedBox(width: 10),
             itemBuilder: (context, index) {
               final phrase = _commonPhrases[index];
               final primary = isFilToHil ? phrase.fil : phrase.hil;
@@ -618,7 +633,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
                     border: Border.all(color: borderLight),
                     boxShadow: [
                       BoxShadow(
-                        color: purple.withOpacity(0.05),
+                        color: purple.withValues(alpha: 0.05),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
