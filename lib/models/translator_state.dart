@@ -11,6 +11,7 @@ class TranslatorState {
   final bool isTranslating;
   final String recognitionError;
   final String partialSpeechText;
+  final bool isDictionaryMeaning;
 
   const TranslatorState({
     this.originalText = '',
@@ -20,6 +21,7 @@ class TranslatorState {
     this.isTranslating = false,
     this.recognitionError = '',
     this.partialSpeechText = '',
+    this.isDictionaryMeaning = false,
   });
 
   TranslatorState copyWith({
@@ -30,6 +32,7 @@ class TranslatorState {
     bool? isTranslating,
     String? recognitionError,
     String? partialSpeechText,
+    bool? isDictionaryMeaning,
   }) {
     return TranslatorState(
       originalText: originalText ?? this.originalText,
@@ -39,6 +42,7 @@ class TranslatorState {
       isTranslating: isTranslating ?? this.isTranslating,
       recognitionError: recognitionError ?? this.recognitionError,
       partialSpeechText: partialSpeechText ?? this.partialSpeechText,
+      isDictionaryMeaning: isDictionaryMeaning ?? this.isDictionaryMeaning,
     );
   }
 }

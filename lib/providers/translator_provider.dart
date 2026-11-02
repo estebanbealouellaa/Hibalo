@@ -3,6 +3,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import '../services/database_service.dart';
 import '../services/nlp_service.dart';
+import '../services/translation/offline_translator.dart';
 import '../models/translator_state.dart';
 
 class TranslatorProvider extends ChangeNotifier {
@@ -14,6 +15,9 @@ class TranslatorProvider extends ChangeNotifier {
   final NLPService _nlp = NLPService();
 
   bool _speechAvailable = false;
+
+  // Only the newest translation is shown; older ones are ignored.
+  int _translationRequest = 0;
 
   TranslatorProvider() {
     _initSpeech();
@@ -117,7 +121,32 @@ class TranslatorProvider extends ChangeNotifier {
   // ─────────────────────────────────────────────
   // TRANSLATE
   // ─────────────────────────────────────────────
-  Future<String> _doTranslate(String text, String sourceLanguage) async {
+  // The offline model is the main path. Firestore is only the fallback for
+  // when the model can't be used.
+  Future<(String, bool)> _doTranslate(
+    String text,
+    String sourceLanguage,
+    void Function(String textSoFar) onPartial,
+  ) async {
+    try {
+      final result = await OfflineTranslator.instance.translate(
+        text,
+        fromHiligaynon: sourceLanguage == Languages.hiligaynon,
+        onPartial: onPartial,
+      );
+
+      return (result.text, result.isDictionaryMeaning);
+    } catch (e) {
+      debugPrint('[HibaloTranslate] using Firestore instead: $e');
+
+      return (await _firestoreTranslate(text, sourceLanguage), false);
+    }
+  }
+
+  Future<String> _firestoreTranslate(
+    String text,
+    String sourceLanguage,
+  ) async {
     final cleaned = _nlp.preprocess(text);
 
     if (sourceLanguage == 'hiligaynon') {
@@ -144,21 +173,40 @@ class TranslatorProvider extends ChangeNotifier {
   // PERFORM TRANSLATION
   // ─────────────────────────────────────────────
   Future<void> _performTranslation(String text) async {
+    final request = ++_translationRequest;
+
     if (text.isEmpty) {
-      _state = _state.copyWith(translatedText: '');
+      _state = _state.copyWith(translatedText: '', isTranslating: false);
 
       notifyListeners();
 
       return;
     }
 
-    _state = _state.copyWith(isTranslating: true);
+    _state = _state.copyWith(translatedText: '', isTranslating: true);
 
     notifyListeners();
 
-    final result = await _doTranslate(text, _state.sourceLanguage);
+    // Finished sentences are shown while the rest is still being translated.
+    final (result, isDictionaryMeaning) = await _doTranslate(
+      text,
+      _state.sourceLanguage,
+      (textSoFar) {
+        if (request != _translationRequest) return;
 
-    _state = _state.copyWith(translatedText: result, isTranslating: false);
+        _state = _state.copyWith(translatedText: textSoFar);
+
+        notifyListeners();
+      },
+    );
+
+    if (request != _translationRequest) return;
+
+    _state = _state.copyWith(
+      translatedText: result,
+      isTranslating: false,
+      isDictionaryMeaning: isDictionaryMeaning,
+    );
 
     notifyListeners();
   }
@@ -190,6 +238,8 @@ class TranslatorProvider extends ChangeNotifier {
   // CLEAR TEXT
   // ─────────────────────────────────────────────
   void clearText() {
+    _translationRequest++;
+
     _state = const TranslatorState();
 
     notifyListeners();

@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/translator_provider.dart';
+import '../services/translation/hil_numbers.dart';
+import '../services/translation/offline_translator.dart';
 import '../services/tts/translation_speaker.dart';
 import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
@@ -51,6 +53,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
     super.initState();
     _speaker.status.addListener(_onSpeakStatus);
     TranslationSpeaker.warmUp();
+    OfflineTranslator.warmUp();
     _translator = context.read<TranslatorProvider>()
       ..addListener(_prepareVoice);
     _prepareVoice();
@@ -115,14 +118,19 @@ class _TranslatorScreenState extends State<TranslatorScreen>
     final s = _translator?.state;
     if (s == null || s.isTranslating || s.translatedText.isEmpty) return;
     if (s.sourceLanguage == Languages.tagalog) {
-      TranslationSpeaker.prepare(s.translatedText);
+      TranslationSpeaker.prepare(numbersToWords(s.translatedText));
     }
   }
 
-  /// Filipino -> Hiligaynon results use the native Hiligaynon voice.
+  /// Filipino -> Hiligaynon results use the native Hiligaynon voice, which
+  /// needs numbers as words. The screen keeps showing the digits.
   Future<void> _speakResult(String text) {
     final source = context.read<TranslatorProvider>().state.sourceLanguage;
-    return _speaker.toggle(text, hiligaynon: source == Languages.tagalog);
+    final hiligaynon = source == Languages.tagalog;
+    return _speaker.toggle(
+      hiligaynon ? numbersToWords(text) : text,
+      hiligaynon: hiligaynon,
+    );
   }
 
   void _copyResult(String text) {
@@ -501,6 +509,16 @@ class _TranslatorScreenState extends State<TranslatorScreen>
               ),
             ),
           ),
+          if (on) ...[
+            const SizedBox(height: 6),
+            Text(
+              translationNote(isDictionaryMeaning: state.isDictionaryMeaning),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white.withValues(alpha: 0.6),
+              ),
+            ),
+          ],
           const SizedBox(height: 14),
           Row(
             children: [

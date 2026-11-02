@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/translator_provider.dart';
+import '../services/translation/hil_numbers.dart';
+import '../services/translation/offline_translator.dart';
 import '../services/tts/translation_speaker.dart';
 import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
@@ -35,6 +37,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
     super.initState();
     _speaker.status.addListener(_onSpeakStatus);
     TranslationSpeaker.warmUp();
+    OfflineTranslator.warmUp();
     _translator = context.read<TranslatorProvider>()
       ..addListener(_prepareVoice);
     _prepareVoice();
@@ -70,14 +73,19 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
     final s = _translator?.state;
     if (s == null || s.isTranslating || s.translatedText.isEmpty) return;
     if (s.sourceLanguage == Languages.tagalog) {
-      TranslationSpeaker.prepare(s.translatedText);
+      TranslationSpeaker.prepare(numbersToWords(s.translatedText));
     }
   }
 
-  /// Filipino -> Hiligaynon results use the native Hiligaynon voice.
+  /// Filipino -> Hiligaynon results use the native Hiligaynon voice, which
+  /// needs numbers as words. The screen keeps showing the digits.
   Future<void> _speak(String text) {
     final source = context.read<TranslatorProvider>().state.sourceLanguage;
-    return _speaker.toggle(text, hiligaynon: source == Languages.tagalog);
+    final hiligaynon = source == Languages.tagalog;
+    return _speaker.toggle(
+      hiligaynon ? numbersToWords(text) : text,
+      hiligaynon: hiligaynon,
+    );
   }
 
   void _copy(String text) {
@@ -331,7 +339,7 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
           const SizedBox(height: 8),
 
           Expanded(
-            child: state.isTranslating
+            child: state.isTranslating && state.translatedText.isEmpty
                 ? _translating()
                 : SingleChildScrollView(
                     child: AnimatedSwitcher(
@@ -357,14 +365,30 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
                                 fontWeight: FontWeight.w400,
                               ),
                             )
-                          : Text(
-                              state.translatedText,
+                          : Column(
                               key: ValueKey(state.translatedText),
-                              style: AppTheme.displayMedium.copyWith(
-                                color: Colors.white,
-                                fontSize: 28,
-                                height: 1.35,
-                              ),
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.translatedText,
+                                  style: AppTheme.displayMedium.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                    height: 1.35,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  translationNote(
+                                    isDictionaryMeaning:
+                                        state.isDictionaryMeaning,
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white.withValues(alpha: 0.6),
+                                  ),
+                                ),
+                              ],
                             ),
                     ),
                   ),
