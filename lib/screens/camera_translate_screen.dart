@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../services/translation/offline_translator.dart';
+import '../services/translation/text_rules.dart';
 import '../theme/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -23,6 +25,17 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
   bool hasScanned = false;
   String errorMessage = '';
 
+  /// Direction of the toggle: true is Hil -> Fil, false is Fil -> Hil.
+  bool _fromHiligaynon = true;
+  bool _isTranslating = false;
+  bool _isDictionaryMeaning = false;
+
+  /// The scan, cut into lines or sentences to translate separately.
+  List<String> _segments = [];
+
+  /// Only the newest translation is shown; older ones are ignored.
+  int _translationRequest = 0;
+
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
@@ -41,6 +54,7 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
 
+    OfflineTranslator.warmUp();
     Future.delayed(Duration.zero, () => pickImage());
   }
 
@@ -93,7 +107,10 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
       );
 
       extractedText = recognizedText.text;
-      await translateText(extractedText);
+      _segments = scanSegments([
+        for (final block in recognizedText.blocks)
+          [for (final line in block.lines) line.text],
+      ]);
       await textRecognizer.close();
 
       if (mounted) {
@@ -101,6 +118,7 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
           isLoading = false;
           hasScanned = true;
         });
+        await _translateScan();
       }
     } catch (e) {
       if (mounted) {
@@ -110,6 +128,61 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
         });
       }
     }
+  }
+
+  /// Flips the direction and translates the scanned text again.
+  void _toggleDirection() {
+    HapticFeedback.selectionClick();
+    setState(() => _fromHiligaynon = !_fromHiligaynon);
+    _translateScan();
+  }
+
+  /// Translates the scanned text with the offline translator. Firestore is
+  /// only the fallback for when the model can't be used.
+  Future<void> _translateScan() async {
+    final request = ++_translationRequest;
+    final segments = _segments;
+    if (segments.isEmpty) {
+      setState(() {
+        translatedText = '';
+        _isTranslating = false;
+      });
+      return;
+    }
+
+    setState(() {
+      translatedText = '';
+      _isDictionaryMeaning = false;
+      _isTranslating = true;
+    });
+
+    bool isStale() => !mounted || request != _translationRequest;
+    try {
+      // One line of the result for each piece of the scan.
+      final done = <String>[];
+      for (final segment in segments) {
+        final result = await OfflineTranslator.instance.translate(
+          segment,
+          fromHiligaynon: _fromHiligaynon,
+          partOfParagraph: segments.length >= 2,
+          onPartial: (textSoFar) {
+            if (isStale()) return;
+            setState(() => translatedText = [...done, textSoFar].join('\n'));
+          },
+        );
+        if (isStale()) return;
+        done.add(result.text);
+        setState(() {
+          translatedText = done.join('\n');
+          _isDictionaryMeaning =
+              segments.length == 1 && result.isDictionaryMeaning;
+        });
+      }
+    } catch (e) {
+      debugPrint('[HibaloTranslate] using Firestore instead: $e');
+      await translateText(extractedText);
+    }
+    if (!isStale()) setState(() => _isTranslating = false);
   }
 
   /// Cleans text: lowercase, remove punctuation EXCEPT hyphens, apostrophes,
@@ -267,6 +340,24 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
           ),
         ),
         centerTitle: false,
+        actions: [
+          TextButton.icon(
+            onPressed: _toggleDirection,
+            icon: const Icon(
+              Icons.swap_horiz_rounded,
+              color: Colors.white,
+              size: 18,
+            ),
+            label: Text(
+              _fromHiligaynon ? 'Hil → Fil' : 'Fil → Hil',
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+        ],
       ),
       body: Column(
         children: [
@@ -341,13 +432,18 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
 
           // Translation Card
           _ResultCard(
-            label: 'Translation',
+            label: _fromHiligaynon
+                ? 'Translation (Filipino)'
+                : 'Translation (Hiligaynon)',
             icon: Icons.translate_rounded,
             iconColor: purple,
-            content: translatedText.isEmpty
-                ? 'No translation found'
-                : translatedText,
+            content: translatedText.isNotEmpty
+                ? translatedText
+                : (_isTranslating ? 'Translating…' : 'No translation found'),
             isHighlighted: true,
+            note: translatedText.isEmpty
+                ? null
+                : translationNote(isDictionaryMeaning: _isDictionaryMeaning),
             onCopy: translatedText.isNotEmpty
                 ? () => _copyToClipboard(translatedText)
                 : null,
@@ -582,6 +678,7 @@ class _ResultCard extends StatelessWidget {
   final Color iconColor;
   final String content;
   final bool isHighlighted;
+  final String? note;
   final VoidCallback? onCopy;
 
   const _ResultCard({
@@ -590,6 +687,7 @@ class _ResultCard extends StatelessWidget {
     required this.iconColor,
     required this.content,
     this.isHighlighted = false,
+    this.note,
     this.onCopy,
   });
 
@@ -650,6 +748,13 @@ class _ResultCard extends StatelessWidget {
               color: isHighlighted ? purple : Colors.grey.shade800,
             ),
           ),
+          if (note != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              note!,
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            ),
+          ],
         ],
       ),
     );
