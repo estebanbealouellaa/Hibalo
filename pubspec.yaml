@@ -32,6 +32,7 @@ dependencies:
   audioplayers: ^6.8.1
   path_provider: ^2.1.6
   flutter_pcm_sound: ^3.3.3
+  unorm_dart: ^0.3.0                # ← Unicode NFD/NFC for the offline translator
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,4 +66,8 @@ flutter:
     # C:/Hibalo-TTS-Mobile/models/hil_0619_v4_onnx_r. The .onnx file is
     # stored with Git LFS: install Git LFS before cloning/pulling, or the
     # voice won't load (tested on PC with generate_tts_v4.py).
-    - assets/tts/models/
+    - assets/tts/models/
+    # Offline Hiligaynon <-> Filipino translator (round-2 8x8 student, spec in
+    # docs/translation/summary.md). The .onnx files are stored with Git LFS.
+    - assets/translation/models/
+    - assets/translation/data/
