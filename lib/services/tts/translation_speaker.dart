@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -14,15 +13,11 @@ enum SpeakStatus { idle, preparing, speaking }
 /// One Hiligaynon text being turned into speech (possibly before anyone
 /// tapped "Listen"). Pieces arrive while the voice is still generating.
 class _Job {
-  _Job(this.text) : estimate = HiligaynonTtsEngine.estimateSeconds(text);
+  _Job(this.text);
 
   final String text;
-  final double estimate; // expected seconds of speech
   final List<Int16List> pieces = [];
-  final Stopwatch clock = Stopwatch()..start();
   final StreamController<void> changes = StreamController<void>.broadcast();
-  double seconds = 0; // speech generated so far
-  double? firstPieceAt; // clock time of the first piece
   bool done = false;
   Object? error;
   int listeners = 0; // speakers currently playing this job
@@ -55,10 +50,6 @@ class TranslationSpeaker {
   /// Finished audio (text -> 16-bit samples), newest last.
   static final Map<String, Int16List> _cache = {};
   static const int _cacheSize = 30;
-
-  /// Generation speed (seconds of work per second of speech) from the last
-  /// finished run; used to decide how much to buffer before playing.
-  static double _rtf = 1.0;
 
   static bool _pcmReady = false;
 
@@ -116,8 +107,6 @@ class TranslationSpeaker {
     _job = job;
     _engine.synthesize(key, onChunk: (piece) {
       job.pieces.add(_toPcm16(piece));
-      job.seconds += piece.length / kSampleRate;
-      job.firstPieceAt ??= job.clock.elapsedMicroseconds / 1e6;
       job._changed();
     }).then((audio) {
       job.done = true;
@@ -125,14 +114,6 @@ class TranslationSpeaker {
       _cache[key] = _toPcm16(audio);
       while (_cache.length > _cacheSize) {
         _cache.remove(_cache.keys.first);
-      }
-      final first = job.firstPieceAt;
-      final firstLen = job.pieces.isEmpty
-          ? 0.0
-          : job.pieces.first.length / kSampleRate;
-      if (first != null && job.seconds - firstLen > 1.0) {
-        final t = job.clock.elapsedMicroseconds / 1e6 - first;
-        _rtf = (t / (job.seconds - firstLen)).clamp(0.05, 10.0);
       }
       job._changed();
     }, onError: (Object e, StackTrace st) {
@@ -261,24 +242,12 @@ class TranslationSpeaker {
     }
   }
 
-  /// Start playing now, or wait for more audio so playback won't stall?
-  /// Safe to start when the speech already generated covers the time still
-  /// needed to generate the rest.
-  static bool _readyToStart(_Job job) {
-    if (job.done) return true;
-    if (job.pieces.isEmpty) return false;
-    // Speed of this run so far (after the first piece), if we can tell.
-    var rtf = _rtf;
-    final first = job.firstPieceAt;
-    final firstLen = job.pieces.first.length / kSampleRate;
-    if (first != null && job.seconds - firstLen > 0.5) {
-      final t = job.clock.elapsedMicroseconds / 1e6 - first;
-      rtf = t / (job.seconds - firstLen);
-    }
-    final remaining = math.max(0.0, job.estimate - job.seconds);
-    final needed = remaining * (rtf - 1.0) * 1.15;
-    return job.seconds >= needed;
-  }
+  /// Plays once two pieces are ready, while the next ones are still being
+  /// generated. A long first sentence is cut in two, so this keeps the wait
+  /// out of the middle of it. On a slow phone there can still be pauses
+  /// between later sentences; removing them all would mean a much longer
+  /// wait before the first sound.
+  static bool _readyToStart(_Job job) => job.done || job.pieces.length >= 2;
 
   /// Queues [samples] on the PCM stream; returns when they will finish.
   DateTime _feed(Int16List samples, DateTime playedUntil) {

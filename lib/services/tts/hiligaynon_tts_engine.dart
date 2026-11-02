@@ -37,11 +37,16 @@ class HiligaynonTtsEngine {
   /// the normal CPU provider for the parts it can't do). Falls back to CPU
   /// only when XNNPACK can't be used. Off by default until it is shown to be
   /// faster on a phone (see integration_test/hiligaynon_tts_test.dart).
-  HiligaynonTtsEngine({this.useXnnpack = false});
+  HiligaynonTtsEngine({this.useXnnpack = false, this.threads = kTtsThreads});
+
+  /// CPU threads for one model call. On a Galaxy A03 (8 cores) the 16 s
+  /// paragraph took 34 s with 4 threads, 26 s with 6, and 28-30 s with 8.
+  static const int kTtsThreads = 6;
 
   static const String modelDir = 'assets/tts/models';
   static const String modelFile = 'hibalo_tts_v4r.onnx';
-  static const int _threads = 4;
+
+  final int threads;
 
   /// Speaking speed fed to the model (DEFAULT_SPEED: 15% slower than the
   /// voice's natural speed).
@@ -147,7 +152,7 @@ class HiligaynonTtsEngine {
     debugPrint(
       '[HiligaynonTTS] voice loaded in ${sw.elapsedMilliseconds} ms '
       '(seed ${cfg['seed']}, noise_scale ${cfg['noise_scale']}, '
-      'speed $speed, $_threads threads, $provider)',
+      'speed $speed, $threads threads, $provider)',
     );
   }
 
@@ -158,7 +163,7 @@ class HiligaynonTtsEngine {
     ]) => _ort.createSessionFromAsset(
       '$modelDir/$modelFile',
       options: OrtSessionOptions(
-        intraOpNumThreads: _threads,
+        intraOpNumThreads: threads,
         interOpNumThreads: 1,
         providers: providers,
         sessionConfigs: configs,
