@@ -48,4 +48,38 @@ void main() {
       expect(first, lessThan(total));
     });
   });
+
+  testWidgets('the Filipino voice works on both screens', (tester) async {
+    await tester.runAsync(() async {
+      Future<void> listen(TranslationSpeaker speaker, String label) async {
+        var notReady = false;
+        speaker.onFilipinoVoiceNotReady = () => notReady = true;
+        speaker.onFilipinoVoiceMissing = () => fail('$label: no voice');
+        final finished = Completer<void>();
+        void onStatus() {
+          if (speaker.status.value == SpeakStatus.idle &&
+              !finished.isCompleted) {
+            finished.complete();
+          }
+        }
+
+        final sw = Stopwatch()..start();
+        speaker.status.addListener(onStatus);
+        await speaker.toggle('Kumusta ka? Salamat sa iyo.', hiligaynon: false);
+        await finished.future;
+        speaker.status.removeListener(onStatus);
+        _log('FILIPINO $label: finished ${sw.elapsedMilliseconds} ms');
+        expect(notReady, isFalse, reason: label);
+      }
+
+      // Like opening the Translator, then Voice on top of it, then going back.
+      final translator = TranslationSpeaker();
+      await listen(translator, 'first screen');
+      final voice = TranslationSpeaker();
+      await listen(voice, 'second screen');
+      voice.dispose();
+      await listen(translator, 'first screen again');
+      translator.dispose();
+    });
+  });
 }

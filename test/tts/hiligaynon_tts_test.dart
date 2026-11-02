@@ -13,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hibalo_app/services/tts/hiligaynon_tts_dsp.dart';
 import 'package:hibalo_app/services/tts/hiligaynon_tts_engine.dart';
 import 'package:hibalo_app/services/tts/hiligaynon_tts_text.dart';
+import 'package:hibalo_app/services/tts/translation_speaker.dart';
 
 dynamic _json(String path) => jsonDecode(File(path).readAsStringSync());
 
@@ -344,5 +345,60 @@ void main() {
     final data = ByteData.sublistView(wav, 44);
     expect(data.getInt16(2, Endian.little), 16384);
     expect(data.getInt16(4, Endian.little), -32767);
+  });
+
+  group('pickOfflineVoice', () {
+    Map<String, String> voice(
+      String name,
+      String locale, {
+      String network = '0',
+      String features = '',
+    }) => {
+      'name': name,
+      'locale': locale,
+      'network_required': network,
+      'features': features,
+    };
+
+    test('prefers a -local voice', () {
+      final picked = pickOfflineVoice([
+        voice('fil-ph-language', 'fil-PH'),
+        voice('fil-ph-x-fie-local', 'fil-PH'),
+      ], 'fil-PH');
+      expect(picked, {'name': 'fil-ph-x-fie-local', 'locale': 'fil-PH'});
+    });
+    test('an online voice does not count', () {
+      expect(
+        pickOfflineVoice([
+          voice('fil-ph-x-fie-network', 'fil-PH', network: '1'),
+          voice('fil-ph-x-fid-network', 'fil-PH'),
+        ], 'fil-PH'),
+        isNull,
+      );
+    });
+    test('a voice that is not downloaded does not count', () {
+      expect(
+        pickOfflineVoice([
+          voice(
+            'fil-ph-x-fie-local',
+            'fil-PH',
+            features: 'embeddedTts\tnotInstalled',
+          ),
+        ], 'fil-PH'),
+        isNull,
+      );
+    });
+    test('never picks another language', () {
+      expect(
+        pickOfflineVoice([voice('en-us-x-sfg-local', 'en-US')], 'fil-PH'),
+        isNull,
+      );
+    });
+    test('finds a tl voice', () {
+      expect(
+        pickOfflineVoice([voice('tl-ph-x-local', 'tl-PH')], 'tl-PH')?['name'],
+        'tl-ph-x-local',
+      );
+    });
   });
 }

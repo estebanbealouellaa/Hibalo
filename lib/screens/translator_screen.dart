@@ -10,6 +10,7 @@ import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../models/user_stats.dart';
+import '../widgets/filipino_voice_dialog.dart';
 import '../widgets/lessons/lessons_header.dart';
 
 class _CommonPhrase {
@@ -52,6 +53,12 @@ class _TranslatorScreenState extends State<TranslatorScreen>
   void initState() {
     super.initState();
     _speaker.status.addListener(_onSpeakStatus);
+    _speaker.onFilipinoVoiceMissing = () {
+      if (mounted) showFilipinoVoiceHelp(context);
+    };
+    _speaker.onFilipinoVoiceNotReady = () {
+      if (mounted) showFilipinoVoiceNotReady(context);
+    };
     TranslationSpeaker.warmUp();
     OfflineTranslator.warmUp();
     _translator = context.read<TranslatorProvider>()

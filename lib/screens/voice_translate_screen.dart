@@ -11,6 +11,7 @@ import '../services/tts/translation_speaker.dart';
 import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../widgets/filipino_voice_dialog.dart';
 
 class VoiceTranslateScreen extends StatefulWidget {
   const VoiceTranslateScreen({super.key});
@@ -36,6 +37,12 @@ class _VoiceTranslateScreenState extends State<VoiceTranslateScreen>
   void initState() {
     super.initState();
     _speaker.status.addListener(_onSpeakStatus);
+    _speaker.onFilipinoVoiceMissing = () {
+      if (mounted) showFilipinoVoiceHelp(context);
+    };
+    _speaker.onFilipinoVoiceNotReady = () {
+      if (mounted) showFilipinoVoiceNotReady(context);
+    };
     TranslationSpeaker.warmUp();
     OfflineTranslator.warmUp();
     _translator = context.read<TranslatorProvider>()
