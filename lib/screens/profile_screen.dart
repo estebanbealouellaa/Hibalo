@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/hibalo_ui.dart'; // hibaloProfileHeroGradient
-import 'library_screen.dart'; // Gamify, LessonProgress, learningLevels
+import '../learning/models/catalog.dart';
+import '../learning/state/learning_progress.dart';
 import 'edit_profile_screen.dart';
 import 'help_support_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String userName;
 
-  /// Fallback only. The real streak comes from Gamify, so the number here
-  /// always matches the one on the lessons screen.
-  final int dayStreak;
-
   final VoidCallback onLogout;
 
   const ProfileScreen({
     super.key,
     required this.userName,
-    required this.dayStreak,
     required this.onLogout,
   });
 
@@ -34,12 +31,16 @@ class _ProfileScreenState extends State<ProfileScreen>
   late String _displayName;
   String? _photoUrl;
 
-  int _streak = 0;
-  int _xp = 0;
+  /// Streak, XP and lesson progress, from the learning module. Set at the
+  /// start of every build, so the helpers below always see fresh numbers.
+  late LearningProgress _progress;
 
-  /// Sections finished, per lesson id.
-  final Map<String, int> _done = {};
-  bool _loaded = false;
+  /// Badge colours per level (Beginner, Intermediate, Advanced), as before.
+  static const List<List<Color>> _levelColors = [
+    [purple, pink500],
+    [purple600, teal300],
+    [pink500, Color(0xFFFFB020)],
+  ];
 
   @override
   void initState() {
@@ -48,7 +49,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     final user = FirebaseAuth.instance.currentUser;
     _displayName = user?.displayName ?? widget.userName;
     _photoUrl = user?.photoURL;
-    _refresh();
   }
 
   @override
@@ -60,64 +60,51 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // The streak can roll over while the app sits in the background.
-    if (state == AppLifecycleState.resumed) _refresh();
+    if (state == AppLifecycleState.resumed) setState(() {});
   }
 
-  Future<void> _refresh() async {
-    final streak = await Gamify.streak();
-    final xp = await Gamify.xp();
-    final done = <String, int>{};
-    for (final level in learningLevels) {
-      for (final lesson in level.lessons) {
-        done[lesson.id] = await LessonProgress.load(lesson.id);
-      }
-    }
-    if (!mounted) return;
-    setState(() {
-      _streak = streak > 0 ? streak : widget.dayStreak;
-      _xp = xp;
-      _done
-        ..clear()
-        ..addAll(done);
-      _loaded = true;
-    });
-  }
+  /// Pull to refresh: loads the lessons again if they failed before.
+  Future<void> _refresh() => context.read<LearningProgress>().load();
 
-  // ── Progress helpers ────────────────────────────────────────────────────
-  int _doneFor(Lesson l) => (_done[l.id] ?? 0).clamp(0, l.sections.length);
+  // ── Progress helpers (lessons.json + saved progress) ────────────────────
+  int get _streak => _progress.streak;
+  int get _xp => _progress.xp;
 
-  int _sectionsDone(LearningLevel lv) =>
-      lv.lessons.fold(0, (s, l) => s + _doneFor(l));
+  List<Level> get _levels =>
+      _progress.isReady ? _progress.catalog.levels : const [];
 
-  int _lessonsDone(LearningLevel lv) =>
-      lv.lessons.where((l) => _doneFor(l) >= l.sections.length).length;
+  List<Color> _colorsFor(int i) => _levelColors[i % _levelColors.length];
 
-  bool _finished(LearningLevel lv) =>
-      lv.lessons.isNotEmpty && _sectionsDone(lv) >= lv.totalSections;
+  int _partsDone(Level lv) =>
+      lv.lessons.fold(0, (s, l) => s + _progress.rules.partsDone(l));
 
-  bool _unlocked(int i) => i == 0 || _finished(learningLevels[i - 1]);
+  int _totalParts(Level lv) => lv.lessons.fold(0, (s, l) => s + l.partsCount);
+
+  int _lessonsDone(Level lv) =>
+      lv.lessons.where((l) => _progress.progressFor(l.id).completed).length;
+
+  bool _finished(Level lv) => _progress.rules.isLevelFinished(lv);
+
+  bool _unlocked(int i) => _progress.rules.isLevelUnlocked(_levels[i]);
 
   /// The level the learner is on now, used for the badge under their name.
-  LearningLevel get _currentLevel {
-    for (int i = 0; i < learningLevels.length; i++) {
-      if (_unlocked(i) && !_finished(learningLevels[i])) {
-        return learningLevels[i];
-      }
+  Level? get _currentLevel {
+    for (int i = 0; i < _levels.length; i++) {
+      if (_unlocked(i) && !_finished(_levels[i])) return _levels[i];
     }
-    return learningLevels.last;
+    return _levels.isEmpty ? null : _levels.last;
   }
 
-  bool get _allDone => learningLevels.every(_finished);
+  bool get _allDone => _levels.isNotEmpty && _levels.every(_finished);
 
   double get _overall {
-    final total = learningLevels.fold<int>(0, (s, lv) => s + lv.totalSections);
+    final total = _levels.fold<int>(0, (s, lv) => s + _totalParts(lv));
     if (total == 0) return 0;
-    final done = learningLevels.fold<int>(0, (s, lv) => s + _sectionsDone(lv));
+    final done = _levels.fold<int>(0, (s, lv) => s + _partsDone(lv));
     return (done / total).clamp(0.0, 1.0);
   }
 
-  int get _lessonsFinished =>
-      learningLevels.fold(0, (s, lv) => s + _lessonsDone(lv));
+  int get _lessonsFinished => _progress.lessonsCompleted;
 
   // ── Actions ─────────────────────────────────────────────────────────────
   Future<void> _logout() async {
@@ -168,6 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   // ── UI ──────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
+    _progress = context.watch<LearningProgress>();
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5FF),
       body: RefreshIndicator(
@@ -201,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   // ── Hero ────────────────────────────────────────────────────────────────
   Widget _hero() {
     final level = _currentLevel;
-    final badge = _allDone ? 'All levels complete' : level.name;
+    final badge = _allDone ? 'All levels complete' : (level?.title ?? '');
 
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
@@ -405,7 +393,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            _loaded ? value : '—',
+            value,
             style: AppTheme.displaySmall.copyWith(fontSize: 22, color: ink),
           ),
           const SizedBox(height: 2),
@@ -450,8 +438,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
             child: Column(
               children: [
-                for (int i = 0; i < learningLevels.length; i++)
-                  _levelRow(i, learningLevels[i]),
+                for (int i = 0; i < _levels.length; i++)
+                  _levelRow(i, _levels[i]),
               ],
             ),
           ),
@@ -460,24 +448,25 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _levelRow(int i, LearningLevel lv) {
+  Widget _levelRow(int i, Level lv) {
     final unlocked = _unlocked(i);
     final finished = _finished(lv);
-    final total = lv.totalSections;
-    final doneSections = _sectionsDone(lv);
+    final colors = _colorsFor(i);
+    final total = _totalParts(lv);
+    final doneSections = _partsDone(lv);
     final progress = total == 0 ? 0.0 : (doneSections / total).clamp(0.0, 1.0);
     final isCurrent = unlocked && !finished && lv.lessons.isNotEmpty;
 
     final accent = finished
         ? const Color(0xFF3BB78F)
         : unlocked
-        ? lv.colors.first
+        ? colors.first
         : Colors.grey.shade400;
 
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isCurrent ? lv.colors.first.withValues(alpha: 0.06) : null,
+        color: isCurrent ? colors.first.withValues(alpha: 0.06) : null,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
@@ -492,7 +481,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ? LinearGradient(
                       colors: finished
                           ? [const Color(0xFF3BB78F), const Color(0xFF69D6A8)]
-                          : lv.colors,
+                          : colors,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     )
@@ -518,7 +507,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 Row(
                   children: [
                     Text(
-                      lv.name,
+                      lv.title,
                       style: AppTheme.bodyLarge.copyWith(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
@@ -533,7 +522,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: lv.colors.first.withValues(alpha: 0.14),
+                          color: colors.first.withValues(alpha: 0.14),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -541,7 +530,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w800,
-                            color: lv.colors.first,
+                            color: colors.first,
                           ),
                         ),
                       )
@@ -552,7 +541,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 const SizedBox(height: 3),
                 Text(
                   !unlocked
-                      ? 'Finish ${learningLevels[i - 1].name} to unlock'
+                      ? 'Finish ${_levels[i - 1].title} to unlock'
                       : lv.lessons.isEmpty
                       ? 'Lessons coming soon'
                       : '${_lessonsDone(lv)} of ${lv.lessons.length} lessons',

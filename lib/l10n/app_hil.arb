@@ -1,0 +1,38 @@
+{
+  "@@locale": "hil",
+  "@@x-status": "Draft. Not checked by a native speaker.",
+
+  "learnTitle": "Magtuon",
+  "learnSubtitle": "Tun-i ang Hiligaynon paagi sa malip-ot nga mga leksyon!",
+  "learnSearchHint": "Pangita sang leksyon...",
+  "learnLessonsHeading": "Mga Leksyon",
+  "learnLockedLevelsHint": "{levels}: tapusa ang {previous} para mabuksan",
+  "listAnd": "kag",
+  "learnLevelLocked": "Tapusa ang {previous} para mabuksan ang {level}",
+  "learnNoResultsTitle": "Wala sing leksyon nga nakita para sa '{query}'",
+  "learnNoResultsHint": "Tilawi ang iban nga tinaga, pareho sang 'greetings' ukon 'numbers'.",
+  "learnComingSoon": "Madali na lang ang mga leksyon",
+  "learnLoadError": "Indi ma-load ang mga leksyon.",
+  "tryAgain": "Tilawi liwat",
+  "back": "Balik",
+
+  "lessonMeta": "{parts} ka bahin • {minutes} min",
+  "rowQuizPending": "Kuhaa ang quiz para mabuksan ang Leksyon\u00A0{next}",
+  "rowQuizPendingLast": "Kuhaa ang quiz para matapos ang {level}",
+  "rowLockedPassQuiz": "Ipasar ang quiz sang Leksyon\u00A0{lesson} para mabuksan",
+  "rowLockedFinish": "Tapusa ang Leksyon\u00A0{lesson} para mabuksan",
+  "rowCompleted": "Natapos na",
+  "rowLocked": "Nakandaduhan",
+
+  "lessonNumber": "Leksyon {number}",
+  "inThisLesson": "Sa sini nga leksyon:",
+  "startLesson": "Umpisahan ang leksyon",
+  "continueLesson": "Padayunon ang leksyon",
+  "reviewLesson": "Balikan ang leksyon",
+  "retakeQuiz": "Liwaton ang quiz",
+  "lessonProgressTitle": "Progreso sang leksyon",
+  "partsProgress": "{done} / {total} ka bahin",
+  "completedQuizChip": "Natapos na · Quiz {score}/{total}",
+  "completedChip": "Natapos na",
+  "comingNextStep": "Ang lesson player maabot sa masunod nga lakang."
+}

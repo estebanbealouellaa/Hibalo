@@ -9,9 +9,9 @@ import '../services/tts/translation_speaker.dart';
 import '../models/translator_state.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
-import '../models/user_stats.dart';
+import '../learning/state/learning_progress.dart';
 import '../widgets/filipino_voice_dialog.dart';
-import '../widgets/lessons/lessons_header.dart';
+import '../widgets/translator/lessons_header.dart';
 
 class _CommonPhrase {
   final String category;
@@ -178,7 +178,7 @@ class _TranslatorScreenState extends State<TranslatorScreen>
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                  child: Consumer<UserStats>(
+                  child: Consumer<LearningProgress>(
                     builder: (context, stats, _) => LessonsHeader(
                       title: 'Translate',
                       streak: stats.streak,

@@ -1,0 +1,101 @@
+{
+  "@@locale": "en",
+
+  "learnTitle": "Learn",
+  "@learnTitle": {"description": "S01 title."},
+  "learnSubtitle": "Explore Hiligaynon through bite-sized lessons!",
+  "@learnSubtitle": {"description": "S01 line under the title."},
+  "learnSearchHint": "Search lessons...",
+  "@learnSearchHint": {"description": "S01 search field placeholder."},
+  "learnLessonsHeading": "Lessons",
+  "@learnLessonsHeading": {"description": "S01 heading above the lesson list."},
+  "learnLockedLevelsHint": "{levels}: finish {previous} to unlock",
+  "@learnLockedLevelsHint": {
+    "description": "S01 hint under the level tabs while later levels are locked, e.g. 'Intermediate and Advanced: finish Beginner to unlock'.",
+    "placeholders": {"levels": {"type": "String"}, "previous": {"type": "String"}}
+  },
+  "listAnd": "and",
+  "@listAnd": {"description": "Joins the last two names in a list: 'Intermediate and Advanced'."},
+  "learnLevelLocked": "Finish {previous} to unlock {level}",
+  "@learnLevelLocked": {
+    "description": "S01 snackbar when a locked level tab is tapped.",
+    "placeholders": {"previous": {"type": "String"}, "level": {"type": "String"}}
+  },
+  "learnNoResultsTitle": "No lessons found for '{query}'",
+  "@learnNoResultsTitle": {
+    "description": "S01 empty search result.",
+    "placeholders": {"query": {"type": "String"}}
+  },
+  "learnNoResultsHint": "Try another word, like 'greetings' or 'numbers'.",
+  "@learnNoResultsHint": {"description": "S01 empty search result, second line."},
+  "learnComingSoon": "Lessons coming soon",
+  "@learnComingSoon": {"description": "S01 when an unlocked level has no lessons yet."},
+  "learnLoadError": "The lessons couldn't be loaded.",
+  "@learnLoadError": {"description": "S01 when lessons.json fails to load."},
+  "tryAgain": "Try again",
+  "@tryAgain": {"description": "Retry button."},
+  "back": "Back",
+  "@back": {"description": "Back button tooltip."},
+
+  "lessonMeta": "{parts} parts • {minutes} min",
+  "@lessonMeta": {
+    "description": "Lesson row meta line and S02 chip.",
+    "placeholders": {"parts": {"type": "int"}, "minutes": {"type": "int"}}
+  },
+  "rowQuizPending": "Take the quiz to unlock Lesson\u00A0{next}",
+  "@rowQuizPending": {
+    "description": "S01 row meta when the lesson is finished but its quiz isn't passed.",
+    "placeholders": {"next": {"type": "int"}}
+  },
+  "rowQuizPendingLast": "Take the quiz to finish {level}",
+  "@rowQuizPendingLast": {
+    "description": "Quiz pending on the last lesson of a level (no next lesson).",
+    "placeholders": {"level": {"type": "String"}}
+  },
+  "rowLockedPassQuiz": "Pass Lesson\u00A0{lesson} quiz to unlock",
+  "@rowLockedPassQuiz": {
+    "description": "S01 locked row: needs the quiz of an earlier lesson.",
+    "placeholders": {"lesson": {"type": "int"}}
+  },
+  "rowLockedFinish": "Finish Lesson\u00A0{lesson} to unlock",
+  "@rowLockedFinish": {
+    "description": "S01 locked row: needs an earlier lesson finished (Lesson 2).",
+    "placeholders": {"lesson": {"type": "int"}}
+  },
+  "rowCompleted": "Completed",
+  "@rowCompleted": {"description": "Screen reader label for a completed lesson row."},
+  "rowLocked": "Locked",
+  "@rowLocked": {"description": "Screen reader label for a locked row or level tab."},
+
+  "lessonNumber": "Lesson {number}",
+  "@lessonNumber": {
+    "description": "S02 top bar title.",
+    "placeholders": {"number": {"type": "int"}}
+  },
+  "inThisLesson": "In this lesson:",
+  "@inThisLesson": {"description": "S02 heading above the objectives."},
+  "startLesson": "Start lesson",
+  "@startLesson": {"description": "S02 primary button, not started."},
+  "continueLesson": "Continue lesson",
+  "@continueLesson": {"description": "S02 primary button, in progress."},
+  "reviewLesson": "Review lesson",
+  "@reviewLesson": {"description": "S02 primary button, completed."},
+  "retakeQuiz": "Retake the quiz",
+  "@retakeQuiz": {"description": "S02 text button, completed."},
+  "lessonProgressTitle": "Lesson progress",
+  "@lessonProgressTitle": {"description": "S02 progress card title."},
+  "partsProgress": "{done} / {total} parts",
+  "@partsProgress": {
+    "description": "S02 progress card count.",
+    "placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}
+  },
+  "completedQuizChip": "Completed · Quiz {score}/{total}",
+  "@completedQuizChip": {
+    "description": "S02 chip on a completed lesson: best quiz score.",
+    "placeholders": {"score": {"type": "int"}, "total": {"type": "int"}}
+  },
+  "completedChip": "Completed",
+  "@completedChip": {"description": "S02 chip on a completed lesson with no quiz (Lesson 1)."},
+  "comingNextStep": "The lesson player comes in the next build step.",
+  "@comingNextStep": {"description": "Temporary: shown until the lesson and quiz players exist."}
+}

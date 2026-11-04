@@ -9,7 +9,8 @@ import 'firebase_options.dart';
 // PROVIDERS
 import 'providers/translator_provider.dart';
 import 'providers/auth_provider.dart' as app;
-import 'models/user_stats.dart';
+import 'learning/state/learning_progress.dart';
+import 'l10n/app_language.dart';
 
 // SCREENS
 import 'screens/splash_screen.dart';
@@ -27,14 +28,18 @@ void main() async {
   // ── INITIALIZE FIREBASE ─────────────────────────────
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // App language for the app's own words (English until the user picks one).
+  await AppLanguage.instance.load();
+
   runApp(
     MultiProvider(
       providers: [
         // TRANSLATOR PROVIDER
         ChangeNotifierProvider(create: (_) => TranslatorProvider()),
 
-        // USER STATS PROVIDER
-        ChangeNotifierProvider(create: (_) => UserStats()),
+        // LEARNING PROGRESS (lessons, XP, streak) for Home, Me, Translate
+        // and the learning screens. Loads from the phone in the background.
+        ChangeNotifierProvider(create: (_) => LearningProgress()..load()),
 
         // AUTH PROVIDER
         ChangeNotifierProvider(create: (_) => app.AuthProvider()),
@@ -50,13 +55,22 @@ class HibaloApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hibalo',
-      debugShowCheckedModeBanner: false,
+    // Rebuilds when the app language changes. Only the app's own words
+    // follow it (see lib/l10n); lesson content never does.
+    return ListenableBuilder(
+      listenable: AppLanguage.instance,
+      builder: (context, _) => MaterialApp(
+        title: 'Hibalo',
+        debugShowCheckedModeBanner: false,
 
-      theme: AppTheme.light(),
+        theme: AppTheme.light(),
 
-      home: const AppRoot(),
+        locale: AppLanguage.instance.locale,
+        localizationsDelegates: AppLanguage.delegates,
+        supportedLocales: AppLanguage.supportedLocales,
+
+        home: const AppRoot(),
+      ),
     );
   }
 }

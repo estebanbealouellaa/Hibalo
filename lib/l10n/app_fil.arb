@@ -1,0 +1,38 @@
+{
+  "@@locale": "fil",
+  "@@x-status": "Draft. Not checked by a native speaker.",
+
+  "learnTitle": "Matuto",
+  "learnSubtitle": "Tuklasin ang Hiligaynon sa maiikling aralin!",
+  "learnSearchHint": "Maghanap ng aralin...",
+  "learnLessonsHeading": "Mga Aralin",
+  "learnLockedLevelsHint": "{levels}: tapusin ang {previous} para mabuksan",
+  "listAnd": "at",
+  "learnLevelLocked": "Tapusin ang {previous} para mabuksan ang {level}",
+  "learnNoResultsTitle": "Walang nakitang aralin para sa '{query}'",
+  "learnNoResultsHint": "Sumubok ng ibang salita, tulad ng 'greetings' o 'numbers'.",
+  "learnComingSoon": "Malapit nang dumating ang mga aralin",
+  "learnLoadError": "Hindi ma-load ang mga aralin.",
+  "tryAgain": "Subukan ulit",
+  "back": "Bumalik",
+
+  "lessonMeta": "{parts} bahagi • {minutes} min",
+  "rowQuizPending": "Kunin ang pagsusulit para mabuksan ang Aralin\u00A0{next}",
+  "rowQuizPendingLast": "Kunin ang pagsusulit para matapos ang {level}",
+  "rowLockedPassQuiz": "Ipasa ang pagsusulit ng Aralin\u00A0{lesson} para mabuksan",
+  "rowLockedFinish": "Tapusin ang Aralin\u00A0{lesson} para mabuksan",
+  "rowCompleted": "Tapos na",
+  "rowLocked": "Nakakandado",
+
+  "lessonNumber": "Aralin {number}",
+  "inThisLesson": "Sa araling ito:",
+  "startLesson": "Simulan ang aralin",
+  "continueLesson": "Ituloy ang aralin",
+  "reviewLesson": "Balikan ang aralin",
+  "retakeQuiz": "Ulitin ang pagsusulit",
+  "lessonProgressTitle": "Progreso ng aralin",
+  "partsProgress": "{done} / {total} bahagi",
+  "completedQuizChip": "Tapos na · Pagsusulit {score}/{total}",
+  "completedChip": "Tapos na",
+  "comingNextStep": "Darating ang lesson player sa susunod na hakbang."
+}

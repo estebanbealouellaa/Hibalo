@@ -1,0 +1,9 @@
+# App-language strings (flutter gen-l10n). Only the app's own words go here:
+# lesson content in assets/lessons/lessons.json never changes with the
+# language. English is the template; fil and hil are drafts, not checked by a
+# native speaker. The code is generated on `flutter pub get` / `flutter run`.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false

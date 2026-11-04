@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 import '../theme/app_colors.dart';
-import '../models/user_stats.dart';
+import '../learning/learning_routes.dart';
+import '../learning/state/learning_progress.dart';
 import '../widgets/home/home_bottom_nav.dart';
 import '../widgets/home/home_discover_section.dart';
 import '../widgets/home/home_hero_section.dart';
@@ -12,7 +13,6 @@ import '../widgets/home/home_layout.dart';
 import '../widgets/home/home_search_bar.dart';
 import 'camera_translate_screen.dart';
 import 'translator_screen.dart';
-import 'library_screen.dart';
 import 'profile_screen.dart';
 import 'voice_translate_screen.dart';
 
@@ -42,12 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _openLibrary() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const LibraryScreen()),
-    );
-  }
+  /// The Lessons card and the search bar open S01 Learn.
+  void _openLibrary() => LearningRoutes.openLearn(context);
 
   @override
   Widget build(BuildContext context) {
@@ -63,36 +59,18 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, snapshot) {
           String userName = 'User';
           String? photoUrl;
-          int dayStreak = 0;
-          int lessonsCompleted = 0;
 
+          // Streak, XP and lessons come from LearningProgress (saved on the
+          // phone first); only the name and photo come from Firestore here.
           if (snapshot.hasData && snapshot.data!.exists) {
             final data = snapshot.data!.data() as Map<String, dynamic>;
             userName = data['username'] ?? 'User';
             photoUrl = data['photoUrl'] as String?;
-            dayStreak = data['dayStreak'] ?? 0;
-            lessonsCompleted = data['lessonsCompleted'] ?? 0;
-
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              final userStats = context.read<UserStats>();
-              userStats.initializeFromFirestore(
-                xp: data['xp'] ?? 0,
-                streak: dayStreak,
-                wordsLearned: data['wordsLearned'] ?? 0,
-                quizzesCompleted: data['quizzesCompleted'] ?? 0,
-                lessonsCompleted: lessonsCompleted,
-              );
-            });
           }
 
           photoUrl ??= _currentUser?.photoURL;
 
-          return _buildBody(
-            userName: userName,
-            dayStreak: dayStreak,
-            lessonsCompleted: lessonsCompleted,
-            photoUrl: photoUrl,
-          );
+          return _buildBody(userName: userName, photoUrl: photoUrl);
         },
       ),
       bottomNavigationBar: HomeBottomNav(
@@ -102,36 +80,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildBody({
-    required String userName,
-    required int dayStreak,
-    required int lessonsCompleted,
-    required String? photoUrl,
-  }) {
+  Widget _buildBody({required String userName, required String? photoUrl}) {
     switch (_selectedIndex) {
       case 1:
-        return ProfileScreen(
-          userName: userName,
-          dayStreak: dayStreak,
-          onLogout: _logout,
-        );
+        return ProfileScreen(userName: userName, onLogout: _logout);
       case 0:
       default:
-        return _buildHomeTab(
-          userName: userName,
-          dayStreak: dayStreak,
-          lessonsCompleted: lessonsCompleted,
-          photoUrl: photoUrl,
-        );
+        return _buildHomeTab(userName: userName, photoUrl: photoUrl);
     }
   }
 
-  Widget _buildHomeTab({
-    required String userName,
-    required int dayStreak,
-    required int lessonsCompleted,
-    required String? photoUrl,
-  }) {
+  Widget _buildHomeTab({required String userName, required String? photoUrl}) {
     final layout = HomeLayout.of(context);
 
     return SafeArea(
@@ -143,14 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 0,
             right: 0,
             height: layout.heroHeight,
-            child: Consumer<UserStats>(
-              builder: (context, stats, _) {
+            child: Consumer<LearningProgress>(
+              builder: (context, progress, _) {
                 return HomeHeroSection(
                   userName: userName,
-                  streak: stats.streak > 0 ? stats.streak : dayStreak,
-                  lessonsCompleted: stats.lessonsCompleted > 0
-                      ? stats.lessonsCompleted
-                      : lessonsCompleted,
+                  streak: progress.streak,
+                  lessonsCompleted: progress.lessonsCompleted,
                   photoUrl: photoUrl,
                 );
               },

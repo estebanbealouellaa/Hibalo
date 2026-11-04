@@ -7,6 +7,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:            # ← App-language strings (gen-l10n)
+    sdk: flutter
   flutter_tts: ^4.0.2
   # ── UI ─────────────────────────────────────
   cupertino_icons: ^1.0.8
@@ -49,15 +51,10 @@ flutter_launcher_icons:
   image_path: "assets/logo.png"
 flutter:
   uses-material-design: true
+  generate: true                    # gen-l10n, see l10n.yaml
   # ── ASSETS ─────────────────────────────────
   assets:
     - assets/logo.png
-    - lib/assets/images/greetings/
-    - lib/assets/images/family/
-    - lib/assets/images/food/
-    - lib/assets/images/animals/
-    - lib/assets/images/numbers/
-    - lib/assets/images/emotions/
     - assets/Picture.png
     - assets/Book.png
     - assets/Voice.png
@@ -110,4 +107,4 @@ flutter:
           weight: 800
         - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-ExtraBoldItalic.ttf
           weight: 800
-          style: italic
+          style: italic
