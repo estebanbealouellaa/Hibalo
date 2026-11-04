@@ -12,8 +12,9 @@ import '../services/progress_store.dart';
 /// learning screens all show the same numbers.
 ///
 /// Loads in two halves: the saved progress (fast, for the stat chips) and the
-/// lessons (for the Learn screens). Saving parts, quizzes and XP is added in
-/// steps 3–5; Firestore sync in step 5.
+/// lessons (for the Learn screens). Finished parts, lesson XP and the streak
+/// are saved on the phone here; quiz results and Firestore sync come in
+/// steps 4–5.
 class LearningProgress extends ChangeNotifier {
   LearningProgress({
     ProgressStore? store,
@@ -99,6 +100,70 @@ class LearningProgress extends ChangeNotifier {
 
   /// Lessons with every part finished.
   int get lessonsCompleted => _snapshot.lessonsCompleted;
+
+  // ── Saving (written once per finished part, never per tap) ─────────────
+
+  /// Ids in the "paid" list, so XP is only ever paid once (§1.8).
+  static String quickCheckPaidId(String partId) => 'quickCheck:$partId';
+  static String lessonPaidId(String lessonId) => 'lesson:$lessonId';
+
+  bool isPaid(String id) => _snapshot.paid.contains(id);
+
+  /// XP earned in [lesson] so far: its paid quick checks (the XP chip on the
+  /// lesson parts). The +20 for finishing is paid after the last part.
+  int lessonXp(Lesson lesson) {
+    final perCheck = catalog.settings.xp.quickCheck;
+    var xp = 0;
+    for (final part in lesson.parts) {
+      if (part.template == 'P06' && isPaid(quickCheckPaidId(part.id))) xp += perCheck;
+    }
+    return xp;
+  }
+
+  /// Pays [amount] XP for [id] the first time only. Returns true if it paid.
+  Future<bool> payXpOnce(String id, int amount) async {
+    if (!_snapshot.paid.add(id)) return false;
+    _snapshot.xp += amount;
+    notifyListeners();
+    await _store.save(_snapshot);
+    return true;
+  }
+
+  /// Saves that part [partIndex] (0-based) of [lesson] is finished, counts
+  /// today for the streak, and marks the lesson completed after its last
+  /// part. Parts already saved stay saved (a review changes nothing).
+  Future<void> savePartDone(Lesson lesson, int partIndex) async {
+    final before = progressFor(lesson.id);
+    final done = partIndex + 1 > before.partsDone ? partIndex + 1 : before.partsDone;
+    final completed = before.completed || done >= lesson.partsCount;
+    _snapshot.lessons[lesson.id] = before.copyWith(
+      partsDone: done.clamp(0, lesson.partsCount),
+      completed: completed,
+      completedAt: before.completedAt ?? (completed ? _clock() : null),
+    );
+    _markActiveToday();
+    notifyListeners();
+    await _store.save(_snapshot);
+  }
+
+  /// Pays the lesson XP after the last part, once. Returns true if it paid.
+  Future<bool> payLessonComplete(Lesson lesson) =>
+      payXpOnce(lessonPaidId(lesson.id), catalog.settings.xp.lessonComplete);
+
+  /// Streak rule (§1.11): the first activity of a day adds one if yesterday
+  /// was active, otherwise the streak starts again at 1.
+  void _markActiveToday() {
+    final now = _clock();
+    final today = dayKey(now);
+    if (_snapshot.lastActiveDate == today) return;
+    final kept = currentStreak(
+      savedStreak: _snapshot.streak,
+      lastActiveDate: _snapshot.lastActiveDate,
+      today: now,
+    );
+    _snapshot.streak = kept + 1;
+    _snapshot.lastActiveDate = today;
+  }
 
   // ── Debug tools (debug builds only, see the Learn screen menu) ────────
 

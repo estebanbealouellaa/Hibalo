@@ -4,15 +4,22 @@ import '../l10n/app_localizations.dart';
 import 'models/catalog.dart';
 import 'screens/learn_screen.dart';
 import 'screens/lesson_detail_screen.dart';
+import 'screens/lesson_player_screen.dart';
 import 'widgets/learning_snack_bar.dart';
 
 /// Every way into and around the learning module, in one place, so the
 /// screens don't need to know about each other.
 abstract final class LearningRoutes {
+  /// Route name of S01, so Leave can go back to it.
+  static const String learnRoute = '/learn';
+
   /// S01 Learn.
   static Future<void> openLearn(BuildContext context) {
     return Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const LearnScreen()),
+      MaterialPageRoute(
+        settings: const RouteSettings(name: learnRoute),
+        builder: (_) => const LearnScreen(),
+      ),
     );
   }
 
@@ -25,14 +32,21 @@ abstract final class LearningRoutes {
 
   /// The lesson part player, opened at part [startPart] (0-based).
   /// [review] replays a finished lesson without paying XP again.
-  // TODO(step 3): open the part player.
-  static void openLessonPlayer(
+  static Future<void> openLessonPlayer(
     BuildContext context,
     Lesson lesson, {
     required int startPart,
     bool review = false,
   }) {
-    _notBuiltYet(context);
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => LessonPlayerScreen(
+          lessonId: lesson.id,
+          startPart: startPart,
+          review: review,
+        ),
+      ),
+    );
   }
 
   /// The quiz player, from the first question.

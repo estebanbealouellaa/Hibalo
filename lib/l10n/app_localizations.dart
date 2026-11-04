@@ -285,6 +285,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The lesson player comes in the next build step.'**
   String get comingNextStep;
+
+  /// Caption under the segmented bar on every part.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson {lesson} · Part {part} of {total}'**
+  String partCaption(int lesson, int part, int total);
+
+  /// XP earned in this lesson so far (top right).
+  ///
+  /// In en, this message translates to:
+  /// **'{xp} XP'**
+  String xpChip(int xp);
+
+  /// X button tooltip on lesson parts.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the lesson'**
+  String get leaveLessonTooltip;
+
+  /// Primary button on lesson parts.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextButton;
+
+  /// Last part when the lesson has a quiz (settings.lessonButtons.lastPartWithQuiz).
+  ///
+  /// In en, this message translates to:
+  /// **'Finish & practice'**
+  String get finishAndPractice;
+
+  /// Last part when the lesson has no quiz (settings.lessonButtons.lastPartNoQuiz).
+  ///
+  /// In en, this message translates to:
+  /// **'Finish lesson'**
+  String get finishLesson;
+
+  /// S06 title, lesson version.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave this lesson?'**
+  String get leaveLessonTitle;
+
+  /// S06 text, lesson version.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll restart this part next time.'**
+  String get leaveLessonText;
+
+  /// S06 primary button.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get keepGoing;
+
+  /// S06 text button.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leave;
+
+  /// P04 chip.
+  ///
+  /// In en, this message translates to:
+  /// **'New word'**
+  String get newWordChip;
+
+  /// Label above a Hiligaynon word and on term cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Hiligaynon'**
+  String get hiligaynonLabel;
+
+  /// P04 line for another Hiligaynon way to say the word.
+  ///
+  /// In en, this message translates to:
+  /// **'Also said: {alt}'**
+  String alsoSaid(String alt);
+
+  /// Audio button label for screen readers.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get playAudio;
+
+  /// Slow audio button label for screen readers.
+  ///
+  /// In en, this message translates to:
+  /// **'Play slowly'**
+  String get playSlow;
+
+  /// P04 example box label.
+  ///
+  /// In en, this message translates to:
+  /// **'Example'**
+  String get exampleLabel;
+
+  /// P01 term card row label.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTE'**
+  String get noteLabel;
+
+  /// P01 term card row label.
+  ///
+  /// In en, this message translates to:
+  /// **'FILIPINO'**
+  String get filipinoLabel;
+
+  /// P05 header count.
+  ///
+  /// In en, this message translates to:
+  /// **'{seen} / {total} seen'**
+  String lettersSeen(int seen, int total);
+
+  /// P05 instruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe through the letters. Say each example word out loud.'**
+  String get lettersHint;
+
+  /// P05 label above the letter name.
+  ///
+  /// In en, this message translates to:
+  /// **'CALLED'**
+  String get calledLabel;
+
+  /// P05 progress under the carousel.
+  ///
+  /// In en, this message translates to:
+  /// **'{position} / {total}'**
+  String letterPosition(int position, int total);
+
+  /// P06 chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick check · practice'**
+  String get quickCheckChip;
+
+  /// P06 line under the question.
+  ///
+  /// In en, this message translates to:
+  /// **'No timer, no score. Just practice.'**
+  String get quickCheckNote;
+
+  /// F01 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct!'**
+  String get feedbackCorrect;
+
+  /// F02 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Not quite'**
+  String get feedbackWrong;
+
+  /// F02/F03 label.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct answer:'**
+  String get correctAnswerLabel;
+
+  /// XP paid on the Correct sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'+{xp} XP'**
+  String xpGain(int xp);
+
+  /// Feedback sheet button.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButton;
+
+  /// P07/P08 switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all Filipino'**
+  String get showAllFilipino;
+
+  /// P07 hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Read each line aloud, then tap it to check the Filipino.'**
+  String get dialogueHint;
+
+  /// P08 hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Read each sentence aloud, then tap it to check the Filipino.'**
+  String get readingHint;
+
+  /// P07 bubble hint, Filipino hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to see Filipino'**
+  String get tapToSeeFilipino;
+
+  /// P07 bubble hint, Filipino shown.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to hide Filipino'**
+  String get tapToHideFilipino;
+
+  /// P09 second section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Common mistakes'**
+  String get commonMistakes;
+
+  /// P03 section title.
+  ///
+  /// In en, this message translates to:
+  /// **'More examples'**
+  String get moreExamples;
+
+  /// P10 label above the text.
+  ///
+  /// In en, this message translates to:
+  /// **'Culture note'**
+  String get cultureNoteLabel;
+
+  /// Temporary: shown after the last part until S03 exists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson finished! The Lesson complete screen comes in step 5.'**
+  String get lessonFinishedNote;
 }
 
 class _AppLocalizationsDelegate

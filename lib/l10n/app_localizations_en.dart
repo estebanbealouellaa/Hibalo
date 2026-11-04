@@ -124,4 +124,134 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get comingNextStep =>
       'The lesson player comes in the next build step.';
+
+  @override
+  String partCaption(int lesson, int part, int total) {
+    return 'Lesson $lesson · Part $part of $total';
+  }
+
+  @override
+  String xpChip(int xp) {
+    return '$xp XP';
+  }
+
+  @override
+  String get leaveLessonTooltip => 'Leave the lesson';
+
+  @override
+  String get nextButton => 'Next';
+
+  @override
+  String get finishAndPractice => 'Finish & practice';
+
+  @override
+  String get finishLesson => 'Finish lesson';
+
+  @override
+  String get leaveLessonTitle => 'Leave this lesson?';
+
+  @override
+  String get leaveLessonText => 'You\'ll restart this part next time.';
+
+  @override
+  String get keepGoing => 'Keep going';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get newWordChip => 'New word';
+
+  @override
+  String get hiligaynonLabel => 'Hiligaynon';
+
+  @override
+  String alsoSaid(String alt) {
+    return 'Also said: $alt';
+  }
+
+  @override
+  String get playAudio => 'Play';
+
+  @override
+  String get playSlow => 'Play slowly';
+
+  @override
+  String get exampleLabel => 'Example';
+
+  @override
+  String get noteLabel => 'NOTE';
+
+  @override
+  String get filipinoLabel => 'FILIPINO';
+
+  @override
+  String lettersSeen(int seen, int total) {
+    return '$seen / $total seen';
+  }
+
+  @override
+  String get lettersHint =>
+      'Swipe through the letters. Say each example word out loud.';
+
+  @override
+  String get calledLabel => 'CALLED';
+
+  @override
+  String letterPosition(int position, int total) {
+    return '$position / $total';
+  }
+
+  @override
+  String get quickCheckChip => 'Quick check · practice';
+
+  @override
+  String get quickCheckNote => 'No timer, no score. Just practice.';
+
+  @override
+  String get feedbackCorrect => 'Correct!';
+
+  @override
+  String get feedbackWrong => 'Not quite';
+
+  @override
+  String get correctAnswerLabel => 'Correct answer:';
+
+  @override
+  String xpGain(int xp) {
+    return '+$xp XP';
+  }
+
+  @override
+  String get continueButton => 'Continue';
+
+  @override
+  String get showAllFilipino => 'Show all Filipino';
+
+  @override
+  String get dialogueHint =>
+      'Read each line aloud, then tap it to check the Filipino.';
+
+  @override
+  String get readingHint =>
+      'Read each sentence aloud, then tap it to check the Filipino.';
+
+  @override
+  String get tapToSeeFilipino => 'Tap to see Filipino';
+
+  @override
+  String get tapToHideFilipino => 'Tap to hide Filipino';
+
+  @override
+  String get commonMistakes => 'Common mistakes';
+
+  @override
+  String get moreExamples => 'More examples';
+
+  @override
+  String get cultureNoteLabel => 'Culture note';
+
+  @override
+  String get lessonFinishedNote =>
+      'Lesson finished! The Lesson complete screen comes in step 5.';
 }

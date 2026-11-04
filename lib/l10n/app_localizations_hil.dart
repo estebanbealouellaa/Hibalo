@@ -125,4 +125,134 @@ class AppLocalizationsHil extends AppLocalizations {
   @override
   String get comingNextStep =>
       'Ang lesson player maabot sa masunod nga lakang.';
+
+  @override
+  String partCaption(int lesson, int part, int total) {
+    return 'Leksyon $lesson · Bahin $part sang $total';
+  }
+
+  @override
+  String xpChip(int xp) {
+    return '$xp XP';
+  }
+
+  @override
+  String get leaveLessonTooltip => 'Bayaan ang leksyon';
+
+  @override
+  String get nextButton => 'Sunod';
+
+  @override
+  String get finishAndPractice => 'Tapusa kag mag-ensayo';
+
+  @override
+  String get finishLesson => 'Tapusa ang leksyon';
+
+  @override
+  String get leaveLessonTitle => 'Bayaan ini nga leksyon?';
+
+  @override
+  String get leaveLessonText => 'Liwaton mo ini nga bahin sa masunod.';
+
+  @override
+  String get keepGoing => 'Padayon';
+
+  @override
+  String get leave => 'Bayai';
+
+  @override
+  String get newWordChip => 'Bag-o nga tinaga';
+
+  @override
+  String get hiligaynonLabel => 'Hiligaynon';
+
+  @override
+  String alsoSaid(String alt) {
+    return 'Ginahambal man: $alt';
+  }
+
+  @override
+  String get playAudio => 'Patokara';
+
+  @override
+  String get playSlow => 'Patokara sing mahinay';
+
+  @override
+  String get exampleLabel => 'Halimbawa';
+
+  @override
+  String get noteLabel => 'NOTA';
+
+  @override
+  String get filipinoLabel => 'FILIPINO';
+
+  @override
+  String lettersSeen(int seen, int total) {
+    return '$seen / $total nakita';
+  }
+
+  @override
+  String get lettersHint =>
+      'I-swipe ang mga letra. Hambala sing mabaskog ang kada halimbawa nga tinaga.';
+
+  @override
+  String get calledLabel => 'GINATAWAG';
+
+  @override
+  String letterPosition(int position, int total) {
+    return '$position / $total';
+  }
+
+  @override
+  String get quickCheckChip => 'Dali nga pamangkot · ensayo';
+
+  @override
+  String get quickCheckNote => 'Wala sang timer, wala sang iskor. Ensayo lang.';
+
+  @override
+  String get feedbackCorrect => 'Husto!';
+
+  @override
+  String get feedbackWrong => 'Indi pa husto';
+
+  @override
+  String get correctAnswerLabel => 'Husto nga sabat:';
+
+  @override
+  String xpGain(int xp) {
+    return '+$xp XP';
+  }
+
+  @override
+  String get continueButton => 'Padayon';
+
+  @override
+  String get showAllFilipino => 'Ipakita tanan nga Filipino';
+
+  @override
+  String get dialogueHint =>
+      'Basaha sing mabaskog ang kada linya, dayon i-tap para makita ang Filipino.';
+
+  @override
+  String get readingHint =>
+      'Basaha sing mabaskog ang kada sentence, dayon i-tap para makita ang Filipino.';
+
+  @override
+  String get tapToSeeFilipino => 'I-tap para makita ang Filipino';
+
+  @override
+  String get tapToHideFilipino => 'I-tap para taguon ang Filipino';
+
+  @override
+  String get commonMistakes => 'Kasagaran nga sala';
+
+  @override
+  String get moreExamples => 'Iban pa nga halimbawa';
+
+  @override
+  String get cultureNoteLabel => 'Nota sa kultura';
+
+  @override
+  String get lessonFinishedNote =>
+      'Natapos ang leksyon! Ang Lesson complete screen maabot sa lakang 5.';
 }
