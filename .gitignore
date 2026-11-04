@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local editor and tool settings
+.claude/
+.vscode/
+devtools_options.yaml

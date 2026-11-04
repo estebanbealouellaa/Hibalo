@@ -71,4 +71,43 @@ flutter:
     # Offline Hiligaynon <-> Filipino translator (round-2 8x8 student, spec in
     # docs/translation/summary.md). The .onnx files are stored with Git LFS.
     - assets/translation/models/
-    - assets/translation/data/
+    - assets/translation/data/
+    # Learning module. Only folders that exist are listed: Flutter stops the
+    # build on a missing folder. Add assets/audio/bNN/, assets/images/words/,
+    # assets/images/culture/ and assets/images/situations/ here when their
+    # files arrive. Until then the app treats those files as missing.
+    - assets/lessons/
+    - assets/images/lessons/
+    - assets/images/mascots/
+    - assets/images/avatars/
+    - assets/images/profile/
+
+  # V6 font for the learning screens (SIL Open Font License, see OFL.txt).
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
