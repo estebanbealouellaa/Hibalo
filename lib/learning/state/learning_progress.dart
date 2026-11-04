@@ -174,6 +174,14 @@ class LearningProgress extends ChangeNotifier {
     _snapshot.lessons
       ..clear()
       ..addAll(lessons);
+    if (lessons.isEmpty) {
+      // "Reset all progress" starts completely fresh.
+      _snapshot
+        ..xp = 0
+        ..streak = 0
+        ..lastActiveDate = null
+        ..paid.clear();
+    }
     notifyListeners();
     await _store.save(_snapshot);
   }

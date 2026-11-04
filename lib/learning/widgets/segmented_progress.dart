@@ -31,7 +31,7 @@ class SegmentedProgress extends StatelessWidget {
                       : i == current
                           ? V6Colors.primaryStrong
                           : V6Colors.primaryContainer,
-                  borderRadius: BorderRadius.circular(V6Spacing.radiusFull),
+                  borderRadius: BorderRadius.circular(4),
                 ),
               ),
             ),

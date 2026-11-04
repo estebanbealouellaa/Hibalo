@@ -23,43 +23,66 @@ class TablePart extends StatelessWidget {
         return V6Text.bodyMediumSemiBoldItalic.copyWith(color: V6Colors.primary);
       }
       if (column == filipinoColumn) {
-        return V6Text.bodyMedium.copyWith(color: V6Colors.textNeutral);
+        return V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary);
       }
       return V6Text.bodyMedium;
+    }
+
+    // Figma "Table card": radius 20; header row padding 14/10, rows 14/13,
+    // 8 between columns; columns share the width and wrap.
+    Widget row(List<Widget> cells, EdgeInsets padding, {Color? color, bool divider = false}) {
+      return Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: color,
+          border: divider
+              ? const Border(bottom: BorderSide(color: V6Colors.borderDivider))
+              : null,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var c = 0; c < cells.length; c++) ...[
+              if (c > 0) const SizedBox(width: 8),
+              Expanded(child: cells[c]),
+            ],
+          ],
+        ),
+      );
     }
 
     return PartLayout(
       children: [
         PartHeader(icon: data.icon, title: data.title),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
         PartText(data.text),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
         Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: V6Colors.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(color: V6Colors.borderDivider),
           ),
-          child: Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            border: const TableBorder(
-              horizontalInside: BorderSide(color: V6Colors.borderDivider),
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TableRow(
-                decoration: const BoxDecoration(color: V6Colors.primaryContainer),
-                children: [
+              row(
+                [
                   for (final name in data.columns)
-                    _cell(Text(name, style: V6Text.labelMediumBold)),
+                    Text(name, style: V6Text.labelMediumBold.copyWith(color: V6Colors.onPrimaryContainer)),
                 ],
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                color: V6Colors.primaryContainer,
               ),
-              for (final row in data.rows)
-                TableRow(
-                  children: [
-                    for (var c = 0; c < row.length; c++)
-                      _cell(Text(row[c], style: cellStyle(c))),
+              for (var r = 0; r < data.rows.length; r++)
+                row(
+                  [
+                    for (var c = 0; c < data.rows[r].length; c++)
+                      Text(data.rows[r][c], style: cellStyle(c)),
                   ],
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                  divider: r < data.rows.length - 1,
                 ),
             ],
           ),
@@ -67,7 +90,4 @@ class TablePart extends StatelessWidget {
       ],
     );
   }
-
-  Widget _cell(Widget child) =>
-      Padding(padding: const EdgeInsets.fromLTRB(12, 12, 8, 12), child: child);
 }

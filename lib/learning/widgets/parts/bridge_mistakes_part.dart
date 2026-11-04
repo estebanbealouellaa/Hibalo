@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../models/parts.dart';
+import '../../theme/part_icons.dart';
 import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
 import '../markup_text.dart';
@@ -9,7 +10,8 @@ import 'part_common.dart';
 
 /// P09 · Filipino bridge & mistakes: a bullet card with a pink left bar,
 /// then "Common mistakes" (wrong struck through in red, right in green, why
-/// in grey). No audio.
+/// in grey). No audio. Sizes from Figma "P09 · Part · Filipino bridge &
+/// mistakes": 14 between blocks, 40 px icon tiles, 18 px card corners.
 class BridgeMistakesPart extends StatelessWidget {
   const BridgeMistakesPart({super.key, required this.data});
 
@@ -20,44 +22,42 @@ class BridgeMistakesPart extends StatelessWidget {
     final t = AppLocalizations.of(context);
     return PartLayout(
       children: [
-        PartHeader(icon: data.icon, title: data.title),
-        const SizedBox(height: 12),
+        _SectionTitle(icon: partIcon(data.icon), title: data.title),
+        const SizedBox(height: 14),
         Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: V6Colors.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(18),
           ),
           child: IntrinsicHeight(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(width: 4, color: V6Colors.coral),
+                Container(width: 5, color: V6Colors.tilePink),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 12, 14, 12),
+                    padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        for (final point in data.bridge)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 6,
-                                  height: 6,
-                                  margin: const EdgeInsets.only(top: 8, right: 10),
-                                  decoration: const BoxDecoration(
-                                    color: V6Colors.coral,
-                                    shape: BoxShape.circle,
-                                  ),
+                        for (var i = 0; i < data.bridge.length; i++) ...[
+                          if (i > 0) const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Container(
+                                width: 6,
+                                height: 6,
+                                decoration: const BoxDecoration(
+                                  color: V6Colors.tilePink,
+                                  shape: BoxShape.circle,
                                 ),
-                                Expanded(child: MarkupText(point, style: V6Text.bodyMedium)),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(child: MarkupText(data.bridge[i], style: V6Text.bodyMedium)),
+                            ],
                           ),
+                        ],
                       ],
                     ),
                   ),
@@ -67,16 +67,11 @@ class BridgeMistakesPart extends StatelessWidget {
           ),
         ),
         if (data.mistakes.isNotEmpty) ...[
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              const IconTile(icon: Icons.error_outline_rounded),
-              const SizedBox(width: 12),
-              Expanded(child: Text(t.commonMistakes, style: V6Text.titleLargeBold)),
-            ],
-          ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
+          _SectionTitle(icon: Icons.error_outline_rounded, title: t.commonMistakes),
+          const SizedBox(height: 14),
           PartCard(
+            radius: 18,
             padding: EdgeInsets.zero,
             child: Column(
               children: [
@@ -93,6 +88,33 @@ class BridgeMistakesPart extends StatelessWidget {
   }
 }
 
+/// 40 px icon tile + title (Figma "Section title").
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({required this.icon, required this.title});
+
+  final IconData icon;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: V6Colors.primaryContainer,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, size: 22, color: V6Colors.primary),
+        ),
+        const SizedBox(width: 10),
+        Expanded(child: Text(title, style: V6Text.titleLargeBold)),
+      ],
+    );
+  }
+}
+
 class _MistakeRow extends StatelessWidget {
   const _MistakeRow(this.mistake);
 
@@ -101,19 +123,18 @@ class _MistakeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.close_rounded, color: V6Colors.error, size: 20),
+              const Icon(Icons.close_rounded, color: V6Colors.error, size: 18),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   mistake.wrong,
-                  style: V6Text.bodyLarge.copyWith(
+                  style: V6Text.bodyLargeMedium.copyWith(
                     color: V6Colors.error,
                     decoration: TextDecoration.lineThrough,
                     decorationColor: V6Colors.error,
@@ -122,11 +143,10 @@ class _MistakeRow extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.check_circle_rounded, color: V6Colors.success, size: 20),
+              const Icon(Icons.check_circle_rounded, color: V6Colors.success, size: 18),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -136,7 +156,7 @@ class _MistakeRow extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Text(mistake.why, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
         ],
       ),

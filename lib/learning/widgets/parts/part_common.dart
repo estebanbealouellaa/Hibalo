@@ -56,31 +56,38 @@ class FadingScroll extends StatefulWidget {
 class _FadingScrollState extends State<FadingScroll> {
   bool _more = false;
 
-  bool _onMetrics(ScrollMetrics m) {
-    final more = m.extentAfter > 1;
+  /// Only this scroll view's own notifications (depth 0) count: a carousel
+  /// inside (P05) scrolls sideways and must not switch the fade.
+  bool _onMetrics(int depth, ScrollMetrics metrics) {
+    if (depth != 0) return false;
+    final more = metrics.extentAfter > 1;
     if (more != _more) setState(() => _more = more);
     return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final scroll = NotificationListener<ScrollMetricsNotification>(
-      onNotification: (n) => _onMetrics(n.metrics),
-      child: NotificationListener<ScrollUpdateNotification>(
-        onNotification: (n) => _onMetrics(n.metrics),
-        child: SingleChildScrollView(child: widget.child),
+    // The ShaderMask is always there (only its gradient changes), so the
+    // part below keeps its state when the fade turns on or off.
+    return NotificationListener<ScrollMetricsNotification>(
+      onNotification: (n) => _onMetrics(n.depth, n.metrics),
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (n) => _onMetrics(n.depth, n.metrics),
+        child: ShaderMask(
+          blendMode: BlendMode.dstIn,
+          shaderCallback: (rect) => LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.black,
+              _more ? Colors.transparent : Colors.black,
+            ],
+            stops: const [0, 0.88, 1],
+          ).createShader(rect),
+          child: SingleChildScrollView(child: widget.child),
+        ),
       ),
-    );
-    if (!_more) return scroll;
-    return ShaderMask(
-      blendMode: BlendMode.dstIn,
-      shaderCallback: (rect) => const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Colors.black, Colors.black, Colors.transparent],
-        stops: [0, 0.88, 1],
-      ).createShader(rect),
-      child: scroll,
     );
   }
 }
@@ -99,7 +106,7 @@ class PartHeader extends StatelessWidget {
     return Row(
       children: [
         IconTile(icon: partIcon(icon)),
-        const SizedBox(width: 12),
+        const SizedBox(width: 12), // Figma header gap
         Expanded(child: Text(title, style: V6Text.titleLargeBold)),
         ?trailing,
       ],
@@ -120,7 +127,7 @@ class IconTile extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: V6Colors.primaryContainer,
-        borderRadius: BorderRadius.circular(size / 4),
+        borderRadius: BorderRadius.circular(size * 14 / 48), // 14 on the 48 tile
       ),
       child: Icon(icon, color: V6Colors.primary, size: size / 2),
     );
@@ -139,14 +146,17 @@ class PartText extends StatelessWidget {
 
 /// Small grey instruction line ("Read each line aloud…").
 class HintText extends StatelessWidget {
-  const HintText(this.text, {super.key});
+  const HintText(this.text, {super.key, this.top = 10});
 
   final String text;
+
+  /// Space above (the gap between blocks in the part).
+  final double top;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8),
+      padding: EdgeInsets.only(top: top),
       child: Text(text, style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
     );
   }
@@ -154,24 +164,28 @@ class HintText extends StatelessWidget {
 
 /// The teal tip card with a lightbulb (P07, P08).
 class TipCard extends StatelessWidget {
-  const TipCard(this.text, {super.key});
+  const TipCard(this.text, {super.key, this.top = 10});
 
   final String text;
 
+  /// Space above (the gap between blocks in the part).
+  final double top;
+
   @override
   Widget build(BuildContext context) {
+    // Figma "Tip": padding 14, radius 18, 22 px bulb, 12 gap.
     return Container(
-      margin: const EdgeInsets.only(top: 12),
+      margin: EdgeInsets.only(top: top),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: V6Colors.lagoonContainer,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.lightbulb_rounded, color: V6Colors.lagoonText, size: 20),
-          const SizedBox(width: 10),
+          const Icon(Icons.lightbulb_rounded, color: V6Colors.lagoonText, size: 22),
+          const SizedBox(width: 12),
           Expanded(
             child: MarkupText(
               text,
@@ -200,10 +214,15 @@ class SmallChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Figma "Chip": 28 high, 12 side padding, Label/Medium.
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      height: 28,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: ShapeDecoration(color: background, shape: const StadiumBorder()),
-      child: Text(text, style: V6Text.labelMedium.copyWith(color: foreground)),
+      child: Center(
+        widthFactor: 1,
+        child: Text(text, style: V6Text.labelMedium.copyWith(color: foreground)),
+      ),
     );
   }
 }
@@ -223,43 +242,80 @@ class ShowAllSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Figma "Toggle · Show all Filipino": 48 high, 4 side padding, a
+    // 40 x 24 switch. The whole row toggles, so the tap area stays 48 high.
     return MergeSemantics(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(label, style: V6Text.labelLargeBold),
-          const SizedBox(width: 8),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeThumbColor: V6Colors.onPrimary,
-            activeTrackColor: V6Colors.primary,
-            inactiveThumbColor: V6Colors.onPrimary,
-            inactiveTrackColor: V6Colors.borderInput,
-            trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: InkWell(
+          onTap: () => onChanged(!value),
+          borderRadius: BorderRadius.circular(V6Spacing.radiusMedium),
+          child: SizedBox(
+            height: 48,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(label, style: V6Text.labelLargeSemiBold),
+                  const SizedBox(width: 8),
+                  // The Material track is 52 x 32 (inside a wider box with
+                  // its own padding), so it is scaled by 40 / 52 around its
+                  // centre to give Figma's 40 x 24 track.
+                  SizedBox(
+                    width: 40,
+                    height: 24,
+                    child: OverflowBox(
+                      maxWidth: double.infinity,
+                      maxHeight: double.infinity,
+                      child: Transform.scale(
+                        scale: 40 / 52,
+                        child: Switch(
+                          value: value,
+                          onChanged: onChanged,
+                          // The row is the tap area, so no 48 px padding here.
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          activeThumbColor: V6Colors.onPrimary,
+                          activeTrackColor: V6Colors.primary,
+                          inactiveThumbColor: V6Colors.onPrimary,
+                          inactiveTrackColor: V6Colors.borderInput,
+                          trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-/// A round audio button. Callers only build it when the clip exists (§1.4).
+/// A round audio button. Always shown: if the clip isn't in the app yet,
+/// tapping it plays nothing (§1.4).
 class AudioButton extends StatelessWidget {
   const AudioButton({
     super.key,
     required this.clip,
     required this.label,
     this.slow = false,
-    this.size = 56,
+    this.size = 64,
+    this.iconSize,
     this.background = V6Colors.primary,
     this.foreground = V6Colors.onPrimary,
   });
 
-  final String clip;
+  /// The clip's asset path (may not exist yet), or null.
+  final String? clip;
   final String label;
   final bool slow;
   final double size;
+
+  /// Glyph size; Figma uses 28 on the 64 button and 24 on 48.
+  final double? iconSize;
   final Color background;
   final Color foreground;
 
@@ -285,9 +341,9 @@ class AudioButton extends StatelessWidget {
                 width: size,
                 height: size,
                 child: Icon(
-                  slow ? Icons.hourglass_bottom_rounded : Icons.volume_up_rounded,
+                  slow ? Icons.hourglass_top_rounded : Icons.volume_up_rounded,
                   color: foreground,
-                  size: size * 0.45,
+                  size: iconSize ?? (size >= 64 ? 28 : 24),
                 ),
               ),
             ),

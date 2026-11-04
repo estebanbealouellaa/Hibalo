@@ -38,7 +38,8 @@ sealed class QuizQuestion {
   /// False for speaking and open_answer ("Practice" in the review).
   final bool scored;
 
-  /// Clip played on the Wrong / Time's up sheet, or null (no audio button).
+  /// Clip played on the Wrong / Time's up sheet, or null when the JSON has
+  /// none (no audio button). Kept even if the file isn't in the app yet.
   final String? answerAudio;
 
   factory QuizQuestion.fromJson(JsonReader r, AssetResolver assets) {
@@ -58,7 +59,9 @@ sealed class QuizQuestion {
       q.fail('"scored" should be $shouldBeScored for $type');
     }
     String? asset(String key) => assets.resolve(q.strOrNull(key), '${q.path} > $key');
-    final answerAudio = asset('answerAudio');
+    // Audio paths are kept even before the clip exists (the buttons show).
+    String? audio(String key) => assets.resolveAudio(q.strOrNull(key), '${q.path} > $key');
+    final answerAudio = audio('answerAudio');
 
     switch (template) {
       case 'Q01':
@@ -73,7 +76,7 @@ sealed class QuizQuestion {
         return ListeningData(id,
             answerAudio: answerAudio,
             prompt: q.str('prompt'),
-            audio: asset('audio'),
+            audio: audio('audio'),
             optionKind: q.str('optionKind'),
             options: options,
             answer: answer);
@@ -124,7 +127,7 @@ sealed class QuizQuestion {
         return DictationData(id,
             answerAudio: answerAudio,
             prompt: q.str('prompt'),
-            audio: asset('audio'),
+            audio: audio('audio'),
             accepted: _accepted(q),
             wordBank: q.stringsOrEmpty('wordBank'));
       case 'Q09':
@@ -132,7 +135,7 @@ sealed class QuizQuestion {
             prompt: q.str('prompt'),
             text: q.str('text'),
             meaning: q.str('meaning'),
-            audio: asset('audio'));
+            audio: audio('audio'));
       case 'Q10':
         final maxChars = q.integer('maxChars');
         if (maxChars <= 0) q.fail('maxChars should be more than 0');
@@ -236,7 +239,7 @@ class ListeningData extends QuizQuestion with ChoiceQuestion {
 
   final String prompt;
 
-  /// The clip to listen to, or null if missing (no play button).
+  /// The clip to listen to (kept even if the file isn't in the app yet).
   final String? audio;
 
   /// "text" (the only kind used so far).
@@ -377,7 +380,7 @@ class DictationData extends QuizQuestion with TypedQuestion {
 
   final String prompt;
 
-  /// The clip to write down, or null if missing.
+  /// The clip to write down (kept even if the file isn't in the app yet).
   final String? audio;
   @override
   final List<String> accepted;
@@ -405,7 +408,7 @@ class SpeakingData extends QuizQuestion {
   /// Its Filipino meaning.
   final String meaning;
 
-  /// The "Native speaker" clip, or null if missing.
+  /// The "Native speaker" clip (kept even if the file isn't in the app yet).
   final String? audio;
 }
 

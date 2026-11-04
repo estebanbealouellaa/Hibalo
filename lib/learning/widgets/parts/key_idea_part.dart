@@ -18,11 +18,12 @@ class KeyIdeaPart extends StatelessWidget {
     return PartLayout(
       children: [
         PartHeader(icon: data.icon, title: data.title),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
         PartText(data.text),
-        for (final term in data.terms) ...[
-          const SizedBox(height: 12),
-          _TermCard(term),
+        if (data.terms.isNotEmpty) const SizedBox(height: 14),
+        for (var i = 0; i < data.terms.length; i++) ...[
+          if (i > 0) const SizedBox(height: 10),
+          _TermCard(data.terms[i]),
         ],
       ],
     );
@@ -37,8 +38,10 @@ class _TermCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    // Figma "Term" card: padding 16/14, radius 18, 8 between rows.
     return PartCard(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
+      radius: 18,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -50,10 +53,11 @@ class _TermCard extends StatelessWidget {
                   style: V6Text.hilWordBoldItalic.copyWith(color: V6Colors.primary),
                 ),
               ),
+              const SizedBox(width: 8),
               SmallChip(
                 t.hiligaynonLabel,
                 background: V6Colors.primaryContainer,
-                foreground: V6Colors.textSecondary,
+                foreground: V6Colors.onPrimaryContainer,
               ),
             ],
           ),
@@ -72,8 +76,9 @@ class _TermCard extends StatelessWidget {
         children: [
           SizedBox(
             width: 76,
-            child: Text(label, style: V6Text.labelMediumBold),
+            child: Text(label, style: V6Text.labelMediumBold.copyWith(color: V6Colors.textSecondary)),
           ),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(
               value,

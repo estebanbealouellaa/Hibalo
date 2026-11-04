@@ -44,10 +44,15 @@ class _LearnScreenState extends State<LearnScreen> {
     return LearningTheme(
       child: Scaffold(
         backgroundColor: V6Colors.background,
-        body: SafeArea(
-          child: !progress.isReady
-              ? _NotReady(progress: progress)
-              : _content(context, progress, t),
+        // Tapping anywhere outside the search field closes the keyboard.
+        body: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: SafeArea(
+            child: !progress.isReady
+                ? _NotReady(progress: progress)
+                : _content(context, progress, t),
+          ),
         ),
       ),
     );
@@ -59,6 +64,8 @@ class _LearnScreenState extends State<LearnScreen> {
     final levels = catalog.levels;
     final level = levels[_levelIndex.clamp(0, levels.length - 1)];
     final lessons = _filter(level.lessons);
+    // Figma "No results": the "Lessons" heading is hidden.
+    final noResults = level.lessons.isNotEmpty && lessons.isEmpty;
 
     return CustomScrollView(
       slivers: [
@@ -67,9 +74,10 @@ class _LearnScreenState extends State<LearnScreen> {
           sliver: SliverList.list(
             children: [
               _topBar(context, t),
+              const SizedBox(height: 4),
               Text(
                 t.learnSubtitle,
-                style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
+                style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted),
               ),
               const SizedBox(height: 14),
               _searchField(t),
@@ -77,8 +85,10 @@ class _LearnScreenState extends State<LearnScreen> {
               _levelTabs(context, rules, levels, t),
               ..._lockedHint(rules, levels, t),
               const SizedBox(height: 14),
-              Text(t.learnLessonsHeading, style: V6Text.titleLargeBold),
-              const SizedBox(height: 14),
+              if (!noResults) ...[
+                Text(t.learnLessonsHeading, style: V6Text.titleLarge),
+                const SizedBox(height: 14),
+              ],
             ],
           ),
         ),
@@ -124,7 +134,7 @@ class _LearnScreenState extends State<LearnScreen> {
               tooltip: t.back,
               icon: const Icon(Icons.arrow_back_rounded, color: V6Colors.textPrimary),
             ),
-          Expanded(child: Text(t.learnTitle, style: V6Text.headlineXl)),
+          Expanded(child: Text(t.learnTitle, style: V6Text.screenTitle)),
           if (kDebugMode)
             IconButton(
               onPressed: () => showLearnDebugMenu(context),
@@ -138,7 +148,7 @@ class _LearnScreenState extends State<LearnScreen> {
 
   Widget _searchField(AppLocalizations t) {
     final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(V6Spacing.radiusMedium),
+      borderRadius: BorderRadius.circular(14),
       borderSide: const BorderSide(color: V6Colors.borderDivider),
     );
     return SizedBox(
@@ -151,7 +161,11 @@ class _LearnScreenState extends State<LearnScreen> {
         decoration: InputDecoration(
           hintText: t.learnSearchHint,
           hintStyle: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted),
-          prefixIcon: const Icon(Icons.search_rounded, color: V6Colors.textSecondary),
+          prefixIcon: const Padding(
+            padding: EdgeInsets.only(left: 16, right: 10),
+            child: Icon(Icons.search_rounded, color: V6Colors.textSecondary),
+          ),
+          prefixIconConstraints: const BoxConstraints(minWidth: 50, minHeight: 24),
           suffixIcon: _query.isEmpty
               ? null
               : IconButton(
@@ -211,6 +225,7 @@ class _LearnScreenState extends State<LearnScreen> {
     int index,
     AppLocalizations t,
   ) {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (!rules.isLevelUnlocked(level)) {
       final previous = rules.blockingLevel(level);
       showLearningSnackBar(
@@ -269,16 +284,23 @@ class _LearnScreenState extends State<LearnScreen> {
         LessonRowState.locked => t.rowLocked,
         _ => null,
       },
-      onTap: () => switch (state) {
-        LessonRowState.completed ||
-        LessonRowState.current =>
-          LearningRoutes.openLessonDetail(context, lesson),
-        LessonRowState.quizPending =>
-          LearningRoutes.openLessonComplete(context, lesson),
-        LessonRowState.locked =>
-          showLearningSnackBar(context, meta, icon: Icons.lock_rounded),
+      onTap: () {
+        // Opening a lesson (or its message) closes the search keyboard.
+        FocusManager.instance.primaryFocus?.unfocus();
+        _onRowTap(context, lesson, state, meta);
       },
     );
+  }
+
+  void _onRowTap(BuildContext context, Lesson lesson, LessonRowState state, String meta) {
+    switch (state) {
+      case LessonRowState.completed || LessonRowState.current:
+        LearningRoutes.openLessonDetail(context, lesson);
+      case LessonRowState.quizPending:
+        LearningRoutes.openLessonComplete(context, lesson);
+      case LessonRowState.locked:
+        showLearningSnackBar(context, meta, icon: Icons.lock_rounded);
+    }
   }
 
   String _quizPendingText(LessonCatalog catalog, Lesson lesson, AppLocalizations t) {
@@ -341,7 +363,7 @@ class _LevelTab extends StatelessWidget {
                 child: Text(
                   title,
                   style: V6Text.labelLargeBold.copyWith(
-                    color: selected ? V6Colors.onPrimary : V6Colors.textSecondary,
+                    color: selected ? V6Colors.onPrimary : V6Colors.textMuted,
                   ),
                 ),
               ),
@@ -355,9 +377,9 @@ class _LevelTab extends StatelessWidget {
                 width: 20,
                 height: 20,
                 decoration: BoxDecoration(
-                  color: V6Colors.primaryContainer,
+                  color: V6Colors.surface,
                   shape: BoxShape.circle,
-                  border: Border.all(color: V6Colors.surface, width: 1.5),
+                  border: Border.all(color: V6Colors.primary, width: 1.5),
                 ),
                 child: const Icon(Icons.lock_rounded, size: 12, color: V6Colors.primary),
               ),
@@ -378,22 +400,27 @@ class _NoResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    // Figma "No results": 40 from the hint, a 140 x 160 firefly over a
+    // 112 glow circle, then the two lines, 10 apart.
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 32, 20, 24),
+      padding: const EdgeInsets.fromLTRB(20, 40, 20, 24),
       child: Column(
         children: [
           SizedBox(
-            width: 160,
-            height: 150,
+            width: 140,
+            height: 160,
             child: Stack(
-              alignment: Alignment.bottomCenter,
               children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: const BoxDecoration(
-                    color: V6Colors.glow,
-                    shape: BoxShape.circle,
+                Positioned(
+                  left: 14,
+                  top: 48,
+                  child: Container(
+                    width: 112,
+                    height: 112,
+                    decoration: const BoxDecoration(
+                      color: V6Colors.glow,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
                 Positioned.fill(
@@ -406,13 +433,13 @@ class _NoResults extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Text(
             t.learnNoResultsTitle(query),
             textAlign: TextAlign.center,
             style: V6Text.titleLargeBold,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Text(
             t.learnNoResultsHint,
             textAlign: TextAlign.center,

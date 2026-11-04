@@ -245,11 +245,13 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _topBar(t, progress.lessonXp(_lesson)),
+                // Figma body: 12 from the bar, then the part's own gap
+                // (14 on most parts, 12 on P05/P07, 10 on P08/P10).
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+                  padding: EdgeInsets.fromLTRB(20, 12, 20, _captionGap(_current)),
                   child: Text(
                     t.partCaption(_lesson.order, _part + 1, _lesson.partsCount),
-                    style: V6Text.caption.copyWith(color: V6Colors.textSecondary),
+                    style: V6Text.labelMedium.copyWith(color: V6Colors.textSecondary),
                   ),
                 ),
                 Expanded(
@@ -267,6 +269,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
       ),
     );
   }
+
+  static double _captionGap(LessonPart part) => switch (part) {
+        LettersPartData() || DialoguePartData() => 12,
+        ReadingPartData() || CultureNotePartData() => 10,
+        _ => 14,
+      };
 
   Widget _partWidget(LearningProgress progress) {
     final settings = progress.catalog.settings;
@@ -295,26 +303,32 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   }
 
   Widget _topBar(AppLocalizations t, int xp) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 20, 4),
+    // Figma "Lesson progress · Segmented": 56 high, X, segments, XP chip.
+    return Container(
+      height: 56,
+      padding: const EdgeInsets.only(left: 8, right: 20),
       child: Row(
         children: [
-          IconButton(
-            onPressed: _confirmLeave,
-            tooltip: t.leaveLessonTooltip,
-            icon: const Icon(Icons.close_rounded, color: V6Colors.textPrimary),
+          SizedBox(
+            width: 48,
+            height: 48,
+            child: IconButton(
+              onPressed: _confirmLeave,
+              tooltip: t.leaveLessonTooltip,
+              icon: const Icon(Icons.close_rounded, color: V6Colors.textPrimary),
+            ),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 12),
           Expanded(child: SegmentedProgress(count: _lesson.partsCount, current: _part)),
           const SizedBox(width: 12),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+            padding: const EdgeInsets.fromLTRB(10, 6, 12, 6),
             decoration: const ShapeDecoration(color: V6Colors.citrus, shape: StadiumBorder()),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(Icons.bolt_rounded, size: 16, color: V6Colors.onCitrus),
-                const SizedBox(width: 2),
+                const SizedBox(width: 4),
                 Text(t.xpChip(xp), style: V6Text.labelXp.copyWith(color: V6Colors.onCitrus)),
               ],
             ),
@@ -327,7 +341,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   Widget _bottomButtons(AppLocalizations t, String nextLabel) {
     final backEnabled = !_isFirstStep && !_busy;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 16),
       child: Row(
         children: [
           // Disabled = 38% opacity, not tappable (§1.2).
@@ -340,7 +354,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
                 color: V6Colors.surface,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
-                  side: const BorderSide(color: V6Colors.borderDivider),
+                  side: const BorderSide(color: V6Colors.borderDivider, width: 1.5),
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(16),

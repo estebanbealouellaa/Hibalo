@@ -103,7 +103,7 @@ class JsonReader {
 
 /// One picture or audio path from the JSON, and what it became in the app.
 class AssetRef {
-  const AssetRef(this.where, this.jsonPath, this.assetPath);
+  const AssetRef(this.where, this.jsonPath, this.assetPath, {required this.found});
 
   /// Where it was found, for example "b02 > items[0] > audio".
   final String where;
@@ -111,16 +111,18 @@ class AssetRef {
   /// The path as written in the JSON (without "assets/").
   final String jsonPath;
 
-  /// The bundled asset path, or null if the file isn't in the app.
+  /// What the model holds: the asset path, or null for a missing picture.
+  /// Audio keeps its path even when the clip is missing (see resolveAudio).
   final String? assetPath;
 
-  bool get found => assetPath != null;
+  /// The file is bundled with the app.
+  final bool found;
 }
 
 /// Turns JSON paths into bundled asset paths. The JSON leaves out "assets/",
-/// so it is added here. A file that isn't in the AssetManifest counts as
-/// missing and becomes null: the screens then show firefly_reading or hide
-/// the audio button. Every lookup is recorded in [refs] for tests and logs.
+/// so it is added here. A picture that isn't in the AssetManifest becomes
+/// null, and the screens show firefly_reading. Audio keeps its path either
+/// way (see [resolveAudio]). Every lookup is recorded in [refs].
 class AssetResolver {
   AssetResolver(this.available);
 
@@ -133,7 +135,17 @@ class AssetResolver {
     if (jsonPath == null || jsonPath.isEmpty) return null;
     final full = 'assets/$jsonPath';
     final found = available.contains(full);
-    refs.add(AssetRef(where, jsonPath, found ? full : null));
+    refs.add(AssetRef(where, jsonPath, found ? full : null, found: found));
     return found ? full : null;
+  }
+
+  /// Audio clips keep their path even when the file isn't in the app yet:
+  /// the audio buttons always show, and a missing clip simply plays nothing
+  /// (§1.4). When the recordings are added, the same buttons play them.
+  String? resolveAudio(String? jsonPath, String where) {
+    if (jsonPath == null || jsonPath.isEmpty) return null;
+    final full = 'assets/$jsonPath';
+    refs.add(AssetRef(where, jsonPath, full, found: available.contains(full)));
+    return full;
   }
 }

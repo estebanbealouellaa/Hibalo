@@ -232,7 +232,7 @@ class _ProgressCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(17, 15, 17, 15),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: V6Colors.surface,
         borderRadius: BorderRadius.circular(16),

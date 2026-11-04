@@ -69,8 +69,8 @@ class LessonRow extends StatelessWidget {
               border: border,
               borderRadius: BorderRadius.circular(_radius),
             ),
-            // Figma: number box at 13, icon at 55, text at 117, icon end at 326.
-            padding: const EdgeInsets.fromLTRB(12, 10, 8, 10),
+            // Figma "Lesson Row": 80 high, padding 12 / 4, 10 between items.
+            padding: const EdgeInsets.fromLTRB(12, 12, 4, 12),
             child: Row(
               children: [
                 _NumberBox(number: number, state: state),
@@ -78,7 +78,7 @@ class LessonRow extends StatelessWidget {
                 Opacity(
                   opacity: _locked ? 0.6 : 1,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     child: LessonImage(
                       path: icon,
                       fallback: fallbackPicture,
@@ -90,7 +90,7 @@ class LessonRow extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Expanded(child: _texts()),
-                const SizedBox(width: 4),
+                const SizedBox(width: 10),
                 _trailing(),
               ],
             ),
@@ -103,7 +103,6 @@ class LessonRow extends StatelessWidget {
   Widget _texts() {
     final metaColor = switch (state) {
       LessonRowState.quizPending => V6Colors.primary,
-      LessonRowState.locked => V6Colors.textSecondary,
       _ => V6Colors.textMuted,
     };
     return Column(
@@ -115,10 +114,10 @@ class LessonRow extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: V6Text.titleMedium.copyWith(
-            color: _locked ? V6Colors.textSecondary : V6Colors.textPrimary,
+            color: _locked ? V6Colors.textMuted : V6Colors.textPrimary,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 4),
         Text(
           meta,
           maxLines: 2,
@@ -154,7 +153,7 @@ class _NumberBox extends StatelessWidget {
       LessonRowState.current ||
       LessonRowState.quizPending =>
         (V6Colors.citrus, V6Colors.onCitrus),
-      LessonRowState.locked => (V6Colors.navInactiveIcon, V6Colors.onPrimary),
+      LessonRowState.locked => (V6Colors.textDisabled, V6Colors.onPrimary),
     };
 
     return SizedBox(
@@ -170,24 +169,24 @@ class _NumberBox extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: background,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Text('$number', style: V6Text.labelLessonNumber.copyWith(color: textColor)),
             ),
           ),
           if (state == LessonRowState.completed)
+            // "Done badge": a green check_circle on a white dot.
             Positioned(
-              right: -5,
+              left: 21,
               top: -5,
               child: Container(
                 width: 16,
                 height: 16,
-                decoration: BoxDecoration(
-                  color: V6Colors.success,
+                decoration: const BoxDecoration(
+                  color: V6Colors.surface,
                   shape: BoxShape.circle,
-                  border: Border.all(color: V6Colors.surface, width: 1.5),
                 ),
-                child: const Icon(Icons.check_rounded, size: 11, color: V6Colors.onPrimary),
+                child: const Icon(Icons.check_circle_rounded, size: 16, color: V6Colors.success),
               ),
             ),
         ],

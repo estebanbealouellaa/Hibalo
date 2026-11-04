@@ -32,22 +32,23 @@ class QuickCheckPart extends StatelessWidget {
     final t = AppLocalizations.of(context);
     return PartLayout(
       children: [
+        // Figma P06: 14 between blocks, 12 between options.
         Align(
           alignment: Alignment.centerLeft,
           child: SmallChip(t.quickCheckChip),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
         Text(data.prompt, style: V6Text.headlineMedium),
-        const SizedBox(height: 8),
+        const SizedBox(height: 14),
         Text(t.quickCheckNote, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
-        const SizedBox(height: 16),
-        for (final i in order) ...[
+        const SizedBox(height: 14),
+        for (var n = 0; n < order.length; n++) ...[
+          if (n > 0) const SizedBox(height: 12),
           OptionCard(
-            text: data.options[i],
-            state: _stateOf(i),
-            onTap: chosen == null ? () => onChoose(i) : null,
+            text: data.options[order[n]],
+            state: _stateOf(order[n]),
+            onTap: chosen == null ? () => onChoose(order[n]) : null,
           ),
-          const SizedBox(height: 10),
         ],
       ],
     );
@@ -85,20 +86,27 @@ class OptionCard extends StatelessWidget {
       child: Material(
         color: background,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           side: BorderSide(color: border, width: state == OptionState.idle ? 1 : 2),
         ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           onTap: onTap,
+          // Figma "Option Card": 56 high, padding 16/14, radius 14, 24 marker.
+          // Default text is regular; a marked card is semibold.
           child: Container(
-            constraints: const BoxConstraints(minHeight: 52),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            constraints: const BoxConstraints(minHeight: 56),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
-                Icon(icon, color: iconColor, size: 22),
+                Icon(icon, color: iconColor, size: 24),
                 const SizedBox(width: 12),
-                Expanded(child: Text(text, style: V6Text.bodyLargeSemiBold)),
+                Expanded(
+                  child: Text(
+                    text,
+                    style: state == OptionState.idle ? V6Text.bodyLarge : V6Text.bodyLargeSemiBold,
+                  ),
+                ),
               ],
             ),
           ),

@@ -34,37 +34,49 @@ class _ReadingPartState extends State<ReadingPart> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final lines = widget.data.lines;
-    return PartLayout(
-      footer: [
-        HintText(t.readingHint),
-        if (widget.data.tip != null) TipCard(widget.data.tip!),
-      ],
-      children: [
-        PartHeader(icon: widget.data.icon, title: widget.data.title),
-        const SizedBox(height: 8),
-        ShowAllSwitch(label: t.showAllFilipino, value: _showAll, onChanged: _setAll),
-        const SizedBox(height: 4),
-        PartCard(
-          padding: EdgeInsets.zero,
-          child: Column(
-            children: [
-              for (var i = 0; i < lines.length; i++) ...[
-                if (i > 0) const Divider(height: 1),
-                _Row(
-                  hil: lines[i].hil,
-                  fil: lines[i].fil,
-                  shown: _shown.contains(i),
-                  first: i == 0,
-                  last: i == lines.length - 1,
-                  onTap: () => setState(
-                    () => _shown.contains(i) ? _shown.remove(i) : _shown.add(i),
-                  ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Figma P08: 10 between blocks. The card (radius 20) is as tall as
+          // its sentences, up to the space left; longer readings scroll
+          // inside it with the fade.
+          PartHeader(icon: widget.data.icon, title: widget.data.title),
+          const SizedBox(height: 10),
+          ShowAllSwitch(label: t.showAllFilipino, value: _showAll, onChanged: _setAll),
+          const SizedBox(height: 10),
+          Flexible(
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                color: V6Colors.surface,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: V6Colors.borderDivider),
+              ),
+              child: FadingScroll(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (var i = 0; i < lines.length; i++)
+                      _Row(
+                        hil: lines[i].hil,
+                        fil: lines[i].fil,
+                        shown: _shown.contains(i),
+                        divider: i < lines.length - 1,
+                        onTap: () => setState(
+                          () => _shown.contains(i) ? _shown.remove(i) : _shown.add(i),
+                        ),
+                      ),
+                  ],
                 ),
-              ],
-            ],
+              ),
+            ),
           ),
-        ),
-      ],
+          HintText(t.readingHint),
+          if (widget.data.tip != null) TipCard(widget.data.tip!),
+        ],
+      ),
     );
   }
 }
@@ -74,42 +86,44 @@ class _Row extends StatelessWidget {
     required this.hil,
     required this.fil,
     required this.shown,
-    required this.first,
-    required this.last,
+    required this.divider,
     required this.onTap,
   });
 
   final String hil;
   final String fil;
   final bool shown;
-  final bool first;
-  final bool last;
+
+  /// A line under this sentence (not under the last one).
+  final bool divider;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final radius = BorderRadius.vertical(
-      top: Radius.circular(first ? 16 : 0),
-      bottom: Radius.circular(last ? 16 : 0),
-    );
+    // Figma "Sentence": at least 48 high, padding 16/13; a shown row is tinted.
     return Semantics(
       button: true,
       child: Material(
         color: shown ? V6Colors.surfaceTint : Colors.transparent,
-        borderRadius: radius,
         child: InkWell(
-          borderRadius: radius,
           onTap: onTap,
           child: Container(
             constraints: const BoxConstraints(minHeight: 48),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
             alignment: Alignment.centerLeft,
+            decoration: divider
+                ? const BoxDecoration(
+                    border: Border(bottom: BorderSide(color: V6Colors.borderDivider)),
+                  )
+                : null,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(hil, style: V6Text.bodyLargeSemiBold),
-                if (shown)
+                if (shown) ...[
+                  const SizedBox(height: 2),
                   Text(fil, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+                ],
               ],
             ),
           ),

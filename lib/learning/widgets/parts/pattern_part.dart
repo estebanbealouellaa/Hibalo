@@ -20,11 +20,13 @@ class PatternPart extends StatelessWidget {
     final t = AppLocalizations.of(context);
     return PartLayout(
       children: [
+        // Figma "P03 · Part · Pattern": 14 between blocks, cards radius 20.
         PartHeader(icon: data.icon, title: data.title),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
         PartText(data.text),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
         PartCard(
+          radius: 20,
           child: Column(
             children: [
               // Shrinks to fit when four long slots don't fit the width.
@@ -39,17 +41,18 @@ class PatternPart extends StatelessWidget {
           ),
         ),
         if (data.examples.isNotEmpty) ...[
-          const SizedBox(height: 20),
+          const SizedBox(height: 14),
           Text(t.moreExamples, style: V6Text.titleMediumBold),
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
           PartCard(
+            radius: 20,
             padding: EdgeInsets.zero,
             child: Column(
               children: [
                 for (var i = 0; i < data.examples.length; i++) ...[
                   if (i > 0) const Divider(height: 1),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -57,6 +60,7 @@ class PatternPart extends StatelessWidget {
                           data.examples[i].hil,
                           style: V6Text.bodyLargeSemiBoldItalic.copyWith(color: V6Colors.primary),
                         ),
+                        const SizedBox(height: 2),
                         Text(
                           data.examples[i].fil,
                           style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
@@ -79,41 +83,51 @@ class PatternPart extends StatelessWidget {
     for (var i = 0; i < data.slots.length; i++) {
       final slot = data.slots[i];
       if (i > 0) {
+        // "+" between blocks, level with the blocks (row is bottom-aligned).
         blocks.add(Padding(
-          padding: const EdgeInsets.fromLTRB(6, 18, 6, 0),
-          child: Text('+', style: V6Text.titleMediumBold.copyWith(color: V6Colors.textSecondary)),
+          padding: const EdgeInsets.only(bottom: 11),
+          child: Text('+', style: V6Text.titleLarge.copyWith(color: V6Colors.textSecondary)),
         ));
       }
+      // Figma "Block": padding 16/12, radius 14, Hiligaynon/Word · Bold. The
+      // link word is violet with a 3 px glow border; the others alternate
+      // citrus and lagoon with dark text.
       final (Color background, Color foreground) = slot.highlight
           ? (V6Colors.primary, V6Colors.onPrimary)
           : (plain++).isEven
-              ? (V6Colors.citrus, V6Colors.onCitrus)
-              : (V6Colors.lagoon, V6Colors.primaryStrong);
+              ? (V6Colors.citrus, V6Colors.textPrimary)
+              : (V6Colors.lagoon, V6Colors.textPrimary);
       blocks.add(Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: 18,
-            child: Text(slot.label, style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
-          ),
-          const SizedBox(height: 4),
+          if (slot.label.isNotEmpty)
+            Text(slot.label, style: V6Text.labelMedium.copyWith(color: V6Colors.textSecondary)),
+          if (slot.label.isNotEmpty) const SizedBox(height: 6),
           Container(
-            constraints: const BoxConstraints(minWidth: 48, minHeight: 44),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            alignment: Alignment.center,
+            // Figma's glow stroke sits inside the block, so the highlighted
+            // block keeps the same size: its padding loses the 3 px border.
+            padding: slot.highlight
+                ? const EdgeInsets.symmetric(horizontal: 13, vertical: 9)
+                : const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: background,
-              borderRadius: BorderRadius.circular(12),
-              border: slot.highlight ? Border.all(color: V6Colors.glow, width: 2) : null,
-              boxShadow: slot.highlight
-                  ? [BoxShadow(color: V6Colors.glow.withValues(alpha: 0.6), blurRadius: 10)]
-                  : null,
+              borderRadius: BorderRadius.circular(14),
+              border: slot.highlight ? Border.all(color: V6Colors.glow, width: 3) : null,
             ),
-            child: Text(slot.hil, style: V6Text.titleMediumBold.copyWith(color: foreground)),
+            child: Text(slot.hil, style: V6Text.hilWordBold.copyWith(color: foreground)),
           ),
         ],
       ));
     }
-    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: blocks);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        for (var i = 0; i < blocks.length; i++) ...[
+          if (i > 0) const SizedBox(width: 8),
+          blocks[i],
+        ],
+      ],
+    );
   }
 }

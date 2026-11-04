@@ -37,6 +37,7 @@ Future<void> showFeedbackSheet(
     enableDrag: false,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
+    barrierColor: V6Colors.primaryStrong.withValues(alpha: 0.45),
     builder: (_) => PopScope(
       canPop: false,
       child: FeedbackSheet(
@@ -97,7 +98,7 @@ class FeedbackSheet extends StatelessWidget {
           V6Colors.coralText,
           V6Colors.coral,
           V6Colors.primaryStrong,
-          'firefly_idk',
+          'firefly_wrong',
         ),
       FeedbackType.timeout => (
           V6Colors.coralContainer,
@@ -121,8 +122,13 @@ class FeedbackSheet extends StatelessWidget {
           FeedbackType.info => '',
         };
 
+    // Figma "Feedback Sheet": padding 20, radius 24 on top, 16 between the
+    // top row and Continue; a 64 x 72 firefly, then the title
+    // (Headline/Medium · ExtraBold) and its lines, 4 apart. The 24 px
+    // gesture bar in Figma is the system's: only the real inset is added.
+    final detailColor = type == FeedbackType.correct ? V6Colors.success : V6Colors.error;
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 16 + MediaQuery.paddingOf(context).bottom),
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + MediaQuery.paddingOf(context).bottom),
       decoration: BoxDecoration(
         color: background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -132,13 +138,13 @@ class FeedbackSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
                 'assets/images/mascots/$mascot.webp',
-                width: 56,
-                height: 56,
-                errorBuilder: (_, _, _) => const SizedBox(width: 56, height: 56),
+                width: 64,
+                height: 72,
+                fit: BoxFit.contain,
+                errorBuilder: (_, _, _) => const SizedBox(width: 64, height: 72),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -147,13 +153,17 @@ class FeedbackSheet extends StatelessWidget {
                   children: [
                     if (heading.isNotEmpty)
                       Text(heading, style: V6Text.headlineMediumExtraBold.copyWith(color: accent)),
-                    if (xp != null)
+                    if (xp != null) ...[
+                      const SizedBox(height: 4),
                       Text(t.xpGain(xp!), style: V6Text.labelLargeBold.copyWith(color: accent)),
+                    ],
                     if (answer != null && type != FeedbackType.correct) ...[
-                      const SizedBox(height: 2),
-                      Text(t.correctAnswerLabel,
-                          style: V6Text.labelLargeBold.copyWith(color: accent)),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
+                      Text(
+                        type == FeedbackType.info ? '' : t.correctAnswerLabel,
+                        style: V6Text.labelLargeBold.copyWith(color: detailColor),
+                      ),
+                      const SizedBox(height: 4),
                       Row(
                         children: [
                           Flexible(
@@ -161,23 +171,28 @@ class FeedbackSheet extends StatelessWidget {
                               answer!,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: V6Text.bodyLargeBold,
+                              style: V6Text.hilWordExtraBold,
                             ),
                           ),
-                          if (answerAudio != null)
+                          // Shown when the JSON has answerAudio, even before
+                          // the clip is recorded (it then plays nothing).
+                          if (answerAudio != null) ...[
+                            const SizedBox(width: 8),
                             AudioButton(
-                              clip: answerAudio!,
+                              clip: answerAudio,
                               label: t.playAudio,
-                              size: 32,
+                              size: 24,
+                              iconSize: 24,
                               background: Colors.transparent,
-                              foreground: accent,
+                              foreground: detailColor,
                             ),
+                          ],
                         ],
                       ),
                     ],
                     if (detail != null) ...[
                       const SizedBox(height: 4),
-                      Text(detail!, style: V6Text.labelLargeSemiBold.copyWith(color: accent)),
+                      Text(detail!, style: V6Text.labelLargeBold.copyWith(color: detailColor)),
                     ],
                   ],
                 ),

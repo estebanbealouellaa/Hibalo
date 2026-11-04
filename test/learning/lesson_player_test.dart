@@ -237,12 +237,54 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('3 / 19 seen'), findsOneWidget);
     expect(find.text('11 / 19'), findsOneWidget);
+    // The card moved too: its big tile shows NG next to the chip.
+    expect(find.text('NG'), findsNWidgets(2));
 
     await tester.ensureVisible(find.text('Aa').last);
     await tester.tap(find.text('Aa').last);
     await tester.pumpAndSettle();
     await tapBack(tester);
     expect(caption(1, 2, 8), findsOneWidget);
+  });
+
+  testWidgets('letters: a swipe changes the card and counts as seen', (tester) async {
+    await open(tester, 'b01', startPart: 2);
+    await tester.drag(find.text('Aa').first, const Offset(-300, 0));
+    await tester.pumpAndSettle();
+    expect(find.text('2 / 19 seen'), findsOneWidget);
+    expect(find.text('Bb'), findsNWidgets(2)); // card tile + chip
+    // The speaker is there even before the clip is recorded; tapping it
+    // plays nothing and doesn't fail.
+    await tester.tap(find.byIcon(Icons.volume_up_rounded).first);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('letters: only the current card shows, full width, no peek', (tester) async {
+    await open(tester, 'b01', startPart: 2);
+    final card = find.byWidgetPredicate((w) => w.runtimeType.toString() == '_LetterCard');
+    // One card on screen, 20 px in from each side of the 360 px phone.
+    expect(card, findsOneWidget);
+    final rect = tester.getRect(card);
+    expect(rect.left, 20);
+    expect(rect.right, 340);
+    // The next letter appears only as its chip, never as a card at the edge.
+    expect(find.text('Bb'), findsOneWidget);
+
+    await tapNext(tester);
+    expect(card, findsOneWidget);
+    expect(tester.getRect(card).left, 20);
+    expect(find.text('Aa'), findsOneWidget); // letter 1 is a chip again
+  });
+
+  testWidgets('word card: audio buttons show without a recording', (tester) async {
+    await open(tester, 'b02', startPart: 1);
+    expect(find.byIcon(Icons.volume_up_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.hourglass_top_rounded), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.volume_up_rounded));
+    await tester.tap(find.byIcon(Icons.hourglass_top_rounded));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('dialogue: avatars, tap a bubble, Show all Filipino', (tester) async {

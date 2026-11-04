@@ -39,7 +39,7 @@ class WordsPart extends StatelessWidget {
           fallbackPicture: fallbackPicture,
         ),
         if (item.example != null) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _ExampleBox(item.example!),
         ],
       ],
@@ -64,9 +64,10 @@ class _LearnCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    // Figma "Word card": padding 20, radius 24, 12 between items, centred.
     return PartCard(
       radius: 24,
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           Stack(
@@ -75,7 +76,10 @@ class _LearnCard extends StatelessWidget {
               SmallChip(t.newWordChip),
               Align(
                 alignment: Alignment.centerRight,
-                child: Text('$position / $count', style: V6Text.labelMediumBold),
+                child: Text(
+                  '$position / $count',
+                  style: V6Text.labelMediumBold.copyWith(color: V6Colors.textSecondary),
+                ),
               ),
             ],
           ),
@@ -83,7 +87,7 @@ class _LearnCard extends StatelessWidget {
           AspectRatio(
             aspectRatio: 295 / 140,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               child: LessonImage(
                 path: item.image,
                 fallback: fallbackPicture,
@@ -92,42 +96,41 @@ class _LearnCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Text(t.hiligaynonLabel, style: V6Text.captionSemiBold.copyWith(color: V6Colors.glowText)),
-          const SizedBox(height: 4),
+          Text(t.hiligaynonLabel, style: V6Text.labelMediumBold.copyWith(color: V6Colors.glowText)),
+          const SizedBox(height: 12),
           Text(item.hil, textAlign: TextAlign.center, style: V6Text.headlineXl),
-          const SizedBox(height: 4),
+          const SizedBox(height: 12),
           Text(
             item.fil,
             textAlign: TextAlign.center,
             style: V6Text.bodyLarge.copyWith(color: V6Colors.textSecondary),
           ),
           if (item.alt != null) ...[
-            const SizedBox(height: 6),
+            const SizedBox(height: 12),
             Text(
               t.alsoSaid(item.alt!),
               textAlign: TextAlign.center,
               style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
             ),
           ],
-          // Both buttons play the same clip; hidden when it's missing.
-          if (item.audio != null) ...[
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AudioButton(clip: item.audio!, label: t.playAudio),
-                const SizedBox(width: 8),
-                AudioButton(
-                  clip: item.audio!,
-                  label: t.playSlow,
-                  slow: true,
-                  size: 40,
-                  background: V6Colors.primaryContainer,
-                  foreground: V6Colors.primary,
-                ),
-              ],
-            ),
-          ],
+          // Both buttons play the same clip (slow = 0.75×). Always shown;
+          // a clip that isn't recorded yet plays nothing.
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AudioButton(clip: item.audio, label: t.playAudio),
+              const SizedBox(width: 16),
+              AudioButton(
+                clip: item.audio,
+                label: t.playSlow,
+                slow: true,
+                size: 48,
+                background: V6Colors.primaryContainer,
+                foreground: V6Colors.primary,
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -144,7 +147,7 @@ class _ExampleBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: V6Colors.lagoonContainer,
         borderRadius: BorderRadius.circular(16),
@@ -153,9 +156,10 @@ class _ExampleBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(t.exampleLabel, style: V6Text.labelMediumBold.copyWith(color: V6Colors.lagoonText)),
-          const SizedBox(height: 4),
-          Text(example.hil, style: V6Text.titleMediumBold),
-          Text(example.fil, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+          const SizedBox(height: 2),
+          Text(example.hil, style: V6Text.bodyLargeSemiBold),
+          const SizedBox(height: 2),
+          Text(example.fil, style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted)),
         ],
       ),
     );

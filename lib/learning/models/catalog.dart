@@ -467,8 +467,11 @@ class LessonItem {
   final String? alt;
   final String? note;
 
-  /// Asset paths, or null if missing (no audio button / firefly_reading).
+  /// The clip's asset path (kept even if the file isn't in the app yet:
+  /// the button shows and plays nothing), or null if the JSON has none.
   final String? audio;
+
+  /// Picture asset path, or null if missing (→ firefly_reading).
   final String? image;
 
   /// Null hides the Example box.
@@ -484,7 +487,7 @@ class LessonItem {
         fil: r.str('fil'),
         alt: r.strOrNull('alt'),
         note: r.strOrNull('note'),
-        audio: assets.resolve(r.strOrNull('audio'), '$where > audio'),
+        audio: assets.resolveAudio(r.strOrNull('audio'), '$where > audio'),
         image: assets.resolve(r.strOrNull('image'), '$where > image'),
         example: r.objectOrNull('example') == null
             ? null
@@ -511,7 +514,8 @@ class Letter {
   final String name;
   final String soundHint;
 
-  /// One clip: the letter, then its example word. Null if missing.
+  /// One clip: the letter, then its example word. Kept even if the file
+  /// isn't in the app yet.
   final String? audio;
   final HilFil example;
 
@@ -521,7 +525,7 @@ class Letter {
         letter: r.str('letter'),
         name: r.str('name'),
         soundHint: r.str('soundHint'),
-        audio: assets.resolve(r.strOrNull('audio'), '$where > audio'),
+        audio: assets.resolveAudio(r.strOrNull('audio'), '$where > audio'),
         example: HilFil.fromJson(r.object('example')),
       );
 }

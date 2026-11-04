@@ -44,20 +44,24 @@ class _DialoguePartState extends State<DialoguePart> {
     final data = widget.data;
     return PartLayout(
       children: [
+        // Figma P07: 12 between blocks, 10 between chat lines.
         PartHeader(icon: data.icon, title: data.title),
         const SizedBox(height: 12),
-        Text(data.setting, style: V6Text.bodyLarge),
-        const SizedBox(height: 8),
+        Text(data.setting, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+        const SizedBox(height: 12),
         ShowAllSwitch(label: t.showAllFilipino, value: _showAll, onChanged: _setAll),
+        const SizedBox(height: 12),
         Text(t.dialogueHint, style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
         const SizedBox(height: 12),
-        for (var i = 0; i < data.lines.length; i++)
+        for (var i = 0; i < data.lines.length; i++) ...[
+          if (i > 0) const SizedBox(height: 10),
           _Bubble(
             line: data.lines[i],
             avatar: widget.avatars.avatarFor(data.lines[i].speaker),
             shown: _shown.contains(i),
             onTap: () => _toggle(i),
           ),
+        ],
         if (data.tip != null) TipCard(data.tip!),
       ],
     );
@@ -86,67 +90,82 @@ class _Bubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final (background, main, sub) = _mine
-        ? (V6Colors.primary, V6Colors.onPrimary, V6Colors.onPrimaryMuted)
+        ? (V6Colors.primary, V6Colors.onPrimary, V6Colors.onPrimary)
         : (V6Colors.primaryContainer, V6Colors.textPrimary, V6Colors.textSecondary);
+    // Figma "Bubble": 232 wide, padding 10/14/2, the corner by the avatar is 6.
     final radius = BorderRadius.only(
       topLeft: const Radius.circular(18),
       topRight: const Radius.circular(18),
-      bottomLeft: Radius.circular(_mine ? 18 : 4),
-      bottomRight: Radius.circular(_mine ? 4 : 18),
+      bottomLeft: Radius.circular(_mine ? 18 : 6),
+      bottomRight: Radius.circular(_mine ? 6 : 18),
     );
 
-    final bubble = Flexible(
-      child: Semantics(
-        button: true,
-        child: Material(
-          color: background,
-          shape: RoundedRectangleBorder(borderRadius: radius),
-          child: InkWell(
-            borderRadius: radius,
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(line.hil, style: V6Text.bodyLargeBold.copyWith(color: main)),
-                  if (shown)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(line.fil, style: V6Text.bodyMedium.copyWith(color: sub)),
-                    ),
-                  const SizedBox(height: 4),
+    final bubble = Semantics(
+      button: true,
+      child: Material(
+        color: background,
+        shape: RoundedRectangleBorder(borderRadius: radius),
+        child: InkWell(
+          borderRadius: radius,
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(14, 10, 14, 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(line.hil, style: V6Text.bodyLargeSemiBold.copyWith(color: main)),
+                if (shown) ...[
+                  const SizedBox(height: 2),
                   Text(
+                    line.fil,
+                    style: V6Text.bodyMedium.copyWith(
+                      color: _mine ? V6Colors.onPrimaryMuted : V6Colors.textSecondary,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 2),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, bottom: 8),
+                  child: Text(
                     shown ? t.tapToHideFilipino : t.tapToSeeFilipino,
                     style: V6Text.caption.copyWith(color: sub),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
 
-    final face = _Avatar(path: avatar, speaker: line.speaker);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: _mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: _mine ? 0 : 44, right: _mine ? 44 : 0, bottom: 4),
-            child: Text(line.speaker, style: V6Text.labelMediumBold.copyWith(color: V6Colors.textSecondary)),
+    // Name and bubble together; the avatar sits beside them at the bottom.
+    final message = Flexible(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 232),
+        child: SizedBox(
+          width: 232,
+          child: Column(
+            crossAxisAlignment: _mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              Text(
+                line.speaker,
+                style: V6Text.captionSemiBold.copyWith(color: V6Colors.textSecondary),
+              ),
+              const SizedBox(height: 4),
+              bubble,
+            ],
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: _mine ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: _mine
-                ? [const SizedBox(width: 40), bubble, const SizedBox(width: 8), face]
-                : [face, const SizedBox(width: 8), bubble, const SizedBox(width: 40)],
-          ),
-        ],
+        ),
       ),
+    );
+
+    final face = _Avatar(path: avatar, speaker: line.speaker);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: _mine ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: _mine
+          ? [message, const SizedBox(width: 8), face]
+          : [face, const SizedBox(width: 8), message],
     );
   }
 }

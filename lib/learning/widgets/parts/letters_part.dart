@@ -41,7 +41,7 @@ class LettersPart extends StatefulWidget {
 
 class _LettersPartState extends State<LettersPart> {
   late final PageController _pages =
-      PageController(initialPage: widget.index, viewportFraction: 0.86);
+      PageController(initialPage: widget.index);
 
   /// True while the carousel slides on its own (Back/Next or a chip). The
   /// slide passes other letters on the way; those must not count as seen.
@@ -75,44 +75,57 @@ class _LettersPartState extends State<LettersPart> {
     final letters = widget.data.letters;
     final total = letters.length;
 
+    // Figma "P05 · Lesson Content": 12 between blocks.
     return PartLayout(
       children: [
         Row(
           children: [
-            const IconTile(icon: Icons.abc_rounded, size: 32),
-            const SizedBox(width: 10),
-            Expanded(child: Text(widget.data.title, style: V6Text.titleLargeBold)),
+            const Icon(Icons.abc_rounded, size: 24, color: V6Colors.primary),
+            const SizedBox(width: 8),
+            Expanded(child: Text(widget.data.title, style: V6Text.titleLargeExtraBold)),
             Text(
               t.lettersSeen(widget.seen.length, total),
-              style: V6Text.labelLargeBold.copyWith(color: V6Colors.textSecondary),
+              style: V6Text.labelLargeBold.copyWith(color: V6Colors.textMuted),
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        Text(t.lettersHint, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
         const SizedBox(height: 12),
+        Text(t.lettersHint, style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted)),
+        const SizedBox(height: 12),
+        // The carousel runs edge to edge (20 past each side of the content)
+        // with the margin inside each page, so the next card never peeks in.
+        // It doesn't clip, so the card's shadow spills into the 12 px gap
+        // under it (Figma: 232 card, pager 12 below).
         SizedBox(
-          height: 186,
-          child: PageView.builder(
-            controller: _pages,
-            padEnds: false,
-            itemCount: total,
-            onPageChanged: (i) {
-              // Only a swipe by the learner changes the letter here.
-              if (!_sliding && i != widget.index) widget.onIndexChanged(i);
-            },
-            itemBuilder: (_, i) => Padding(
-              padding: const EdgeInsets.only(right: 12, bottom: 6),
-              child: _LetterCard(letter: letters[i]),
+          height: 232,
+          child: LayoutBuilder(
+            builder: (context, box) => OverflowBox(
+              minWidth: box.maxWidth + 40,
+              maxWidth: box.maxWidth + 40,
+              child: PageView.builder(
+                // Only the current card shows, full width (no peek).
+                controller: _pages,
+                clipBehavior: Clip.none,
+                itemCount: total,
+                onPageChanged: (i) {
+                  // Only a swipe by the learner changes the letter here.
+                  if (!_sliding && i != widget.index) widget.onIndexChanged(i);
+                },
+                itemBuilder: (_, i) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: _LetterCard(letter: letters[i]),
+                ),
+              ),
             ),
           ),
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(
+            SizedBox(
+              width: 150,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(V6Spacing.radiusFull),
+                borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
                   value: (widget.index + 1) / total,
                   minHeight: 8,
@@ -121,11 +134,14 @@ class _LettersPartState extends State<LettersPart> {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
-            Text(t.letterPosition(widget.index + 1, total), style: V6Text.labelLargeBold),
+            const SizedBox(width: 10),
+            Text(
+              t.letterPosition(widget.index + 1, total),
+              style: V6Text.labelLargeBold.copyWith(color: V6Colors.textSecondary),
+            ),
           ],
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
         _grid(letters),
       ],
     );
@@ -135,7 +151,7 @@ class _LettersPartState extends State<LettersPart> {
   Widget _grid(List<Letter> letters) {
     return LayoutBuilder(builder: (context, box) {
       const gap = 6.0;
-      final size = ((box.maxWidth - gap * 6) / 7).floorToDouble();
+      final size = (box.maxWidth - gap * 6) / 7;
       return Wrap(
         spacing: gap,
         runSpacing: gap,
@@ -162,14 +178,16 @@ class _LetterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    // Figma "Letter card": 232 high, padding 18, radius 24, soft shadow.
     return Container(
-      padding: const EdgeInsets.all(14),
+      height: 232,
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: V6Colors.surface,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: V6Colors.borderDivider),
-        boxShadow: [
-          BoxShadow(color: V6Colors.primary.withValues(alpha: 0.08), blurRadius: 12, offset: const Offset(0, 4)),
+        boxShadow: const [
+          BoxShadow(color: Color(0x14321B58), blurRadius: 24, offset: Offset(0, 8)),
         ],
       ),
       child: Column(
@@ -178,14 +196,15 @@ class _LetterCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 68,
-                height: 68,
+                width: 88,
+                height: 88,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: V6Colors.primary,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(22),
                 ),
                 child: FittedBox(
+                  fit: BoxFit.scaleDown,
                   child: Padding(
                     padding: const EdgeInsets.all(6),
                     child: Text(
@@ -195,16 +214,25 @@ class _LetterCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 14),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(t.calledLabel, style: V6Text.labelMediumBold.copyWith(color: V6Colors.textMuted)),
+                    Text(
+                      t.calledLabel,
+                      style: V6Text.labelMediumBold.copyWith(
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.96,
+                        color: V6Colors.textMuted,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
                     Text(
                       '“${letter.name}”',
-                      style: V6Text.hilResultExtraBoldItalic.copyWith(color: V6Colors.primary),
+                      style: V6Text.headlineMediumExtraBoldItalic.copyWith(color: V6Colors.primary),
                     ),
+                    const SizedBox(height: 4),
                     Text(
                       letter.soundHint,
                       maxLines: 2,
@@ -216,13 +244,12 @@ class _LetterCard extends StatelessWidget {
               ),
             ],
           ),
-          const Spacer(),
+          const SizedBox(height: 16),
           Container(
-            padding: const EdgeInsets.fromLTRB(12, 4, 4, 4),
-            constraints: const BoxConstraints(minHeight: 56),
+            padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
             decoration: BoxDecoration(
               color: V6Colors.glowContainerSoft,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: V6Colors.glow),
             ),
             child: Row(
@@ -232,20 +259,29 @@ class _LetterCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(letter.example.hil, style: V6Text.hilWordBoldItalic),
-                      Text(letter.example.fil, style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
+                      Text(
+                        letter.example.hil,
+                        style: V6Text.hilResultExtraBoldItalic.copyWith(color: V6Colors.primaryStrong),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        letter.example.fil,
+                        style: V6Text.bodyMediumSemiBold.copyWith(color: V6Colors.textSecondary),
+                      ),
                     ],
                   ),
                 ),
+                const SizedBox(width: 12),
                 // The only speaker button: the letter, then the example word.
-                if (letter.audio != null)
-                  AudioButton(
-                    clip: letter.audio!,
-                    label: t.playAudio,
-                    size: 40,
-                    background: V6Colors.glow,
-                    foreground: V6Colors.primaryStrong,
-                  ),
+                // Always shown; plays nothing until the clip is recorded.
+                AudioButton(
+                  clip: letter.audio,
+                  label: t.playAudio,
+                  size: 48,
+                  iconSize: 24,
+                  background: V6Colors.glow,
+                  foreground: V6Colors.primaryStrong,
+                ),
               ],
             ),
           ),
@@ -277,6 +313,7 @@ class _LetterChip extends StatelessWidget {
         : seen
             ? (V6Colors.primaryContainer, V6Colors.primary, V6Colors.primaryContainer)
             : (V6Colors.surface, V6Colors.primary, V6Colors.borderDivider);
+    // Figma "Letter Chip": 48 high, radius 12. Seen = light violet + check.
     return Semantics(
       button: true,
       selected: current,
@@ -285,18 +322,26 @@ class _LetterChip extends StatelessWidget {
       child: Material(
         color: background,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: border),
+          borderRadius: BorderRadius.circular(12),
+          side: current ? BorderSide.none : BorderSide(color: border),
         ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12),
           onTap: onTap,
           child: SizedBox(
             width: size,
-            // At least 48 tall to tap (§1.12).
-            height: size < 48 ? 48 : size,
-            child: Center(
-              child: Text(label, style: V6Text.labelLetter.copyWith(color: foreground)),
+            height: 48,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Text(label, style: V6Text.labelLetter.copyWith(color: foreground)),
+                if (seen && !current)
+                  const Positioned(
+                    top: 3,
+                    right: 3,
+                    child: Icon(Icons.check_rounded, size: 11, color: V6Colors.primary),
+                  ),
+              ],
             ),
           ),
         ),

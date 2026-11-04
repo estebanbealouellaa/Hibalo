@@ -38,6 +38,8 @@ abstract final class V6Text {
   // Headlines and titles
   static final headlineXl = _style(32, _extraBold, 40, letterSpacing: -0.3);
   static final headlineLargeTight = _style(28, _extraBold, 34, letterSpacing: -1);
+  /// The S01 "Learn" title (Figma uses −0.28 tracking on this instance).
+  static final screenTitle = _style(28, _extraBold, 34, letterSpacing: -0.28);
   static final headlineMedium = _style(24, _bold, 32);
   static final headlineMediumExtraBold = _style(24, _extraBold, 32);
   static final headlineMediumExtraBoldItalic = _style(24, _extraBold, 32, italic: true);

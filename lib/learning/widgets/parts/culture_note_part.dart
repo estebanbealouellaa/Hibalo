@@ -21,9 +21,10 @@ class CultureNotePart extends StatelessWidget {
     final t = AppLocalizations.of(context);
     return PartLayout(
       children: [
+        // Figma "P10 · Culture note": card padding 20, radius 24, 12 between.
         PartCard(
           radius: 24,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               SmallChip(data.title),
@@ -31,7 +32,7 @@ class CultureNotePart extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 295 / 140,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   child: LessonImage(
                     path: data.image,
                     fallback: fallbackPicture,
@@ -40,8 +41,8 @@ class CultureNotePart extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              Text(t.cultureNoteLabel, style: V6Text.captionSemiBold.copyWith(color: V6Colors.glowText)),
-              const SizedBox(height: 8),
+              Text(t.cultureNoteLabel, style: V6Text.labelMediumBold.copyWith(color: V6Colors.glowText)),
+              const SizedBox(height: 12),
               MarkupText(
                 data.text,
                 textAlign: TextAlign.center,
