@@ -68,9 +68,20 @@ void showLearnDebugMenu(BuildContext context) {
             ListTile(
               dense: true,
               title: Text(entry.key),
-              onTap: () {
-                progress.debugReplaceLessons(entry.value);
+              onTap: () async {
                 Navigator.pop(sheet);
+                if (entry.value.isNotEmpty) {
+                  await progress.debugReplaceLessons(entry.value);
+                  return;
+                }
+                // Reset: the phone copy and this account's cloud progress.
+                final messenger = ScaffoldMessenger.maybeOf(context);
+                final cleared = await progress.debugResetAll();
+                messenger?.showSnackBar(SnackBar(
+                  content: Text(cleared
+                      ? 'Progress reset on the phone and in the cloud'
+                      : 'Phone reset. Cloud progress could not be cleared (offline?)'),
+                ));
               },
             ),
           const Divider(),

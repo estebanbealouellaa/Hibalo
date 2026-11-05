@@ -1,22 +1,51 @@
 import '../models/progress.dart';
 
 /// The cloud copy of a learner's progress (Firestore `users/{uid}` and its
-/// `lessonProgress` subcollection), as read when they sign in.
+/// `lessonProgress` subcollection): as read on sign-in, and then as known
+/// on the phone after each write.
 class CloudProgress {
   CloudProgress({
     this.xp = 0,
     this.streak = 0,
     this.lastActiveDate,
+    this.lessonsCompleted = 0,
     Set<String>? paid,
     Map<String, LessonProgress>? lessons,
   }) : paid = paid ?? {},
        lessons = lessons ?? {};
 
-  final int xp;
-  final int streak;
-  final String? lastActiveDate;
+  int xp;
+  int streak;
+  String? lastActiveDate;
+  int lessonsCompleted;
   final Set<String> paid;
   final Map<String, LessonProgress> lessons;
+
+  Map<String, dynamic> toJson() => {
+    'xp': xp,
+    'streak': streak,
+    'lastActiveDate': lastActiveDate,
+    'lessonsCompleted': lessonsCompleted,
+    'paid': paid.toList()..sort(),
+    'lessons': {for (final e in lessons.entries) e.key: e.value.toJson()},
+  };
+
+  static CloudProgress? fromJson(Object? json) {
+    if (json is! Map<String, dynamic>) return null;
+    final raw = json['lessons'];
+    return CloudProgress(
+      xp: (json['xp'] as num?)?.toInt() ?? 0,
+      streak: (json['streak'] as num?)?.toInt() ?? 0,
+      lastActiveDate: json['lastActiveDate'] as String?,
+      lessonsCompleted: (json['lessonsCompleted'] as num?)?.toInt() ?? 0,
+      paid: {...?(json['paid'] as List?)?.whereType<String>()},
+      lessons: {
+        if (raw is Map<String, dynamic>)
+          for (final e in raw.entries)
+            if (e.value is Map<String, dynamic>) e.key: LessonProgress.fromJson(e.value as Map<String, dynamic>),
+      },
+    );
+  }
 }
 
 /// One finished quiz attempt (`users/{uid}/quizAttempts/{attemptId}`).
@@ -64,84 +93,176 @@ class QuizAttemptRecord {
   }
 }
 
-/// Everything one sync sends. Written as one batch: XP is added with
-/// `FieldValue.increment` and paid ids with `FieldValue.arrayUnion`, never
-/// with a transaction (transactions fail offline).
+/// The lessonProgress fields one write raises. A field that is null (or
+/// false) is not sent at all, so a merge write can only keep or raise the
+/// cloud's values: partsDone and bestScore only when higher, completed and
+/// passed only as true, completedAt only when the cloud has none.
+class LessonRaise {
+  const LessonRaise({this.partsDone, this.completed = false, this.bestScore, this.passed = false, this.completedAt});
+
+  final int? partsDone;
+  final bool completed;
+  final int? bestScore;
+  final bool passed;
+  final DateTime? completedAt;
+
+  bool get isEmpty => partsDone == null && !completed && bestScore == null && !passed && completedAt == null;
+
+  /// What [local] adds to [known] (the cloud's value as known on the phone).
+  factory LessonRaise.between(LessonProgress? known, LessonProgress local) {
+    final k = known ?? LessonProgress.empty;
+    final best = local.bestScore;
+    return LessonRaise(
+      partsDone: local.partsDone > k.partsDone ? local.partsDone : null,
+      completed: local.completed && !k.completed,
+      bestScore: best != null && (k.bestScore == null || best > k.bestScore!) ? best : null,
+      passed: local.passed && !k.passed,
+      completedAt: k.completedAt == null ? local.completedAt : null,
+    );
+  }
+
+  /// [known] after this write (what a merge write leaves in the cloud).
+  LessonProgress applyTo(LessonProgress? known) {
+    final k = known ?? LessonProgress.empty;
+    return LessonProgress(
+      partsDone: partsDone ?? k.partsDone,
+      completed: completed || k.completed,
+      bestScore: bestScore ?? k.bestScore,
+      passed: passed || k.passed,
+      completedAt: completedAt ?? k.completedAt,
+    );
+  }
+}
+
+/// Everything one sync sends, as one batch of merge writes. XP is added
+/// with `FieldValue.increment` and paid ids with `FieldValue.arrayUnion`,
+/// never with a transaction (transactions fail offline). Null fields are
+/// not sent.
 class CloudUpdate {
   const CloudUpdate({
     this.xpIncrement = 0,
     this.paidAdded = const [],
-    required this.streak,
-    required this.lastActiveDate,
-    required this.lessonsCompleted,
+    this.streak,
+    this.lastActiveDate,
+    this.lessonsCompleted,
     this.lessons = const {},
     this.attempts = const [],
   });
 
   final int xpIncrement;
   final List<String> paidAdded;
-  final int streak;
-  final String? lastActiveDate;
-  final int lessonsCompleted;
 
-  /// lessonProgress documents to write (whole document, merged).
-  final Map<String, LessonProgress> lessons;
+  /// Sent together, only for a later day (or a longer streak the same day).
+  final int? streak;
+  final String? lastActiveDate;
+
+  /// Sent only when higher.
+  final int? lessonsCompleted;
+
+  /// lessonProgress fields to raise, per lesson.
+  final Map<String, LessonRaise> lessons;
 
   /// quizAttempts documents to add.
   final List<QuizAttemptRecord> attempts;
+
+  bool get isEmpty =>
+      xpIncrement == 0 &&
+      paidAdded.isEmpty &&
+      lastActiveDate == null &&
+      lessonsCompleted == null &&
+      lessons.isEmpty &&
+      attempts.isEmpty;
 }
 
 /// Where synced progress goes. The real one is Firestore; tests use a fake.
 abstract class ProgressCloud {
   /// Reads the learner's progress. Throws when it can't be read (offline
-  /// with nothing cached); the merge is then tried again later.
+  /// with nothing cached); nothing is sent until it can be.
   Future<CloudProgress> fetch(String uid);
 
   /// Queues [update] for [uid]. Returns at once: Firestore keeps the writes
   /// on the phone (offline persistence) and sends them when online.
   void write(String uid, CloudUpdate update);
+
+  /// Debug builds only ("Reset all progress"): deletes the learner's
+  /// progress (the progress fields and `paid` on users/{uid}, and every
+  /// lessonProgress and quizAttempts document). Never the profile or role.
+  Future<void> deleteProgress(String uid);
 }
 
-/// The phone and cloud progress merged when a learner signs in (approved:
-/// "Merge, keep the best").
-class MergeResult {
-  MergeResult({required this.snapshot, required this.update});
+/// What [local] sends to a cloud known as [known]: only new paid ids (and
+/// their XP), raised lesson fields, a later streak day, more lessons
+/// completed, and attempts not sent yet. [known] is updated to match.
+CloudUpdate raiseCloud({
+  required ProgressSnapshot local,
+  required CloudProgress known,
+  required int Function(String paidId) xpOf,
+}) {
+  final newPaid = local.paid.difference(known.paid).toList()..sort();
+  final xp = newPaid.fold<int>(0, (sum, id) => sum + xpOf(id));
 
-  /// The merged progress to keep on the phone.
-  final ProgressSnapshot snapshot;
+  final lessons = <String, LessonRaise>{};
+  for (final e in local.lessons.entries) {
+    final raise = LessonRaise.between(known.lessons[e.key], e.value);
+    if (raise.isEmpty) continue;
+    lessons[e.key] = raise;
+    known.lessons[e.key] = raise.applyTo(known.lessons[e.key]);
+  }
 
-  /// What the cloud is missing.
-  final CloudUpdate update;
+  final day = local.lastActiveDate;
+  final knownDay = known.lastActiveDate;
+  final laterDay =
+      day != null &&
+      (knownDay == null || day.compareTo(knownDay) > 0 || (day == knownDay && local.streak > known.streak));
+  final completed = local.lessonsCompleted;
+  final moreCompleted = completed > known.lessonsCompleted;
+
+  final update = CloudUpdate(
+    xpIncrement: xp,
+    paidAdded: newPaid,
+    streak: laterDay ? local.streak : null,
+    lastActiveDate: laterDay ? day : null,
+    lessonsCompleted: moreCompleted ? completed : null,
+    lessons: lessons,
+    attempts: List.of(local.pendingAttempts),
+  );
+  known
+    ..xp += xp
+    ..paid.addAll(newPaid);
+  if (laterDay) {
+    known
+      ..streak = local.streak
+      ..lastActiveDate = day;
+  }
+  if (moreCompleted) known.lessonsCompleted = completed;
+  return update;
 }
 
-/// Merges the phone's progress into the cloud's:
+/// Merges the phone's progress with the cloud's when a learner signs in
+/// (approved: "Merge, keep the best"):
 /// - per lesson: highest partsDone, completed if either, highest bestScore,
 ///   passed if either, earliest completedAt;
-/// - paid ids: the union; XP = cloud XP + XP for ids only the phone had paid
-///   (sent as an increment);
+/// - paid ids: the union; XP = cloud XP + XP for ids only the phone had
+///   paid (so nothing paid before the cloud was read is counted twice);
 /// - streak: the one with the later lastActiveDate.
 /// [xpOf] gives the XP a paid id is worth.
-MergeResult mergeProgress({
+ProgressSnapshot mergeProgress({
   required ProgressSnapshot local,
   required CloudProgress cloud,
   required int Function(String paidId) xpOf,
 }) {
-  final phoneOnly = local.paid.difference(cloud.paid).toList()..sort();
+  final phoneOnly = local.paid.difference(cloud.paid);
   final extraXp = phoneOnly.fold<int>(0, (sum, id) => sum + xpOf(id));
 
-  final lessons = <String, LessonProgress>{};
-  final changed = <String, LessonProgress>{};
-  for (final id in {...cloud.lessons.keys, ...local.lessons.keys}) {
-    final c = cloud.lessons[id];
-    final l = local.lessons[id];
-    final merged = c == null
-        ? l!
-        : l == null
-        ? c
-        : mergeLesson(l, c);
-    lessons[id] = merged;
-    if (c == null || !sameLesson(c, merged)) changed[id] = merged;
-  }
+  final lessons = <String, LessonProgress>{
+    for (final id in {...cloud.lessons.keys, ...local.lessons.keys})
+      id: switch ((local.lessons[id], cloud.lessons[id])) {
+        (final l?, final c?) => mergeLesson(l, c),
+        (final l?, null) => l,
+        (null, final c?) => c,
+        (null, null) => LessonProgress.empty,
+      },
+  };
 
   final localDay = local.lastActiveDate;
   final cloudDay = cloud.lastActiveDate;
@@ -149,23 +270,14 @@ MergeResult mergeProgress({
       cloudDay == null ||
       (localDay != null && (localDay.compareTo(cloudDay) > 0 || (localDay == cloudDay && local.streak > cloud.streak)));
 
-  final snapshot = ProgressSnapshot(
+  return ProgressSnapshot(
     lessons: lessons,
     xp: cloud.xp + extraXp,
     streak: useLocalStreak ? local.streak : cloud.streak,
     lastActiveDate: useLocalStreak ? localDay : cloudDay,
     paid: {...cloud.paid, ...local.paid},
-  );
-  return MergeResult(
-    snapshot: snapshot,
-    update: CloudUpdate(
-      xpIncrement: extraXp,
-      paidAdded: phoneOnly,
-      streak: snapshot.streak,
-      lastActiveDate: snapshot.lastActiveDate,
-      lessonsCompleted: snapshot.lessonsCompleted,
-      lessons: changed,
-    ),
+    ownerUid: local.ownerUid,
+    pendingAttempts: List.of(local.pendingAttempts),
   );
 }
 
@@ -181,10 +293,3 @@ LessonProgress mergeLesson(LessonProgress a, LessonProgress b) {
     completedAt: earliest(a.completedAt, b.completedAt),
   );
 }
-
-bool sameLesson(LessonProgress a, LessonProgress b) =>
-    a.partsDone == b.partsDone &&
-    a.completed == b.completed &&
-    a.bestScore == b.bestScore &&
-    a.passed == b.passed &&
-    a.completedAt == b.completedAt;

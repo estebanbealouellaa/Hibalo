@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../learning/sync/firestore_progress_cloud.dart';
+
 class AdminUsersScreen extends StatefulWidget {
   const AdminUsersScreen({super.key});
 
@@ -389,7 +391,13 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             onPressed: () async {
               Navigator.pop(context);
               try {
-                await _firestore.collection('users').doc(uid).delete();
+                // The user's learning progress first (lessonProgress and
+                // quizAttempts), then the user document, in the last batch.
+                await FirestoreProgressCloud.deleteLearningDocs(
+                  _firestore,
+                  uid,
+                  also: (batch) => batch.delete(_firestore.collection('users').doc(uid)),
+                );
                 _showSnack('User deleted');
               } catch (e) {
                 _showSnack('Error: $e', error: true);

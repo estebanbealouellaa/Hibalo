@@ -40,16 +40,20 @@ service cloud.firestore {
 
       allow delete: if isOwner(uid) || isAdmin();
 
-      // Learning progress, one document per lesson.
+      // Learning progress, one document per lesson. Admins may read
+      // them, and delete them when they delete the user.
       match /lessonProgress/{lessonId} {
         allow read: if isOwner(uid) || isAdmin();
         allow write: if isOwner(uid);
+        allow delete: if isAdmin();
       }
 
-      // Finished quiz attempts.
+      // Finished quiz attempts. Admins may read them, and delete them
+      // when they delete the user.
       match /quizAttempts/{attemptId} {
         allow read: if isOwner(uid) || isAdmin();
         allow write: if isOwner(uid);
+        allow delete: if isAdmin();
       }
     }
 

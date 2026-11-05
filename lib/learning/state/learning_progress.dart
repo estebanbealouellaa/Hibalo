@@ -177,7 +177,6 @@ class LearningProgress extends ChangeNotifier {
       completed: completed,
       completedAt: before.completedAt ?? (completed ? _clock() : null),
     );
-    _snapshot.unsyncedLessons.add(lesson.id);
     _markActiveToday();
     notifyListeners();
     await _store.save(_snapshot);
@@ -222,7 +221,6 @@ class LearningProgress extends ChangeNotifier {
       bestScore: best == null || correct > best ? correct : best,
       passed: before.passed || passed,
     );
-    _snapshot.unsyncedLessons.add(lesson.id);
     // Only signed-in attempts go to quizAttempts; a guest's best scores
     // reach the cloud through the merge on sign-in instead.
     if (_uid != null) {
@@ -286,9 +284,10 @@ class LearningProgress extends ChangeNotifier {
     return true;
   }
 
-  /// Sends what the cloud is missing. The first time for an account it
-  /// merges (or, for a different account, takes the cloud's progress).
-  /// Never throws: the phone copy is already saved.
+  /// Sends what the cloud is missing. Nothing is sent for an account until
+  /// its cloud copy has been read and merged in this session (a fresh
+  /// install, or a sign-in while offline, waits); until then changes are
+  /// only kept on the phone. Never throws: the phone copy is already saved.
   Future<void> _sync() async {
     final cloud = _cloud;
     final uid = _uid;
@@ -296,7 +295,7 @@ class LearningProgress extends ChangeNotifier {
     try {
       if (_mergedFor != uid) {
         await (_merging ??= _merge(cloud, uid).whenComplete(() => _merging = null));
-        if (_mergedFor != uid) return;
+        if (_mergedFor != uid) return; // not read yet: wait for the next save
       }
       if (_push(cloud, uid)) await _store.save(_snapshot);
     } catch (e) {
@@ -305,54 +304,32 @@ class LearningProgress extends ChangeNotifier {
     }
   }
 
+  /// Reads the account's cloud copy and merges it in, keeping the best.
+  /// XP paid on the phone before this is counted once: the merge adds only
+  /// paid ids the cloud doesn't have. Then sends what the cloud is missing.
   Future<void> _merge(ProgressCloud cloud, String uid) async {
     final remote = await cloud.fetch(uid);
     if (_uid != uid) return; // signed out or switched while reading
-    // Guest progress (the first account), or this account's own, merges
-    // with the cloud, keeping the best. A different account was already
-    // given an empty copy by _switchAccount. Every lesson that differs and
-    // every attempt not sent yet go in this one batch.
-    final merged = mergeProgress(local: _snapshot, cloud: remote, xpOf: xpOfPaidId);
-    final u = merged.update;
-    cloud.write(uid, CloudUpdate(
-      xpIncrement: u.xpIncrement,
-      paidAdded: u.paidAdded,
-      streak: u.streak,
-      lastActiveDate: u.lastActiveDate,
-      lessonsCompleted: u.lessonsCompleted,
-      lessons: u.lessons,
-      attempts: List.of(_snapshot.pendingAttempts),
-    ));
-    _snapshot = merged.snapshot
+    _snapshot = mergeProgress(local: _snapshot, cloud: remote, xpOf: xpOfPaidId)
       ..ownerUid = uid
-      ..syncedPaid.addAll(merged.snapshot.paid);
+      ..cloud = remote;
     _mergedFor = uid;
+    _push(cloud, uid);
     notifyListeners();
     await _store.save(_snapshot);
   }
 
-  /// One batch: new paid ids (and their XP as an increment), changed
-  /// lessons, finished quiz attempts, the streak and lessons completed.
+  /// One batch of merge writes with only what raises the known cloud copy:
+  /// new paid ids (and their XP as an increment), higher lesson values, a
+  /// later streak day, more lessons completed, and finished quiz attempts.
   /// Returns false when there was nothing to send.
   bool _push(ProgressCloud cloud, String uid) {
-    final s = _snapshot;
-    final newPaid = s.paid.difference(s.syncedPaid).toList()..sort();
-    if (newPaid.isEmpty && s.unsyncedLessons.isEmpty && s.pendingAttempts.isEmpty) return false;
-    cloud.write(uid, CloudUpdate(
-      xpIncrement: newPaid.fold(0, (sum, id) => sum + xpOfPaidId(id)),
-      paidAdded: newPaid,
-      streak: s.streak,
-      lastActiveDate: s.lastActiveDate,
-      lessonsCompleted: s.lessonsCompleted,
-      lessons: {
-        for (final id in s.unsyncedLessons)
-          if (s.lessons[id] != null) id: s.lessons[id]!,
-      },
-      attempts: List.of(s.pendingAttempts),
-    ));
-    s.syncedPaid.addAll(newPaid);
-    s.unsyncedLessons.clear();
-    s.pendingAttempts.clear();
+    final known = _snapshot.cloud;
+    if (known == null || _snapshot.ownerUid != uid) return false;
+    final update = raiseCloud(local: _snapshot, known: known, xpOf: xpOfPaidId);
+    if (update.isEmpty) return false;
+    cloud.write(uid, update);
+    _snapshot.pendingAttempts.clear();
     return true;
   }
 
@@ -364,28 +341,44 @@ class LearningProgress extends ChangeNotifier {
 
   // ── Debug tools (debug builds only, see the Learn screen menu) ────────
 
-  /// Replaces all lesson progress, to try the S01/S02 states before the
-  /// lesson and quiz players exist. Not used in release builds.
+  /// Replaces all lesson progress, to try the S01/S02 states. Not used in
+  /// release builds.
   Future<void> debugReplaceLessons(Map<String, LessonProgress> lessons) async {
     assert(kDebugMode, 'debug only');
     _snapshot.lessons
       ..clear()
       ..addAll(lessons);
-    if (lessons.isEmpty) {
-      // "Reset all progress" starts the phone copy fresh. It stays linked to
-      // the signed-in account, and syncedPaid is kept so XP the cloud already
-      // has is never sent twice. The cloud copy is not lowered: the merge on
-      // the next app start brings its progress back (keep the best).
-      _snapshot
-        ..xp = 0
-        ..streak = 0
-        ..lastActiveDate = null
-        ..paid.clear()
-        ..unsyncedLessons.clear()
-        ..pendingAttempts.clear();
+    notifyListeners();
+    await _store.save(_snapshot);
+    await _sync();
+  }
+
+  /// "Reset all progress": the phone copy starts fresh and, when signed in,
+  /// this account's cloud progress is deleted too (progress fields and paid
+  /// on users/{uid}, lessonProgress, quizAttempts; never the profile or
+  /// role), so testing starts clean. Returns false if the cloud could not
+  /// be cleared (then the next app start merges it back).
+  Future<bool> debugResetAll() async {
+    assert(kDebugMode, 'debug only');
+    final uid = _uid;
+    _snapshot = ProgressSnapshot(ownerUid: uid ?? _snapshot.ownerUid);
+    _mergedFor = null;
+    var cleared = true;
+    final cloud = _cloud;
+    if (cloud != null && uid != null) {
+      try {
+        await cloud.deleteProgress(uid).timeout(const Duration(seconds: 15));
+        // The cloud is now known to be empty: later writes start from 0.
+        _snapshot.cloud = CloudProgress();
+        _mergedFor = uid;
+      } catch (e) {
+        debugPrint('[Learning] could not clear cloud progress: $e');
+        cleared = false;
+      }
     }
     notifyListeners();
     await _store.save(_snapshot);
+    return cleared;
   }
 }
 

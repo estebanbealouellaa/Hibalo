@@ -1,4 +1,4 @@
-import '../sync/progress_cloud.dart' show QuizAttemptRecord;
+import '../sync/progress_cloud.dart' show CloudProgress, QuizAttemptRecord;
 
 /// What the learner has done in one lesson. Saved on the phone, and synced to
 /// Firestore `users/{uid}/lessonProgress/{lessonId}` with the same field
@@ -75,13 +75,10 @@ class ProgressSnapshot {
     this.lastActiveDate,
     Set<String>? paid,
     this.ownerUid,
-    Set<String>? syncedPaid,
-    Set<String>? unsyncedLessons,
+    this.cloud,
     List<QuizAttemptRecord>? pendingAttempts,
   })  : lessons = lessons ?? {},
         paid = paid ?? {},
-        syncedPaid = syncedPaid ?? {},
-        unsyncedLessons = unsyncedLessons ?? {},
         pendingAttempts = pendingAttempts ?? [];
 
   /// Lesson id → progress. Lessons never opened are missing.
@@ -107,11 +104,11 @@ class ProgressSnapshot {
   /// starts from its own cloud progress.
   String? ownerUid;
 
-  /// Paid ids the cloud already has (its XP includes them).
-  final Set<String> syncedPaid;
-
-  /// Lessons changed since the last sync.
-  final Set<String> unsyncedLessons;
+  /// What [ownerUid]'s cloud copy is known to hold: read when the account
+  /// was merged, then raised with every write. Null until the cloud has
+  /// been read, and nothing is sent before that. Writes only ever send
+  /// what is above it, so the cloud is never lowered.
+  CloudProgress? cloud;
 
   /// Quiz attempts not sent yet.
   final List<QuizAttemptRecord> pendingAttempts;
@@ -126,8 +123,7 @@ class ProgressSnapshot {
         'lastActiveDate': lastActiveDate,
         'paid': paid.toList()..sort(),
         'ownerUid': ownerUid,
-        'syncedPaid': syncedPaid.toList()..sort(),
-        'unsyncedLessons': unsyncedLessons.toList()..sort(),
+        'cloud': cloud?.toJson(),
         'pendingAttempts': [for (final a in pendingAttempts) a.toJson()],
       };
 
@@ -148,8 +144,7 @@ class ProgressSnapshot {
       lastActiveDate: json['lastActiveDate'] as String?,
       paid: {...?(json['paid'] as List?)?.whereType<String>()},
       ownerUid: json['ownerUid'] as String?,
-      syncedPaid: {...?(json['syncedPaid'] as List?)?.whereType<String>()},
-      unsyncedLessons: {...?(json['unsyncedLessons'] as List?)?.whereType<String>()},
+      cloud: CloudProgress.fromJson(json['cloud']),
       pendingAttempts: [
         for (final a in (json['pendingAttempts'] as List?) ?? const [])
           ?QuizAttemptRecord.fromJson(a),
