@@ -86,7 +86,10 @@ class HomeScreenState extends State<HomeScreen> {
         return PopScope(
           canPop: _tab == HomeScreen.homeTab,
           onPopInvokedWithResult: (didPop, _) {
-            if (!didPop) select(HomeScreen.homeTab);
+            if (didPop) return;
+            // Translate cancels a running photo scan first.
+            if (_tab == HomeScreen.translateTab && (TranslatorScreen.handleBack?.call() ?? false)) return;
+            select(HomeScreen.homeTab);
           },
           // Dark status-bar icons on the light tabs (a tab can still set
           // its own).

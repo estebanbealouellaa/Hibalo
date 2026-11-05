@@ -4,6 +4,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../services/database_service.dart';
 import '../services/nlp_service.dart';
 import '../services/translation/offline_translator.dart';
+import '../services/translation/scan_translator.dart';
 import '../models/translator_state.dart';
 
 class TranslatorProvider extends ChangeNotifier {
@@ -18,6 +19,11 @@ class TranslatorProvider extends ChangeNotifier {
 
   // Only the newest translation is shown; older ones are ignored.
   int _translationRequest = 0;
+
+  /// How many times speech gave a final, non-empty result (the Voice
+  /// pop-up closes when this goes up).
+  int get speechResults => _speechResults;
+  int _speechResults = 0;
 
   TranslatorProvider() {
     _initSpeech();
@@ -83,6 +89,8 @@ class TranslatorProvider extends ChangeNotifier {
       onResult: (result) {
         if (result.finalResult) {
           final spoken = result.recognizedWords;
+
+          if (spoken.isNotEmpty) _speechResults++;
 
           _state = _state.copyWith(isListening: false, partialSpeechText: '');
 
@@ -208,6 +216,45 @@ class TranslatorProvider extends ChangeNotifier {
       isDictionaryMeaning: isDictionaryMeaning,
     );
 
+    notifyListeners();
+  }
+
+  // ─────────────────────────────────────────────
+  // SHOW A PHOTO'S TEXT
+  // ─────────────────────────────────────────────
+  // The text read from a photo goes into the input; its first translation
+  // uses the scan pipeline (piece by piece), as the Camera screen did.
+  Future<void> showScan(PhotoText scan) async {
+    final request = ++_translationRequest;
+    bool isStale() => request != _translationRequest;
+
+    _state = _state.copyWith(
+      originalText: scan.text,
+      translatedText: '',
+      isDictionaryMeaning: false,
+      isTranslating: scan.segments.isNotEmpty,
+    );
+    notifyListeners();
+    if (scan.segments.isEmpty) return;
+
+    final result = await translateScan(
+      fullText: scan.text,
+      segments: scan.segments,
+      fromHiligaynon: _state.sourceLanguage == Languages.hiligaynon,
+      isStale: isStale,
+      onPartial: (textSoFar) {
+        if (isStale()) return;
+        _state = _state.copyWith(translatedText: textSoFar);
+        notifyListeners();
+      },
+    );
+    if (result == null || isStale()) return;
+
+    _state = _state.copyWith(
+      translatedText: result.text,
+      isTranslating: false,
+      isDictionaryMeaning: result.isDictionaryMeaning,
+    );
     notifyListeners();
   }
 
