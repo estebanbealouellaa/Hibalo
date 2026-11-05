@@ -76,9 +76,11 @@ class OptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final (background, border, icon, iconColor) = switch (state) {
       OptionState.idle => (V6Colors.surface, V6Colors.borderDivider, Icons.radio_button_unchecked_rounded, V6Colors.textMuted),
-      OptionState.selected => (V6Colors.surfaceTint, V6Colors.primary, Icons.radio_button_checked_rounded, V6Colors.primary),
+      // Figma Option Card: Selected = Primary Container + violet radio;
+      // Correct = filled green check; Wrong = a plain red ✕.
+      OptionState.selected => (V6Colors.primaryContainer, V6Colors.primary, Icons.radio_button_checked_rounded, V6Colors.primary),
       OptionState.right => (V6Colors.successContainer, V6Colors.success, Icons.check_circle_rounded, V6Colors.success),
-      OptionState.wrong => (V6Colors.errorContainer, V6Colors.error, Icons.cancel_rounded, V6Colors.error),
+      OptionState.wrong => (V6Colors.errorContainer, V6Colors.error, Icons.close_rounded, V6Colors.error),
     };
     return Semantics(
       button: onTap != null,

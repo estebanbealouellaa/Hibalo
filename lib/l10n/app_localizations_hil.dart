@@ -255,4 +255,158 @@ class AppLocalizationsHil extends AppLocalizations {
   @override
   String get lessonFinishedNote =>
       'Natapos ang leksyon! Ang Lesson complete screen maabot sa lakang 5.';
+
+  @override
+  String get qtChoose => 'Pilia';
+
+  @override
+  String get qtListening => 'Pamati';
+
+  @override
+  String get qtFillBlank => 'Pun-a ang blangko';
+
+  @override
+  String get qtTypeAnswer => 'I-type ang sabat';
+
+  @override
+  String get qtBuildSentence => 'Buhata ang hambal';
+
+  @override
+  String get qtRealSituation => 'Matuod nga sitwasyon';
+
+  @override
+  String get qtMatchPairs => 'Ipares';
+
+  @override
+  String get qtDictation => 'Diktasyon';
+
+  @override
+  String get qtSpeaking => 'Paghambal';
+
+  @override
+  String get qtOpenAnswer => 'Hilway nga sabat';
+
+  @override
+  String get checkButton => 'Tan-awa';
+
+  @override
+  String get submitButton => 'Ipasa';
+
+  @override
+  String get q01Hint => 'Pilia ang husto nga sabat.';
+
+  @override
+  String get q02Hint => 'Pamati, dayon pilia ang sabat.';
+
+  @override
+  String get q03Title => 'Kompletoha ang hambal:';
+
+  @override
+  String get q03Hint => 'Pilia ang nadula nga tinaga.';
+
+  @override
+  String get q04TitleToHil => 'I-type ini sa Hiligaynon';
+
+  @override
+  String get q04TitleToFil => 'I-type ini sa Filipino';
+
+  @override
+  String get q04HintToHil => 'Isulat ang tinaga ukon prase sa Hiligaynon.';
+
+  @override
+  String get q04HintToFil => 'Isulat ang tinaga ukon prase sa Filipino.';
+
+  @override
+  String get yourAnswer => 'Ang sabat mo';
+
+  @override
+  String get q05Title => 'Buhata ang hambal';
+
+  @override
+  String get q05Hint => 'I-tap ang mga tinaga sa husto nga han-ay.';
+
+  @override
+  String get q06Title => 'Ano ang hambalon mo?';
+
+  @override
+  String get q08Hint => 'Pamati, dayon i-type sa Hiligaynon.';
+
+  @override
+  String get wordBankLabel => 'Mga tinaga (opsyonal)';
+
+  @override
+  String get q09Hint => 'Ensayuha ang paghambal sang prase. Wala sang iskor.';
+
+  @override
+  String get nativeSpeaker => 'Lumad nga humalambal';
+
+  @override
+  String get youLabel => 'Ikaw';
+
+  @override
+  String get recordTooltip => 'I-record';
+
+  @override
+  String get stopRecordingTooltip => 'Untati ang pag-record';
+
+  @override
+  String get micUnavailable => 'Indi magamit ang mic. Puede mo ini laktawan.';
+
+  @override
+  String charCount(int count, int max) {
+    return '$count / $max ka letra';
+  }
+
+  @override
+  String get feedbackTimeUp => 'Ubos na ang oras!';
+
+  @override
+  String get sampleAnswerTitle => 'Halimbawa nga sabat:';
+
+  @override
+  String get correctPairsLabel => 'Husto nga pares:';
+
+  @override
+  String get leaveQuizTooltip => 'Bayai ang pagsulit';
+
+  @override
+  String get leaveQuizTitle => 'Bayaan ang pagsulit?';
+
+  @override
+  String get leaveQuizText => 'Indi ma-save ang imo mga sabat.';
+
+  @override
+  String timeLeft(int seconds) {
+    return '$seconds ka segundo pa';
+  }
+
+  @override
+  String get quizDoneTitle => 'Natapos ang pagsulit';
+
+  @override
+  String quizDoneScore(int correct, int total) {
+    return 'Husto ang $correct sa $total.';
+  }
+
+  @override
+  String get quizDoneAccuracy => 'Kahustuhan';
+
+  @override
+  String get quizDoneXp => 'Nakuha nga XP';
+
+  @override
+  String get quizDonePassed => 'Pasado! Bukas na ang masunod nga leksyon.';
+
+  @override
+  String get quizDoneNotPassed =>
+      'Ipasa ang pagsulit para mabuksan ang masunod nga leksyon.';
+
+  @override
+  String get quizDoneNote => 'Ang Quiz result screen maabot sa lakang 5.';
+
+  @override
+  String get backToLessons => 'Balik sa mga leksyon';
+
+  @override
+  String get filipinoName => 'Filipino';
 }

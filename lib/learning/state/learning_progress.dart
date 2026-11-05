@@ -150,6 +150,43 @@ class LearningProgress extends ChangeNotifier {
   Future<bool> payLessonComplete(Lesson lesson) =>
       payXpOnce(lessonPaidId(lesson.id), catalog.settings.xp.lessonComplete);
 
+  /// Quiz questions are paid once each, the first time they are right.
+  static String questionPaidId(String lessonId, String questionId) =>
+      'question:$lessonId:$questionId';
+
+  /// Saves a finished quiz attempt on the phone (§1.10): the best score,
+  /// passed (≥ pass mark, which unlocks the next lesson), the streak day, and
+  /// XP for the scored questions [rightIds] that were never right before.
+  /// Called once when the last question ends; leaving a quiz saves nothing.
+  /// (The Firestore sync comes in step 5.)
+  Future<QuizAttemptResult> saveQuizResult(
+    Lesson lesson, {
+    required int correct,
+    required int total,
+    required Iterable<String> rightIds,
+  }) async {
+    final settings = catalog.settings;
+    var xpEarned = 0;
+    for (final id in rightIds) {
+      if (_snapshot.paid.add(questionPaidId(lesson.id, id))) {
+        xpEarned += settings.xp.perCorrect;
+      }
+    }
+    _snapshot.xp += xpEarned;
+
+    final passed = total > 0 && correct / total >= settings.passMark - 1e-9;
+    final before = progressFor(lesson.id);
+    final best = before.bestScore;
+    _snapshot.lessons[lesson.id] = before.copyWith(
+      bestScore: best == null || correct > best ? correct : best,
+      passed: before.passed || passed,
+    );
+    _markActiveToday();
+    notifyListeners();
+    await _store.save(_snapshot);
+    return QuizAttemptResult(correct: correct, total: total, xpEarned: xpEarned, passed: passed);
+  }
+
   /// Streak rule (§1.11): the first activity of a day adds one if yesterday
   /// was active, otherwise the streak starts again at 1.
   void _markActiveToday() {
@@ -185,4 +222,28 @@ class LearningProgress extends ChangeNotifier {
     notifyListeners();
     await _store.save(_snapshot);
   }
+}
+
+/// What [LearningProgress.saveQuizResult] saved, for the result screen.
+class QuizAttemptResult {
+  const QuizAttemptResult({
+    required this.correct,
+    required this.total,
+    required this.xpEarned,
+    required this.passed,
+  });
+
+  /// Right answers among the scored questions.
+  final int correct;
+
+  /// Scored questions.
+  final int total;
+
+  /// XP paid by this attempt (questions right for the first time).
+  final int xpEarned;
+
+  /// This attempt reached the pass mark.
+  final bool passed;
+
+  int get percent => total == 0 ? 0 : (correct * 100 / total).round();
 }

@@ -14,6 +14,7 @@ import 'package:hibalo_app/learning/models/catalog.dart';
 import 'package:hibalo_app/learning/models/parts.dart';
 import 'package:hibalo_app/learning/models/progress.dart';
 import 'package:hibalo_app/learning/screens/lesson_player_screen.dart';
+import 'package:hibalo_app/learning/screens/quiz_player_screen.dart';
 import 'package:hibalo_app/learning/state/learning_progress.dart';
 import 'package:hibalo_app/learning/widgets/feedback_sheet.dart';
 import 'package:hibalo_app/learning/widgets/segmented_progress.dart';
@@ -172,9 +173,15 @@ void main() {
     final progress = await open(tester, 'b02', startPart: 11,
         lessons: {'b02': const LessonProgress(partsDone: 11)});
     expect(find.text('Finish & practice'), findsOneWidget);
-    await tapNext(tester);
+    await tester.tap(find.byType(FilledButton));
+    // (No pumpAndSettle: the quiz's 30 s timer keeps ticking.)
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 200));
+    }
 
-    expect(find.text('LEARN'), findsOneWidget); // back to the page below
+    // Until S03 exists, "Finish & practice" goes straight to the quiz.
+    expect(find.byType(QuizPlayerScreen), findsOneWidget);
+    expect(find.text('1 / 9'), findsOneWidget);
     final p = progress.progressFor('b02');
     expect(p.completed, isTrue);
     expect(p.partsDone, 12);

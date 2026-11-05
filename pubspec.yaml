@@ -37,6 +37,7 @@ dependencies:
   unorm_dart: ^0.3.0                # ← Unicode NFD/NFC for the offline translator
   android_intent_plus: ^6.1.0       # ← Opens the phone's voice install screen
   flutter_svg: ^2.3.2
+  record: ^7.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

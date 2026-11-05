@@ -5,6 +5,9 @@ import 'models/catalog.dart';
 import 'screens/learn_screen.dart';
 import 'screens/lesson_detail_screen.dart';
 import 'screens/lesson_player_screen.dart';
+import 'screens/quiz_done_screen.dart';
+import 'screens/quiz_player_screen.dart';
+import 'state/learning_progress.dart';
 import 'widgets/learning_snack_bar.dart';
 
 /// Every way into and around the learning module, in one place, so the
@@ -49,23 +52,33 @@ abstract final class LearningRoutes {
     );
   }
 
-  /// The quiz player, from the first question.
-  // TODO(step 4): open the quiz player.
-  static void openQuiz(BuildContext context, Lesson lesson) {
-    _notBuiltYet(context);
+  /// The quiz player, from the first question (also "Retake the quiz").
+  static Future<void> openQuiz(BuildContext context, Lesson lesson) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => QuizPlayerScreen(lessonId: lesson.id)),
+    );
   }
 
   /// S03 Lesson complete (also where a "Quiz pending" row goes).
-  // TODO(step 5): open S03.
-  static void openLessonComplete(BuildContext context, Lesson lesson) {
-    _notBuiltYet(context);
+  // TODO(step 5): open S03. Until then its "Take the lesson quiz" button is
+  // stood in for: a lesson with a quiz goes straight to the quiz.
+  static void openLessonComplete(BuildContext context, Lesson lesson, {bool replace = false}) {
+    if (!lesson.hasQuiz) {
+      showLearningSnackBar(
+        context,
+        AppLocalizations.of(context).lessonFinishedNote,
+      );
+      return;
+    }
+    final route = MaterialPageRoute<void>(builder: (_) => QuizPlayerScreen(lessonId: lesson.id));
+    final navigator = Navigator.of(context);
+    replace ? navigator.pushReplacement(route) : navigator.push(route);
   }
 
-  static void _notBuiltYet(BuildContext context) {
-    showLearningSnackBar(
-      context,
-      AppLocalizations.of(context).comingNextStep,
-      icon: Icons.construction_rounded,
+  /// TEMPORARY result after the last question, until S04 (step 5).
+  static void showQuizDone(BuildContext context, Lesson lesson, QuizAttemptResult result) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => QuizDoneScreen(result: result)),
     );
   }
 }

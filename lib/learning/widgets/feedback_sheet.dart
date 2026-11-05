@@ -30,6 +30,7 @@ Future<void> showFeedbackSheet(
   String? answer,
   String? answerAudio,
   String? detail,
+  List<(String, String)>? pairs,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -47,6 +48,7 @@ Future<void> showFeedbackSheet(
         answer: answer,
         answerAudio: answerAudio,
         detail: detail,
+        pairs: pairs,
       ),
     ),
   );
@@ -63,6 +65,7 @@ class FeedbackSheet extends StatelessWidget {
     this.answer,
     this.answerAudio,
     this.detail,
+    this.pairs,
   });
 
   final FeedbackType type;
@@ -81,6 +84,10 @@ class FeedbackSheet extends StatelessWidget {
 
   /// The explain line (P06) or other detail.
   final String? detail;
+
+  /// Q07 Match pairs: the right pairs (Hiligaynon, Filipino), listed on the
+  /// Wrong / Time's up sheet instead of one answer.
+  final List<(String, String)>? pairs;
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +125,24 @@ class FeedbackSheet extends StatelessWidget {
     final heading = title ??
         switch (type) {
           FeedbackType.correct => t.feedbackCorrect,
-          FeedbackType.wrong || FeedbackType.timeout => t.feedbackWrong,
-          FeedbackType.info => '',
+          FeedbackType.wrong => t.feedbackWrong,
+          FeedbackType.timeout => t.feedbackTimeUp,
+          FeedbackType.info => t.sampleAnswerTitle,
         };
+    final info = type == FeedbackType.info;
 
     // Figma "Feedback Sheet": padding 20, radius 24 on top, 16 between the
     // top row and Continue; a 64 x 72 firefly, then the title
     // (Headline/Medium · ExtraBold) and its lines, 4 apart. The 24 px
     // gesture bar in Figma is the system's: only the real inset is added.
-    final detailColor = type == FeedbackType.correct ? V6Colors.success : V6Colors.error;
+    // Lines under the title: green on F01, red on F02, coral text on F03.
+    final detailColor = switch (type) {
+      FeedbackType.correct => V6Colors.success,
+      FeedbackType.wrong => V6Colors.error,
+      FeedbackType.timeout => V6Colors.coralText,
+      FeedbackType.info => V6Colors.textPrimary,
+    };
+    final headingColor = info ? V6Colors.primaryStrong : accent;
     return Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + MediaQuery.paddingOf(context).bottom),
       decoration: BoxDecoration(
@@ -138,6 +154,8 @@ class FeedbackSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
+            // F04's longer sample answer hangs from the top (Figma).
+            crossAxisAlignment: info ? CrossAxisAlignment.start : CrossAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/mascots/$mascot.webp',
@@ -152,15 +170,32 @@ class FeedbackSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (heading.isNotEmpty)
-                      Text(heading, style: V6Text.headlineMediumExtraBold.copyWith(color: accent)),
+                      Text(heading, style: V6Text.headlineMediumExtraBold.copyWith(color: headingColor)),
                     if (xp != null) ...[
                       const SizedBox(height: 4),
                       Text(t.xpGain(xp!), style: V6Text.labelLargeBold.copyWith(color: accent)),
                     ],
-                    if (answer != null && type != FeedbackType.correct) ...[
+                    // F04: the sample answer straight under the title.
+                    if (info && answer != null) ...[
+                      const SizedBox(height: 4),
+                      Text(answer!, style: V6Text.bodyLargeSemiBold),
+                    ],
+                    // F02/F03 for Q07: every right pair.
+                    if (!info && pairs != null && type != FeedbackType.correct) ...[
+                      const SizedBox(height: 4),
+                      Text(t.correctPairsLabel, style: V6Text.labelLargeBold.copyWith(color: detailColor)),
+                      const SizedBox(height: 4),
+                      // 14 px so four pairs don't wrap into a wall of text.
+                      for (final (hil, fil) in pairs!)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2),
+                          child: Text('$hil = $fil', style: V6Text.labelLargeBold),
+                        ),
+                    ],
+                    if (!info && answer != null && type != FeedbackType.correct) ...[
                       const SizedBox(height: 4),
                       Text(
-                        type == FeedbackType.info ? '' : t.correctAnswerLabel,
+                        t.correctAnswerLabel,
                         style: V6Text.labelLargeBold.copyWith(color: detailColor),
                       ),
                       const SizedBox(height: 4),

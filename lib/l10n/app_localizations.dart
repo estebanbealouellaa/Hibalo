@@ -513,6 +513,300 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lesson finished! The Lesson complete screen comes in step 5.'**
   String get lessonFinishedNote;
+
+  /// Question type chip: Q01 Multiple choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose'**
+  String get qtChoose;
+
+  /// Question type chip: Q02.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening'**
+  String get qtListening;
+
+  /// Question type chip: Q03.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the blank'**
+  String get qtFillBlank;
+
+  /// Question type chip: Q04.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the answer'**
+  String get qtTypeAnswer;
+
+  /// Question type chip: Q05.
+  ///
+  /// In en, this message translates to:
+  /// **'Build the sentence'**
+  String get qtBuildSentence;
+
+  /// Question type chip: Q06.
+  ///
+  /// In en, this message translates to:
+  /// **'Real situation'**
+  String get qtRealSituation;
+
+  /// Question type chip: Q07.
+  ///
+  /// In en, this message translates to:
+  /// **'Match pairs'**
+  String get qtMatchPairs;
+
+  /// Question type chip: Q08.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictation'**
+  String get qtDictation;
+
+  /// Question type chip: Q09.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaking'**
+  String get qtSpeaking;
+
+  /// Question type chip: Q10.
+  ///
+  /// In en, this message translates to:
+  /// **'Open answer'**
+  String get qtOpenAnswer;
+
+  /// Quiz primary button before an answer is checked.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get checkButton;
+
+  /// Q10 primary button.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submitButton;
+
+  /// Q01 line under the question.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the correct answer.'**
+  String get q01Hint;
+
+  /// Q02 line under the question.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen, then choose the answer.'**
+  String get q02Hint;
+
+  /// Q03 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the sentence:'**
+  String get q03Title;
+
+  /// Q03 line under the title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the missing word.'**
+  String get q03Hint;
+
+  /// Q04 title when the text is Filipino.
+  ///
+  /// In en, this message translates to:
+  /// **'Type this in Hiligaynon'**
+  String get q04TitleToHil;
+
+  /// Q04 title when the text is Hiligaynon.
+  ///
+  /// In en, this message translates to:
+  /// **'Type this in Filipino'**
+  String get q04TitleToFil;
+
+  /// Q04 line under the title (Filipino to Hiligaynon).
+  ///
+  /// In en, this message translates to:
+  /// **'Write the Hiligaynon word or phrase.'**
+  String get q04HintToHil;
+
+  /// Q04 line under the title (Hiligaynon to Filipino).
+  ///
+  /// In en, this message translates to:
+  /// **'Write the Filipino word or phrase.'**
+  String get q04HintToFil;
+
+  /// Label above the Q04/Q08 text field.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer'**
+  String get yourAnswer;
+
+  /// Q05 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Build the sentence'**
+  String get q05Title;
+
+  /// Q05 line under the title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the words in the right order.'**
+  String get q05Hint;
+
+  /// Q06 title.
+  ///
+  /// In en, this message translates to:
+  /// **'What would you say?'**
+  String get q06Title;
+
+  /// Q08 line under the question.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen, then type it in Hiligaynon.'**
+  String get q08Hint;
+
+  /// Q08 label above the word chips.
+  ///
+  /// In en, this message translates to:
+  /// **'Word bank (optional)'**
+  String get wordBankLabel;
+
+  /// Q09 line under the question.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice saying the phrase. There is no score.'**
+  String get q09Hint;
+
+  /// Q09 button that plays the recording.
+  ///
+  /// In en, this message translates to:
+  /// **'Native speaker'**
+  String get nativeSpeaker;
+
+  /// Q09 button that plays the learner's recording.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get youLabel;
+
+  /// Q09 mic button (screen readers).
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get recordTooltip;
+
+  /// Q09 stop button (screen readers).
+  ///
+  /// In en, this message translates to:
+  /// **'Stop recording'**
+  String get stopRecordingTooltip;
+
+  /// Q09 when the mic is refused or missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Mic not available. You can skip this one.'**
+  String get micUnavailable;
+
+  /// Q10 counter under the field.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / {max} characters'**
+  String charCount(int count, int max);
+
+  /// F03 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time\'s up!'**
+  String get feedbackTimeUp;
+
+  /// F04 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample answer:'**
+  String get sampleAnswerTitle;
+
+  /// F02/F03 label for Q07 (match pairs).
+  ///
+  /// In en, this message translates to:
+  /// **'Correct pairs:'**
+  String get correctPairsLabel;
+
+  /// Quiz X button (screen readers).
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the quiz'**
+  String get leaveQuizTooltip;
+
+  /// S06 title, quiz version.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the quiz?'**
+  String get leaveQuizTitle;
+
+  /// S06 text, quiz version.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answers won\'t be saved.'**
+  String get leaveQuizText;
+
+  /// Timer chip (screen readers).
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds left'**
+  String timeLeft(int seconds);
+
+  /// Temporary result screen title (until S04 in step 5).
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz finished'**
+  String get quizDoneTitle;
+
+  /// Temporary result screen.
+  ///
+  /// In en, this message translates to:
+  /// **'You got {correct} out of {total} correct.'**
+  String quizDoneScore(int correct, int total);
+
+  /// Temporary result screen tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get quizDoneAccuracy;
+
+  /// Temporary result screen tile.
+  ///
+  /// In en, this message translates to:
+  /// **'XP earned'**
+  String get quizDoneXp;
+
+  /// Temporary result screen, passed.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed! The next lesson is unlocked.'**
+  String get quizDonePassed;
+
+  /// Temporary result screen, not passed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass this quiz to unlock the next lesson.'**
+  String get quizDoneNotPassed;
+
+  /// Temporary result screen note.
+  ///
+  /// In en, this message translates to:
+  /// **'The Quiz result screen comes in step 5.'**
+  String get quizDoneNote;
+
+  /// Button back to S01.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to lessons'**
+  String get backToLessons;
+
+  /// Label on the quiz prompt card (Q04, Q05) when the text is Filipino.
+  ///
+  /// In en, this message translates to:
+  /// **'Filipino'**
+  String get filipinoName;
 }
 
 class _AppLocalizationsDelegate

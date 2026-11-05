@@ -4,16 +4,25 @@ import '../../l10n/app_localizations.dart';
 import '../theme/v6_colors.dart';
 import '../theme/v6_text.dart';
 
-/// S06 · Leave pop-up, lesson version. (The quiz version is added with the
-/// quiz in step 4.) Returns true for Leave; Keep going, the scrim and system
-/// back all return false and keep the exact state.
-Future<bool> showLeaveLessonDialog(BuildContext context) async {
+/// S06 · Leave pop-up, lesson version. Returns true for Leave; Keep going,
+/// the scrim and system back all return false and keep the exact state.
+Future<bool> showLeaveLessonDialog(BuildContext context) {
   final t = AppLocalizations.of(context);
+  return _show(context, t.leaveLessonTitle, t.leaveLessonText);
+}
+
+/// S06 · Leave pop-up, quiz version ("Your answers won't be saved.").
+Future<bool> showLeaveQuizDialog(BuildContext context) {
+  final t = AppLocalizations.of(context);
+  return _show(context, t.leaveQuizTitle, t.leaveQuizText);
+}
+
+Future<bool> _show(BuildContext context, String title, String text) async {
   final leave = await showDialog<bool>(
     context: context,
     // Figma scrim: Primary Strong at 45%.
     barrierColor: V6Colors.primaryStrong.withValues(alpha: 0.45),
-    builder: (_) => LeaveDialog(title: t.leaveLessonTitle, text: t.leaveLessonText),
+    builder: (_) => LeaveDialog(title: title, text: text),
   );
   return leave ?? false;
 }

@@ -164,9 +164,14 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
     // Paid once: a review pays nothing again.
     await progress.payLessonComplete(_lesson);
     if (!mounted) return;
+    if (_lesson.hasQuiz) {
+      // "Finish & practice": straight to the quiz until S03 exists (step 5).
+      LearningRoutes.openLessonComplete(context, _lesson, replace: true);
+      return;
+    }
     final navigator = Navigator.of(context);
     final note = AppLocalizations.of(context).lessonFinishedNote;
-    // TODO(step 5): open S03 Lesson complete instead of going back to S02.
+    // TODO(step 5): open S03 · Letters instead of going back to S02.
     navigator.pop();
     showLearningSnackBar(navigator.context, note);
   }

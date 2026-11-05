@@ -254,4 +254,157 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lessonFinishedNote =>
       'Lesson finished! The Lesson complete screen comes in step 5.';
+
+  @override
+  String get qtChoose => 'Choose';
+
+  @override
+  String get qtListening => 'Listening';
+
+  @override
+  String get qtFillBlank => 'Fill in the blank';
+
+  @override
+  String get qtTypeAnswer => 'Type the answer';
+
+  @override
+  String get qtBuildSentence => 'Build the sentence';
+
+  @override
+  String get qtRealSituation => 'Real situation';
+
+  @override
+  String get qtMatchPairs => 'Match pairs';
+
+  @override
+  String get qtDictation => 'Dictation';
+
+  @override
+  String get qtSpeaking => 'Speaking';
+
+  @override
+  String get qtOpenAnswer => 'Open answer';
+
+  @override
+  String get checkButton => 'Check';
+
+  @override
+  String get submitButton => 'Submit';
+
+  @override
+  String get q01Hint => 'Choose the correct answer.';
+
+  @override
+  String get q02Hint => 'Listen, then choose the answer.';
+
+  @override
+  String get q03Title => 'Complete the sentence:';
+
+  @override
+  String get q03Hint => 'Choose the missing word.';
+
+  @override
+  String get q04TitleToHil => 'Type this in Hiligaynon';
+
+  @override
+  String get q04TitleToFil => 'Type this in Filipino';
+
+  @override
+  String get q04HintToHil => 'Write the Hiligaynon word or phrase.';
+
+  @override
+  String get q04HintToFil => 'Write the Filipino word or phrase.';
+
+  @override
+  String get yourAnswer => 'Your answer';
+
+  @override
+  String get q05Title => 'Build the sentence';
+
+  @override
+  String get q05Hint => 'Tap the words in the right order.';
+
+  @override
+  String get q06Title => 'What would you say?';
+
+  @override
+  String get q08Hint => 'Listen, then type it in Hiligaynon.';
+
+  @override
+  String get wordBankLabel => 'Word bank (optional)';
+
+  @override
+  String get q09Hint => 'Practice saying the phrase. There is no score.';
+
+  @override
+  String get nativeSpeaker => 'Native speaker';
+
+  @override
+  String get youLabel => 'You';
+
+  @override
+  String get recordTooltip => 'Record';
+
+  @override
+  String get stopRecordingTooltip => 'Stop recording';
+
+  @override
+  String get micUnavailable => 'Mic not available. You can skip this one.';
+
+  @override
+  String charCount(int count, int max) {
+    return '$count / $max characters';
+  }
+
+  @override
+  String get feedbackTimeUp => 'Time\'s up!';
+
+  @override
+  String get sampleAnswerTitle => 'Sample answer:';
+
+  @override
+  String get correctPairsLabel => 'Correct pairs:';
+
+  @override
+  String get leaveQuizTooltip => 'Leave the quiz';
+
+  @override
+  String get leaveQuizTitle => 'Leave the quiz?';
+
+  @override
+  String get leaveQuizText => 'Your answers won\'t be saved.';
+
+  @override
+  String timeLeft(int seconds) {
+    return '$seconds seconds left';
+  }
+
+  @override
+  String get quizDoneTitle => 'Quiz finished';
+
+  @override
+  String quizDoneScore(int correct, int total) {
+    return 'You got $correct out of $total correct.';
+  }
+
+  @override
+  String get quizDoneAccuracy => 'Accuracy';
+
+  @override
+  String get quizDoneXp => 'XP earned';
+
+  @override
+  String get quizDonePassed => 'Passed! The next lesson is unlocked.';
+
+  @override
+  String get quizDoneNotPassed => 'Pass this quiz to unlock the next lesson.';
+
+  @override
+  String get quizDoneNote => 'The Quiz result screen comes in step 5.';
+
+  @override
+  String get backToLessons => 'Back to lessons';
+
+  @override
+  String get filipinoName => 'Filipino';
 }
