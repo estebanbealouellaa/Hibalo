@@ -174,9 +174,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
     final leave = await showLeaveLessonDialog(context);
     if (!leave || !mounted) return;
     // Finished parts are already saved; the part in progress is dropped.
-    Navigator.of(context).popUntil(
-      (route) => route.settings.name == LearningRoutes.learnRoute || route.isFirst,
-    );
+    LearningRoutes.backToLearn(context);
   }
 
   /// Android back = the on-screen Back; on the very first step it asks to

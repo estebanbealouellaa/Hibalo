@@ -123,7 +123,10 @@ class _LearnScreenState extends State<LearnScreen> {
   }
 
   Widget _topBar(BuildContext context, AppLocalizations t) {
-    final canPop = Navigator.of(context).canPop();
+    // In the app S01 is the Learn tab (no back arrow; the bottom bar
+    // replaces it). Pushed on its own (tests), it keeps the arrow. Asking the
+    // route also rebuilds this when routes above it come and go.
+    final canPop = !(ModalRoute.of(context)?.isFirst ?? true);
     return SizedBox(
       height: 64,
       child: Row(

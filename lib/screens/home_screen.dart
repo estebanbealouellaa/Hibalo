@@ -1,175 +1,135 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import '../theme/app_colors.dart';
 import '../learning/learning_routes.dart';
-import '../learning/state/learning_progress.dart';
-import '../widgets/home/home_bottom_nav.dart';
-import '../widgets/home/home_discover_section.dart';
-import '../widgets/home/home_hero_section.dart';
-import '../widgets/home/home_layout.dart';
-import '../widgets/home/home_search_bar.dart';
-import 'camera_translate_screen.dart';
-import 'translator_screen.dart';
+import '../learning/screens/learn_screen.dart';
+import '../widgets/v6/v6_nav_bar.dart';
+import 'home/home_tab.dart';
 import 'profile_screen.dart';
-import 'voice_translate_screen.dart';
+import 'translator_screen.dart';
 
+/// The signed-in app: four tabs (Home · Translate · Learn · Me) under the
+/// V6 bottom bar. Each tab keeps its state while another is shown. Lesson
+/// parts, the quiz and the result screens open full screen on top.
+///
+/// Android back: on Translate, Learn or Me it goes to Home; on Home it
+/// leaves the app.
 class HomeScreen extends StatefulWidget {
   final VoidCallback onLogout;
 
-  const HomeScreen({super.key, required this.onLogout});
+  /// Name and photo; the real app reads them from users/{uid}. Tests pass
+  /// a fixed stream.
+  final Stream<Map<String, dynamic>?>? userDoc;
+
+  /// Replaces the four tab screens (tests only, so no translator engine or
+  /// Firebase is needed).
+  @visibleForTesting
+  final List<Widget>? tabs;
+
+  const HomeScreen({super.key, required this.onLogout, this.userDoc, this.tabs});
+
+  static const int homeTab = 0;
+  static const int translateTab = 1;
+  static const int learnTab = 2;
+  static const int meTab = 3;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+class HomeScreenState extends State<HomeScreen> {
+  int _tab = HomeScreen.homeTab;
+  int get tab => _tab;
 
-  final User? _currentUser = FirebaseAuth.instance.currentUser;
+  late final Stream<Map<String, dynamic>?> _userDoc = widget.userDoc ?? _firestoreUser();
+
+  static Stream<Map<String, dynamic>?> _firestoreUser() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return Stream.value(null);
+    return FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots().map((d) => d.data());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // "Back to lessons", Continue on S04/S05 and Leave return to Learn.
+    LearningRoutes.showLearnTab = _showLearn;
+  }
+
+  @override
+  void dispose() {
+    if (LearningRoutes.showLearnTab == _showLearn) LearningRoutes.showLearnTab = null;
+    super.dispose();
+  }
+
+  void _showLearn() {
+    if (mounted) setState(() => _tab = HomeScreen.learnTab);
+  }
+
+  void select(int tab) => setState(() => _tab = tab);
 
   Future<void> _logout() async {
     await FirebaseAuth.instance.signOut();
     widget.onLogout();
   }
 
-  void _openTranslator() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const TranslatorScreen()),
-    );
-  }
-
-  /// The Lessons card and the search bar open S01 Learn.
-  void _openLibrary() => LearningRoutes.openLearn(context);
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: white,
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: _currentUser != null
-            ? FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(_currentUser.uid)
-                  .snapshots()
-            : null,
-        builder: (context, snapshot) {
-          String userName = 'User';
-          String? photoUrl;
-
-          // Streak, XP and lessons come from LearningProgress (saved on the
-          // phone first); only the name and photo come from Firestore here.
-          if (snapshot.hasData && snapshot.data!.exists) {
-            final data = snapshot.data!.data() as Map<String, dynamic>;
-            userName = data['username'] ?? 'User';
-            photoUrl = data['photoUrl'] as String?;
-          }
-
-          photoUrl ??= _currentUser?.photoURL;
-
-          return _buildBody(userName: userName, photoUrl: photoUrl);
-        },
-      ),
-      bottomNavigationBar: HomeBottomNav(
-        selectedIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
-      ),
-    );
-  }
-
-  Widget _buildBody({required String userName, required String? photoUrl}) {
-    switch (_selectedIndex) {
-      case 1:
-        return ProfileScreen(userName: userName, onLogout: _logout);
-      case 0:
-      default:
-        return _buildHomeTab(userName: userName, photoUrl: photoUrl);
-    }
-  }
-
-  Widget _buildHomeTab({required String userName, required String? photoUrl}) {
-    final layout = HomeLayout.of(context);
-
-    return SafeArea(
-      bottom: false,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: layout.heroHeight,
-            child: Consumer<LearningProgress>(
-              builder: (context, progress, _) {
-                return HomeHeroSection(
-                  userName: userName,
-                  streak: progress.streak,
-                  lessonsCompleted: progress.lessonsCompleted,
-                  photoUrl: photoUrl,
-                );
-              },
+    return StreamBuilder<Map<String, dynamic>?>(
+      stream: _userDoc,
+      builder: (context, snapshot) {
+        final data = snapshot.data;
+        final userName = (data?['username'] as String?) ?? 'User';
+        final photoUrl = (data?['photoUrl'] as String?) ?? FirebaseAuthSafe.photoUrl();
+        return PopScope(
+          canPop: _tab == HomeScreen.homeTab,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) select(HomeScreen.homeTab);
+          },
+          // Dark status-bar icons on the light tabs (a tab can still set
+          // its own).
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle.dark,
+            child: Scaffold(
+              body: IndexedStack(
+                index: _tab,
+                children:
+                    widget.tabs ??
+                    [
+                      HomeTab(userName: userName, photoUrl: photoUrl, onOpenLearn: () => select(HomeScreen.learnTab)),
+                      const TranslatorScreen(),
+                      const LearnScreen(),
+                      ProfileScreen(userName: userName, onLogout: _logout),
+                    ],
+              ),
+              bottomNavigationBar: V6NavBar(
+                selected: _tab,
+                onSelect: select,
+                items: const [
+                  V6NavItem(Icons.home_rounded, 'Home'),
+                  V6NavItem(Icons.translate_rounded, 'Translate'),
+                  V6NavItem(Icons.menu_book_rounded, 'Learn'),
+                  V6NavItem(Icons.person_rounded, 'Me'),
+                ],
+              ),
             ),
           ),
-          CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(height: layout.heroHeight - layout.sheetOverlap),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(layout.sheetTopRadius),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                          layout.horizontalPadding,
-                          24,
-                          layout.horizontalPadding,
-                          0,
-                        ),
-                        child: HomeSearchBar(onTap: _openLibrary),
-                      ),
-                      const SizedBox(height: 24),
-                      HomeDiscoverSection(
-                        onTranslateTap: _openTranslator,
-                        onCameraTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const CameraTranslateScreen(),
-                            ),
-                          );
-                        },
-                        onLessonsTap: _openLibrary,
-                        onVoiceTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const VoiceTranslateScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: layout.bottomNavClearance),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        );
+      },
     );
+  }
+}
+
+/// The signed-in user's Firebase photo, or null (also when Firebase isn't
+/// set up, as in tests).
+abstract final class FirebaseAuthSafe {
+  static String? photoUrl() {
+    try {
+      return FirebaseAuth.instance.currentUser?.photoURL;
+    } catch (_) {
+      return null;
+    }
   }
 }

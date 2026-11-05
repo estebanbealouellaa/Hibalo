@@ -14,8 +14,12 @@ import 'state/learning_progress.dart';
 /// Every way into and around the learning module, in one place, so the
 /// screens don't need to know about each other.
 abstract final class LearningRoutes {
-  /// Route name of S01, so Leave can go back to it.
+  /// Route name of S01 when it is pushed as its own page (tests); in the
+  /// app S01 is the Learn tab under the bottom bar.
   static const String learnRoute = '/learn';
+
+  /// Shows the Learn tab; set by the app's tab shell (HomeScreen).
+  static VoidCallback? showLearnTab;
 
   /// S01 Learn.
   static Future<void> openLearn(BuildContext context) {
@@ -108,15 +112,18 @@ abstract final class LearningRoutes {
     );
   }
 
-  /// Back to S01 ("Back to lessons", Continue), or Home if S01 isn't open.
+  /// Back to S01 ("Back to lessons", Continue, Leave): closes the lesson,
+  /// quiz or result screens and shows the Learn tab.
   static void backToLearn(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.settings.name == learnRoute || route.isFirst);
+    showLearnTab?.call();
   }
 
   /// S03 Letters "Continue to Lesson 2": back to S01, then S02 of [lesson].
   static void openLessonDetailFromLearn(BuildContext context, Lesson lesson) {
     final navigator = Navigator.of(context);
     navigator.popUntil((route) => route.settings.name == learnRoute || route.isFirst);
+    showLearnTab?.call();
     navigator.push(MaterialPageRoute(builder: (_) => LessonDetailScreen(lessonId: lesson.id)));
   }
 }

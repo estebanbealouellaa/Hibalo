@@ -128,7 +128,14 @@ class V6Chip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[Icon(icon, size: 16, color: foreground), const SizedBox(width: 4)],
-          Text(label, style: V6Text.labelMedium.copyWith(color: foreground)),
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: V6Text.labelMedium.copyWith(color: foreground),
+            ),
+          ),
         ],
       ),
     );

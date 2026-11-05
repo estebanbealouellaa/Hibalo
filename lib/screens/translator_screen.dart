@@ -12,6 +12,9 @@ import '../theme/app_theme.dart';
 import '../learning/state/learning_progress.dart';
 import '../widgets/filipino_voice_dialog.dart';
 import '../widgets/translator/lessons_header.dart';
+import '../widgets/v6/v6_button.dart';
+import 'camera_translate_screen.dart';
+import 'voice_translate_screen.dart';
 
 class _CommonPhrase {
   final String category;
@@ -184,6 +187,41 @@ class _TranslatorScreenState extends State<TranslatorScreen>
                       streak: stats.streak,
                       lessonsCompleted: stats.lessonsCompleted,
                     ),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                // TEMPORARY (until Stage C restyles Translate): Voice and
+                // Camera were reached from Home's Discover cards.
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: V6Button(
+                          label: 'Voice',
+                          icon: Icons.mic_rounded,
+                          style: V6ButtonStyle.secondary,
+                          expand: true,
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const VoiceTranslateScreen()),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: V6Button(
+                          label: 'Camera',
+                          icon: Icons.photo_camera_rounded,
+                          style: V6ButtonStyle.secondary,
+                          expand: true,
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const CameraTranslateScreen()),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 14),

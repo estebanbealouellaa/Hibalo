@@ -175,7 +175,9 @@ class _AuthScreenState extends State<AuthScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           _header(),
-                          const SizedBox(height: 24),
+                          // Figma: Sign Up's form starts 52 below the header
+                          // (24 when a banner sits in between).
+                          SizedBox(height: _isLogin || _banner != null ? 24 : 52),
                           if (_banner != null) ...[
                             V6Banner(type: _banner!.type, message: _banner!.message),
                             const SizedBox(height: 24),

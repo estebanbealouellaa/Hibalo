@@ -275,9 +275,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     _timer?.stop();
     await _recorder.clear();
     if (!mounted) return;
-    Navigator.of(context).popUntil(
-      (route) => route.settings.name == LearningRoutes.learnRoute || route.isFirst,
-    );
+    LearningRoutes.backToLearn(context);
   }
 
   // ── Building ─────────────────────────────────────────────────────────

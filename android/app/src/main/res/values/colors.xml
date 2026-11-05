@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- V6/Color/Primary: the launch screen colour, same as the Flutter splash. -->
+    <color name="hibalo_violet">#6837CD</color>
+</resources>
