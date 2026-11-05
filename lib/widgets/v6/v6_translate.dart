@@ -111,7 +111,11 @@ class TranslationInputCard extends StatelessWidget {
     required this.onScan,
     required this.onTranslate,
     this.translating = false,
+    this.onClear,
   });
+
+  /// Clears the text; the clear button shows only while [filled].
+  final VoidCallback? onClear;
 
   /// Figma "Translating": the button shows a spinner and "Translating…".
   final bool translating;
@@ -142,9 +146,22 @@ class TranslationInputCard extends StatelessWidget {
           const SizedBox(height: 8),
           Container(
             constraints: const BoxConstraints(minHeight: 120),
-            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(color: V6Colors.surfaceTint, borderRadius: BorderRadius.circular(12)),
-            child: textArea,
+            child: Stack(
+              children: [
+                Padding(padding: EdgeInsets.fromLTRB(12, 12, filled && onClear != null ? 44 : 12, 12), child: textArea),
+                if (filled && onClear != null)
+                  Positioned(
+                    top: 2,
+                    right: 2,
+                    child: IconButton(
+                      tooltip: 'Clear text',
+                      onPressed: onClear,
+                      icon: const Icon(Icons.close_rounded, size: 22, color: V6Colors.textSecondary),
+                    ),
+                  ),
+              ],
+            ),
           ),
           const SizedBox(height: 8),
           Text(

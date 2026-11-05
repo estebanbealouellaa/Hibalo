@@ -159,6 +159,17 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     });
   }
 
+  /// Clears the text and its translation (the direction stays).
+  void _clear() {
+    HapticFeedback.selectionClick();
+    _inputController.clear();
+    setState(() {
+      _origin = TextOrigin.typed;
+      if (_scan != ScanStage.scanning) _scan = ScanStage.idle;
+    });
+    context.read<TranslatorProvider>().updateOriginalText('');
+  }
+
   void _swapLanguages() {
     _swap.forward(from: 0);
     setState(() => _origin = TextOrigin.typed);
@@ -336,6 +347,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
                   onScan: _openScan,
                   onTranslate: text.trim().isEmpty ? null : _translate,
                   translating: state.isTranslating,
+                  onClear: _clear,
                   textArea: TextField(
                     controller: _inputController,
                     focusNode: _focus,

@@ -65,6 +65,25 @@ void main() {
       expect((speak, scan), (1, 1));
     });
 
+    testWidgets('clear button: only with text, and it clears', (tester) async {
+      var clears = 0;
+      Widget card(bool filled) => TranslationInputCard(
+        language: 'Filipino',
+        textArea: const Text('Magandang umaga'),
+        characters: filled ? 15 : 0,
+        filled: filled,
+        onSpeak: () {},
+        onScan: () {},
+        onTranslate: () {},
+        onClear: () => clears++,
+      );
+      await _pump(tester, card(false));
+      expect(find.byTooltip('Clear text'), findsNothing);
+      await _pump(tester, card(true));
+      await tester.tap(find.byTooltip('Clear text'));
+      expect(clears, 1);
+    });
+
     testWidgets('translating: the button says Translating…', (tester) async {
       await _pump(
         tester,
