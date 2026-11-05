@@ -4,20 +4,111 @@ import 'package:flutter/services.dart';
 
 import '../services/translation/offline_translator.dart';
 import '../services/translation/text_rules.dart';
-import '../theme/app_colors.dart';
+import '../widgets/v6/v6.dart';
+import '../widgets/v6/v6_translate.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Figma 595:4593 "Scan options": a bottom sheet with Take a photo and
+/// Choose from gallery; either opens [CameraTranslateScreen].
+Future<void> showScanOptions(BuildContext context) {
+  return showV6BottomSheet<void>(
+    context,
+    title: 'Scan text from a photo',
+    description: 'Hibalo reads the words in the photo and translates them.',
+    children: (sheet) => [
+      _ScanOption(
+        icon: Icons.photo_camera_rounded,
+        title: 'Take a photo',
+        subtitle: 'Use your camera',
+        onTap: () => _openScan(sheet, context, ImageSource.camera),
+      ),
+      const SizedBox(height: 8),
+      _ScanOption(
+        icon: Icons.photo_library_rounded,
+        title: 'Choose from gallery',
+        subtitle: 'Pick a photo you already have',
+        onTap: () => _openScan(sheet, context, ImageSource.gallery),
+      ),
+      const SizedBox(height: 8),
+      Center(
+        child: V6Button(label: 'Cancel', style: V6ButtonStyle.text, onPressed: () => Navigator.pop(sheet)),
+      ),
+    ],
+  );
+}
+
+void _openScan(BuildContext sheet, BuildContext context, ImageSource source) {
+  Navigator.pop(sheet);
+  Navigator.push(context, MaterialPageRoute(builder: (_) => CameraTranslateScreen(source: source)));
+}
+
+class _ScanOption extends StatelessWidget {
+  const _ScanOption({required this.icon, required this.title, required this.subtitle, required this.onTap});
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: V6Colors.glowContainerSoft,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: V6Colors.borderDivider),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 14, 15, 14),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(color: V6Colors.primaryContainer, borderRadius: BorderRadius.circular(12)),
+                child: Icon(icon, size: 22, color: V6Colors.primary),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: V6Text.titleMediumBold),
+                    Text(subtitle, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded, color: V6Colors.textPrimary),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Scan text from a photo (Figma 05 · Camera): reading the photo
+/// ("Scanning"), then the text with its translation ("Scan result"), or the
+/// "No text found" / "Couldn't read" cards. Camera access off shows the
+/// "Camera access is off" dialog. The OCR (ML Kit) and the translation are
+/// the same as before.
 class CameraTranslateScreen extends StatefulWidget {
-  const CameraTranslateScreen({super.key});
+  const CameraTranslateScreen({super.key, this.source = ImageSource.camera});
+
+  /// Where the first photo comes from.
+  final ImageSource source;
 
   @override
   State<CameraTranslateScreen> createState() => _CameraTranslateScreenState();
 }
 
-class _CameraTranslateScreenState extends State<CameraTranslateScreen>
-    with SingleTickerProviderStateMixin {
+class _CameraTranslateScreenState extends State<CameraTranslateScreen> {
   File? _image;
   String extractedText = '';
   String translatedText = '';
@@ -36,43 +127,42 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
   /// Only the newest translation is shown; older ones are ignored.
   int _translationRequest = 0;
 
-  late AnimationController _pulseController;
-  late Animation<double> _pulseAnimation;
 
   final ImagePicker _picker = ImagePicker();
+
+  /// Camera or gallery, for "Try again" / "Scan again".
+  late ImageSource _source;
+
+  bool _copied = false;
 
   @override
   void initState() {
     super.initState();
 
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    )..repeat(reverse: true);
 
-    _pulseAnimation = Tween<double>(begin: 0.95, end: 1.05).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
-    );
 
     OfflineTranslator.warmUp();
+    _source = widget.source;
     Future.delayed(Duration.zero, () => pickImage());
   }
 
   @override
   void dispose() {
-    _pulseController.dispose();
     super.dispose();
   }
 
-  Future<void> pickImage() async {
+  /// Picks from [source] (or the last one used) and reads it.
+  Future<void> pickImage([ImageSource? source]) async {
+    if (source != null) _source = source;
     try {
       final picked = await _picker.pickImage(
-        source: ImageSource.camera,
+        source: _source,
         imageQuality: 90,
       );
 
       if (picked == null) {
-        if (mounted) Navigator.pop(context);
+        // Cancelled: leave if nothing was scanned yet.
+        if (mounted && _image == null) Navigator.pop(context);
         return;
       }
 
@@ -86,11 +176,45 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
       });
 
       await scanText();
-    } catch (e) {
+    } on PlatformException catch (e) {
+      if (e.code == 'camera_access_denied' && mounted) {
+        await _cameraAccessOff();
+        return;
+      }
+      if (!mounted) return;
       setState(() {
         errorMessage = 'Camera error: $e';
         isLoading = false;
       });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        errorMessage = 'Camera error: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+  /// Figma 595:4668 "Camera access is off".
+  Future<void> _cameraAccessOff() async {
+    final choice = await showV6ChoiceDialog(
+      context,
+      title: 'Camera access is off',
+      message: 'To take a photo, allow camera access in your phone settings. '
+          'You can still choose a photo from your gallery.',
+      mascot: 'firefly_phone',
+      primaryLabel: 'Open settings',
+      textActions: const ['Choose from gallery', 'Not now'],
+    );
+    if (!mounted) return;
+    switch (choice) {
+      case 'Open settings':
+        await openAppSettings();
+        if (mounted && _image == null) Navigator.pop(context);
+      case 'Choose from gallery':
+        await pickImage(ImageSource.gallery);
+      default:
+        if (_image == null) Navigator.pop(context);
     }
   }
 
@@ -301,577 +425,205 @@ class _CameraTranslateScreenState extends State<CameraTranslateScreen>
   }
 
   void _copyToClipboard(String text) {
+    if (text.isEmpty) return;
+    HapticFeedback.selectionClick();
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Copied to clipboard'),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    setState(() => _copied = true);
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted) setState(() => _copied = false);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final from = _fromHiligaynon ? 'Hiligaynon' : 'Filipino';
+    final to = _fromHiligaynon ? 'Filipino' : 'Hiligaynon';
+    final noText = hasScanned && extractedText.trim().isEmpty;
+
+    final Widget body;
+    if (errorMessage.isNotEmpty) {
+      // Figma 597:5049 "Couldn't read".
+      body = V6MessageCard(
+        icon: Icons.error_outline_rounded,
+        iconColor: V6Colors.error,
+        background: V6Colors.coralContainer,
+        title: "Couldn't read the photo",
+        message: 'Something went wrong. Please try again or choose another photo.',
+        actions: [
+          V6Button(label: 'Try again', style: V6ButtonStyle.secondary, onPressed: () => pickImage()),
+          V6Button(
+            label: 'Choose another',
+            style: V6ButtonStyle.text,
+            onPressed: () => pickImage(ImageSource.gallery),
+          ),
+        ],
+      );
+    } else if (noText) {
+      // Figma 597:4962 "No text found".
+      body = V6MessageCard(
+        icon: Icons.document_scanner_rounded,
+        background: V6Colors.glowContainerSoft,
+        title: 'No text found',
+        message: 'Try a clearer photo with good light, and keep the words straight and close.',
+        actions: [
+          V6Button(
+            label: 'Take a photo',
+            style: V6ButtonStyle.secondary,
+            onPressed: () => pickImage(ImageSource.camera),
+          ),
+          V6Button(
+            label: 'Choose from gallery',
+            style: V6ButtonStyle.text,
+            onPressed: () => pickImage(ImageSource.gallery),
+          ),
+        ],
+      );
+    } else if (hasScanned) {
+      body = _result(from, to);
+    } else {
+      body = _scanning();
+    }
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-            size: 18,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Camera',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 17,
-          ),
-        ),
-        centerTitle: false,
-        actions: [
-          TextButton.icon(
-            onPressed: _toggleDirection,
-            icon: const Icon(
-              Icons.swap_horiz_rounded,
-              color: Colors.white,
-              size: 18,
-            ),
-            label: Text(
-              _fromHiligaynon ? 'Hil → Fil' : 'Fil → Hil',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(width: 6),
-        ],
-      ),
-      body: Column(
-        children: [
-          // ── Image Preview ──────────────────────────────────────────
-          _ImagePreviewSection(
-            image: _image,
-            isLoading: isLoading,
-            pulseAnimation: _pulseAnimation,
-            onRetake: pickImage,
-          ),
-
-          // ── Results Panel ──────────────────────────────────────────
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: theme.scaffoldBackgroundColor,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(28),
-                ),
-              ),
-              child: _buildResultsPanel(theme),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildResultsPanel(ThemeData theme) {
-    if (isLoading) {
-      return const _LoadingState();
-    }
-
-    if (errorMessage.isNotEmpty) {
-      return _ErrorState(message: errorMessage, onRetry: pickImage);
-    }
-
-    if (!hasScanned) {
-      return const _EmptyState();
-    }
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Drag handle
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              margin: const EdgeInsets.only(bottom: 24),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-
-          // Scanned Text Card
-          _ResultCard(
-            label: 'Scanned Text',
-            icon: Icons.document_scanner_outlined,
-            iconColor: Colors.blueGrey,
-            content: extractedText.isEmpty ? 'No text detected' : extractedText,
-            onCopy: extractedText.isNotEmpty
-                ? () => _copyToClipboard(extractedText)
-                : null,
-          ),
-
-          const SizedBox(height: 16),
-
-          // Translation Card
-          _ResultCard(
-            label: _fromHiligaynon
-                ? 'Translation (Filipino)'
-                : 'Translation (Hiligaynon)',
-            icon: Icons.translate_rounded,
-            iconColor: purple,
-            content: translatedText.isNotEmpty
-                ? translatedText
-                : (_isTranslating ? 'Translating…' : 'No translation found'),
-            isHighlighted: true,
-            note: translatedText.isEmpty
-                ? null
-                : translationNote(isDictionaryMeaning: _isDictionaryMeaning),
-            onCopy: translatedText.isNotEmpty
-                ? () => _copyToClipboard(translatedText)
-                : null,
-          ),
-
-          const SizedBox(height: 28),
-
-          // Scan Again Button
-          SizedBox(
-            width: double.infinity,
-            height: 54,
-            child: ElevatedButton.icon(
-              onPressed: pickImage,
-              icon: const Icon(Icons.camera_alt_rounded, size: 20),
-              label: const Text(
-                'Scan Again',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: purple,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 0,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// Image Preview Section
-// ─────────────────────────────────────────────
-class _ImagePreviewSection extends StatelessWidget {
-  final File? image;
-  final bool isLoading;
-  final Animation<double> pulseAnimation;
-  final VoidCallback onRetake;
-
-  const _ImagePreviewSection({
-    required this.image,
-    required this.isLoading,
-    required this.pulseAnimation,
-    required this.onRetake,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
-
-    return Container(
-      height: 260 + topPadding,
-      width: double.infinity,
-      color: Colors.black,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Image or placeholder
-          if (image != null)
-            Image.file(image!, fit: BoxFit.cover)
-          else
-            Container(
-              color: Colors.grey.shade900,
-              child: const Icon(
-                Icons.camera_alt_outlined,
-                color: Colors.white24,
-                size: 60,
-              ),
-            ),
-
-          // Dark gradient overlay
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withValues(alpha: 0.45),
-                  Colors.transparent,
-                  Colors.black.withValues(alpha: 0.5),
+      backgroundColor: V6Colors.background,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            V6TopAppBar(title: 'Scan text', onBack: () => Navigator.pop(context)),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                children: [
+                  LanguageSwitchCard(from: from, to: to, onSwap: _toggleDirection),
+                  const SizedBox(height: 16),
+                  body,
                 ],
               ),
             ),
-          ),
-
-          // Scanning overlay
-          if (isLoading) _ScanningOverlay(pulseAnimation: pulseAnimation),
-
-          // Retake button (bottom-right)
-          if (!isLoading && image != null)
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: GestureDetector(
-                onTap: onRetake,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.flip_camera_ios_rounded,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                      SizedBox(width: 6),
-                      Text(
-                        'Retake',
-                        style: TextStyle(color: Colors.white, fontSize: 13),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
-}
 
-// ─────────────────────────────────────────────
-// Scanning Overlay with animated line
-// ─────────────────────────────────────────────
-class _ScanningOverlay extends StatelessWidget {
-  final Animation<double> pulseAnimation;
-  const _ScanningOverlay({required this.pulseAnimation});
-
-  @override
-  Widget build(BuildContext context) {
+  /// Figma 597:4775 "Scanning": the photo, "Reading the text…", a bar and
+  /// Cancel.
+  Widget _scanning() {
     return Container(
-      color: Colors.black.withValues(alpha: 0.4),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ScaleTransition(
-              scale: pulseAnimation,
-              child: Container(
-                width: 180,
-                height: 180,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: purple.withValues(alpha: 0.8), width: 2),
-                ),
-                child: Stack(
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+        color: V6Colors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: V6Colors.borderDivider),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: SizedBox(
+              height: 300,
+              child: _image == null
+                  ? const ColoredBox(color: V6Colors.surfaceTint)
+                  : Image.file(_image!, fit: BoxFit.cover),
+            ),
+          ),
+          const SizedBox(height: 14),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
                   children: [
-                    // Corner accents
-                    ..._cornerAccents(),
+                    const Icon(Icons.document_scanner_rounded, size: 22, color: V6Colors.primary),
+                    const SizedBox(width: 10),
+                    Text('Reading the text…', style: V6Text.titleMediumBold),
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Scanning…',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _cornerAccents() {
-    const size = 18.0;
-    const thickness = 3.0;
-    final color = purple;
-
-    Widget corner({
-      required AlignmentGeometry alignment,
-      required BorderRadius borderRadius,
-    }) => Align(
-      alignment: alignment,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          border: Border.all(color: color, width: thickness),
-        ),
-      ),
-    );
-
-    return [
-      corner(
-        alignment: Alignment.topLeft,
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(6)),
-      ),
-      corner(
-        alignment: Alignment.topRight,
-        borderRadius: const BorderRadius.only(topRight: Radius.circular(6)),
-      ),
-      corner(
-        alignment: Alignment.bottomLeft,
-        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(6)),
-      ),
-      corner(
-        alignment: Alignment.bottomRight,
-        borderRadius: const BorderRadius.only(bottomRight: Radius.circular(6)),
-      ),
-    ];
-  }
-}
-
-// ─────────────────────────────────────────────
-// Result Card
-// ─────────────────────────────────────────────
-class _ResultCard extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final Color iconColor;
-  final String content;
-  final bool isHighlighted;
-  final String? note;
-  final VoidCallback? onCopy;
-
-  const _ResultCard({
-    required this.label,
-    required this.icon,
-    required this.iconColor,
-    required this.content,
-    this.isHighlighted = false,
-    this.note,
-    this.onCopy,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: isHighlighted ? purplePale : offWhite,
-        borderRadius: BorderRadius.circular(20),
-        border: isHighlighted
-            ? Border.all(color: purple.withValues(alpha: 0.25), width: 1.5)
-            : null,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: iconColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(icon, size: 16, color: iconColor),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                label,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13,
-                  color: Colors.grey.shade600,
-                  letterSpacing: 0.3,
-                ),
-              ),
-              const Spacer(),
-              if (onCopy != null)
-                GestureDetector(
-                  onTap: onCopy,
-                  child: Icon(
-                    Icons.copy_rounded,
-                    size: 18,
-                    color: Colors.grey.shade500,
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(999),
+                  child: const LinearProgressIndicator(
+                    minHeight: 8,
+                    color: V6Colors.primary,
+                    backgroundColor: V6Colors.primaryContainer,
                   ),
                 ),
+                const SizedBox(height: 10),
+                Text(
+                  'This takes a few seconds and works offline.',
+                  style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
+          Center(
+            child: V6Button(label: 'Cancel', style: V6ButtonStyle.text, onPressed: () => Navigator.pop(context)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Figma 597:4863 "Scan result": "From your photo" + Scan again, the
+  /// photo's text, and the translation.
+  Widget _result(String from, String to) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FromSourceRow(
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: _image == null
+                ? const SourceIconTile(icon: Icons.photo_rounded)
+                : Image.file(_image!, fit: BoxFit.cover),
+          ),
+          text: 'From your photo · check for mistakes',
+          actionLabel: 'Scan again',
+          onAction: () => pickImage(),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+          decoration: BoxDecoration(
+            color: V6Colors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: V6Colors.borderFocus, width: 2),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(from, style: V6Text.labelLarge.copyWith(color: V6Colors.textSecondary)),
+              const SizedBox(height: 8),
+              Container(
+                constraints: const BoxConstraints(minHeight: 120),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(color: V6Colors.surfaceTint, borderRadius: BorderRadius.circular(12)),
+                child: SelectableText(extractedText, style: translationInputStyle),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${extractedText.characters.length} characters',
+                textAlign: TextAlign.right,
+                style: V6Text.caption.copyWith(color: V6Colors.textMuted),
+              ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            content,
-            style: TextStyle(
-              fontSize: isHighlighted ? 18 : 15,
-              fontWeight: isHighlighted ? FontWeight.w600 : FontWeight.normal,
-              height: 1.5,
-              color: isHighlighted ? purple : Colors.grey.shade800,
-            ),
-          ),
-          if (note != null) ...[
-            const SizedBox(height: 8),
-            Text(
-              note!,
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// Loading State
-// ─────────────────────────────────────────────
-class _LoadingState extends StatelessWidget {
-  const _LoadingState();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 16),
-          Text(
-            'Recognizing text…',
-            style: TextStyle(color: Colors.grey, fontSize: 14),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// Error State
-// ─────────────────────────────────────────────
-class _ErrorState extends StatelessWidget {
-  final String message;
-  final VoidCallback onRetry;
-
-  const _ErrorState({required this.message, required this.onRetry});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.red.shade50,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.error_outline_rounded,
-              color: Colors.red.shade400,
-              size: 36,
-            ),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Something went wrong',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: onRetry,
-            icon: const Icon(Icons.refresh_rounded),
-            label: const Text('Try Again'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: purple,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// Empty / Initial State
-// ─────────────────────────────────────────────
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.document_scanner_outlined,
-            size: 52,
-            color: Colors.grey.shade300,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Point your camera at text',
-            style: TextStyle(
-              color: Colors.grey.shade400,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 16),
+        TranslationResultCard(
+          language: to,
+          text: translatedText,
+          translating: _isTranslating,
+          note: translationNote(isDictionaryMeaning: _isDictionaryMeaning),
+          copied: _copied,
+          onListen: null,
+          onCopy: () => _copyToClipboard(translatedText),
+        ),
+      ],
     );
   }
 }

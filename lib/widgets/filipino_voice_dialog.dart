@@ -6,6 +6,9 @@ import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'v6/v6.dart';
+
+const String kFilipinoVoiceDialogTitle = 'Filipino voice';
 const String kFilipinoVoiceDialogText =
     'Para marinig ang Filipino, i-install ang Filipino voice ng iyong telepono.';
 const String kFilipinoVoiceInstallButton = 'I-install';
@@ -27,37 +30,25 @@ bool _dialogShown = false;
 /// Shows the dialog the first time, and a short SnackBar after that.
 Future<void> showFilipinoVoiceHelp(BuildContext context) async {
   if (_dialogShown) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text(kFilipinoVoiceSnackBarText)),
-    );
+    showV6Snackbar(context, kFilipinoVoiceSnackBarText, icon: Icons.info_outline_rounded);
     return;
   }
   _dialogShown = true;
 
-  final install = await showDialog<bool>(
-    context: context,
-    builder: (dialogContext) => AlertDialog(
-      content: const Text(kFilipinoVoiceDialogText),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(dialogContext, false),
-          child: const Text(kFilipinoVoiceLaterButton),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(dialogContext, true),
-          child: const Text(kFilipinoVoiceInstallButton),
-        ),
-      ],
-    ),
+  final install = await showV6Dialog(
+    context,
+    title: kFilipinoVoiceDialogTitle,
+    message: kFilipinoVoiceDialogText,
+    mascot: 'firefly_phone',
+    primaryLabel: kFilipinoVoiceInstallButton,
+    secondaryLabel: kFilipinoVoiceLaterButton,
   );
-  if (install == true) await _openVoiceInstall();
+  if (install) await _openVoiceInstall();
 }
 
 /// The phone lists a Filipino voice, but it didn't speak.
 void showFilipinoVoiceNotReady(BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text(kFilipinoVoiceNotReadyText)),
-  );
+  showV6Snackbar(context, kFilipinoVoiceNotReadyText, icon: Icons.info_outline_rounded);
 }
 
 Future<void> _openVoiceInstall() async {

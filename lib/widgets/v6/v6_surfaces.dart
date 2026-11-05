@@ -53,20 +53,23 @@ class V6MascotCircle extends StatelessWidget {
 }
 
 /// A V6 dialog: optional mascot circle, title (Title/Large · Bold, centred),
-/// message, a full-width primary action and an optional text action.
-/// Completes with true for the primary action, false otherwise.
-Future<bool> showV6Dialog(
+/// message, a full-width primary action and any number of text actions.
+/// Completes with the label that was tapped, or null when dismissed.
+Future<String?> showV6ChoiceDialog(
   BuildContext context, {
   required String title,
   String? message,
   String? mascot,
   Color mascotCircle = V6Colors.glow,
+  Color titleColor = V6Colors.textPrimary,
   required String primaryLabel,
   V6ButtonStyle primaryStyle = V6ButtonStyle.primary,
-  String? secondaryLabel,
-}) async {
-  final result = await showDialog<bool>(
+  List<String> textActions = const [],
+  bool barrierDismissible = true,
+}) {
+  return showDialog<String>(
     context: context,
+    barrierDismissible: barrierDismissible,
     barrierColor: V6Colors.primaryStrong.withValues(alpha: 0.45),
     builder: (dialogContext) => Dialog(
       backgroundColor: V6Colors.surface,
@@ -83,7 +86,7 @@ Future<bool> showV6Dialog(
               Center(child: V6MascotCircle(mascot: mascot, circleColor: mascotCircle)),
               const SizedBox(height: 12),
             ],
-            Text(title, textAlign: TextAlign.center, style: V6Text.titleLargeBold),
+            Text(title, textAlign: TextAlign.center, style: V6Text.titleLargeBold.copyWith(color: titleColor)),
             if (message != null) ...[
               const SizedBox(height: 12),
               Text(
@@ -97,15 +100,15 @@ Future<bool> showV6Dialog(
               label: primaryLabel,
               style: primaryStyle,
               expand: true,
-              onPressed: () => Navigator.of(dialogContext).pop(true),
+              onPressed: () => Navigator.of(dialogContext).pop(primaryLabel),
             ),
-            if (secondaryLabel != null) ...[
+            for (final label in textActions) ...[
               const SizedBox(height: 12),
               Center(
                 child: V6Button(
-                  label: secondaryLabel,
+                  label: label,
                   style: V6ButtonStyle.text,
-                  onPressed: () => Navigator.of(dialogContext).pop(false),
+                  onPressed: () => Navigator.of(dialogContext).pop(label),
                 ),
               ),
             ],
@@ -114,7 +117,31 @@ Future<bool> showV6Dialog(
       ),
     ),
   );
-  return result ?? false;
+}
+
+/// [showV6ChoiceDialog] with one optional text action: true for the
+/// primary action, false otherwise.
+Future<bool> showV6Dialog(
+  BuildContext context, {
+  required String title,
+  String? message,
+  String? mascot,
+  Color mascotCircle = V6Colors.glow,
+  required String primaryLabel,
+  V6ButtonStyle primaryStyle = V6ButtonStyle.primary,
+  String? secondaryLabel,
+}) async {
+  final picked = await showV6ChoiceDialog(
+    context,
+    title: title,
+    message: message,
+    mascot: mascot,
+    mascotCircle: mascotCircle,
+    primaryLabel: primaryLabel,
+    primaryStyle: primaryStyle,
+    textActions: [?secondaryLabel],
+  );
+  return picked == primaryLabel;
 }
 
 /// A V6 bottom sheet: Surface, radius 24 on top, a 36 × 4 handle, a title
@@ -173,8 +200,12 @@ class V6MessageCard extends StatelessWidget {
     required this.title,
     required this.message,
     this.actions = const [],
+    this.background = V6Colors.surface,
+    this.iconColor = V6Colors.primary,
   });
 
+  final Color background;
+  final Color iconColor;
   final IconData icon;
   final String title;
   final String message;
@@ -185,9 +216,9 @@ class V6MessageCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: V6Colors.surface,
+        color: background,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: V6Colors.borderDivider),
+        border: background == V6Colors.surface ? Border.all(color: V6Colors.borderDivider) : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -199,10 +230,10 @@ class V6MessageCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: V6Colors.primaryContainer,
+                  color: background == V6Colors.surface ? V6Colors.primaryContainer : V6Colors.surface,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, size: 22, color: V6Colors.primary),
+                child: Icon(icon, size: 22, color: iconColor),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -219,7 +250,7 @@ class V6MessageCard extends StatelessWidget {
           ),
           if (actions.isNotEmpty) ...[
             const SizedBox(height: 12),
-            Row(children: [for (final (i, a) in actions.indexed) ...[if (i > 0) const SizedBox(width: 8), a]]),
+            Wrap(spacing: 8, runSpacing: 4, crossAxisAlignment: WrapCrossAlignment.center, children: actions),
           ],
         ],
       ),
