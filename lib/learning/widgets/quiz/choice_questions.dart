@@ -71,7 +71,7 @@ mixin _ChoiceState<W extends StatefulWidget> on State<W> {
 
   void choose(int i) {
     setState(() => chosen = i);
-    onChanged(AnswerState(ready: true, correct: i == choice.answer));
+    onChanged(AnswerState(ready: true, correct: i == choice.answer, text: choice.options[i]));
   }
 }
 

@@ -174,20 +174,29 @@ void main() {
         lessons: {'b02': const LessonProgress(partsDone: 11)});
     expect(find.text('Finish & practice'), findsOneWidget);
     await tester.tap(find.byType(FilledButton));
-    // (No pumpAndSettle: the quiz's 30 s timer keeps ticking.)
-    for (var i = 0; i < 5; i++) {
-      await tester.pump(const Duration(milliseconds: 200));
-    }
+    await tester.pumpAndSettle();
 
-    // Until S03 exists, "Finish & practice" goes straight to the quiz.
-    expect(find.byType(QuizPlayerScreen), findsOneWidget);
-    expect(find.text('1 / 9'), findsOneWidget);
+    // S03 Lesson complete, with the lesson XP just paid.
+    expect(find.text('Lesson complete!'), findsOneWidget);
+    expect(find.text('You finished Lesson 2: ${lesson('b02').title}.'), findsOneWidget);
+    expect(find.text('+20'), findsOneWidget);
+    expect(find.text('${lesson('b02').items.length}'), findsOneWidget);
+    expect(find.text('New words'), findsOneWidget);
     final p = progress.progressFor('b02');
     expect(p.completed, isTrue);
     expect(p.partsDone, 12);
     expect(progress.xp, 20);
     expect(progress.lessonsCompleted, 1);
     expect(progress.streak, 1);
+
+    // "Take the lesson quiz" → question 1.
+    await tester.tap(find.text('Take the lesson quiz'));
+    // (No pumpAndSettle: the quiz's 30 s timer keeps ticking.)
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 200));
+    }
+    expect(find.byType(QuizPlayerScreen), findsOneWidget);
+    expect(find.text('1 / 9'), findsOneWidget);
   });
 
   testWidgets('Lesson 1 ends with Finish lesson', (tester) async {

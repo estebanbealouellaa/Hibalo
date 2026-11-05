@@ -122,10 +122,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get completedChip => 'Completed';
 
   @override
-  String get comingNextStep =>
-      'The lesson player comes in the next build step.';
-
-  @override
   String partCaption(int lesson, int part, int total) {
     return 'Lesson $lesson · Part $part of $total';
   }
@@ -252,10 +248,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cultureNoteLabel => 'Culture note';
 
   @override
-  String get lessonFinishedNote =>
-      'Lesson finished! The Lesson complete screen comes in step 5.';
-
-  @override
   String get qtChoose => 'Choose';
 
   @override
@@ -380,31 +372,146 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get quizDoneTitle => 'Quiz finished';
-
-  @override
-  String quizDoneScore(int correct, int total) {
-    return 'You got $correct out of $total correct.';
-  }
-
-  @override
-  String get quizDoneAccuracy => 'Accuracy';
-
-  @override
-  String get quizDoneXp => 'XP earned';
-
-  @override
-  String get quizDonePassed => 'Passed! The next lesson is unlocked.';
-
-  @override
-  String get quizDoneNotPassed => 'Pass this quiz to unlock the next lesson.';
-
-  @override
-  String get quizDoneNote => 'The Quiz result screen comes in step 5.';
-
-  @override
   String get backToLessons => 'Back to lessons';
 
   @override
   String get filipinoName => 'Filipino';
+
+  @override
+  String get lessonCompleteTitle => 'Lesson complete!';
+
+  @override
+  String lessonCompleteLine(int number, String title) {
+    return 'You finished Lesson $number: $title.';
+  }
+
+  @override
+  String statXpPlus(int xp) {
+    return '+$xp';
+  }
+
+  @override
+  String get statXpLabel => 'XP';
+
+  @override
+  String get xpAlreadyEarned => 'XP · Already earned';
+
+  @override
+  String get newWordsLabel => 'New words';
+
+  @override
+  String get lettersLabel => 'Letters';
+
+  @override
+  String lessonUnlockedChip(int number) {
+    return 'Lesson $number unlocked';
+  }
+
+  @override
+  String levelCompleteChip(String level) {
+    return '$level complete!';
+  }
+
+  @override
+  String passToUnlockChip(int number) {
+    return 'Pass this quiz to unlock Lesson $number';
+  }
+
+  @override
+  String passToFinishLevelChip(String level) {
+    return 'Pass this quiz to complete $level';
+  }
+
+  @override
+  String get takeLessonQuiz => 'Take the lesson quiz';
+
+  @override
+  String continueToLesson(int number) {
+    return 'Continue to Lesson $number';
+  }
+
+  @override
+  String quizScoreLine(int correct, int total) {
+    return 'You got $correct out of $total correct.';
+  }
+
+  @override
+  String quizScoreLinePassed(int correct, int total) {
+    return 'You got $correct out of $total correct!';
+  }
+
+  @override
+  String get xpEarnedLabel => 'XP earned';
+
+  @override
+  String get accuracyLabel => 'Accuracy';
+
+  @override
+  String accuracyValue(int percent) {
+    return '$percent%';
+  }
+
+  @override
+  String get reviewAnswers => 'Review answers';
+
+  @override
+  String reviewQuestion(int number, String text) {
+    return '$number. $text';
+  }
+
+  @override
+  String reviewTyped(String type, String text) {
+    return '$type: $text';
+  }
+
+  @override
+  String get rvListening => 'Listening';
+
+  @override
+  String get rvFillBlank => 'Fill in the blank';
+
+  @override
+  String get rvType => 'Type';
+
+  @override
+  String get rvBuild => 'Build';
+
+  @override
+  String get rvRealSituation => 'Real situation';
+
+  @override
+  String get rvMatchPairs => 'Match the pairs';
+
+  @override
+  String get rvDictation => 'Dictation';
+
+  @override
+  String get rvSpeaking => 'Speaking';
+
+  @override
+  String get rvOpenAnswer => 'Open answer';
+
+  @override
+  String yourAnswerIs(String answer) {
+    return 'Your answer: $answer';
+  }
+
+  @override
+  String correctAnswerIs(String answer) {
+    return 'Correct answer: $answer';
+  }
+
+  @override
+  String get timeUpAnswer => '(time\'s up)';
+
+  @override
+  String pairsScore(int right, int total) {
+    return '$right of $total pairs';
+  }
+
+  @override
+  String get practiceTag => 'Practice';
+
+  @override
+  String get practiceNote => 'Saved for practice only. No score.';
 }

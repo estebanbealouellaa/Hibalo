@@ -5,8 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/progress.dart';
 
 /// Saves learning progress on the phone (SharedPreferences, one JSON value).
-/// The app works offline, so this is the main copy; Firestore sync comes on
-/// top of it in step 5.
+/// The app works offline, so this is the main copy; LearningProgress syncs
+/// it to Firestore while the learner is signed in.
 class ProgressStore {
   static const _key = 'learning_progress_v1';
 

@@ -21,6 +21,7 @@ mixin _TypedState<W extends StatefulWidget> on State<W> {
     onChanged(AnswerState(
       ready: text.trim().isNotEmpty,
       correct: matchesAccepted(text, typed.accepted),
+      text: text.trim(),
     ));
   }
 

@@ -1,6 +1,8 @@
+import '../sync/progress_cloud.dart' show QuizAttemptRecord;
+
 /// What the learner has done in one lesson. Saved on the phone, and synced to
-/// Firestore `users/{uid}/lessonProgress/{lessonId}` (step 5) with the same
-/// field names.
+/// Firestore `users/{uid}/lessonProgress/{lessonId}` with the same field
+/// names.
 class LessonProgress {
   const LessonProgress({
     this.partsDone = 0,
@@ -72,8 +74,15 @@ class ProgressSnapshot {
     this.streak = 0,
     this.lastActiveDate,
     Set<String>? paid,
+    this.ownerUid,
+    Set<String>? syncedPaid,
+    Set<String>? unsyncedLessons,
+    List<QuizAttemptRecord>? pendingAttempts,
   })  : lessons = lessons ?? {},
-        paid = paid ?? {};
+        paid = paid ?? {},
+        syncedPaid = syncedPaid ?? {},
+        unsyncedLessons = unsyncedLessons ?? {},
+        pendingAttempts = pendingAttempts ?? [];
 
   /// Lesson id → progress. Lessons never opened are missing.
   final Map<String, LessonProgress> lessons;
@@ -91,6 +100,22 @@ class ProgressSnapshot {
   /// so repeating them pays nothing.
   final Set<String> paid;
 
+  // ── Sync bookkeeping ────────────────────────────────────────────────
+
+  /// The account this progress belongs to, or null for a guest. Guest
+  /// progress merges into the first account that signs in; another account
+  /// starts from its own cloud progress.
+  String? ownerUid;
+
+  /// Paid ids the cloud already has (its XP includes them).
+  final Set<String> syncedPaid;
+
+  /// Lessons changed since the last sync.
+  final Set<String> unsyncedLessons;
+
+  /// Quiz attempts not sent yet.
+  final List<QuizAttemptRecord> pendingAttempts;
+
   /// Lessons with every part finished (users/{uid}.lessonsCompleted).
   int get lessonsCompleted => lessons.values.where((p) => p.completed).length;
 
@@ -100,6 +125,10 @@ class ProgressSnapshot {
         'streak': streak,
         'lastActiveDate': lastActiveDate,
         'paid': paid.toList()..sort(),
+        'ownerUid': ownerUid,
+        'syncedPaid': syncedPaid.toList()..sort(),
+        'unsyncedLessons': unsyncedLessons.toList()..sort(),
+        'pendingAttempts': [for (final a in pendingAttempts) a.toJson()],
       };
 
   factory ProgressSnapshot.fromJson(Map<String, dynamic> json) {
@@ -118,6 +147,13 @@ class ProgressSnapshot {
       streak: (json['streak'] as num?)?.toInt() ?? 0,
       lastActiveDate: json['lastActiveDate'] as String?,
       paid: {...?(json['paid'] as List?)?.whereType<String>()},
+      ownerUid: json['ownerUid'] as String?,
+      syncedPaid: {...?(json['syncedPaid'] as List?)?.whereType<String>()},
+      unsyncedLessons: {...?(json['unsyncedLessons'] as List?)?.whereType<String>()},
+      pendingAttempts: [
+        for (final a in (json['pendingAttempts'] as List?) ?? const [])
+          ?QuizAttemptRecord.fromJson(a),
+      ],
     );
   }
 }

@@ -51,6 +51,11 @@ class QuizPlayerScreen extends StatefulWidget {
   /// Q09 recorder; the real in-memory one when null.
   final VoiceRecorder? recorder;
 
+  /// Makes the shuffle for each new attempt when [random] is null, so every
+  /// start (and Try again) gets a new order. Swapped in tests.
+  @visibleForTesting
+  static Random Function() newRandom = Random.new;
+
   @override
   State<QuizPlayerScreen> createState() => _QuizPlayerScreenState();
 }
@@ -64,6 +69,9 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
   /// (Q05) or the right column (Q07). Made once, when the quiz starts.
   final Map<String, List<int>> _orders = {};
   final Map<String, QuestionOutcome> _outcomes = {};
+
+  /// The answer given to each question, for Quiz review (S05).
+  final Map<String, AnswerState> _given = {};
 
   int _index = 0;
   QuestionPhase _phase = QuestionPhase.answering;
@@ -80,7 +88,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     final progress = context.read<LearningProgress>();
     _lesson = progress.catalog.lessonById(widget.lessonId)!;
     _questions = _lesson.quiz!.questions;
-    _makeOrders(progress.catalog.settings, widget.random ?? Random());
+    _makeOrders(progress.catalog.settings, widget.random ?? QuizPlayerScreen.newRandom());
     _startQuestion();
   }
 
@@ -137,6 +145,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     FocusScope.of(context).unfocus();
     LessonAudio.instance.stop();
     _timer?.stop();
+    _given[q.id] = _answer;
     setState(() => _busy = true);
 
     switch (q) {
@@ -225,7 +234,8 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     });
   }
 
-  /// The attempt ends: save it, delete any recording, show the result.
+  /// The attempt ends: save it (and sync it), delete any recording, show
+  /// S04 with the answers for S05.
   Future<void> _finish() async {
     final progress = context.read<LearningProgress>();
     final score = QuizScore.of(_questions, _outcomes);
@@ -241,7 +251,16 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     );
     await _recorder.clear();
     if (!mounted) return;
-    LearningRoutes.showQuizDone(context, _lesson, result);
+    final answers = [
+      for (final q in _questions)
+        AnsweredQuestion(
+          question: q,
+          outcome: _outcomes[q.id] ?? QuestionOutcome.wrong,
+          answer: _given[q.id]?.text,
+          pairsRight: _given[q.id]?.pairsRight,
+        ),
+    ];
+    LearningRoutes.showQuizResult(context, _lesson, result, answers);
   }
 
   // ── Leaving ──────────────────────────────────────────────────────────

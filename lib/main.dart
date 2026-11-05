@@ -10,6 +10,7 @@ import 'firebase_options.dart';
 import 'providers/translator_provider.dart';
 import 'providers/auth_provider.dart' as app;
 import 'learning/state/learning_progress.dart';
+import 'learning/sync/firestore_progress_cloud.dart';
 import 'l10n/app_language.dart';
 
 // SCREENS
@@ -38,8 +39,14 @@ void main() async {
         ChangeNotifierProvider(create: (_) => TranslatorProvider()),
 
         // LEARNING PROGRESS (lessons, XP, streak) for Home, Me, Translate
-        // and the learning screens. Loads from the phone in the background.
-        ChangeNotifierProvider(create: (_) => LearningProgress()..load()),
+        // and the learning screens. Loads from the phone in the background
+        // and syncs to Firestore while signed in (phone only when not).
+        ChangeNotifierProvider(
+          create: (_) => LearningProgress(
+            cloud: FirestoreProgressCloud(),
+            accounts: FirebaseAuth.instance.authStateChanges().map((user) => user?.uid),
+          )..load(),
+        ),
 
         // AUTH PROVIDER
         ChangeNotifierProvider(create: (_) => app.AuthProvider()),

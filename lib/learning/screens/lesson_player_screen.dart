@@ -14,7 +14,6 @@ import '../theme/v6_text.dart';
 import '../theme/v6_theme.dart';
 import '../widgets/feedback_sheet.dart';
 import '../widgets/leave_dialog.dart';
-import '../widgets/learning_snack_bar.dart';
 import '../widgets/parts/bridge_mistakes_part.dart';
 import '../widgets/parts/culture_note_part.dart';
 import '../widgets/parts/dialogue_part.dart';
@@ -161,19 +160,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   }
 
   Future<void> _finishLesson(LearningProgress progress) async {
-    // Paid once: a review pays nothing again.
-    await progress.payLessonComplete(_lesson);
+    // Paid once: a review pays nothing again ("Already earned" on S03).
+    final paid = await progress.payLessonComplete(_lesson);
     if (!mounted) return;
-    if (_lesson.hasQuiz) {
-      // "Finish & practice": straight to the quiz until S03 exists (step 5).
-      LearningRoutes.openLessonComplete(context, _lesson, replace: true);
-      return;
-    }
-    final navigator = Navigator.of(context);
-    final note = AppLocalizations.of(context).lessonFinishedNote;
-    // TODO(step 5): open S03 · Letters instead of going back to S02.
-    navigator.pop();
-    showLearningSnackBar(navigator.context, note);
+    // "Finish & practice" / "Finish lesson" → S03 (Letters version without
+    // a quiz).
+    LearningRoutes.openLessonComplete(context, _lesson, replace: true, xpJustPaid: paid);
   }
 
   // ── Leaving ─────────────────────────────────────────────────────────────

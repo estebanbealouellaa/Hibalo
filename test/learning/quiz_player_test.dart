@@ -19,7 +19,7 @@ import 'package:hibalo_app/learning/logic/quiz_logic.dart';
 import 'package:hibalo_app/learning/models/catalog.dart';
 import 'package:hibalo_app/learning/models/progress.dart';
 import 'package:hibalo_app/learning/models/questions.dart';
-import 'package:hibalo_app/learning/screens/quiz_done_screen.dart';
+import 'package:hibalo_app/learning/screens/quiz_result_screen.dart';
 import 'package:hibalo_app/learning/screens/quiz_player_screen.dart';
 import 'package:hibalo_app/learning/services/voice_recorder.dart';
 import 'package:hibalo_app/learning/state/learning_progress.dart';
@@ -202,10 +202,11 @@ void main() {
 
     await tester.tap(find.text(q.options[order.firstWhere((i) => i != q.answer)]));
     await tester.pump();
-    expect(last, const AnswerState(ready: true, correct: false));
+    final wrong = q.options[order.firstWhere((i) => i != q.answer)];
+    expect(last, AnswerState(ready: true, correct: false, text: wrong));
     await tester.tap(find.text(q.correctOption));
     await tester.pump();
-    expect(last, const AnswerState(ready: true, correct: true));
+    expect(last, AnswerState(ready: true, correct: true, text: q.correctOption));
   });
 
   // ── Q07 ────────────────────────────────────────────────────────────────
@@ -239,13 +240,14 @@ void main() {
 
     testWidgets('all matched with no wrong taps is right', (tester) async {
       final states = await play(tester, wrongTapFirst: false);
-      expect(states.last, const AnswerState(ready: true, correct: true));
+      expect(states.last, AnswerState(ready: true, correct: true, pairsRight: q().pairs.length));
       expect(states.where((s) => s.ready), hasLength(1), reason: 'Check only when all are matched');
     });
 
     testWidgets('one wrong tap makes it wrong even when all are matched later', (tester) async {
       final states = await play(tester, wrongTapFirst: true);
-      expect(states.last, const AnswerState(ready: true, correct: false));
+      // The two pairs in the wrong pick don't count for "N of M pairs".
+      expect(states.last, AnswerState(ready: true, correct: false, pairsRight: q().pairs.length - 2));
     });
   });
 
@@ -309,9 +311,10 @@ void main() {
       await answer(tester, q, right: true);
     }
     await frames(tester);
-    expect(find.byType(QuizDoneScreen), findsOneWidget);
+    expect(find.byType(QuizResultScreen), findsOneWidget);
     final total = questions.where((q) => q.scored).length;
-    expect(find.text('You got ${total - 1} out of $total correct.'), findsOneWidget);
+    // 7 of 8 passes (≥ 80%): the passed line ends with "!".
+    expect(find.text('You got ${total - 1} out of $total correct!'), findsOneWidget);
     expect(progress.progressFor('b02').bestScore, total - 1);
     expect(progress.xp, 10 * (total - 1), reason: 'no XP for the timed-out question');
   });
@@ -354,7 +357,8 @@ void main() {
       await answer(tester, q, right: true);
     }
     await frames(tester);
-    expect(find.text('You got $total out of $total correct.'), findsOneWidget);
+    expect(find.text('Perpekto!'), findsOneWidget);
+    expect(find.text('You got $total out of $total correct!'), findsOneWidget);
     expect(find.text('+${10 * total} XP'), findsOneWidget);
     expect(find.text('100%'), findsOneWidget);
     expect(progress.xp, 10 * total);
@@ -362,8 +366,8 @@ void main() {
     expect(progress.rules.isLessonUnlocked(lesson('b03')), isTrue);
     expect(recorder.hasRecording, isFalse, reason: 'the Q09 recording is deleted at the end');
 
-    // Back to lessons, then a retake: all right again pays nothing new.
-    await press(tester, find.text('Back to lessons'));
+    // Continue (→ S01), then a retake: all right again pays nothing new.
+    await press(tester, find.text('Continue'));
     expect(find.text('LEARN'), findsOneWidget);
     final nav = tester.state<NavigatorState>(find.byType(Navigator));
     nav.push(MaterialPageRoute<void>(

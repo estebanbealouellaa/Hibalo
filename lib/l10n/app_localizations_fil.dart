@@ -122,10 +122,6 @@ class AppLocalizationsFil extends AppLocalizations {
   String get completedChip => 'Tapos na';
 
   @override
-  String get comingNextStep =>
-      'Darating ang lesson player sa susunod na hakbang.';
-
-  @override
   String partCaption(int lesson, int part, int total) {
     return 'Aralin $lesson · Bahagi $part ng $total';
   }
@@ -250,10 +246,6 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get cultureNoteLabel => 'Tala sa kultura';
-
-  @override
-  String get lessonFinishedNote =>
-      'Tapos ang aralin! Darating ang Lesson complete screen sa hakbang 5.';
 
   @override
   String get qtChoose => 'Pumili';
@@ -381,32 +373,146 @@ class AppLocalizationsFil extends AppLocalizations {
   }
 
   @override
-  String get quizDoneTitle => 'Tapos ang pagsusulit';
-
-  @override
-  String quizDoneScore(int correct, int total) {
-    return 'Tama ang $correct sa $total.';
-  }
-
-  @override
-  String get quizDoneAccuracy => 'Katumpakan';
-
-  @override
-  String get quizDoneXp => 'Nakuhang XP';
-
-  @override
-  String get quizDonePassed => 'Pasado! Bukas na ang susunod na aralin.';
-
-  @override
-  String get quizDoneNotPassed =>
-      'Ipasa ang pagsusulit para mabuksan ang susunod na aralin.';
-
-  @override
-  String get quizDoneNote => 'Darating ang Quiz result screen sa hakbang 5.';
-
-  @override
   String get backToLessons => 'Bumalik sa mga aralin';
 
   @override
   String get filipinoName => 'Filipino';
+
+  @override
+  String get lessonCompleteTitle => 'Tapos ang aralin!';
+
+  @override
+  String lessonCompleteLine(int number, String title) {
+    return 'Natapos mo ang Aralin $number: $title.';
+  }
+
+  @override
+  String statXpPlus(int xp) {
+    return '+$xp';
+  }
+
+  @override
+  String get statXpLabel => 'XP';
+
+  @override
+  String get xpAlreadyEarned => 'XP · Nakuha na';
+
+  @override
+  String get newWordsLabel => 'Bagong salita';
+
+  @override
+  String get lettersLabel => 'Titik';
+
+  @override
+  String lessonUnlockedChip(int number) {
+    return 'Bukas na ang Aralin $number';
+  }
+
+  @override
+  String levelCompleteChip(String level) {
+    return 'Tapos ang $level!';
+  }
+
+  @override
+  String passToUnlockChip(int number) {
+    return 'Ipasa ang pagsusulit para mabuksan ang Aralin $number';
+  }
+
+  @override
+  String passToFinishLevelChip(String level) {
+    return 'Ipasa ang pagsusulit para matapos ang $level';
+  }
+
+  @override
+  String get takeLessonQuiz => 'Sagutan ang pagsusulit';
+
+  @override
+  String continueToLesson(int number) {
+    return 'Tumuloy sa Aralin $number';
+  }
+
+  @override
+  String quizScoreLine(int correct, int total) {
+    return 'Tama ang $correct sa $total.';
+  }
+
+  @override
+  String quizScoreLinePassed(int correct, int total) {
+    return 'Tama ang $correct sa $total!';
+  }
+
+  @override
+  String get xpEarnedLabel => 'Nakuhang XP';
+
+  @override
+  String get accuracyLabel => 'Katumpakan';
+
+  @override
+  String accuracyValue(int percent) {
+    return '$percent%';
+  }
+
+  @override
+  String get reviewAnswers => 'Suriin ang mga sagot';
+
+  @override
+  String reviewQuestion(int number, String text) {
+    return '$number. $text';
+  }
+
+  @override
+  String reviewTyped(String type, String text) {
+    return '$type: $text';
+  }
+
+  @override
+  String get rvListening => 'Pakikinig';
+
+  @override
+  String get rvFillBlank => 'Punan ang patlang';
+
+  @override
+  String get rvType => 'I-type';
+
+  @override
+  String get rvBuild => 'Buuin';
+
+  @override
+  String get rvRealSituation => 'Totoong sitwasyon';
+
+  @override
+  String get rvMatchPairs => 'Pagtapatin ang magkapares';
+
+  @override
+  String get rvDictation => 'Diktasyon';
+
+  @override
+  String get rvSpeaking => 'Pagsasalita';
+
+  @override
+  String get rvOpenAnswer => 'Malayang sagot';
+
+  @override
+  String yourAnswerIs(String answer) {
+    return 'Sagot mo: $answer';
+  }
+
+  @override
+  String correctAnswerIs(String answer) {
+    return 'Tamang sagot: $answer';
+  }
+
+  @override
+  String get timeUpAnswer => '(ubos na ang oras)';
+
+  @override
+  String pairsScore(int right, int total) {
+    return '$right sa $total pares';
+  }
+
+  @override
+  String get practiceTag => 'Pagsasanay';
+
+  @override
+  String get practiceNote => 'Para sa pagsasanay lang. Walang puntos.';
 }

@@ -107,3 +107,24 @@ String? correctAnswerText(QuizQuestion q) => switch (q) {
       SpeakingData() => null,
       OpenAnswerData() => null,
     };
+
+// ── Quiz review (S05) ───────────────────────────────────────────────────────
+
+/// How one question was answered, kept for Quiz review.
+class AnsweredQuestion {
+  const AnsweredQuestion({
+    required this.question,
+    required this.outcome,
+    this.answer,
+    this.pairsRight,
+  });
+
+  final QuizQuestion question;
+  final QuestionOutcome outcome;
+
+  /// The learner's answer as shown (option, typed text, built sentence).
+  final String? answer;
+
+  /// Q07: pairs matched with no wrong tap.
+  final int? pairsRight;
+}

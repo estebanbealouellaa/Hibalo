@@ -43,6 +43,7 @@ class _BuildSentenceQuestionState extends State<BuildSentenceQuestion> {
     widget.onChanged(AnswerState(
       ready: _picked.isNotEmpty,
       correct: isRightSentence(widget.data, _picked),
+      text: [for (final i in _picked) widget.data.tiles[i]].join(' '),
     ));
   }
 
@@ -132,6 +133,9 @@ class _MatchPairsQuestionState extends State<MatchPairsQuestion> {
   final Set<int> _matched = {};
   int _wrongTaps = 0;
 
+  /// Pairs that were part of a wrong pick (left or right side).
+  final Set<int> _missed = {};
+
   /// The wrong pair being flashed red.
   (int, int)? _flashing;
   Timer? _flashTimer;
@@ -160,6 +164,7 @@ class _MatchPairsQuestionState extends State<MatchPairsQuestion> {
       });
     } else {
       _wrongTaps++;
+      _missed.addAll([l, r]);
       setState(() => _flashing = (l, r));
       _flashTimer = Timer(widget.flash, () {
         if (!mounted) return;
@@ -172,6 +177,7 @@ class _MatchPairsQuestionState extends State<MatchPairsQuestion> {
     widget.onChanged(AnswerState(
       ready: _matched.length == widget.data.pairs.length,
       correct: _wrongTaps == 0,
+      pairsRight: _matched.difference(_missed).length,
     ));
   }
 

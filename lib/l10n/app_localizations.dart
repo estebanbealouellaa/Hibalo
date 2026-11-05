@@ -280,12 +280,6 @@ abstract class AppLocalizations {
   /// **'Completed'**
   String get completedChip;
 
-  /// Temporary: shown until the lesson and quiz players exist.
-  ///
-  /// In en, this message translates to:
-  /// **'The lesson player comes in the next build step.'**
-  String get comingNextStep;
-
   /// Caption under the segmented bar on every part.
   ///
   /// In en, this message translates to:
@@ -507,12 +501,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Culture note'**
   String get cultureNoteLabel;
-
-  /// Temporary: shown after the last part until S03 exists.
-  ///
-  /// In en, this message translates to:
-  /// **'Lesson finished! The Lesson complete screen comes in step 5.'**
-  String get lessonFinishedNote;
 
   /// Question type chip: Q01 Multiple choice.
   ///
@@ -754,48 +742,6 @@ abstract class AppLocalizations {
   /// **'{seconds} seconds left'**
   String timeLeft(int seconds);
 
-  /// Temporary result screen title (until S04 in step 5).
-  ///
-  /// In en, this message translates to:
-  /// **'Quiz finished'**
-  String get quizDoneTitle;
-
-  /// Temporary result screen.
-  ///
-  /// In en, this message translates to:
-  /// **'You got {correct} out of {total} correct.'**
-  String quizDoneScore(int correct, int total);
-
-  /// Temporary result screen tile.
-  ///
-  /// In en, this message translates to:
-  /// **'Accuracy'**
-  String get quizDoneAccuracy;
-
-  /// Temporary result screen tile.
-  ///
-  /// In en, this message translates to:
-  /// **'XP earned'**
-  String get quizDoneXp;
-
-  /// Temporary result screen, passed.
-  ///
-  /// In en, this message translates to:
-  /// **'Passed! The next lesson is unlocked.'**
-  String get quizDonePassed;
-
-  /// Temporary result screen, not passed.
-  ///
-  /// In en, this message translates to:
-  /// **'Pass this quiz to unlock the next lesson.'**
-  String get quizDoneNotPassed;
-
-  /// Temporary result screen note.
-  ///
-  /// In en, this message translates to:
-  /// **'The Quiz result screen comes in step 5.'**
-  String get quizDoneNote;
-
   /// Button back to S01.
   ///
   /// In en, this message translates to:
@@ -807,6 +753,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Filipino'**
   String get filipinoName;
+
+  /// S03 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson complete!'**
+  String get lessonCompleteTitle;
+
+  /// S03 line under the title.
+  ///
+  /// In en, this message translates to:
+  /// **'You finished Lesson {number}: {title}.'**
+  String lessonCompleteLine(int number, String title);
+
+  /// S03 XP tile value.
+  ///
+  /// In en, this message translates to:
+  /// **'+{xp}'**
+  String statXpPlus(int xp);
+
+  /// S03 XP tile label.
+  ///
+  /// In en, this message translates to:
+  /// **'XP'**
+  String get statXpLabel;
+
+  /// S03 XP tile label when the lesson XP was paid before.
+  ///
+  /// In en, this message translates to:
+  /// **'XP · Already earned'**
+  String get xpAlreadyEarned;
+
+  /// S03 tile label.
+  ///
+  /// In en, this message translates to:
+  /// **'New words'**
+  String get newWordsLabel;
+
+  /// S03 Letters tile label.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters'**
+  String get lettersLabel;
+
+  /// S03 Letters / S04 passed chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson {number} unlocked'**
+  String lessonUnlockedChip(int number);
+
+  /// S04 chip after the last quiz of a level: "Beginner complete!".
+  ///
+  /// In en, this message translates to:
+  /// **'{level} complete!'**
+  String levelCompleteChip(String level);
+
+  /// S04 failed chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass this quiz to unlock Lesson {number}'**
+  String passToUnlockChip(int number);
+
+  /// S04 failed chip on the last lesson of a level.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass this quiz to complete {level}'**
+  String passToFinishLevelChip(String level);
+
+  /// S03 primary button.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the lesson quiz'**
+  String get takeLessonQuiz;
+
+  /// S03 Letters primary button.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Lesson {number}'**
+  String continueToLesson(int number);
+
+  /// S04 (not passed) and S05 line.
+  ///
+  /// In en, this message translates to:
+  /// **'You got {correct} out of {total} correct.'**
+  String quizScoreLine(int correct, int total);
+
+  /// S04 line when passed.
+  ///
+  /// In en, this message translates to:
+  /// **'You got {correct} out of {total} correct!'**
+  String quizScoreLinePassed(int correct, int total);
+
+  /// S04 tile label.
+  ///
+  /// In en, this message translates to:
+  /// **'XP earned'**
+  String get xpEarnedLabel;
+
+  /// S04 tile label.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get accuracyLabel;
+
+  /// S04 accuracy tile value.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}%'**
+  String accuracyValue(int percent);
+
+  /// S04 text button and S05 title.
+  ///
+  /// In en, this message translates to:
+  /// **'Review answers'**
+  String get reviewAnswers;
+
+  /// S05 row title.
+  ///
+  /// In en, this message translates to:
+  /// **'{number}. {text}'**
+  String reviewQuestion(int number, String text);
+
+  /// S05 row title after the number, e.g. "Listening: What does…".
+  ///
+  /// In en, this message translates to:
+  /// **'{type}: {text}'**
+  String reviewTyped(String type, String text);
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening'**
+  String get rvListening;
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the blank'**
+  String get rvFillBlank;
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get rvType;
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Build'**
+  String get rvBuild;
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Real situation'**
+  String get rvRealSituation;
+
+  /// S05 row title for Q07.
+  ///
+  /// In en, this message translates to:
+  /// **'Match the pairs'**
+  String get rvMatchPairs;
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictation'**
+  String get rvDictation;
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaking'**
+  String get rvSpeaking;
+
+  /// S05 type label.
+  ///
+  /// In en, this message translates to:
+  /// **'Open answer'**
+  String get rvOpenAnswer;
+
+  /// S05 row.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer: {answer}'**
+  String yourAnswerIs(String answer);
+
+  /// S05 wrong row.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct answer: {answer}'**
+  String correctAnswerIs(String answer);
+
+  /// S05: the answer of a timed-out question.
+  ///
+  /// In en, this message translates to:
+  /// **'(time\'s up)'**
+  String get timeUpAnswer;
+
+  /// S05 Q07 answer.
+  ///
+  /// In en, this message translates to:
+  /// **'{right} of {total} pairs'**
+  String pairsScore(int right, int total);
+
+  /// S05 practice tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice'**
+  String get practiceTag;
+
+  /// S05 practice row.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved for practice only. No score.'**
+  String get practiceNote;
 }
 
 class _AppLocalizationsDelegate
