@@ -16,6 +16,7 @@ import 'l10n/app_language.dart';
 // SCREENS
 import 'screens/splash_screen.dart';
 import 'screens/onboarding_screen.dart';
+import 'screens/welcome_screen.dart';
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/admin_dashboard_screen.dart'; // ← ADDED
@@ -86,7 +87,7 @@ class HibaloApp extends StatelessWidget {
 // APP ROOT
 // ─────────────────────────────────────────────────────
 
-enum _Phase { splash, onboarding, auth, home, admin } // ← admin ADDED
+enum _Phase { splash, onboarding, welcome, auth, home, admin }
 
 class AppRoot extends StatefulWidget {
   const AppRoot({super.key});
@@ -97,6 +98,9 @@ class AppRoot extends StatefulWidget {
 
 class _AppRootState extends State<AppRoot> {
   _Phase _phase = _Phase.splash;
+
+  /// Welcome's Get started opens Sign Up; everything else opens Sign In.
+  bool _authSignUp = false;
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +126,19 @@ class _AppRootState extends State<AppRoot> {
           onFinish: _onOnboardingFinished,
         );
 
+      // ── WELCOME ───────────────────────────
+      case _Phase.welcome:
+        return WelcomeScreen(
+          key: const ValueKey('welcome'),
+          onGetStarted: () => _openAuth(signUp: true),
+          onSignIn: () => _openAuth(signUp: false),
+        );
+
       // ── AUTH ──────────────────────────────
       case _Phase.auth:
         return AuthScreen(
-          key: const ValueKey('auth'),
+          key: ValueKey('auth-$_authSignUp'),
+          startWithSignUp: _authSignUp,
           onAuthSuccess: _onAuthSuccess, // ← uses helper now
         );
 
@@ -172,7 +185,7 @@ class _AppRootState extends State<AppRoot> {
     final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
 
     setState(() {
-      _phase = hasSeenOnboarding ? _Phase.auth : _Phase.onboarding;
+      _phase = hasSeenOnboarding ? _Phase.welcome : _Phase.onboarding;
     });
   }
 
@@ -182,6 +195,14 @@ class _AppRootState extends State<AppRoot> {
     await prefs.setBool('hasSeenOnboarding', true);
 
     setState(() {
+      _phase = _Phase.welcome;
+    });
+  }
+
+  // ── WELCOME → SIGN IN / SIGN UP ─────────────────────
+  void _openAuth({required bool signUp}) {
+    setState(() {
+      _authSignUp = signUp;
       _phase = _Phase.auth;
     });
   }
@@ -189,6 +210,7 @@ class _AppRootState extends State<AppRoot> {
   // ── LOGOUT ──────────────────────────────────────────
   void _onLogout() {
     setState(() {
+      _authSignUp = false;
       _phase = _Phase.auth;
     });
   }

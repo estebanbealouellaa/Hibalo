@@ -4,8 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/database_service.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // Lazy, so tests can subclass this without a Firebase app.
+  late final FirebaseAuth _auth = FirebaseAuth.instance;
+  late final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   User? get currentUser => _auth.currentUser;
 
@@ -14,6 +15,11 @@ class AuthProvider extends ChangeNotifier {
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
+
+  /// Firebase's error code for the last failure (e.g. 'network-request-failed',
+  /// 'invalid-credential'), so the screen can pick the right banner.
+  String? _errorCode;
+  String? get errorCode => _errorCode;
 
   bool _isAdmin = false;
   bool get isAdmin => _isAdmin;
@@ -29,6 +35,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       _errorMessage = null;
+      _errorCode = null;
       notifyListeners();
 
       final credential = await _auth.createUserWithEmailAndPassword(
@@ -50,6 +57,7 @@ class AuthProvider extends ChangeNotifier {
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = e.message;
+      _errorCode = e.code;
       return false;
     } finally {
       _isLoading = false;
@@ -64,6 +72,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       _errorMessage = null;
+      _errorCode = null;
       notifyListeners();
 
       final credential = await _auth.signInWithEmailAndPassword(
@@ -80,6 +89,7 @@ class AuthProvider extends ChangeNotifier {
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = e.message;
+      _errorCode = e.code;
       return false;
     } finally {
       _isLoading = false;
@@ -111,6 +121,7 @@ class AuthProvider extends ChangeNotifier {
   // ─────────────────────────────────────────────────
   void clearError() {
     _errorMessage = null;
+    _errorCode = null;
     notifyListeners();
   }
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../learning/theme/v6_text.dart';
 import 'app_colors.dart';
+import 'v6_app_theme.dart';
 
 class AppTheme {
-  /// DM Sans fallback (Segoe UI on Windows).
-  static const String _font = 'Segoe UI';
+  /// Plus Jakarta Sans (bundled), the V6 font, everywhere.
+  static const String _font = kV6FontFamily;
 
   static TextStyle get screenTitle => const TextStyle(
     fontFamily: _font,
@@ -89,72 +91,7 @@ class AppTheme {
         border: Border.all(color: borderLight),
       );
 
-  static ThemeData light() {
-    return ThemeData(
-      useMaterial3: true,
-      fontFamily: _font,
-      scaffoldBackgroundColor: white,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: purple,
-        brightness: Brightness.light,
-        primary: purple,
-        surface: offWhite,
-      ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: white,
-        foregroundColor: ink,
-        elevation: 0,
-        centerTitle: false,
-        titleTextStyle: TextStyle(
-          fontFamily: _font,
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
-          color: ink,
-        ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: purple,
-          foregroundColor: white,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-          textStyle: const TextStyle(
-            fontFamily: _font,
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-          ),
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: offWhite,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: borderMid),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: borderMid),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: purple, width: 1.5),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
-      ),
-      cardTheme: CardThemeData(
-        color: white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: borderLight),
-        ),
-      ),
-    );
-  }
+  /// The app-wide V6 theme (see v6_app_theme.dart).
+  static ThemeData light() => buildAppTheme();
+
 }
