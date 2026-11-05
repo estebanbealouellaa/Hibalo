@@ -72,14 +72,16 @@ flutter:
     - assets/translation/models/
     - assets/translation/data/
     # Learning module. Only folders that exist are listed: Flutter stops the
-    # build on a missing folder. Add assets/audio/bNN/, assets/images/words/,
-    # assets/images/culture/ and assets/images/situations/ here when their
-    # files arrive. Until then the app treats those files as missing.
+    # build on a missing folder. Add assets/audio/bNN/ here when the
+    # recordings arrive. Until then the app treats those clips as missing.
     - assets/lessons/
     - assets/images/lessons/
     - assets/images/mascots/
     - assets/images/avatars/
     - assets/images/profile/
+    - assets/images/words/
+    - assets/images/culture/
+    - assets/images/situations/
 
   # V6 font for the learning screens (SIL Open Font License, see OFL.txt).
   fonts:
