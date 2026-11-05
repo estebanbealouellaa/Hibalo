@@ -15,6 +15,7 @@ import 'l10n/app_language.dart';
 
 // SCREENS
 import 'screens/splash_screen.dart';
+import 'screens/quick_splash_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/auth_screen.dart';
@@ -32,6 +33,11 @@ void main() async {
 
   // App language for the app's own words (English until the user picks one).
   await AppLanguage.instance.load();
+
+  // First open (fresh install or cleared data) shows the full splash and
+  // onboarding; every later launch shows the short plain splash.
+  final prefs = await SharedPreferences.getInstance();
+  final firstOpen = !(prefs.getBool(kHasSeenOnboarding) ?? false);
 
   runApp(
     MultiProvider(
@@ -53,13 +59,19 @@ void main() async {
         ChangeNotifierProvider(create: (_) => app.AuthProvider()),
       ],
 
-      child: const HibaloApp(),
+      child: HibaloApp(firstOpen: firstOpen),
     ),
   );
 }
 
+/// SharedPreferences key: onboarding was seen (set when it finishes).
+const String kHasSeenOnboarding = 'hasSeenOnboarding';
+
 class HibaloApp extends StatelessWidget {
-  const HibaloApp({super.key});
+  const HibaloApp({super.key, this.firstOpen = true});
+
+  /// No onboarding seen yet: the full splash, then onboarding.
+  final bool firstOpen;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +89,7 @@ class HibaloApp extends StatelessWidget {
         localizationsDelegates: AppLanguage.delegates,
         supportedLocales: AppLanguage.supportedLocales,
 
-        home: const AppRoot(),
+        home: AppRoot(firstOpen: firstOpen),
       ),
     );
   }
@@ -87,17 +99,31 @@ class HibaloApp extends StatelessWidget {
 // APP ROOT
 // ─────────────────────────────────────────────────────
 
-enum _Phase { splash, onboarding, welcome, auth, home, admin }
+enum _Phase { splash, quickSplash, onboarding, welcome, auth, home, admin }
+
+/// Where the app goes after the splash.
+enum LaunchTarget { onboarding, signUp, home, admin }
+
+/// The launch rule: signed in → Home (admins → the admin dashboard);
+/// signed out → onboarding on the first open, Sign Up after that.
+LaunchTarget launchTarget({required bool firstOpen, required bool signedIn, required bool isAdmin}) {
+  if (signedIn) return isAdmin ? LaunchTarget.admin : LaunchTarget.home;
+  return firstOpen ? LaunchTarget.onboarding : LaunchTarget.signUp;
+}
 
 class AppRoot extends StatefulWidget {
-  const AppRoot({super.key});
+  const AppRoot({super.key, this.firstOpen = true});
+
+  /// First open: the full splash (mascot, tagline) and onboarding.
+  /// Otherwise: the short plain splash (wordmark only).
+  final bool firstOpen;
 
   @override
   State<AppRoot> createState() => _AppRootState();
 }
 
 class _AppRootState extends State<AppRoot> {
-  _Phase _phase = _Phase.splash;
+  late _Phase _phase = widget.firstOpen ? _Phase.splash : _Phase.quickSplash;
 
   /// Welcome's Get started opens Sign Up; everything else opens Sign In.
   bool _authSignUp = false;
@@ -117,6 +143,13 @@ class _AppRootState extends State<AppRoot> {
         return SplashScreen(
           key: const ValueKey('splash'),
           onFinish: _onSplashFinished,
+        );
+
+      // ── SHORT SPLASH (every later launch) ─
+      case _Phase.quickSplash:
+        return QuickSplashScreen(
+          key: const ValueKey('quickSplash'),
+          onReady: _onSplashFinished,
         );
 
       // ── ONBOARDING ────────────────────────
@@ -163,36 +196,32 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── SPLASH FINISHED ─────────────────────────────────
+  // ── SPLASH FINISHED: sign-in check, then route ──────
   Future<void> _onSplashFinished() async {
     final user = FirebaseAuth.instance.currentUser;
-
-    // USER ALREADY LOGGED IN
-    if (user != null) {
-      final authProvider = context.read<app.AuthProvider>();
-      await authProvider.refreshAdminRole(user.uid);
-      if (!mounted) return;
-      setState(() {
-        _phase = authProvider.isAdmin
-            ? _Phase.admin
-            : _Phase.home; // ← route by role
-      });
-      return;
-    }
-
-    // CHECK ONBOARDING
-    final prefs = await SharedPreferences.getInstance();
-    final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
-
+    final authProvider = context.read<app.AuthProvider>();
+    if (user != null) await authProvider.refreshAdminRole(user.uid);
+    if (!mounted) return;
+    final target = launchTarget(
+      firstOpen: widget.firstOpen,
+      signedIn: user != null,
+      isAdmin: authProvider.isAdmin,
+    );
     setState(() {
-      _phase = hasSeenOnboarding ? _Phase.welcome : _Phase.onboarding;
+      _authSignUp = target == LaunchTarget.signUp;
+      _phase = switch (target) {
+        LaunchTarget.onboarding => _Phase.onboarding,
+        LaunchTarget.signUp => _Phase.auth,
+        LaunchTarget.home => _Phase.home,
+        LaunchTarget.admin => _Phase.admin,
+      };
     });
   }
 
   // ── ONBOARDING FINISHED ─────────────────────────────
   Future<void> _onOnboardingFinished() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('hasSeenOnboarding', true);
+    await prefs.setBool(kHasSeenOnboarding, true);
 
     setState(() {
       _phase = _Phase.welcome;
@@ -207,10 +236,10 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── LOGOUT ──────────────────────────────────────────
+  // ── LOGOUT → straight to Sign Up ────────────────────
   void _onLogout() {
     setState(() {
-      _authSignUp = false;
+      _authSignUp = true;
       _phase = _Phase.auth;
     });
   }

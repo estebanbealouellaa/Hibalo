@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Launch screen before Flutter starts (Android 11 and older): V6 violet
-     with the Hibalo firefly, matching the Flutter splash, so there is no
-     white flash. Android 12+ uses values-v31/styles.xml instead. -->
+<!-- Launch screen before Flutter starts (Android 11 and older): plain V6
+     violet, no icon, so the hand-over to the Flutter splash shows no white
+     or blurred frame. Android 12+ uses values-v31/styles.xml instead. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/hibalo_violet" />
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/launch_logo" />
-    </item>
 </layer-list>
