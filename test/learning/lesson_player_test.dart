@@ -15,6 +15,7 @@ import 'package:hibalo_app/learning/models/parts.dart';
 import 'package:hibalo_app/learning/models/progress.dart';
 import 'package:hibalo_app/learning/screens/lesson_player_screen.dart';
 import 'package:hibalo_app/learning/state/learning_progress.dart';
+import 'package:hibalo_app/learning/widgets/feedback_sheet.dart';
 import 'package:hibalo_app/learning/widgets/segmented_progress.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -275,6 +276,25 @@ void main() {
     expect(card, findsOneWidget);
     expect(tester.getRect(card).left, 20);
     expect(find.text('Aa'), findsOneWidget); // letter 1 is a chip again
+  });
+
+  testWidgets('feedback sheets use the Figma mascots', (tester) async {
+    // F01 firefly_celebrate, F02/F03 firefly_wrong, F04 firefly_reading.
+    const expected = {
+      FeedbackType.correct: 'firefly_celebrate',
+      FeedbackType.wrong: 'firefly_wrong',
+      FeedbackType.timeout: 'firefly_wrong',
+      FeedbackType.info: 'firefly_reading',
+    };
+    for (final MapEntry(key: type, value: mascot) in expected.entries) {
+      await tester.pumpWidget(MaterialApp(
+        localizationsDelegates: AppLanguage.delegates,
+        supportedLocales: AppLanguage.supportedLocales,
+        home: Scaffold(body: FeedbackSheet(type: type, answer: 'Palihog')),
+      ));
+      final image = tester.widget<Image>(find.byType(Image)).image as AssetImage;
+      expect(image.assetName, 'assets/images/mascots/$mascot.webp', reason: '$type');
+    }
   });
 
   testWidgets('word card: audio buttons show without a recording', (tester) async {

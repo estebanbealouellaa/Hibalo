@@ -61,6 +61,7 @@
       ],
       "real_situation": [
         "situation",
+        "image",
         "options",
         "answer"
       ],
@@ -433,6 +434,7 @@
       "flutterWidget": "DialoguePart",
       "fields": [
         "title",
+        "icon",
         "setting",
         "lines[]: speaker, hil, fil",
         "tip",
@@ -451,6 +453,7 @@
       "flutterWidget": "ReadingPart",
       "fields": [
         "title",
+        "icon",
         "lines[]: hil, fil",
         "tip"
       ],
@@ -466,6 +469,8 @@
       "figmaFrame": "Part · Filipino bridge & mistakes",
       "flutterWidget": "BridgeMistakesPart",
       "fields": [
+        "title",
+        "icon",
         "bridge[]",
         "mistakes[]: wrong, right, why"
       ],

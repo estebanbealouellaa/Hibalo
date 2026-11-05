@@ -105,14 +105,14 @@ class FeedbackSheet extends StatelessWidget {
           V6Colors.coralText,
           V6Colors.coral,
           V6Colors.primaryStrong,
-          'firefly_thinking',
+          'firefly_wrong',
         ),
       FeedbackType.info => (
           V6Colors.primaryContainer,
           V6Colors.primary,
           V6Colors.primary,
           V6Colors.onPrimary,
-          'firefly_writing',
+          'firefly_reading',
         ),
     };
     final heading = title ??
