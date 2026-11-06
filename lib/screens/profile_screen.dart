@@ -10,6 +10,7 @@ import '../learning/models/catalog.dart';
 import '../learning/state/learning_progress.dart';
 import 'edit_profile_screen.dart';
 import 'help_support_screen.dart';
+import 'settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String userName;
@@ -606,6 +607,14 @@ class _ProfileScreenState extends State<ProfileScreen>
             subtitle: 'FAQ, contact us',
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const HelpSupportScreen()),
+            ),
+          ),
+          _menuItem(
+            icon: Icons.settings_outlined,
+            title: 'Settings',
+            subtitle: 'Translation history, saved words',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
             ),
           ),
           const SizedBox(height: 8),

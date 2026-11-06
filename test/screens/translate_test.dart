@@ -18,6 +18,7 @@ import 'package:hibalo_app/widgets/v6/v6_translate.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> _pump(WidgetTester tester, Widget child) async {
   tester.view.physicalSize = const Size(360, 900); // Galaxy A03 width
@@ -364,6 +365,7 @@ class _FakeTranslator extends TranslatorProvider {
 const _speechChannel = MethodChannel('plugin.csdcorp.com/speech_to_text');
 
 _FakeTranslator _fakeProvider(WidgetTester tester) {
+  SharedPreferences.setMockInitialValues({});
   final messenger = tester.binding.defaultBinaryMessenger;
   messenger.setMockMethodCallHandler(_speechChannel, (call) async => call.method == 'initialize' ? false : null);
   addTearDown(() => messenger.setMockMethodCallHandler(_speechChannel, null));

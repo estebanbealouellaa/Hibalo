@@ -65,6 +65,7 @@ Future<String?> showV6ChoiceDialog(
   required String primaryLabel,
   V6ButtonStyle primaryStyle = V6ButtonStyle.primary,
   List<String> textActions = const [],
+  Set<String> dangerActions = const {},
   bool barrierDismissible = true,
 }) {
   return showDialog<String>(
@@ -107,7 +108,7 @@ Future<String?> showV6ChoiceDialog(
               Center(
                 child: V6Button(
                   label: label,
-                  style: V6ButtonStyle.text,
+                  style: dangerActions.contains(label) ? V6ButtonStyle.dangerText : V6ButtonStyle.text,
                   onPressed: () => Navigator.of(dialogContext).pop(label),
                 ),
               ),
@@ -154,6 +155,7 @@ Future<T?> showV6BottomSheet<T>(
 }) {
   return showModalBottomSheet<T>(
     context: context,
+    useRootNavigator: true,
     backgroundColor: V6Colors.surface,
     barrierColor: V6Colors.primaryStrong.withValues(alpha: 0.45),
     isScrollControlled: true,

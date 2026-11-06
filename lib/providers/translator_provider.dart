@@ -259,6 +259,28 @@ class TranslatorProvider extends ChangeNotifier {
   }
 
   // ─────────────────────────────────────────────
+  // RESTORE (History / Saved)
+  // ─────────────────────────────────────────────
+  // Puts an earlier translation back as it was, without translating again.
+  void restore({
+    required String originalText,
+    required String translatedText,
+    required String sourceLanguage,
+  }) {
+    _translationRequest++;
+
+    _state = _state.copyWith(
+      originalText: originalText,
+      translatedText: translatedText,
+      sourceLanguage: sourceLanguage,
+      isTranslating: false,
+      isDictionaryMeaning: false,
+    );
+
+    notifyListeners();
+  }
+
+  // ─────────────────────────────────────────────
   // SWAP LANGUAGES
   // ─────────────────────────────────────────────
   void swapLanguages() {

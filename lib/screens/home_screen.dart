@@ -88,7 +88,7 @@ class HomeScreenState extends State<HomeScreen> {
           onPopInvokedWithResult: (didPop, _) {
             if (didPop) return;
             // Translate cancels a running photo scan first.
-            if (_tab == HomeScreen.translateTab && (TranslatorScreen.handleBack?.call() ?? false)) return;
+            if (_tab == HomeScreen.translateTab && TranslateTab.handleBack()) return;
             select(HomeScreen.homeTab);
           },
           // Dark status-bar icons on the light tabs (a tab can still set
@@ -102,7 +102,7 @@ class HomeScreenState extends State<HomeScreen> {
                     widget.tabs ??
                     [
                       HomeTab(userName: userName, photoUrl: photoUrl, onOpenLearn: () => select(HomeScreen.learnTab)),
-                      const TranslatorScreen(),
+                      const TranslateTab(),
                       const LearnScreen(),
                       ProfileScreen(userName: userName, onLogout: _logout),
                     ],

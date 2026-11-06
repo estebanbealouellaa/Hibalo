@@ -227,7 +227,8 @@ enum ListenState { idle, preparing, speaking }
 /// Figma "Result card": Glow Container Soft with a Glow border, the target
 /// language, the translation (Headline/Medium, at least 72 high, or two
 /// skeleton lines while translating), an optional note, then Listen (48
-/// violet circle) and Copy (a check for 1.5 s after copying).
+/// violet circle), Copy (a check for 1.5 s after copying), Share and Save
+/// (Figma 628:6382: a tonal circle with a filled bookmark when saved).
 class TranslationResultCard extends StatelessWidget {
   const TranslationResultCard({
     super.key,
@@ -239,7 +240,16 @@ class TranslationResultCard extends StatelessWidget {
     this.listen = ListenState.idle,
     this.copied = false,
     this.note,
+    this.onShare,
+    this.onSave,
+    this.saved = false,
   });
+
+  /// Share and Save show only when given; both wait until the translation
+  /// is finished.
+  final VoidCallback? onShare;
+  final VoidCallback? onSave;
+  final bool saved;
 
   final String language;
   final String text;
@@ -329,6 +339,29 @@ class TranslationResultCard extends StatelessWidget {
                   ),
                 ),
               ),
+              if (onShare != null)
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: IconButton(
+                    tooltip: 'Share',
+                    onPressed: translating ? null : onShare,
+                    icon: const Icon(Icons.ios_share_rounded, color: V6Colors.primary),
+                  ),
+                ),
+              if (onSave != null)
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: IconButton(
+                    tooltip: saved ? 'Saved' : 'Save',
+                    onPressed: translating ? null : onSave,
+                    style: IconButton.styleFrom(
+                      backgroundColor: saved ? V6Colors.primaryContainer : Colors.transparent,
+                    ),
+                    icon: Icon(saved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded, color: V6Colors.primary),
+                  ),
+                ),
             ],
           ),
         ],

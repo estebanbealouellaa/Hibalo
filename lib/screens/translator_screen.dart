@@ -5,16 +5,19 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../models/translator_state.dart';
 import '../providers/translator_provider.dart';
 import '../services/translation/hil_numbers.dart';
 import '../services/translation/offline_translator.dart';
 import '../services/translation/scan_translator.dart';
+import '../services/translation_store.dart';
 import '../services/tts/translation_speaker.dart';
 import '../widgets/filipino_voice_dialog.dart';
 import '../widgets/v6/v6.dart';
 import '../widgets/v6/v6_translate.dart';
+import 'translate/history_screen.dart';
 import 'translate/scan_pieces.dart';
 import 'translate/voice_popup.dart';
 
@@ -24,6 +27,38 @@ enum TextOrigin { typed, voice, photo }
 
 /// The Camera part of Translate: idle, reading a photo, or a message card.
 enum ScanStage { idle, scanning, noText, failed }
+
+/// The Translate tab: its own navigator, so History opens inside the tab
+/// with the bottom bar showing (Figma 623:6168).
+class TranslateTab extends StatefulWidget {
+  const TranslateTab({super.key});
+
+  static final GlobalKey<NavigatorState> _navigator = GlobalKey<NavigatorState>();
+
+  /// Back on the Translate tab: close History, else cancel a running scan.
+  /// True when handled (the tab bar then stays on Translate).
+  static bool handleBack() {
+    final nav = _navigator.currentState;
+    if (nav != null && nav.canPop()) {
+      nav.pop();
+      return true;
+    }
+    return TranslatorScreen.handleBack?.call() ?? false;
+  }
+
+  @override
+  State<TranslateTab> createState() => _TranslateTabState();
+}
+
+class _TranslateTabState extends State<TranslateTab> {
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: TranslateTab._navigator,
+      onGenerateRoute: (_) => MaterialPageRoute(builder: (_) => const TranslatorScreen()),
+    );
+  }
+}
 
 /// Translate (Figma 03 · Translate). Voice opens as a pop-up over it and the
 /// photo scan happens inside it (Figma 04 · Voice, 05 · Camera), with the
@@ -72,6 +107,9 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
   /// Only the newest scan is used; Cancel makes the running one stale.
   int _scanRequest = 0;
 
+  /// For History: a translation finished when this goes from true to false.
+  bool _wasTranslating = false;
+
   @override
   void initState() {
     super.initState();
@@ -84,7 +122,10 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     };
     TranslationSpeaker.warmUp();
     OfflineTranslator.warmUp();
-    _translator = context.read<TranslatorProvider>()..addListener(_prepareVoice);
+    _translator = context.read<TranslatorProvider>()
+      ..addListener(_prepareVoice)
+      ..addListener(_recordHistory);
+    TranslationStore.instance.load();
     _prepareVoice();
 
     _swap = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
@@ -99,6 +140,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     _focus.dispose();
     _swap.dispose();
     _translator?.removeListener(_prepareVoice);
+    _translator?.removeListener(_recordHistory);
     _speaker.dispose();
     super.dispose();
   }
@@ -139,6 +181,61 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     if (s.sourceLanguage == Languages.tagalog) {
       TranslationSpeaker.prepare(numbersToWords(s.translatedText));
     }
+  }
+
+  /// The current text and translation as a History / Saved entry.
+  TranslationEntry _entryOf(TranslatorState s) => TranslationEntry(
+    source: s.originalText.trim(),
+    translation: s.translatedText.trim(),
+    fromHiligaynon: s.sourceLanguage == Languages.hiligaynon,
+    input: switch (_origin) {
+      TextOrigin.voice => EntryInput.voice,
+      TextOrigin.photo => EntryInput.photo,
+      TextOrigin.typed => EntryInput.typed,
+    },
+    time: DateTime.now(),
+  );
+
+  /// Adds each finished translation (typed, voice or photo) to History,
+  /// on this phone only.
+  void _recordHistory() {
+    final s = _translator?.state;
+    if (s == null) return;
+    final finished = _wasTranslating && !s.isTranslating;
+    _wasTranslating = s.isTranslating;
+    if (!finished || s.originalText.trim().isEmpty || s.translatedText.trim().isEmpty) return;
+    if (s.translatedText.startsWith('Translation error')) return;
+    TranslationStore.instance.addToHistory(_entryOf(s));
+  }
+
+  /// History (and Saved), inside the Translate tab. A tapped item comes
+  /// back here with its translation.
+  Future<void> _openHistory() async {
+    FocusScope.of(context).unfocus();
+    final entry = await Navigator.of(
+      context,
+    ).push<TranslationEntry>(MaterialPageRoute(builder: (_) => const TranslateHistoryScreen()));
+    if (!mounted) return;
+    // Coming back puts focus on the text box again; keep the keyboard closed.
+    _focus.unfocus();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _focus.unfocus());
+    if (entry == null) return;
+    _scanRequest++;
+    setState(() {
+      _scan = ScanStage.idle;
+      _origin = TextOrigin.typed;
+    });
+    context.read<TranslatorProvider>().restore(
+      originalText: entry.source,
+      translatedText: entry.translation,
+      sourceLanguage: entry.fromHiligaynon ? Languages.hiligaynon : Languages.tagalog,
+    );
+  }
+
+  /// Android's share menu with both texts.
+  void _share(TranslatorState s) {
+    final e = _entryOf(s);
+    SharePlus.instance.share(ShareParams(text: shareText(e)));
   }
 
   /// Filipino -> Hiligaynon results use the native Hiligaynon voice, which
@@ -322,9 +419,11 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
             children: [
               SizedBox(
                 height: 64,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Translate', style: V6Text.headlineLargeTight.copyWith(letterSpacing: -0.28)),
+                child: Row(
+                  children: [
+                    Expanded(child: Text('Translate', style: V6Text.headlineLargeTight.copyWith(letterSpacing: -0.28))),
+                    V6IconButton(icon: Icons.history_rounded, tooltip: 'History', onPressed: _openHistory),
+                  ],
                 ),
               ),
               const SizedBox(height: 8),
@@ -366,19 +465,25 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
               ],
               if (showResult) ...[
                 const SizedBox(height: 16),
-                TranslationResultCard(
-                  language: to,
-                  text: state.translatedText,
-                  translating: state.isTranslating,
-                  note: translationNote(isDictionaryMeaning: state.isDictionaryMeaning),
-                  copied: _copied,
-                  listen: switch (_speaker.status.value) {
-                    SpeakStatus.idle => ListenState.idle,
-                    SpeakStatus.preparing => ListenState.preparing,
-                    SpeakStatus.speaking => ListenState.speaking,
-                  },
-                  onListen: () => _speakResult(state.translatedText),
-                  onCopy: () => _copyResult(state.translatedText),
+                ListenableBuilder(
+                  listenable: TranslationStore.instance,
+                  builder: (context, _) => TranslationResultCard(
+                    language: to,
+                    text: state.translatedText,
+                    translating: state.isTranslating,
+                    note: translationNote(isDictionaryMeaning: state.isDictionaryMeaning),
+                    copied: _copied,
+                    listen: switch (_speaker.status.value) {
+                      SpeakStatus.idle => ListenState.idle,
+                      SpeakStatus.preparing => ListenState.preparing,
+                      SpeakStatus.speaking => ListenState.speaking,
+                    },
+                    onListen: () => _speakResult(state.translatedText),
+                    onCopy: () => _copyResult(state.translatedText),
+                    onShare: () => _share(state),
+                    saved: TranslationStore.instance.isSaved(_entryOf(state)),
+                    onSave: () => TranslationStore.instance.toggleSaved(_entryOf(state)),
+                  ),
                 ),
               ],
             ],
