@@ -2,4 +2,5 @@
 <resources>
     <!-- V6/Color/Primary: the launch screen colour, same as the Flutter splash. -->
     <color name="hibalo_violet">#6837CD</color>
+	<color name="ic_launcher_background">#6837CD</color>
 </resources>
