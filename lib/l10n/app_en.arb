@@ -1935,7 +1935,7 @@
   "@helpQ1": {
     "description": "Help."
   },
-  "helpA1": "On Translate, tap the camera button, then take a photo or choose one from your gallery. Check the text Hibalo reads, then tap Translate.",
+  "helpA1": "On Translate, tap the camera button, then take a photo or choose one from your gallery. Check the text Hibalo reads and fix any mistakes; the translation appears below.",
   "@helpA1": {
     "description": "Help."
   },

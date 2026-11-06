@@ -61,12 +61,12 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String rowQuizPending(int next) {
-    return 'Kunin ang pagsusulit para mabuksan ang Aralin $next';
+    return 'Sagutan ang pagsusulit para mabuksan ang Aralin $next';
   }
 
   @override
   String rowQuizPendingLast(String level) {
-    return 'Kunin ang pagsusulit para matapos ang $level';
+    return 'Sagutan ang pagsusulit para matapos ang $level';
   }
 
   @override
@@ -278,7 +278,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get qtOpenAnswer => 'Malayang sagot';
 
   @override
-  String get checkButton => 'Suriin';
+  String get checkButton => 'I-check';
 
   @override
   String get submitButton => 'Ipasa';
@@ -445,7 +445,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get xpEarnedLabel => 'Nakuhang XP';
 
   @override
-  String get accuracyLabel => 'Katumpakan';
+  String get accuracyLabel => 'Tama';
 
   @override
   String accuracyValue(int percent) {
@@ -453,7 +453,7 @@ class AppLocalizationsFil extends AppLocalizations {
   }
 
   @override
-  String get reviewAnswers => 'Suriin ang mga sagot';
+  String get reviewAnswers => 'Balikan ang mga sagot';
 
   @override
   String reviewQuestion(int number, String text) {
@@ -514,7 +514,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get practiceTag => 'Pagsasanay';
 
   @override
-  String get practiceNote => 'Para sa pagsasanay lang. Walang puntos.';
+  String get practiceNote => 'Para sa pagsasanay lang. Walang iskor.';
 
   @override
   String get commonCancel => 'Kanselahin';
@@ -603,7 +603,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get commonStartTranslating => 'Magsimulang magsalin';
 
   @override
-  String get navHome => 'Bahay';
+  String get navHome => 'Home';
 
   @override
   String get navTranslate => 'Isalin';
@@ -621,7 +621,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get welcomeEyebrow => 'HILIGAYNON';
 
   @override
-  String get welcomeTitle => 'Ang mga salita\nay nagbubuklod sa atin.';
+  String get welcomeTitle => 'Pinaglalapit tayo\nng mga salita.';
 
   @override
   String get welcomeBody =>
@@ -748,10 +748,10 @@ class AppLocalizationsFil extends AppLocalizations {
   String get authStrengthTooWeak => 'Masyadong mahina';
 
   @override
-  String get authStrengthFair => 'Katamtaman';
+  String get authStrengthFair => 'Puwede na';
 
   @override
-  String get authStrengthGood => 'Maganda';
+  String get authStrengthGood => 'Maayos';
 
   @override
   String get authStrengthStrong => 'Matibay';
@@ -797,7 +797,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get forgotResend => 'Ipadala ulit ang link';
 
   @override
-  String get homeDayStreak => 'ARAW NA STREAK';
+  String get homeDayStreak => 'ARAW';
 
   @override
   String get homeLesson => 'ARALIN';
@@ -878,7 +878,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get trTitle => 'Isalin';
 
   @override
-  String get trHistory => 'Kasaysayan';
+  String get trHistory => 'History';
 
   @override
   String get trTypeHere => 'Mag-type o mag-paste ng teksto dito';
@@ -1075,20 +1075,20 @@ class AppLocalizationsFil extends AppLocalizations {
   String get histRemoveSaved => 'Alisin sa naka-save';
 
   @override
-  String get histCleared => 'Nabura ang kasaysayan ng salin';
+  String get histCleared => 'Nabura ang history ng salin';
 
   @override
-  String get clearHistoryAction => 'Burahin ang kasaysayan';
+  String get clearHistoryAction => 'Burahin ang history';
 
   @override
-  String get clearHistoryTitle => 'Burahin ang kasaysayan ng salin?';
+  String get clearHistoryTitle => 'Burahin ang history ng salin?';
 
   @override
   String get clearHistoryBody =>
       'Mabubura ang lahat ng dati mong salin sa teleponong ito. Mananatili ang mga naka-save mong salita.';
 
   @override
-  String get clearHistoryKeep => 'Panatilihin ang kasaysayan';
+  String get clearHistoryKeep => 'Huwag burahin';
 
   @override
   String get clearSavedAction => 'Burahin ang naka-save na salita';
@@ -1101,7 +1101,7 @@ class AppLocalizationsFil extends AppLocalizations {
       'Mabubura ang lahat ng salitang na-save mo. Mananatili ang progreso mo sa aralin.';
 
   @override
-  String get clearSavedKeep => 'Panatilihin ang naka-save';
+  String get clearSavedKeep => 'Huwag burahin';
 
   @override
   String get savedCleared => 'Nabura ang naka-save na salita';
@@ -1122,7 +1122,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get meLanguageRow => 'Wika';
 
   @override
-  String get meSettings => 'Mga Setting';
+  String get meSettings => 'Settings';
 
   @override
   String get meSettingsSub => 'Data, privacy, credits';
@@ -1238,19 +1238,19 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get editDeleteBody =>
-      'Mabubura ang iyong profile, progreso, naka-save na salita at kasaysayan. Hindi na ito maibabalik.';
+      'Mabubura ang iyong profile, progreso, naka-save na salita at history. Hindi na ito maibabalik.';
 
   @override
-  String get editDeleteKeep => 'Panatilihin ang account ko';
+  String get editDeleteKeep => 'Huwag burahin ang account ko';
 
   @override
-  String get settingsTitle => 'Mga Setting';
+  String get settingsTitle => 'Settings';
 
   @override
   String get settingsData => 'Data';
 
   @override
-  String get settingsAbout => 'Tungkol';
+  String get settingsAbout => 'Tungkol sa app';
 
   @override
   String get settingsPrivacy => 'Patakaran sa privacy';
@@ -1367,7 +1367,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get helpA1 =>
-      'Sa Isalin, i-tap ang camera, saka kumuha ng litrato o pumili sa gallery. Tingnan ang tekstong nabasa ng Hibalo, saka i-tap ang Isalin.';
+      'Sa Isalin, i-tap ang camera, saka kumuha ng litrato o pumili sa gallery. Tingnan ang tekstong nabasa ng Hibalo at ayusin ang mali; lalabas sa ibaba ang salin.';
 
   @override
   String get helpQ2 => 'Gumagana ba ang Hibalo kahit walang internet?';
@@ -1428,10 +1428,10 @@ class AppLocalizationsFil extends AppLocalizations {
   String get adminTitle => 'Admin Dashboard';
 
   @override
-  String get adminManagement => 'Pamamahala';
+  String get adminManagement => 'Pag-manage';
 
   @override
-  String get adminManageUsers => 'Pamahalaan ang mga User';
+  String get adminManageUsers => 'I-manage ang mga user';
 
   @override
   String get adminManageUsersSub =>
@@ -1459,7 +1459,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get adminLogout => 'Mag-log out';
 
   @override
-  String get adminTotalUsers => 'Kabuuang User';
+  String get adminTotalUsers => 'Lahat ng user';
 
   @override
   String get adminAdmins => 'Mga Admin';
@@ -1558,5 +1558,5 @@ class AppLocalizationsFil extends AppLocalizations {
   String get adminEntry => 'Admin';
 
   @override
-  String get settingsClearHistory => 'Burahin ang kasaysayan ng salin';
+  String get settingsClearHistory => 'Burahin ang history ng salin';
 }

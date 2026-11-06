@@ -44,7 +44,7 @@ class AppLocalizationsHil extends AppLocalizations {
       'Tilawi ang iban nga tinaga, pareho sang \'greetings\' ukon \'numbers\'.';
 
   @override
-  String get learnComingSoon => 'Madali na lang ang mga leksyon';
+  String get learnComingSoon => 'Ara na sa dali ang mga leksyon';
 
   @override
   String get learnLoadError => 'Indi ma-load ang mga leksyon.';
@@ -62,17 +62,17 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String rowQuizPending(int next) {
-    return 'Kuhaa ang quiz para mabuksan ang Leksyon $next';
+    return 'Himua ang quiz para mabuksan ang Leksyon $next';
   }
 
   @override
   String rowQuizPendingLast(String level) {
-    return 'Kuhaa ang quiz para matapos ang $level';
+    return 'Himua ang quiz para matapos ang $level';
   }
 
   @override
   String rowLockedPassQuiz(int lesson) {
-    return 'Ipasar ang quiz sang Leksyon $lesson para mabuksan';
+    return 'Ipasa ang quiz sang Leksyon $lesson para mabuksan';
   }
 
   @override
@@ -101,7 +101,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get continueLesson => 'Padayunon ang leksyon';
 
   @override
-  String get reviewLesson => 'Balikan ang leksyon';
+  String get reviewLesson => 'Repasuha ang leksyon';
 
   @override
   String get retakeQuiz => 'Liwaton ang quiz';
@@ -231,7 +231,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get readingHint =>
-      'Basaha sing mabaskog ang kada sentence, dayon i-tap para makita ang Filipino.';
+      'Basaha sing mabaskog ang kada hambal, dayon i-tap para makita ang Filipino.';
 
   @override
   String get tapToSeeFilipino => 'I-tap para makita ang Filipino';
@@ -279,7 +279,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get qtOpenAnswer => 'Hilway nga sabat';
 
   @override
-  String get checkButton => 'Tan-awa';
+  String get checkButton => 'I-check';
 
   @override
   String get submitButton => 'Ipasa';
@@ -330,7 +330,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get q09Hint => 'Ensayuha ang paghambal sang prase. Wala sang iskor.';
 
   @override
-  String get nativeSpeaker => 'Lumad nga humalambal';
+  String get nativeSpeaker => 'Lumad nga manughambal';
 
   @override
   String get youLabel => 'Ikaw';
@@ -342,7 +342,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get stopRecordingTooltip => 'Untati ang pag-record';
 
   @override
-  String get micUnavailable => 'Indi magamit ang mic. Puede mo ini laktawan.';
+  String get micUnavailable => 'Indi magamit ang mic. Pwede mo ini laktawi.';
 
   @override
   String charCount(int count, int max) {
@@ -359,10 +359,10 @@ class AppLocalizationsHil extends AppLocalizations {
   String get correctPairsLabel => 'Husto nga pares:';
 
   @override
-  String get leaveQuizTooltip => 'Bayai ang pagsulit';
+  String get leaveQuizTooltip => 'Bayai ang quiz';
 
   @override
-  String get leaveQuizTitle => 'Bayaan ang pagsulit?';
+  String get leaveQuizTitle => 'Bayaan ang quiz?';
 
   @override
   String get leaveQuizText => 'Indi ma-save ang imo mga sabat.';
@@ -415,16 +415,16 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String passToUnlockChip(int number) {
-    return 'Ipasa ang pagsulit para mabuksan ang Leksyon $number';
+    return 'Ipasa ang quiz para mabuksan ang Leksyon $number';
   }
 
   @override
   String passToFinishLevelChip(String level) {
-    return 'Ipasa ang pagsulit para matapos ang $level';
+    return 'Ipasa ang quiz para matapos ang $level';
   }
 
   @override
-  String get takeLessonQuiz => 'Sabton ang pagsulit';
+  String get takeLessonQuiz => 'Himua ang quiz';
 
   @override
   String continueToLesson(int number) {
@@ -445,7 +445,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get xpEarnedLabel => 'Nakuha nga XP';
 
   @override
-  String get accuracyLabel => 'Kahustuhan';
+  String get accuracyLabel => 'Husto';
 
   @override
   String accuracyValue(int percent) {
@@ -487,10 +487,10 @@ class AppLocalizationsHil extends AppLocalizations {
   String get rvDictation => 'Diktasyon';
 
   @override
-  String get rvSpeaking => 'Pagyambot';
+  String get rvSpeaking => 'Paghambal';
 
   @override
-  String get rvOpenAnswer => 'Bukas nga sabat';
+  String get rvOpenAnswer => 'Hilway nga sabat';
 
   @override
   String yourAnswerIs(String answer) {
@@ -511,10 +511,10 @@ class AppLocalizationsHil extends AppLocalizations {
   }
 
   @override
-  String get practiceTag => 'Pagbansay';
+  String get practiceTag => 'Ensayo';
 
   @override
-  String get practiceNote => 'Para sa pagbansay lang. Wala sang puntos.';
+  String get practiceNote => 'Para sa ensayo lang. Wala sang iskor.';
 
   @override
   String get commonCancel => 'Kanselaha';
@@ -523,7 +523,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get commonOpenSettings => 'Buksi ang Settings';
 
   @override
-  String get commonNotNow => 'Dayon na lang';
+  String get commonNotNow => 'Sa ulihi na lang';
 
   @override
   String get commonOk => 'OK';
@@ -603,7 +603,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get commonStartTranslating => 'Umpisahan ang pag-translate';
 
   @override
-  String get navHome => 'Balay';
+  String get navHome => 'Home';
 
   @override
   String get navTranslate => 'Translate';
@@ -621,7 +621,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get welcomeEyebrow => 'HILIGAYNON';
 
   @override
-  String get welcomeTitle => 'Ang mga tinaga\nnagahiusa sa aton.';
+  String get welcomeTitle => 'Ginapalapit kita\nsang mga tinaga.';
 
   @override
   String get welcomeBody =>
@@ -659,10 +659,10 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get onboard3Body =>
-      'Malip-ot nga leksyon kag dalagan nga quiz. Mag-angkon sang XP kag padayuna ang imo streak.';
+      'Malip-ot nga leksyon kag dali nga quiz. Mag-angkon sang XP kag padayuna ang imo streak.';
 
   @override
-  String get onboardSkip => 'Laktawan';
+  String get onboardSkip => 'Laktawi';
 
   @override
   String get onboardNext => 'Sunod';
@@ -693,7 +693,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get authWelcomeBackSub => 'Padayuna kon diin ka nag-untat.';
 
   @override
-  String get authJoin => 'Mag-entra sa Hibalo.';
+  String get authJoin => 'Mag-apil sa Hibalo.';
 
   @override
   String get authJoinSub =>
@@ -797,7 +797,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get forgotResend => 'Ipadala liwat ang link';
 
   @override
-  String get homeDayStreak => 'ADLAW NGA STREAK';
+  String get homeDayStreak => 'ADLAW';
 
   @override
   String get homeLesson => 'LEKSYON';
@@ -829,7 +829,7 @@ class AppLocalizationsHil extends AppLocalizations {
   }
 
   @override
-  String get homeTakeQuiz => 'Sabton ang quiz';
+  String get homeTakeQuiz => 'Himua ang quiz';
 
   @override
   String homeLevelComplete(Object level) {
@@ -843,7 +843,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get homeEveryLessonDone => 'Natapos na ang tanan nga leksyon';
 
   @override
-  String get homeReviewLessons => 'Balikan ang mga leksyon';
+  String get homeReviewLessons => 'Repasuha ang mga leksyon';
 
   @override
   String homeLevelChip(Object level, Object number) {
@@ -878,7 +878,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get trTitle => 'Translate';
 
   @override
-  String get trHistory => 'Kasaysayan';
+  String get trHistory => 'History';
 
   @override
   String get trTypeHere => 'Mag-type ukon mag-paste sang teksto diri';
@@ -943,7 +943,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get camAccessOffBody =>
-      'Para magkuha sang litrato, tugoti ang camera sa settings sang imo telepono. Pwede ka man gihapon magpili sang litrato sa gallery.';
+      'Para magkuha sang litrato, tugoti ang camera sa settings sang imo telepono. Pwede ka pa man magpili sang litrato sa gallery.';
 
   @override
   String get camNoTextTitle => 'Wala sang teksto nga nakita';
@@ -1009,7 +1009,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get voiceMicOffBody =>
-      'Para mag-translate paagi sa tingog, tugoti ang mikropono sa settings sang imo telepono. Pwede ka man gihapon mag-type.';
+      'Para mag-translate paagi sa tingog, tugoti ang mikropono sa settings sang imo telepono. Pwede ka pa man mag-type.';
 
   @override
   String get voiceFilipinoTitle => 'Filipino voice';
@@ -1022,7 +1022,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get voiceInstall => 'I-install';
 
   @override
-  String get voiceLater => 'Dayon na lang';
+  String get voiceLater => 'Sa ulihi na lang';
 
   @override
   String get voiceFilipinoMissing =>
@@ -1075,20 +1075,20 @@ class AppLocalizationsHil extends AppLocalizations {
   String get histRemoveSaved => 'Kuhaa sa na-save';
 
   @override
-  String get histCleared => 'Napanas ang kasaysayan sang translation';
+  String get histCleared => 'Napanas ang history sang translation';
 
   @override
-  String get clearHistoryAction => 'Panason ang kasaysayan';
+  String get clearHistoryAction => 'Panason ang history';
 
   @override
-  String get clearHistoryTitle => 'Panason ang kasaysayan sang translation?';
+  String get clearHistoryTitle => 'Panason ang history sang translation?';
 
   @override
   String get clearHistoryBody =>
       'Mapanas ang tanan mo nga nauna nga translation sa sini nga telepono. Magapabilin ang imo na-save nga mga tinaga.';
 
   @override
-  String get clearHistoryKeep => 'Bilin ang kasaysayan';
+  String get clearHistoryKeep => 'Ipabilin ang history';
 
   @override
   String get clearSavedAction => 'Panason ang na-save nga tinaga';
@@ -1101,7 +1101,7 @@ class AppLocalizationsHil extends AppLocalizations {
       'Mapanas ang tanan nga tinaga nga gin-save mo. Magapabilin ang imo progreso sa leksyon.';
 
   @override
-  String get clearSavedKeep => 'Bilin ang na-save';
+  String get clearSavedKeep => 'Ipabilin ang na-save';
 
   @override
   String get savedCleared => 'Napanas ang na-save nga tinaga';
@@ -1122,7 +1122,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get meLanguageRow => 'Lenguahe';
 
   @override
-  String get meSettings => 'Mga Setting';
+  String get meSettings => 'Settings';
 
   @override
   String get meSettingsSub => 'Data, privacy, credits';
@@ -1178,10 +1178,10 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get editCurrentPassword =>
-      'Karon nga password (para makumpirma nga ikaw ini)';
+      'Imo password subong (para makumpirma nga ikaw ini)';
 
   @override
-  String get editCurrentPasswordHint => 'Karon nga password';
+  String get editCurrentPasswordHint => 'Imo password subong';
 
   @override
   String get editOnlyNeeded =>
@@ -1201,11 +1201,11 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get editNeedPassword =>
-      'Isulod ang karon nga password para ilisan ang email ukon password.';
+      'Isulod ang imo password subong para ilisan ang email ukon password.';
 
   @override
   String get editNeedPasswordDelete =>
-      'Isulod ang karon nga password para mapanas ang account.';
+      'Isulod ang imo password subong para mapanas ang account.';
 
   @override
   String get editEmailInUse => 'Gingamit na ini nga email.';
@@ -1240,13 +1240,13 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get editDeleteBody =>
-      'Mapanas ang imo profile, progreso, na-save nga tinaga kag kasaysayan. Indi na ini mabalik.';
+      'Mapanas ang imo profile, progreso, na-save nga tinaga kag history. Indi na ini mabalik.';
 
   @override
-  String get editDeleteKeep => 'Bilin ang akon account';
+  String get editDeleteKeep => 'Ipabilin ang akon account';
 
   @override
-  String get settingsTitle => 'Mga Setting';
+  String get settingsTitle => 'Settings';
 
   @override
   String get settingsData => 'Data';
@@ -1301,7 +1301,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get privacyUseText =>
-      'para lang sa sini nga pagtuon. Indi ini ginabaligya ukon ginapaambit.';
+      'para lang sa sini nga study. Indi ini ginabaligya ukon ginapaambit.';
 
   @override
   String get privacyDeleteLabel => 'Pagpanas sang imo data';
@@ -1369,7 +1369,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get helpA1 =>
-      'Sa Translate, i-tap ang camera, dayon magkuha sang litrato ukon magpili sa gallery. Tan-awa ang teksto nga nabasa sang Hibalo, dayon i-tap ang I-translate.';
+      'Sa Translate, i-tap ang camera, dayon magkuha sang litrato ukon magpili sa gallery. Tan-awa ang teksto nga nabasa sang Hibalo kag ayuha ang sala; makita sa idalom ang translation.';
 
   @override
   String get helpQ2 => 'Nagaandar bala ang Hibalo bisan wala internet?';
@@ -1430,10 +1430,10 @@ class AppLocalizationsHil extends AppLocalizations {
   String get adminTitle => 'Admin Dashboard';
 
   @override
-  String get adminManagement => 'Pagdumala';
+  String get adminManagement => 'Pag-manage';
 
   @override
-  String get adminManageUsers => 'Dumalaha ang mga User';
+  String get adminManageUsers => 'I-manage ang mga user';
 
   @override
   String get adminManageUsersSub =>
@@ -1461,7 +1461,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get adminLogout => 'Mag-log out';
 
   @override
-  String get adminTotalUsers => 'Kabilugan nga User';
+  String get adminTotalUsers => 'Tanan nga user';
 
   @override
   String get adminAdmins => 'Mga Admin';
@@ -1561,5 +1561,5 @@ class AppLocalizationsHil extends AppLocalizations {
   String get adminEntry => 'Admin';
 
   @override
-  String get settingsClearHistory => 'Panason ang kasaysayan sang translation';
+  String get settingsClearHistory => 'Panason ang history sang translation';
 }

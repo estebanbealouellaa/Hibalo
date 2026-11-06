@@ -2515,7 +2515,7 @@ abstract class AppLocalizations {
   /// Help.
   ///
   /// In en, this message translates to:
-  /// **'On Translate, tap the camera button, then take a photo or choose one from your gallery. Check the text Hibalo reads, then tap Translate.'**
+  /// **'On Translate, tap the camera button, then take a photo or choose one from your gallery. Check the text Hibalo reads and fix any mistakes; the translation appears below.'**
   String get helpA1;
 
   /// Help.

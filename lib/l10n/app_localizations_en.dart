@@ -1357,7 +1357,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpA1 =>
-      'On Translate, tap the camera button, then take a photo or choose one from your gallery. Check the text Hibalo reads, then tap Translate.';
+      'On Translate, tap the camera button, then take a photo or choose one from your gallery. Check the text Hibalo reads and fix any mistakes; the translation appears below.';
 
   @override
   String get helpQ2 => 'Does Hibalo work without internet?';

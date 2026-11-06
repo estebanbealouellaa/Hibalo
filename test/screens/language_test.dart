@@ -93,7 +93,7 @@ void main() {
     await AppLanguage.instance.setLanguage('Filipino');
     await tester.pumpWidget(_app(const SettingsScreen()));
     await tester.pumpAndSettle();
-    expect(find.text('Mga Setting'), findsOneWidget);
+    expect(find.text('Tungkol sa app'), findsOneWidget);
     expect(find.text('Patakaran sa privacy'), findsOneWidget);
     expect(find.text('Bersyon ng app'), findsOneWidget);
   });
