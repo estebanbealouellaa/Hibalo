@@ -54,41 +54,66 @@ class TranslationEntry {
 String shareText(TranslationEntry e) => '${e.fromLanguage}: ${e.source}\n${e.toLanguage}: ${e.translation}';
 
 /// Translate History (the last [historyLimit]) and Saved words, kept ONLY on
-/// this phone (shared preferences; nothing goes to Firebase). Uninstalling
-/// the app or clearing them in Settings deletes them. Newest first.
+/// this phone (shared preferences; nothing goes to Firebase), separately for
+/// each signed-in account (keys end with the user id). Signed out = empty
+/// and nothing is written. Uninstalling the app or clearing them in Settings
+/// deletes them. Newest first.
 class TranslationStore extends ChangeNotifier {
   TranslationStore._();
 
   static final TranslationStore instance = TranslationStore._();
 
   static const int historyLimit = 100;
-  static const String historyKey = 'translate_history_v1';
-  static const String savedKey = 'translate_saved_v1';
+  static String historyKeyFor(String uid) => 'translate_history_v1_$uid';
+  static String savedKeyFor(String uid) => 'translate_saved_v1_$uid';
 
   final List<TranslationEntry> _history = [];
   final List<TranslationEntry> _saved = [];
   Future<void>? _loading;
+  String? _uid;
+
+  /// The account whose lists are shown (null = signed out).
+  String? get uid => _uid;
 
   List<TranslationEntry> get history => List.unmodifiable(_history);
   List<TranslationEntry> get saved => List.unmodifiable(_saved);
 
-  /// Reads both lists from the phone (once). Changes made before it
-  /// finishes are kept (new ones first; a list cleared meanwhile stays empty).
-  Future<void> load() => _loading ??= _load();
-
   bool _historyCleared = false;
   bool _savedCleared = false;
 
-  Future<void> _load() async {
+  /// Switches to [uid]'s lists (null on log out: nothing is shown).
+  Future<void> setUser(String? uid) {
+    if (uid == _uid) return load();
+    _uid = uid;
+    _history.clear();
+    _saved.clear();
+    _historyCleared = false;
+    _savedCleared = false;
+    _loading = null;
+    notifyListeners();
+    return load();
+  }
+
+  /// Reads the account's lists from the phone (once). Changes made before
+  /// it finishes are kept (new ones first; a list cleared meanwhile stays
+  /// empty).
+  Future<void> load() {
+    final uid = _uid;
+    if (uid == null) return Future.value();
+    return _loading ??= _load(uid);
+  }
+
+  Future<void> _load(String uid) async {
     final prefs = await SharedPreferences.getInstance();
+    if (uid != _uid) return; // Switched account meanwhile.
     if (!_historyCleared) {
-      for (final e in _decode(prefs.getString(historyKey))) {
+      for (final e in _decode(prefs.getString(historyKeyFor(uid)))) {
         if (_history.length >= historyLimit) break;
         _history.add(e);
       }
     }
     if (!_savedCleared) {
-      for (final e in _decode(prefs.getString(savedKey))) {
+      for (final e in _decode(prefs.getString(savedKeyFor(uid)))) {
         if (!isSaved(e)) _saved.add(e);
       }
     }
@@ -106,10 +131,15 @@ class TranslationStore extends ChangeNotifier {
     }
   }
 
-  /// Writes [key] after loading, so nothing on the phone is lost.
-  Future<void> _write(String key) async {
+  /// Writes one list for the current account, after loading it, so nothing
+  /// on the phone is lost.
+  Future<void> _write({required bool history}) async {
+    final uid = _uid;
+    if (uid == null) return;
     await load();
-    final list = key == historyKey ? _history : _saved;
+    if (uid != _uid) return;
+    final list = history ? _history : _saved;
+    final key = history ? historyKeyFor(uid) : savedKeyFor(uid);
     final prefs = await SharedPreferences.getInstance();
     if (list.isEmpty) {
       await prefs.remove(key);
@@ -119,49 +149,52 @@ class TranslationStore extends ChangeNotifier {
   }
 
   /// Adds a finished translation. An exact repeat of the newest one is
-  /// skipped; only the last [historyLimit] are kept.
+  /// skipped; only the last [historyLimit] are kept. Nothing when signed out.
   Future<void> addToHistory(TranslationEntry entry) {
+    if (_uid == null) return Future.value();
     if (entry.source.trim().isEmpty || entry.translation.trim().isEmpty) return Future.value();
     if (_history.isNotEmpty && _history.first.key == entry.key) return Future.value();
     _history.insert(0, entry);
     if (_history.length > historyLimit) _history.removeRange(historyLimit, _history.length);
     notifyListeners();
-    return _write(historyKey);
+    return _write(history: true);
   }
 
   bool isSaved(TranslationEntry entry) => _saved.any((e) => e.key == entry.key);
 
   /// Saves [entry], or removes it when it is already saved.
   Future<void> toggleSaved(TranslationEntry entry) {
+    if (_uid == null) return Future.value();
     if (isSaved(entry)) {
       _saved.removeWhere((e) => e.key == entry.key);
     } else {
       _saved.insert(0, entry);
     }
     notifyListeners();
-    return _write(savedKey);
+    return _write(history: false);
   }
 
   Future<void> clearHistory() {
     _history.clear();
     _historyCleared = true;
     notifyListeners();
-    return _write(historyKey);
+    return _write(history: true);
   }
 
   Future<void> clearSaved() {
     _saved.clear();
     _savedCleared = true;
     notifyListeners();
-    return _write(savedKey);
+    return _write(history: false);
   }
 
-  /// Tests: forget what was loaded.
+  /// Tests: forget the account and what was loaded.
   @visibleForTesting
   void resetForTest() {
     _history.clear();
     _saved.clear();
     _loading = null;
+    _uid = null;
     _historyCleared = false;
     _savedCleared = false;
   }

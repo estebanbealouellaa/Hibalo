@@ -63,7 +63,7 @@ class HomeTab extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _StatPill(
+                    child: StatPill(
                       icon: Icons.local_fire_department_rounded,
                       value: progress.streak,
                       label: 'DAY STREAK',
@@ -72,7 +72,7 @@ class HomeTab extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: _StatPill(
+                    child: StatPill(
                       icon: Icons.menu_book_rounded,
                       value: progress.lessonsCompleted,
                       label: progress.lessonsCompleted == 1 ? 'LESSON' : 'LESSONS',
@@ -81,7 +81,7 @@ class HomeTab extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: _StatPill(icon: Icons.bolt_rounded, value: progress.xp, label: 'XP', color: V6Colors.citrus),
+                    child: StatPill(icon: Icons.bolt_rounded, value: progress.xp, label: 'XP', color: V6Colors.citrus),
                   ),
                 ],
               ),
@@ -104,8 +104,8 @@ class HomeTab extends StatelessWidget {
 }
 
 /// Figma "Stat": a 26-high pill with an icon, the value and a label.
-class _StatPill extends StatelessWidget {
-  const _StatPill({required this.icon, required this.value, required this.label, required this.color});
+class StatPill extends StatelessWidget {
+  const StatPill({super.key, required this.icon, required this.value, required this.label, required this.color});
 
   final IconData icon;
   final int value;

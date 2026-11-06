@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../learning/sync/firestore_progress_cloud.dart';
+import '../widgets/v6/v6.dart';
+import '../widgets/v6/v6_avatar.dart';
 
 class AdminUsersScreen extends StatefulWidget {
   const AdminUsersScreen({super.key});
@@ -26,15 +28,15 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1117),
+      backgroundColor: V6Colors.background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1A1D27),
+        backgroundColor: V6Colors.surface,
         elevation: 0,
         title: const Text(
           'Manage Users',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: V6Colors.textPrimary, fontWeight: FontWeight.bold),
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: V6Colors.textPrimary),
       ),
       body: Column(
         children: [
@@ -43,13 +45,13 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: TextField(
               controller: _searchController,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: V6Colors.textPrimary),
               decoration: InputDecoration(
                 hintText: 'Search by name or email...',
-                hintStyle: const TextStyle(color: Colors.white38),
-                prefixIcon: const Icon(Icons.search, color: Colors.white38),
+                hintStyle: const TextStyle(color: V6Colors.textMuted),
+                prefixIcon: const Icon(Icons.search, color: V6Colors.textMuted),
                 filled: true,
-                fillColor: const Color(0xFF1A1D27),
+                fillColor: V6Colors.surface,
                 contentPadding: const EdgeInsets.symmetric(vertical: 0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -70,19 +72,19 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                   child: ChoiceChip(
                     label: Text(f == 'all' ? 'All' : f.capitalize()),
                     selected: selected,
-                    selectedColor: const Color(0xFF6C63FF).withValues(alpha: 0.25),
-                    backgroundColor: const Color(0xFF1A1D27),
+                    selectedColor: V6Colors.primary.withValues(alpha: 0.25),
+                    backgroundColor: V6Colors.surface,
                     labelStyle: TextStyle(
                       color: selected
-                          ? const Color(0xFF6C63FF)
-                          : Colors.white38,
+                          ? V6Colors.primary
+                          : V6Colors.textMuted,
                       fontWeight: FontWeight.w600,
                       fontSize: 13,
                     ),
                     side: BorderSide(
                       color: selected
-                          ? const Color(0xFF6C63FF)
-                          : Colors.white12,
+                          ? V6Colors.primary
+                          : V6Colors.borderDivider,
                     ),
                     onSelected: (_) => setState(() => _roleFilter = f),
                   ),
@@ -100,7 +102,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
-                    child: CircularProgressIndicator(color: Color(0xFF6C63FF)),
+                    child: CircularProgressIndicator(color: V6Colors.primary),
                   );
                 }
 
@@ -124,7 +126,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                   return const Center(
                     child: Text(
                       'No users found.',
-                      style: TextStyle(color: Colors.white38),
+                      style: TextStyle(color: V6Colors.textMuted),
                     ),
                   );
                 }
@@ -155,29 +157,32 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1D27),
+        color: V6Colors.surface,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
           color: isAdmin
-              ? const Color(0xFFFFA726).withValues(alpha: 0.25)
-              : Colors.white.withValues(alpha: 0.05),
+              ? V6Colors.warning.withValues(alpha: 0.25)
+              : V6Colors.borderDivider,
         ),
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         leading: Stack(
           children: [
+            if ((data['photoUrl'] as String?)?.isNotEmpty ?? false)
+              V6Avatar(photoUrl: data['photoUrl'] as String?, size: 44)
+            else
             CircleAvatar(
               radius: 22,
               backgroundColor: isAdmin
-                  ? const Color(0xFFFFA726).withValues(alpha: 0.15)
-                  : const Color(0xFF6C63FF).withValues(alpha: 0.15),
+                  ? V6Colors.warning.withValues(alpha: 0.15)
+                  : V6Colors.primary.withValues(alpha: 0.15),
               child: Text(
                 name.isNotEmpty ? name[0].toUpperCase() : '?',
                 style: TextStyle(
                   color: isAdmin
-                      ? const Color(0xFFFFA726)
-                      : const Color(0xFF6C63FF),
+                      ? V6Colors.warning
+                      : V6Colors.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -190,7 +195,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                   width: 14,
                   height: 14,
                   decoration: const BoxDecoration(
-                    color: Color(0xFFFFA726),
+                    color: V6Colors.warning,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -205,18 +210,18 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
         title: Text(
           name,
           style: const TextStyle(
-            color: Colors.white,
+            color: V6Colors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
         subtitle: Text(
           email,
-          style: const TextStyle(color: Colors.white38, fontSize: 12),
+          style: const TextStyle(color: V6Colors.textMuted, fontSize: 12),
           overflow: TextOverflow.ellipsis,
         ),
         trailing: PopupMenuButton<String>(
-          color: const Color(0xFF252836),
-          icon: const Icon(Icons.more_vert, color: Colors.white38),
+          color: V6Colors.surfaceTint,
+          icon: const Icon(Icons.more_vert, color: V6Colors.textMuted),
           onSelected: (action) => _handleAction(action, uid, data),
           itemBuilder: (_) => [
             _menuItem('edit', Icons.edit_rounded, 'Edit'),
@@ -245,7 +250,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
     String label, {
     bool destructive = false,
   }) {
-    final color = destructive ? Colors.redAccent : Colors.white70;
+    final color = destructive ? V6Colors.error : V6Colors.textSecondary;
     return PopupMenuItem(
       value: value,
       child: Row(
@@ -295,11 +300,11 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1D27),
+        backgroundColor: V6Colors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text(
           'Edit User',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: V6Colors.textPrimary, fontWeight: FontWeight.bold),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -314,12 +319,12 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             onPressed: () => Navigator.pop(context),
             child: const Text(
               'Cancel',
-              style: TextStyle(color: Colors.white38),
+              style: TextStyle(color: V6Colors.textMuted),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF6C63FF),
+              backgroundColor: V6Colors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -341,13 +346,13 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   Widget _field(TextEditingController ctrl, String label, IconData icon) {
     return TextField(
       controller: ctrl,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: V6Colors.textPrimary),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white54),
-        prefixIcon: Icon(icon, color: Colors.white38, size: 20),
+        labelStyle: const TextStyle(color: V6Colors.textSecondary),
+        prefixIcon: Icon(icon, color: V6Colors.textMuted, size: 20),
         filled: true,
-        fillColor: const Color(0xFF252836),
+        fillColor: V6Colors.surfaceTint,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
@@ -360,30 +365,30 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1D27),
+        backgroundColor: V6Colors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text(
           'Delete User',
           style: TextStyle(
-            color: Colors.redAccent,
+            color: V6Colors.error,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: Text(
           'Are you sure you want to delete "$name"?\nThis cannot be undone.',
-          style: const TextStyle(color: Colors.white70),
+          style: const TextStyle(color: V6Colors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text(
               'Cancel',
-              style: TextStyle(color: Colors.white38),
+              style: TextStyle(color: V6Colors.textMuted),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
+              backgroundColor: V6Colors.error,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -414,7 +419,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(msg),
-        backgroundColor: error ? Colors.redAccent : const Color(0xFF6C63FF),
+        backgroundColor: error ? V6Colors.error : V6Colors.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
@@ -473,25 +478,25 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1117),
+      backgroundColor: V6Colors.background,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1A1D27),
+        backgroundColor: V6Colors.surface,
         elevation: 0,
         title: const Text(
           'Usage Analytics',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: V6Colors.textPrimary, fontWeight: FontWeight.bold),
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: V6Colors.textPrimary),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh_rounded, color: Colors.white70),
+            icon: const Icon(Icons.refresh_rounded, color: V6Colors.textSecondary),
             onPressed: _load,
           ),
         ],
       ),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(color: Color(0xFF6C63FF)),
+              child: CircularProgressIndicator(color: V6Colors.primary),
             )
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
@@ -501,7 +506,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                   const Text(
                     'DAILY ACTIVE USERS — LAST 7 DAYS',
                     style: TextStyle(
-                      color: Colors.white38,
+                      color: V6Colors.textMuted,
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1.4,
@@ -513,7 +518,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                   const Text(
                     'BREAKDOWN',
                     style: TextStyle(
-                      color: Colors.white38,
+                      color: V6Colors.textMuted,
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1.4,
@@ -528,7 +533,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A1D27),
+                        color: V6Colors.surface,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -536,12 +541,12 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                         children: [
                           Text(
                             e.key,
-                            style: const TextStyle(color: Colors.white70),
+                            style: const TextStyle(color: V6Colors.textSecondary),
                           ),
                           Text(
                             '${e.value} active',
                             style: const TextStyle(
-                              color: Color(0xFF6C63FF),
+                              color: V6Colors.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -564,7 +569,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1D27),
+        color: V6Colors.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: SizedBox(
@@ -583,7 +588,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                     Text(
                       '${entry.value}',
                       style: const TextStyle(
-                        color: Color(0xFF6C63FF),
+                        color: V6Colors.primary,
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),
@@ -595,7 +600,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                         gradient: const LinearGradient(
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
-                          colors: [Color(0xFF6C63FF), Color(0xFFADA5FF)],
+                          colors: [V6Colors.primary, V6Colors.primaryContainer],
                         ),
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(6),
@@ -606,7 +611,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                     Text(
                       entry.key,
                       style: const TextStyle(
-                        color: Colors.white38,
+                        color: V6Colors.textMuted,
                         fontSize: 10,
                       ),
                     ),

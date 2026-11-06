@@ -27,7 +27,15 @@ class V6TextField extends StatefulWidget {
     this.enabled = true,
     this.fieldLabel = false,
     this.errorText,
+    this.prefixIcon,
+    this.maxLength,
   });
+
+  /// A 24 icon at the start of the field (Text/Neutral Strong).
+  final IconData? prefixIcon;
+
+  /// Limits the length and shows "n/max" under the field (Caption).
+  final int? maxLength;
 
   final String label;
   final TextEditingController? controller;
@@ -83,6 +91,16 @@ class _V6TextFieldState extends State<V6TextField> {
           onFieldSubmitted: widget.onSubmitted,
           onChanged: widget.onChanged,
           validator: widget.validator,
+          maxLength: widget.maxLength,
+          buildCounter: widget.maxLength == null
+              ? null
+              : (context, {required currentLength, required isFocused, maxLength}) => Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '$currentLength/$maxLength',
+                    style: V6Text.caption.copyWith(color: V6Colors.textMuted),
+                  ),
+                ),
           style: V6Text.bodyLarge.copyWith(
             color: widget.enabled ? V6Colors.textPrimary : V6Colors.textDisabled,
           ),
@@ -115,6 +133,13 @@ class _V6TextFieldState extends State<V6TextField> {
                   )
                 : null,
             suffixIconConstraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+            prefixIcon: widget.prefixIcon == null
+                ? null
+                : Icon(
+                    widget.prefixIcon,
+                    color: widget.enabled ? V6Colors.textNeutralStrong : V6Colors.textDisabled,
+                  ),
+            prefixIconConstraints: const BoxConstraints(minWidth: 48, minHeight: 48),
           ),
         ),
       ],

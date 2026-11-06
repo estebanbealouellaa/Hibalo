@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../learning/learning_routes.dart';
 import '../learning/screens/learn_screen.dart';
+import '../providers/translator_provider.dart';
+import '../services/translation_store.dart';
 import '../widgets/v6/v6_nav_bar.dart';
 import 'home/home_tab.dart';
 import 'profile_screen.dart';
@@ -14,8 +17,11 @@ import 'translator_screen.dart';
 /// V6 bottom bar. Each tab keeps its state while another is shown. Lesson
 /// parts, the quiz and the result screens open full screen on top.
 ///
-/// Android back: on Translate, Learn or Me it goes to Home; on Home it
-/// leaves the app.
+/// Android back: closes a page open inside Translate or Me first; else on
+/// Translate, Learn or Me it goes to Home; on Home it leaves the app.
+///
+/// History and Saved are switched to this account on start and hidden on
+/// log out.
 class HomeScreen extends StatefulWidget {
   final VoidCallback onLogout;
 
@@ -56,6 +62,7 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
     // "Back to lessons", Continue on S04/S05 and Leave return to Learn.
     LearningRoutes.showLearnTab = _showLearn;
+    TranslationStore.instance.setUser(FirebaseAuthSafe.uid());
   }
 
   @override
@@ -71,7 +78,18 @@ class HomeScreenState extends State<HomeScreen> {
   void select(int tab) => setState(() => _tab = tab);
 
   Future<void> _logout() async {
-    await FirebaseAuth.instance.signOut();
+    // Hide this account's History, Saved and last translation.
+    TranslationStore.instance.setUser(null);
+    try {
+      context.read<TranslatorProvider>().clearText();
+    } catch (_) {
+      // No translator (tests).
+    }
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (_) {
+      // No Firebase (tests).
+    }
     widget.onLogout();
   }
 
@@ -89,6 +107,7 @@ class HomeScreenState extends State<HomeScreen> {
             if (didPop) return;
             // Translate cancels a running photo scan first.
             if (_tab == HomeScreen.translateTab && TranslateTab.handleBack()) return;
+            if (_tab == HomeScreen.meTab && MeTab.handleBack()) return;
             select(HomeScreen.homeTab);
           },
           // Dark status-bar icons on the light tabs (a tab can still set
@@ -104,7 +123,7 @@ class HomeScreenState extends State<HomeScreen> {
                       HomeTab(userName: userName, photoUrl: photoUrl, onOpenLearn: () => select(HomeScreen.learnTab)),
                       const TranslateTab(),
                       const LearnScreen(),
-                      ProfileScreen(userName: userName, onLogout: _logout),
+                      MeTab(userName: userName, photoUrl: photoUrl, onLogout: _logout),
                     ],
               ),
               bottomNavigationBar: V6NavBar(
@@ -131,6 +150,14 @@ abstract final class FirebaseAuthSafe {
   static String? photoUrl() {
     try {
       return FirebaseAuth.instance.currentUser?.photoURL;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static String? uid() {
+    try {
+      return FirebaseAuth.instance.currentUser?.uid;
     } catch (_) {
       return null;
     }

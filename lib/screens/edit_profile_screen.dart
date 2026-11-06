@@ -1,349 +1,194 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../widgets/v6/v6.dart';
+import '../widgets/v6/v6_avatar.dart';
 
-// ── 6 DiceBear "fun-emoji" avatars (PNG via DiceBear API) ─────────────────
-// Each seed produces a unique cute illustrated character — no Storage needed.
-const List<Map<String, String>> kAvatars = [
-  {
-    'id': 'avatar_1',
-    'url': 'https://api.dicebear.com/9.x/fun-emoji/png?seed=Lilly&size=128',
-  },
-  {
-    'id': 'avatar_2',
-    'url': 'https://api.dicebear.com/9.x/fun-emoji/png?seed=Felix&size=128',
-  },
-  {
-    'id': 'avatar_3',
-    'url': 'https://api.dicebear.com/9.x/fun-emoji/png?seed=Mochi&size=128',
-  },
-  {
-    'id': 'avatar_4',
-    'url': 'https://api.dicebear.com/9.x/fun-emoji/png?seed=Coco&size=128',
-  },
-  {
-    'id': 'avatar_5',
-    'url': 'https://api.dicebear.com/9.x/fun-emoji/png?seed=Kiki&size=128',
-  },
-  {
-    'id': 'avatar_6',
-    'url': 'https://api.dicebear.com/9.x/fun-emoji/png?seed=Boba&size=128',
-  },
-];
+/// Saves the username and avatar (photoUrl "asset:avatarN") to Firebase
+/// Auth and users/{uid}, as before.
+Future<void> saveProfileToFirebase(String username, String photoUrl) async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) throw Exception('Not logged in.');
+  await user.updateDisplayName(username);
+  try {
+    await user.updatePhotoURL(photoUrl);
+  } catch (e) {
+    // The Firestore value below is the one the app reads.
+    debugPrint('[Profile] photoURL not updated: $e');
+  }
+  await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+    'username': username,
+    'photoUrl': photoUrl,
+  }, SetOptions(merge: true));
+  await user.reload();
+}
 
+/// Edit profile (Figma 608:5354 / 618:6102, error 608:5500): the avatar row
+/// and the username. Email, password, Forgot password and Delete account are
+/// hidden for now (extra #11). Closes with true after saving.
 class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key, required this.currentUsername, this.currentPhotoUrl, this.save});
+
   final String currentUsername;
   final String? currentPhotoUrl;
 
-  final void Function(String newUsername, String? newPhotoUrl) onSaved;
-
-  const EditProfileScreen({
-    super.key,
-    required this.currentUsername,
-    this.currentPhotoUrl,
-    required this.onSaved,
-  });
+  /// For tests; [saveProfileToFirebase] when null.
+  final Future<void> Function(String username, String photoUrl)? save;
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  late TextEditingController _usernameController;
-  String? _selectedAvatarUrl;
-  bool _isSaving = false;
-  String? _errorMessage;
+  late final TextEditingController _username = TextEditingController(text: widget.currentUsername);
 
-  @override
-  void initState() {
-    super.initState();
-    _usernameController = TextEditingController(text: widget.currentUsername);
-    // Keep existing avatar if it matches one of ours; else default to first
-    _selectedAvatarUrl = kAvatars.any((a) => a['url'] == widget.currentPhotoUrl)
-        ? widget.currentPhotoUrl
-        : kAvatars.first['url'];
-  }
+  /// The chosen avatar (0–5); an old DiceBear picture starts on its slot.
+  late int _avatar = avatarIndexOf(widget.currentPhotoUrl) ?? 0;
+  bool _saving = false;
+  String? _error;
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _username.dispose();
     super.dispose();
   }
 
-  // ── Save changes ──────────────────────────────────────────────────────────
   Future<void> _save() async {
-    final newUsername = _usernameController.text.trim();
-
-    if (newUsername.isEmpty) {
-      setState(() => _errorMessage = 'Username cannot be empty.');
+    final name = _username.text.trim();
+    if (name.isEmpty) {
+      setState(() => _error = 'Username cannot be empty.');
       return;
     }
-    if (newUsername.length < 3) {
-      setState(() => _errorMessage = 'Username must be at least 3 characters.');
+    if (name.length < 3) {
+      setState(() => _error = 'Username must be at least 3 characters.');
       return;
     }
-
     setState(() {
-      _isSaving = true;
-      _errorMessage = null;
+      _saving = true;
+      _error = null;
     });
-
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) throw Exception('Not logged in.');
-
-      await user.updateDisplayName(newUsername);
-      await user.updatePhotoURL(_selectedAvatarUrl);
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'username': newUsername,
-        'photoUrl': _selectedAvatarUrl,
-      }, SetOptions(merge: true));
-      await user.reload();
-
-      widget.onSaved(newUsername, _selectedAvatarUrl);
-      if (mounted) Navigator.of(context).pop();
+      await (widget.save ?? saveProfileToFirebase)(name, avatarValue(_avatar));
+      if (mounted) Navigator.of(context).pop(true);
     } catch (e) {
-      setState(() => _errorMessage = 'Failed to save: $e');
+      if (mounted) showV6Snackbar(context, "Couldn't save. Please try again.", icon: Icons.error_rounded);
     } finally {
-      if (mounted) setState(() => _isSaving = false);
+      if (mounted) setState(() => _saving = false);
     }
   }
 
-  // ── Build ─────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-        backgroundColor: white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: ink,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          'Edit Profile',
-          style: TextStyle(
-            color: ink,
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
-            fontFamily: 'Playfair Display',
-          ),
-        ),
-        centerTitle: true,
-      ),
+      backgroundColor: V6Colors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            V6TopAppBar(title: 'Edit profile', onBack: () => Navigator.of(context).pop()),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                children: [
+                  Text('Choose an avatar', style: V6Text.titleMediumBold),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      for (var i = 0; i < kAvatarCount; i++) ...[
+                        if (i > 0) const SizedBox(width: 8),
+                        Expanded(
+                          child: _AvatarTile(
+                            index: i,
+                            selected: i == _avatar,
+                            onTap: () => setState(() => _avatar = i),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Text('Account', style: V6Text.titleMediumBold),
+                  const SizedBox(height: 12),
+                  V6TextField(
+                    label: 'Username',
+                    controller: _username,
+                    prefixIcon: Icons.person_rounded,
+                    maxLength: 30,
+                    errorText: _error,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (_) {
+                      if (_error != null) setState(() => _error = null);
+                    },
+                    onSubmitted: (_) => _save(),
+                  ),
+                  const SizedBox(height: 24),
+                  V6Button(label: 'Save changes', expand: true, loading: _saving, onPressed: _save),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// One avatar in the row: white rounded tile; selected = 2 px violet border
+/// and a check badge.
+class _AvatarTile extends StatelessWidget {
+  const _AvatarTile({required this.index, required this.selected, required this.onTap});
+
+  final int index;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Avatar ${index + 1}',
+      child: GestureDetector(
+        onTap: onTap,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Stack(
+            clipBehavior: Clip.none,
             children: [
-              // ── Current selected avatar preview ────────────────────────────
-              Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: purple, width: 3),
-                  color: purplePale,
-                ),
-                child: ClipOval(
-                  child: Image.network(
-                    _selectedAvatarUrl ?? kAvatars.first['url']!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => const Icon(
-                      Icons.person,
-                      color: Colors.white54,
-                      size: 50,
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: V6Colors.surface,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: selected ? V6Colors.primary : V6Colors.borderDivider,
+                      width: selected ? 2 : 1,
                     ),
                   ),
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // ── Avatar picker label ────────────────────────────────────────
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Choose Avatar',
-                  style: TextStyle(
-                    color: inkMuted,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1,
+                  padding: const EdgeInsets.all(3),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(9),
+                    child: Image.asset(avatarAsset(index), fit: BoxFit.cover),
                   ),
                 ),
               ),
-
-              const SizedBox(height: 14),
-
-              // ── 6 Avatar grid ──────────────────────────────────────────────
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 14,
-                  mainAxisSpacing: 14,
-                ),
-                itemCount: kAvatars.length,
-                itemBuilder: (context, index) {
-                  final avatar = kAvatars[index];
-                  final isSelected = _selectedAvatarUrl == avatar['url'];
-
-                  return GestureDetector(
-                    onTap: () =>
-                        setState(() => _selectedAvatarUrl = avatar['url']),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: isSelected
-                              ? purple
-                              : borderMid,
-                          width: isSelected ? 3 : 1.5,
-                        ),
-                        color: isSelected
-                            ? purplePale
-                            : offWhite,
-                      ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(17),
-                            child: Image.network(
-                              avatar['url']!,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: double.infinity,
-                              errorBuilder: (_, _, _) => const Icon(
-                                Icons.person,
-                                color: Colors.white38,
-                              ),
-                            ),
-                          ),
-                          // Checkmark overlay when selected
-                          if (isSelected)
-                            Positioned(
-                              top: 6,
-                              right: 6,
-                              child: Container(
-                                padding: const EdgeInsets.all(3),
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.check_rounded,
-                                  color: purple,
-                                  size: 14,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
+              if (selected)
+                Positioned(
+                  top: -6,
+                  right: -6,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: V6Colors.surface,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: V6Colors.primary, width: 1.5),
                     ),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 32),
-
-              // ── Username field ────────────────────────────────────────────
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Username',
-                  style: TextStyle(
-                    color: inkMuted,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1,
+                    child: const Icon(Icons.check_rounded, size: 14, color: V6Colors.primary),
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 10),
-
-              TextField(
-                controller: _usernameController,
-                maxLength: 30,
-                style: const TextStyle(color: ink, fontSize: 16),
-                decoration: InputDecoration(
-                  counterStyle: TextStyle(color: inkMuted.withValues(alpha: 0.6)),
-                  prefixIcon: const Icon(
-                    Icons.person_outline_rounded,
-                    color: purple,
-                  ),
-                  filled: true,
-                  fillColor: offWhite,
-                  hintText: 'Enter your username',
-                  hintStyle: TextStyle(color: inkMuted.withValues(alpha: 0.5)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: const BorderSide(color: borderMid),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: const BorderSide(color: borderMid),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: const BorderSide(color: purple, width: 1.5),
-                  ),
-                ),
-              ),
-
-              // ── Error message ─────────────────────────────────────────────
-              if (_errorMessage != null) ...[
-                const SizedBox(height: 8),
-                Text(
-                  _errorMessage!,
-                  style: const TextStyle(color: Colors.redAccent, fontSize: 13),
-                ),
-              ],
-
-              const SizedBox(height: 32),
-
-              // ── Save button ───────────────────────────────────────────────
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _isSaving ? null : _save,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: purple,
-                    foregroundColor: Colors.white,
-                    disabledBackgroundColor: purpleMid,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                  child: _isSaving
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.5,
-                          ),
-                        )
-                      : const Text(
-                          'Save Changes',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                ),
-              ),
             ],
           ),
         ),

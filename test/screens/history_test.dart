@@ -18,7 +18,7 @@ final _store = TranslationStore.instance;
 Future<void> _fresh([Map<String, Object> prefs = const {}]) async {
   SharedPreferences.setMockInitialValues(prefs);
   _store.resetForTest();
-  await _store.load();
+  await _store.setUser('u1');
 }
 
 /// Opens [screen] from a button, so it can pop with a result.
@@ -88,9 +88,9 @@ void main() {
 
       // A new start reads both back from the phone.
       final prefs = await SharedPreferences.getInstance();
-      final saved = prefs.getString(TranslationStore.savedKey)!;
-      final history = prefs.getString(TranslationStore.historyKey)!;
-      await _fresh({TranslationStore.savedKey: saved, TranslationStore.historyKey: history});
+      final saved = prefs.getString(TranslationStore.savedKeyFor('u1'))!;
+      final history = prefs.getString(TranslationStore.historyKeyFor('u1'))!;
+      await _fresh({TranslationStore.savedKeyFor('u1'): saved, TranslationStore.historyKeyFor('u1'): history});
       expect(_store.saved.length, 151);
       expect(_store.history.single.translation, 'Wala sing anuman');
 
@@ -109,6 +109,27 @@ void main() {
       await _store.clearSaved();
       expect(_store.saved, isEmpty);
       expect(_store.history, hasLength(1));
+    });
+
+    test('each account has its own History and Saved; signed out shows none', () async {
+      await _store.addToHistory(_e('Magandang umaga', 'Maayong aga'));
+      await _store.toggleSaved(_e('Magandang umaga', 'Maayong aga'));
+
+      await _store.setUser('u2');
+      expect(_store.history, isEmpty, reason: 'another account never sees them');
+      expect(_store.saved, isEmpty);
+      await _store.addToHistory(_e('Salamat', 'Salamat'));
+
+      await _store.setUser(null);
+      expect(_store.history, isEmpty, reason: 'logged out hides them');
+      await _store.addToHistory(_e('Paalam', 'Babay'));
+      expect(_store.history, isEmpty, reason: 'nothing is kept while signed out');
+
+      await _store.setUser('u1');
+      expect(_store.history.single.source, 'Magandang umaga', reason: 'signing back in shows them again');
+      expect(_store.saved, hasLength(1));
+      await _store.setUser('u2');
+      expect(_store.history.single.source, 'Salamat');
     });
 
     test('Today / Yesterday / date', () {

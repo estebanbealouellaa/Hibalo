@@ -1,184 +1,281 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-import '../theme/app_colors.dart';
-import '../theme/app_theme.dart';
-import '../widgets/hibalo_ui.dart'; // hibaloProfileHeroGradient
 import '../learning/models/catalog.dart';
 import '../learning/state/learning_progress.dart';
+import '../widgets/v6/v6.dart';
+import '../widgets/v6/v6_avatar.dart';
 import 'edit_profile_screen.dart';
 import 'help_support_screen.dart';
+import 'home/home_tab.dart' show StatPill;
 import 'settings_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
-  final String userName;
+/// The Me tab: its own navigator, so Edit profile, Settings, Help, Privacy
+/// and Credits open inside the tab with the bottom bar showing (Figma 06).
+class MeTab extends StatelessWidget {
+  const MeTab({super.key, required this.userName, required this.photoUrl, required this.onLogout});
 
+  final String userName;
+  final String? photoUrl;
   final VoidCallback onLogout;
 
-  const ProfileScreen({
-    super.key,
-    required this.userName,
-    required this.onLogout,
-  });
+  static final GlobalKey<NavigatorState> _navigator = GlobalKey<NavigatorState>();
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen>
-    with WidgetsBindingObserver {
-  late String _displayName;
-  String? _photoUrl;
-
-  /// Streak, XP and lesson progress, from the learning module. Set at the
-  /// start of every build, so the helpers below always see fresh numbers.
-  late LearningProgress _progress;
-
-  /// Badge colours per level (Beginner, Intermediate, Advanced), as before.
-  static const List<List<Color>> _levelColors = [
-    [purple, pink500],
-    [purple600, teal300],
-    [pink500, Color(0xFFFFB020)],
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    final user = FirebaseAuth.instance.currentUser;
-    _displayName = user?.displayName ?? widget.userName;
-    _photoUrl = user?.photoURL;
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    // The streak can roll over while the app sits in the background.
-    if (state == AppLifecycleState.resumed) setState(() {});
-  }
-
-  /// Pull to refresh: loads the lessons again if they failed before.
-  Future<void> _refresh() => context.read<LearningProgress>().load();
-
-  // ── Progress helpers (lessons.json + saved progress) ────────────────────
-  int get _streak => _progress.streak;
-  int get _xp => _progress.xp;
-
-  List<Level> get _levels =>
-      _progress.isReady ? _progress.catalog.levels : const [];
-
-  List<Color> _colorsFor(int i) => _levelColors[i % _levelColors.length];
-
-  int _partsDone(Level lv) =>
-      lv.lessons.fold(0, (s, l) => s + _progress.rules.partsDone(l));
-
-  int _totalParts(Level lv) => lv.lessons.fold(0, (s, l) => s + l.partsCount);
-
-  int _lessonsDone(Level lv) =>
-      lv.lessons.where((l) => _progress.progressFor(l.id).completed).length;
-
-  bool _finished(Level lv) => _progress.rules.isLevelFinished(lv);
-
-  bool _unlocked(int i) => _progress.rules.isLevelUnlocked(_levels[i]);
-
-  /// The level the learner is on now, used for the badge under their name.
-  Level? get _currentLevel {
-    for (int i = 0; i < _levels.length; i++) {
-      if (_unlocked(i) && !_finished(_levels[i])) return _levels[i];
+  /// Back on the Me tab: close the open page. True when handled.
+  static bool handleBack() {
+    final nav = _navigator.currentState;
+    if (nav != null && nav.canPop()) {
+      nav.pop();
+      return true;
     }
-    return _levels.isEmpty ? null : _levels.last;
+    return false;
   }
 
-  bool get _allDone => _levels.isNotEmpty && _levels.every(_finished);
-
-  double get _overall {
-    final total = _levels.fold<int>(0, (s, lv) => s + _totalParts(lv));
-    if (total == 0) return 0;
-    final done = _levels.fold<int>(0, (s, lv) => s + _partsDone(lv));
-    return (done / total).clamp(0.0, 1.0);
-  }
-
-  int get _lessonsFinished => _progress.lessonsCompleted;
-
-  // ── Actions ─────────────────────────────────────────────────────────────
-  Future<void> _logout() async {
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (_) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
-        title: const Text('Log out?'),
-        content: const Text(
-          'Your progress is saved. You can sign back in any time.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Stay'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('Log out', style: TextStyle(color: logoutRed)),
-          ),
-        ],
-      ),
-    );
-    if (confirm != true) return;
-    await FirebaseAuth.instance.signOut();
-    widget.onLogout();
-  }
-
-  Future<void> _openEditProfile() async {
-    HapticFeedback.lightImpact();
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => EditProfileScreen(
-          currentUsername: _displayName,
-          currentPhotoUrl: _photoUrl,
-          onSaved: (newUsername, newPhotoUrl) {
-            setState(() {
-              _displayName = newUsername;
-              _photoUrl = newPhotoUrl;
-            });
-          },
-        ),
-      ),
-    );
-    _refresh();
-  }
-
-  // ── UI ──────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
-    _progress = context.watch<LearningProgress>();
+    // The pages read the latest name and avatar from [_MeScope] (the
+    // navigator builds its first page only once).
+    return _MeScope(
+      userName: userName,
+      photoUrl: photoUrl,
+      onLogout: onLogout,
+      child: Navigator(
+        key: _navigator,
+        onGenerateRoute: (_) => MaterialPageRoute(builder: (_) => const ProfileScreen()),
+      ),
+    );
+  }
+}
+
+class _MeScope extends InheritedWidget {
+  const _MeScope({required this.userName, required this.photoUrl, required this.onLogout, required super.child});
+
+  final String userName;
+  final String? photoUrl;
+  final VoidCallback onLogout;
+
+  @override
+  bool updateShouldNotify(_MeScope old) => old.userName != userName || old.photoUrl != photoUrl;
+}
+
+/// The signed-in user's email, or null (also when Firebase isn't set up,
+/// as in tests).
+String? _email() {
+  try {
+    return FirebaseAuth.instance.currentUser?.email;
+  } catch (_) {
+    return null;
+  }
+}
+
+/// The level the learner is on now (first unlocked, unfinished) and its
+/// number, for the "Beginner · Level 1" chip.
+(Level, int)? currentLevel(LearningProgress progress) {
+  if (!progress.isReady) return null;
+  final levels = progress.catalog.levels;
+  for (var i = 0; i < levels.length; i++) {
+    if (progress.rules.isLevelUnlocked(levels[i]) && !progress.rules.isLevelFinished(levels[i])) {
+      return (levels[i], i);
+    }
+  }
+  return levels.isEmpty ? null : (levels.last, levels.length - 1);
+}
+
+/// Me (Figma 607:5271): the profile card (avatar, name, email, level, the
+/// streak / lessons / XP pills, edit button) and the Account rows. Language
+/// is hidden for now (extra #4).
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key, this.userName, this.photoUrl, this.onLogout, this.email});
+
+  /// For tests; inside [MeTab] these come from the tab.
+  final String? userName;
+  final String? photoUrl;
+  final VoidCallback? onLogout;
+
+  /// For tests; the signed-in user's email when null.
+  final String? email;
+
+  ({String userName, String? photoUrl, VoidCallback onLogout}) _data(BuildContext context) {
+    final scope = context.dependOnInheritedWidgetOfExactType<_MeScope>();
+    return (
+      userName: userName ?? scope?.userName ?? 'User',
+      photoUrl: photoUrl ?? scope?.photoUrl,
+      onLogout: onLogout ?? scope?.onLogout ?? () {},
+    );
+  }
+
+  Future<void> _openEditProfile(BuildContext context, String userName, String? photoUrl) async {
+    HapticFeedback.lightImpact();
+    final saved = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => EditProfileScreen(currentUsername: userName, currentPhotoUrl: photoUrl),
+      ),
+    );
+    // Figma 629:6451.
+    if (saved == true && context.mounted) showV6Snackbar(context, 'Profile updated');
+  }
+
+  void _open(BuildContext context, Widget page) => Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+
+  /// Figma 608:5645.
+  Future<void> _logout(BuildContext context, VoidCallback onLogout) async {
+    const logOut = 'Log out';
+    final picked = await showV6ChoiceDialog(
+      context,
+      mascot: 'firefly_goodbye',
+      mascotCircle: V6Colors.coralTonal,
+      title: 'Log out?',
+      message: 'Your progress is saved. You can sign back in any time.',
+      primaryLabel: 'Stay',
+      textActions: const [logOut],
+      dangerActions: const {logOut},
+    );
+    if (picked == logOut) onLogout();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = context.watch<LearningProgress>();
+    final (:userName, :photoUrl, :onLogout) = _data(context);
+    final level = currentLevel(progress);
+    final mail = email ?? _email();
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FF),
-      body: RefreshIndicator(
-        color: purple,
-        onRefresh: _refresh,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(bottom: 110),
-          child: Column(
+      backgroundColor: V6Colors.background,
+      body: SafeArea(
+        bottom: false,
+        child: RefreshIndicator(
+          color: V6Colors.primary,
+          onRefresh: progress.load,
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
             children: [
-              _hero(),
-              Transform.translate(
-                offset: const Offset(0, -34),
+              SizedBox(
+                height: 64,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Me', style: V6Text.headlineLargeTight.copyWith(letterSpacing: -0.28)),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: V6Colors.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: V6Colors.borderDivider),
+                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _statsCard(),
-                    const SizedBox(height: 22),
-                    _journey(),
-                    const SizedBox(height: 22),
-                    _menu(),
+                    Row(
+                      children: [
+                        V6Avatar(photoUrl: photoUrl, size: 64),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: V6Text.titleLargeBold,
+                              ),
+                              if (mail != null && mail.isNotEmpty)
+                                Text(
+                                  mail,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
+                                ),
+                              if (level != null) ...[
+                                const SizedBox(height: 6),
+                                V6Chip(label: '${level.$1.title} · Level ${level.$2 + 1}', tone: V6ChipTone.brand),
+                              ],
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 48,
+                          height: 48,
+                          child: IconButton(
+                            tooltip: 'Edit profile',
+                            onPressed: () => _openEditProfile(context, userName, photoUrl),
+                            style: IconButton.styleFrom(backgroundColor: V6Colors.primaryContainer),
+                            icon: const Icon(Icons.edit_rounded, color: V6Colors.primary),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: StatPill(
+                            icon: Icons.local_fire_department_rounded,
+                            value: progress.streak,
+                            label: 'DAY STREAK',
+                            color: V6Colors.coral,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: StatPill(
+                            icon: Icons.menu_book_rounded,
+                            value: progress.lessonsCompleted,
+                            label: progress.lessonsCompleted == 1 ? 'LESSON' : 'LESSONS',
+                            color: V6Colors.lagoon,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: StatPill(
+                            icon: Icons.bolt_rounded,
+                            value: progress.xp,
+                            label: 'XP',
+                            color: V6Colors.citrus,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
+              ),
+              const SizedBox(height: 24),
+              Text('Account', style: V6Text.titleMediumBold),
+              const SizedBox(height: 12),
+              V6ListCard(
+                children: [
+                  V6ListRow(
+                    icon: Icons.person_rounded,
+                    title: 'Edit profile',
+                    subtitle: 'Name and avatar',
+                    onTap: () => _openEditProfile(context, userName, photoUrl),
+                  ),
+                  V6ListRow(
+                    icon: Icons.settings_rounded,
+                    title: 'Settings',
+                    subtitle: 'Data, privacy, credits',
+                    onTap: () => _open(context, const SettingsScreen()),
+                  ),
+                  V6ListRow(
+                    icon: Icons.help_rounded,
+                    title: 'Help & Support',
+                    subtitle: 'FAQ, contact us',
+                    onTap: () => _open(context, const HelpSupportScreen()),
+                  ),
+                  V6ListRow(
+                    icon: Icons.logout_rounded,
+                    title: 'Log out',
+                    danger: true,
+                    trailing: const SizedBox.shrink(),
+                    onTap: () => _logout(context, onLogout),
+                  ),
+                ],
               ),
             ],
           ),
@@ -186,558 +283,4 @@ class _ProfileScreenState extends State<ProfileScreen>
       ),
     );
   }
-
-  // ── Hero ────────────────────────────────────────────────────────────────
-  Widget _hero() {
-    final level = _currentLevel;
-    final badge = _allDone ? 'All levels complete' : (level?.title ?? '');
-
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.fromLTRB(
-          24,
-          MediaQuery.of(context).padding.top + 20,
-          24,
-          54,
-        ),
-        decoration: const BoxDecoration(gradient: hibaloProfileHeroGradient),
-        child: Row(
-          children: [
-            // Avatar with a progress ring showing the whole course.
-            SizedBox(
-              width: 76,
-              height: 76,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  TweenAnimationBuilder<double>(
-                    tween: Tween(begin: 0, end: _overall),
-                    duration: const Duration(milliseconds: 900),
-                    curve: Curves.easeOutCubic,
-                    builder: (_, v, _) => SizedBox.expand(
-                      child: CircularProgressIndicator(
-                        value: v,
-                        strokeWidth: 4,
-                        strokeCap: StrokeCap.round,
-                        backgroundColor: Colors.white.withValues(alpha: 0.25),
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.2),
-                    ),
-                    child: ClipOval(child: _avatarWidget()),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _displayName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTheme.displayMedium.copyWith(
-                      color: Colors.white,
-                      fontSize: 22,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 11,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              _allDone
-                                  ? Icons.workspace_premium_rounded
-                                  : Icons.school_rounded,
-                              size: 13,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              badge,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '${(_overall * 100).round()}%',
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.75),
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            IconButton(
-              onPressed: _openEditProfile,
-              tooltip: 'Edit profile',
-              icon: Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.18),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.28)),
-                ),
-                child: const Icon(
-                  Icons.edit_rounded,
-                  color: Colors.white,
-                  size: 17,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ── Stats: streak, XP, lessons ──────────────────────────────────────────
-  Widget _statsCard() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 18),
-      padding: const EdgeInsets.symmetric(vertical: 18),
-      decoration: BoxDecoration(
-        color: white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: purple.withValues(alpha: 0.12),
-            blurRadius: 24,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          _statItem(
-            icon: Icons.local_fire_department_rounded,
-            color: const Color(0xFFFF7A3D),
-            value: '$_streak',
-            label: _streak == 1 ? 'Day streak' : 'Day streak',
-            hint: _streak == 0 ? 'Start today' : null,
-          ),
-          _statDivider(),
-          _statItem(
-            icon: Icons.bolt_rounded,
-            color: const Color(0xFFFFB020),
-            value: '$_xp',
-            label: 'Total XP',
-          ),
-          _statDivider(),
-          _statItem(
-            icon: Icons.menu_book_rounded,
-            color: purple,
-            value: '$_lessonsFinished',
-            label: 'Lessons done',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _statItem({
-    required IconData icon,
-    required Color color,
-    required String value,
-    required String label,
-    String? hint,
-  }) {
-    return Expanded(
-      child: Column(
-        children: [
-          Container(
-            width: 34,
-            height: 34,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(11),
-            ),
-            child: Icon(icon, size: 18, color: color),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: AppTheme.displaySmall.copyWith(fontSize: 22, color: ink),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            hint ?? label,
-            textAlign: TextAlign.center,
-            style: AppTheme.bodyMedium.copyWith(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _statDivider() => Container(width: 1, height: 46, color: borderLight);
-
-  // ── Journey: one row per level ──────────────────────────────────────────
-  Widget _journey() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 2, bottom: 10),
-            child: Text('MY JOURNEY', style: AppTheme.labelCaps),
-          ),
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: white,
-              borderRadius: BorderRadius.circular(22),
-              boxShadow: [
-                BoxShadow(
-                  color: purple.withValues(alpha: 0.08),
-                  blurRadius: 20,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                for (int i = 0; i < _levels.length; i++)
-                  _levelRow(i, _levels[i]),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _levelRow(int i, Level lv) {
-    final unlocked = _unlocked(i);
-    final finished = _finished(lv);
-    final colors = _colorsFor(i);
-    final total = _totalParts(lv);
-    final doneSections = _partsDone(lv);
-    final progress = total == 0 ? 0.0 : (doneSections / total).clamp(0.0, 1.0);
-    final isCurrent = unlocked && !finished && lv.lessons.isNotEmpty;
-
-    final accent = finished
-        ? const Color(0xFF3BB78F)
-        : unlocked
-        ? colors.first
-        : Colors.grey.shade400;
-
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: isCurrent ? colors.first.withValues(alpha: 0.06) : null,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          // Badge: the level's rung on the ladder.
-          Container(
-            width: 44,
-            height: 44,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              gradient: unlocked
-                  ? LinearGradient(
-                      colors: finished
-                          ? [const Color(0xFF3BB78F), const Color(0xFF69D6A8)]
-                          : colors,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    )
-                  : null,
-              color: unlocked ? null : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(
-              finished
-                  ? Icons.check_rounded
-                  : unlocked
-                  ? Icons.play_arrow_rounded
-                  : Icons.lock_rounded,
-              color: unlocked ? Colors.white : Colors.grey.shade500,
-              size: 22,
-            ),
-          ),
-          const SizedBox(width: 13),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      lv.title,
-                      style: AppTheme.bodyLarge.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                        color: unlocked ? ink : Colors.grey.shade500,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    if (isCurrent)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 7,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.first.withValues(alpha: 0.14),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          'In progress',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w800,
-                            color: colors.first,
-                          ),
-                        ),
-                      )
-                    else if (finished)
-                      const Text('🏅', style: TextStyle(fontSize: 13)),
-                  ],
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  !unlocked
-                      ? 'Finish ${_levels[i - 1].title} to unlock'
-                      : lv.lessons.isEmpty
-                      ? 'Lessons coming soon'
-                      : '${_lessonsDone(lv)} of ${lv.lessons.length} lessons',
-                  style: AppTheme.bodyMedium.copyWith(fontSize: 11.5),
-                ),
-                if (unlocked && lv.lessons.isNotEmpty) ...[
-                  const SizedBox(height: 7),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0, end: progress),
-                      duration: const Duration(milliseconds: 800),
-                      curve: Curves.easeOutCubic,
-                      builder: (_, v, _) => LinearProgressIndicator(
-                        value: v,
-                        minHeight: 6,
-                        backgroundColor: accent.withValues(alpha: 0.14),
-                        valueColor: AlwaysStoppedAnimation<Color>(accent),
-                      ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            unlocked && lv.lessons.isNotEmpty
-                ? '${(progress * 100).round()}%'
-                : '',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
-              color: accent,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ── Menu ────────────────────────────────────────────────────────────────
-  Widget _menu() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 2, bottom: 10),
-            child: Text('MY ACCOUNT', style: AppTheme.labelCaps),
-          ),
-          _menuItem(
-            icon: Icons.person_outline_rounded,
-            title: 'Edit Profile',
-            subtitle: 'Name, photo, preferences',
-            onTap: _openEditProfile,
-          ),
-          _menuItem(
-            icon: Icons.help_outline_rounded,
-            title: 'Help & Support',
-            subtitle: 'FAQ, contact us',
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const HelpSupportScreen()),
-            ),
-          ),
-          _menuItem(
-            icon: Icons.settings_outlined,
-            title: 'Settings',
-            subtitle: 'Translation history, saved words',
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const SettingsScreen()),
-            ),
-          ),
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: _logout,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              decoration: BoxDecoration(
-                color: logoutRed.withValues(alpha: 0.06),
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: logoutRed.withValues(alpha: 0.35)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.logout_rounded, color: logoutRed, size: 18),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Log out',
-                    style: AppTheme.bodyLarge.copyWith(
-                      color: logoutRed,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _menuItem({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    VoidCallback? onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: purple.withValues(alpha: 0.07),
-              blurRadius: 16,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: purplePale,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: purple, size: 19),
-            ),
-            const SizedBox(width: 13),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: AppTheme.bodyLarge.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.5,
-                    ),
-                  ),
-                  const SizedBox(height: 1),
-                  Text(
-                    subtitle,
-                    style: AppTheme.bodyMedium.copyWith(fontSize: 11.5),
-                  ),
-                ],
-              ),
-            ),
-            Icon(Icons.chevron_right_rounded, color: purpleMid, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ── Avatar ──────────────────────────────────────────────────────────────
-  Widget _avatarWidget() {
-    if (_photoUrl != null && _photoUrl!.isNotEmpty) {
-      return Image.network(
-        _photoUrl!,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => _initialAvatar(),
-      );
-    }
-    return _initialAvatar();
-  }
-
-  Widget _initialAvatar() => Image.asset(
-    'assets/Account.png',
-    width: 62,
-    height: 62,
-    fit: BoxFit.cover,
-    errorBuilder: (_, _, _) => Container(
-      alignment: Alignment.center,
-      color: Colors.white.withValues(alpha: 0.2),
-      child: Text(
-        _displayName.isEmpty ? '?' : _displayName[0].toUpperCase(),
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.w900,
-        ),
-      ),
-    ),
-  );
 }

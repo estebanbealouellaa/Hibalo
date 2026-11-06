@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'admin_users_screen.dart';
+import '../widgets/v6/v6.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // THEME TOKENS
@@ -13,28 +14,28 @@ class _DashTheme {
   const _DashTheme(this.isDark);
 
   // backgrounds
-  Color get bg => isDark ? const Color(0xFF0D0F18) : const Color(0xFFF4F6FB);
-  Color get surface => isDark ? const Color(0xFF161927) : Colors.white;
+  Color get bg => isDark ? const Color(0xFF0D0F18) : V6Colors.background;
+  Color get surface => isDark ? const Color(0xFF161927) : V6Colors.surface;
   Color get surfaceAlt =>
-      isDark ? const Color(0xFF1E2235) : const Color(0xFFEEF1F8);
+      isDark ? const Color(0xFF1E2235) : V6Colors.surfaceTint;
 
   // text
-  Color get textPrimary => isDark ? Colors.white : const Color(0xFF0D0F18);
+  Color get textPrimary => isDark ? Colors.white : V6Colors.textPrimary;
   Color get textSecondary =>
-      isDark ? const Color(0xFF8A91AA) : const Color(0xFF6B7280);
+      isDark ? const Color(0xFF8A91AA) : V6Colors.textSecondary;
   Color get textMuted =>
-      isDark ? const Color(0xFF444B63) : const Color(0xFFB0B7C8);
+      isDark ? const Color(0xFF444B63) : V6Colors.textMuted;
 
   // border / divider
   Color get border =>
-      isDark ? const Color(0xFF262B40) : const Color(0xFFE4E8F0);
+      isDark ? const Color(0xFF262B40) : V6Colors.borderDivider;
 
   // accent
-  static const Color accent = Color(0xFF6C63FF);
-  static const Color accentGlow = Color(0x336C63FF);
-  static const Color amber = Color(0xFFFFA726);
-  static const Color rose = Color(0xFFFF6B8A);
-  static const Color teal = Color(0xFF00D4B4);
+  static const Color accent = V6Colors.primary;
+  static const Color accentGlow = Color(0x336837CD);
+  static const Color amber = V6Colors.warning;
+  static const Color rose = V6Colors.coral;
+  static const Color teal = V6Colors.lagoon;
 
   // card gradient overlays
   Color get cardOverlay =>
@@ -251,7 +252,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
             height: 36,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF6C63FF), Color(0xFF9B8FFF)],
+                colors: [V6Colors.primary, V6Colors.primaryStrong],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -326,7 +327,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
           // THEME TOGGLE
           _iconBtn(
             icon: _isDark ? Icons.wb_sunny_rounded : Icons.nights_stay_rounded,
-            color: _isDark ? _DashTheme.amber : const Color(0xFF6C63FF),
+            color: _isDark ? _DashTheme.amber : V6Colors.primary,
             bg: t.surfaceAlt,
             border: t.border,
             onTap: _toggleTheme,
