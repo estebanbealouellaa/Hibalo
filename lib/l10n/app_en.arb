@@ -1447,7 +1447,7 @@
   "@voiceListening": {
     "description": "Voice."
   },
-  "voiceHoldMic": "Hold the mic and speak",
+  "voiceHoldMic": "Tap the mic and speak",
   "@voiceHoldMic": {
     "description": "Voice."
   },

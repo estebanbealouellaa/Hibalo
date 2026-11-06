@@ -180,11 +180,11 @@ void main() {
     testWidgets('opens over Translate: Ready, then Cancel closes it', (tester) async {
       final provider = _fakeProvider(tester);
       final outcome = await _openPopup(tester, provider);
-      expect(find.text('Hold the mic and speak'), findsOneWidget);
+      expect(find.text('Tap the mic and speak'), findsOneWidget);
       expect(find.text('Tap to start'), findsOneWidget);
       await tester.tap(find.text('Cancel'));
       await tester.pumpAndSettle();
-      expect(find.text('Hold the mic and speak'), findsNothing);
+      expect(find.text('Tap the mic and speak'), findsNothing);
       expect(outcome.done, isTrue);
       expect(outcome.value, isNull);
     });
@@ -207,7 +207,7 @@ void main() {
       final outcome = await _openPopup(tester, provider);
       provider.fakeSpeechResult();
       await tester.pumpAndSettle();
-      expect(find.text('Hold the mic and speak'), findsNothing);
+      expect(find.text('Tap the mic and speak'), findsNothing);
       expect(outcome.value, VoiceOutcome.spoke);
     });
   });

@@ -43,7 +43,7 @@ class AppLocalizationsFil extends AppLocalizations {
       'Sumubok ng ibang salita, tulad ng \'greetings\' o \'numbers\'.';
 
   @override
-  String get learnComingSoon => 'Malapit nang dumating ang mga aralin';
+  String get learnComingSoon => 'Malapit nang magkaroon ng mga aralin';
 
   @override
   String get learnLoadError => 'Hindi ma-load ang mga aralin.';
@@ -323,13 +323,13 @@ class AppLocalizationsFil extends AppLocalizations {
   String get q08Hint => 'Makinig, saka i-type sa Hiligaynon.';
 
   @override
-  String get wordBankLabel => 'Mga salita (opsyonal)';
+  String get wordBankLabel => 'Mga pagpipiliang salita (opsyonal)';
 
   @override
   String get q09Hint => 'Sanayin ang pagsabi ng parirala. Walang iskor.';
 
   @override
-  String get nativeSpeaker => 'Katutubong nagsasalita';
+  String get nativeSpeaker => 'Tagapagsalita ng Hiligaynon';
 
   @override
   String get youLabel => 'Ikaw';
@@ -346,7 +346,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String charCount(int count, int max) {
-    return '$count / $max na titik';
+    return '$count / $max na character';
   }
 
   @override
@@ -445,7 +445,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get xpEarnedLabel => 'Nakuhang XP';
 
   @override
-  String get accuracyLabel => 'Tama';
+  String get accuracyLabel => 'Tamang sagot';
 
   @override
   String accuracyValue(int percent) {
@@ -550,7 +550,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get commonPassword => 'Password';
 
   @override
-  String get commonAtLeast6 => 'Hindi bababa sa 6 na titik';
+  String get commonAtLeast6 => 'Hindi bababa sa 6 na character';
 
   @override
   String get commonPasswordsDontMatch => 'Hindi magkapareho ang mga password';
@@ -625,7 +625,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get welcomeBody =>
-      'Matuto ng pang-araw-araw na Hiligaynon, isang maikling usapan bawat araw.';
+      'Matuto ng pang-araw-araw na Hiligaynon, isang maikling usapan sa bawat pagkakataon.';
 
   @override
   String get welcomeCardTitle => 'Magsimula sa isang hello.';
@@ -709,7 +709,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get authEnterAUsername => 'Maglagay ng username';
 
   @override
-  String get authAtLeast2 => 'Hindi bababa sa 2 titik';
+  String get authAtLeast2 => 'Hindi bababa sa 2 character';
 
   @override
   String get authEnterPassword => 'Ilagay ang iyong password';
@@ -896,7 +896,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String trCharacters(Object count) {
-    return '$count na titik';
+    return '$count na character';
   }
 
   @override
@@ -983,7 +983,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get voiceListening => 'Nakikinig…';
 
   @override
-  String get voiceHoldMic => 'Pindutin ang mic at magsalita';
+  String get voiceHoldMic => 'I-tap ang mic at magsalita';
 
   @override
   String get voiceStopListening => 'Itigil ang pakikinig';
@@ -1167,7 +1167,8 @@ class AppLocalizationsFil extends AppLocalizations {
   String get editUsernameEmpty => 'Hindi puwedeng walang laman ang username.';
 
   @override
-  String get editUsernameShort => 'Dapat hindi bababa sa 3 titik ang username.';
+  String get editUsernameShort =>
+      'Dapat hindi bababa sa 3 character ang username.';
 
   @override
   String get editNewPassword => 'Bagong password';
@@ -1224,7 +1225,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String editCheckEmailBody(Object email) {
-    return 'Nagpadala kami ng link sa $email. Buksan ito para matapos ang pagpapalit ng email. Hanggang doon, mag-sign in gamit ang lumang email.';
+    return 'Nagpadala kami ng link sa $email. Buksan ito para matapos ang pagpapalit ng email. Hangga\'t hindi pa tapos, mag-sign in gamit ang lumang email.';
   }
 
   @override
@@ -1285,7 +1286,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get privacyNotSaveText =>
-      'ang tekstong isinasalin mo, ang mga litratong ini-scan mo at ang iyong boses. Nasa telepono mo lang ang kasaysayan ng salin at mga naka-save na salita; mabubura ang mga ito kapag in-uninstall ang app o binura sa Settings. Sa telepono mo ginagawa ang pagsasalin at pagbasa ng litrato. Ang speech-to-text ay gumagamit ng sariling speech service ng telepono, na maaaring sumunod sa privacy terms ng Google. Ang pagsasanay sa pagsasalita sa mga aralin ay nasa telepono mo lang habang ginagamit, saka binubura.';
+      'ang tekstong isinasalin mo, ang mga litratong ini-scan mo at ang iyong boses. Nasa telepono mo lang ang history ng salin at mga naka-save na salita; mabubura ang mga ito kapag in-uninstall ang app o binura sa Settings. Sa telepono mo ginagawa ang pagsasalin at pagbasa ng litrato. Ang speech-to-text ay gumagamit ng sariling speech service ng telepono, na maaaring sumunod sa privacy terms ng Google. Ang pagsasanay sa pagsasalita sa mga aralin ay nasa telepono mo lang habang ginagamit, saka binubura.';
 
   @override
   String get privacyWhoLabel => 'Sino ang makakakita ng iyong data';
@@ -1323,10 +1324,10 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get creditsVoiceText =>
-      'isang fine-tuned na bersyon ng MMS-TTS (VITS) model ng Meta, may lisensyang CC BY-NC 4.0 (hindi pangkomersyal na gamit lang).';
+      'isang fine-tuned na bersyon ng MMS-TTS (VITS) model ng Meta, may lisensyang CC BY-NC 4.0 (para lamang sa hindi pangkomersyal na paggamit).';
 
   @override
-  String get creditsDataLabel => 'Data sa pagsasanay ng boses';
+  String get creditsDataLabel => 'Data para sa pag-train ng voice model';
 
   @override
   String get creditsDataText =>

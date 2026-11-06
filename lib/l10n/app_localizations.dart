@@ -1825,7 +1825,7 @@ abstract class AppLocalizations {
   /// Voice.
   ///
   /// In en, this message translates to:
-  /// **'Hold the mic and speak'**
+  /// **'Tap the mic and speak'**
   String get voiceHoldMic;
 
   /// Voice.

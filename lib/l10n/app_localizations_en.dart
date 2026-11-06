@@ -977,7 +977,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voiceListening => 'Listening…';
 
   @override
-  String get voiceHoldMic => 'Hold the mic and speak';
+  String get voiceHoldMic => 'Tap the mic and speak';
 
   @override
   String get voiceStopListening => 'Stop listening';

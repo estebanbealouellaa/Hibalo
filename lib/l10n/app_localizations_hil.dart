@@ -44,7 +44,7 @@ class AppLocalizationsHil extends AppLocalizations {
       'Tilawi ang iban nga tinaga, pareho sang \'greetings\' ukon \'numbers\'.';
 
   @override
-  String get learnComingSoon => 'Ara na sa dali ang mga leksyon';
+  String get learnComingSoon => 'Sa indi madugay, may mga leksyon na';
 
   @override
   String get learnLoadError => 'Indi ma-load ang mga leksyon.';
@@ -84,7 +84,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get rowCompleted => 'Natapos na';
 
   @override
-  String get rowLocked => 'Nakandaduhan';
+  String get rowLocked => 'Naka-lock';
 
   @override
   String lessonNumber(int number) {
@@ -98,7 +98,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get startLesson => 'Umpisahan ang leksyon';
 
   @override
-  String get continueLesson => 'Padayunon ang leksyon';
+  String get continueLesson => 'Padayuna ang leksyon';
 
   @override
   String get reviewLesson => 'Repasuha ang leksyon';
@@ -168,10 +168,10 @@ class AppLocalizationsHil extends AppLocalizations {
   }
 
   @override
-  String get playAudio => 'Patokara';
+  String get playAudio => 'I-play';
 
   @override
-  String get playSlow => 'Patokara sing mahinay';
+  String get playSlow => 'I-play sing mahinay';
 
   @override
   String get exampleLabel => 'Halimbawa';
@@ -231,7 +231,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get readingHint =>
-      'Basaha sing mabaskog ang kada hambal, dayon i-tap para makita ang Filipino.';
+      'Basaha sing mabaskog ang kada sentensiya, dayon i-tap para makita ang Filipino.';
 
   @override
   String get tapToSeeFilipino => 'I-tap para makita ang Filipino';
@@ -261,7 +261,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get qtTypeAnswer => 'I-type ang sabat';
 
   @override
-  String get qtBuildSentence => 'Buhata ang hambal';
+  String get qtBuildSentence => 'Pormaha ang sentensiya';
 
   @override
   String get qtRealSituation => 'Matuod nga sitwasyon';
@@ -291,7 +291,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get q02Hint => 'Pamati, dayon pilia ang sabat.';
 
   @override
-  String get q03Title => 'Kompletoha ang hambal:';
+  String get q03Title => 'Kompletoha ang sentensiya:';
 
   @override
   String get q03Hint => 'Pilia ang nadula nga tinaga.';
@@ -312,7 +312,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get yourAnswer => 'Ang sabat mo';
 
   @override
-  String get q05Title => 'Buhata ang hambal';
+  String get q05Title => 'Pormaha ang sentensiya';
 
   @override
   String get q05Hint => 'I-tap ang mga tinaga sa husto nga han-ay.';
@@ -324,13 +324,13 @@ class AppLocalizationsHil extends AppLocalizations {
   String get q08Hint => 'Pamati, dayon i-type sa Hiligaynon.';
 
   @override
-  String get wordBankLabel => 'Mga tinaga (opsyonal)';
+  String get wordBankLabel => 'Mga tinaga nga mapilian (opsyonal)';
 
   @override
   String get q09Hint => 'Ensayuha ang paghambal sang prase. Wala sang iskor.';
 
   @override
-  String get nativeSpeaker => 'Lumad nga manughambal';
+  String get nativeSpeaker => 'Manughambal sang Hiligaynon';
 
   @override
   String get youLabel => 'Ikaw';
@@ -346,7 +346,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String charCount(int count, int max) {
-    return '$count / $max ka letra';
+    return '$count / $max ka character';
   }
 
   @override
@@ -445,7 +445,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get xpEarnedLabel => 'Nakuha nga XP';
 
   @override
-  String get accuracyLabel => 'Husto';
+  String get accuracyLabel => 'Husto nga sabat';
 
   @override
   String accuracyValue(int percent) {
@@ -475,13 +475,13 @@ class AppLocalizationsHil extends AppLocalizations {
   String get rvType => 'I-type';
 
   @override
-  String get rvBuild => 'Buhata';
+  String get rvBuild => 'Pormaha';
 
   @override
   String get rvRealSituation => 'Matuod nga sitwasyon';
 
   @override
-  String get rvMatchPairs => 'Ipares ang mga pares';
+  String get rvMatchPairs => 'Ipares ang mga tinaga kag kahulugan';
 
   @override
   String get rvDictation => 'Diktasyon';
@@ -550,7 +550,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get commonPassword => 'Password';
 
   @override
-  String get commonAtLeast6 => 'Indi magnubo sa 6 ka letra';
+  String get commonAtLeast6 => 'Indi magnubo sa 6 ka character';
 
   @override
   String get commonPasswordsDontMatch => 'Indi pareho ang mga password';
@@ -684,7 +684,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get authWrongCredentials => 'Sala ang email ukon password.';
 
   @override
-  String get authEmailInUse => 'Gingamit na ini nga email.';
+  String get authEmailInUse => 'Ginagamit na ini nga email.';
 
   @override
   String get authWelcomeBack => 'Maayong pagbalik.';
@@ -693,7 +693,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get authWelcomeBackSub => 'Padayuna kon diin ka nag-untat.';
 
   @override
-  String get authJoin => 'Mag-apil sa Hibalo.';
+  String get authJoin => 'Mag-join sa Hibalo.';
 
   @override
   String get authJoinSub =>
@@ -706,10 +706,10 @@ class AppLocalizationsHil extends AppLocalizations {
   String get authEnterUsername => 'Isulod ang username';
 
   @override
-  String get authEnterAUsername => 'Magsulod sang username';
+  String get authEnterAUsername => 'Magbutang sang username';
 
   @override
-  String get authAtLeast2 => 'Indi magnubo sa 2 ka letra';
+  String get authAtLeast2 => 'Indi magnubo sa 2 ka character';
 
   @override
   String get authEnterPassword => 'Isulod ang imo password';
@@ -745,7 +745,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get authCreateAnAccount => 'Maghimo sang account';
 
   @override
-  String get authStrengthTooWeak => 'Kaluya gid';
+  String get authStrengthTooWeak => 'Sobra ka luya';
 
   @override
   String get authStrengthFair => 'Pwede na';
@@ -889,14 +889,14 @@ class AppLocalizationsHil extends AppLocalizations {
   }
 
   @override
-  String get trSwap => 'Ilisan ang lenguahe';
+  String get trSwap => 'Bayluha ang duha ka lenguahe';
 
   @override
   String get trClearText => 'Panason ang teksto';
 
   @override
   String trCharacters(Object count) {
-    return '$count ka letra';
+    return '$count ka character';
   }
 
   @override
@@ -950,7 +950,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get camNoTextBody =>
-      'Tilawi ang mas malinaw nga litrato nga may maayo nga suga, kag dapat tadlong kag malapit ang mga tinaga.';
+      'Tilawi ang mas klaro nga litrato nga may maayo nga suga, kag dapat tadlong kag malapit ang mga tinaga.';
 
   @override
   String get camCouldntReadTitle => 'Indi mabasa ang litrato';
@@ -983,7 +983,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get voiceListening => 'Nagapamati…';
 
   @override
-  String get voiceHoldMic => 'Pinduta ang mic kag maghambal';
+  String get voiceHoldMic => 'I-tap ang mic kag maghambal';
 
   @override
   String get voiceStopListening => 'Untati ang pagpamati';
@@ -1168,7 +1168,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get editUsernameShort =>
-      'Dapat indi magnubo sa 3 ka letra ang username.';
+      'Dapat indi magnubo sa 3 ka character ang username.';
 
   @override
   String get editNewPassword => 'Bag-o nga password';
@@ -1208,7 +1208,7 @@ class AppLocalizationsHil extends AppLocalizations {
       'Isulod ang imo password subong para mapanas ang account.';
 
   @override
-  String get editEmailInUse => 'Gingamit na ini nga email.';
+  String get editEmailInUse => 'Ginagamit na ini nga email.';
 
   @override
   String get editNoInternet =>
@@ -1287,7 +1287,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get privacyNotSaveText =>
-      'ang teksto nga gina-translate mo, ang mga litrato nga gina-scan mo kag ang imo tingog. Ara lang sa imo telepono ang kasaysayan sang translation kag na-save nga tinaga; mapanas ini kon i-uninstall ang app ukon panason sa Settings. Sa imo telepono ginahimo ang pag-translate kag pagbasa sang litrato. Ang speech-to-text nagagamit sang kaugalingon nga speech service sang telepono, nga basi magsunod sa privacy terms sang Google. Ang ensayo sa paghambal sa mga leksyon ara lang sa imo telepono samtang ginagamit, dayon ginapanas.';
+      'ang teksto nga gina-translate mo, ang mga litrato nga gina-scan mo kag ang imo tingog. Ara lang sa imo telepono ang history sang translation kag na-save nga tinaga; mapanas ini kon i-uninstall ang app ukon panason sa Settings. Sa imo telepono ginahimo ang pag-translate kag pagbasa sang litrato. Ang speech-to-text nagagamit sang kaugalingon nga speech service sang telepono, nga basi magsunod sa privacy terms sang Google. Ang ensayo sa paghambal sa mga leksyon ara lang sa imo telepono samtang ginagamit, dayon ginapanas.';
 
   @override
   String get privacyWhoLabel => 'Sin-o ang makakita sang imo data';
@@ -1328,7 +1328,7 @@ class AppLocalizationsHil extends AppLocalizations {
       'isa ka fine-tuned nga bersyon sang MMS-TTS (VITS) model sang Meta, may lisensya nga CC BY-NC 4.0 (para lang sa indi komersyal nga gamit).';
 
   @override
-  String get creditsDataLabel => 'Data sa pag-ensayo sang tingog';
+  String get creditsDataLabel => 'Data para sa pag-train sang voice model';
 
   @override
   String get creditsDataText =>
@@ -1339,7 +1339,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get creditsTranslationText =>
-      'isa ka MarianMT model nga gin-ensayo sang Hibalo team, sa bulig sang MADLAD-400 model kag mga publiko nga teksto sa Hiligaynon kag Filipino.';
+      'isa ka MarianMT model nga gin-train sang Hibalo team, sa bulig sang MADLAD-400 model kag mga publiko nga teksto sa Hiligaynon kag Filipino.';
 
   @override
   String get creditsLessonsLabel => 'Sulod sang leksyon';
@@ -1383,7 +1383,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get helpA3 =>
-      'Ginahimo sa imo telepono ang translation kag basi indi eksakto. Tilawi ang mas malip-ot nga hambal ukon tan-awa ang spelling. Para sa tingog kag litrato, ayuha ang teksto sa kahon, dayon i-tap ang I-translate.';
+      'Ginahimo sa imo telepono ang translation kag basi indi eksakto. Tilawi ang mas malip-ot nga sentensiya ukon tan-awa ang spelling. Para sa tingog kag litrato, ayuha ang teksto sa kahon, dayon i-tap ang I-translate.';
 
   @override
   String get helpQ4 => 'Paano mabuksan ang masunod nga leksyon?';
@@ -1476,7 +1476,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get adminNoUsersYet => 'Wala pa sang user.';
 
   @override
-  String get adminUnknown => 'Indi mahibaluan';
+  String get adminUnknown => 'Wala nahibaluan';
 
   @override
   String get adminBadge => 'ADMIN';
@@ -1547,7 +1547,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get adminDailyActive =>
-      'AKTIBO NGA USER KADA ADLAW — KATAPUSAN NGA 7 KA ADLAW';
+      'AKTIBO NGA USER KADA ADLAW — NAGLIGAD NGA 7 KA ADLAW';
 
   @override
   String get adminBreakdown => 'DETALYE';
