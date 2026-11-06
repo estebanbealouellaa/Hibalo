@@ -6,12 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app_localizations.dart';
 
 /// The app language (English, Filipino or Hiligaynon); it changes only the app's own words, never lesson content.
+/// Saved per account; signed out (and an account with no choice yet) is English.
 class AppLanguage extends ChangeNotifier {
   AppLanguage._();
 
   static final AppLanguage instance = AppLanguage._();
 
-  static const _prefsKey = 'app_language';
+  static String prefsKeyFor(String uid) => 'app_language_$uid';
 
   /// Language name (as in lessons.json) → locale.
   static const Map<String, Locale> locales = {
@@ -21,30 +22,42 @@ class AppLanguage extends ChangeNotifier {
   };
 
   String _language = 'English';
+  String? _uid;
 
   String get language => _language;
   Locale get locale => locales[_language]!;
 
-  /// Reads the saved choice. Safe to skip: English is the default.
-  Future<void> load() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final saved = prefs.getString(_prefsKey);
-      if (saved != null && locales.containsKey(saved) && saved != _language) {
-        _language = saved;
-        notifyListeners();
+  /// Switches to [uid]'s saved language (sign-in, app start); null (signed out) = English.
+  Future<void> useAccount(String? uid) async {
+    _uid = uid;
+    var language = 'English';
+    if (uid != null) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final saved = prefs.getString(prefsKeyFor(uid));
+        if (saved != null && locales.containsKey(saved)) language = saved;
+      } catch (_) {
+        // Keep English if the setting can't be read.
       }
-    } catch (_) {
-      // Keep English if the setting can't be read.
     }
+    if (uid != _uid) return;
+    _show(language);
   }
 
+  /// Changes the language now and saves it for the signed-in account.
   Future<void> setLanguage(String language) async {
-    if (!locales.containsKey(language) || language == _language) return;
+    if (!locales.containsKey(language)) return;
+    _show(language);
+    final uid = _uid;
+    if (uid == null) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(prefsKeyFor(uid), language);
+  }
+
+  void _show(String language) {
+    if (language == _language) return;
     _language = language;
     notifyListeners();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefsKey, language);
   }
 
   /// Flutter has no Hiligaynon strings for its own widgets, so "hil" falls back to English ones.

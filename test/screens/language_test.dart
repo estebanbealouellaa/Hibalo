@@ -37,11 +37,12 @@ void main() {
       buildSignature: '',
     );
   });
-  tearDown(() => AppLanguage.instance.setLanguage('English'));
+  tearDown(() => AppLanguage.instance.useAccount(null));
 
   testWidgets('after Sign Up the pop-up shows once; Continue saves the choice', (tester) async {
     LanguagePrompt.resetForTest();
     await tester.runAsync(() => LanguagePrompt.afterSignUp('u1'));
+    await tester.runAsync(() => AppLanguage.instance.useAccount('u1'));
     await tester.pumpWidget(
       _app(
         Builder(
@@ -61,7 +62,7 @@ void main() {
     await tester.tap(find.text('Magpatuloy'));
     await tester.pumpAndSettle();
     expect(AppLanguage.instance.language, 'Filipino');
-    expect((await SharedPreferences.getInstance()).getString('app_language'), 'Filipino');
+    expect((await SharedPreferences.getInstance()).getString('app_language_u1'), 'Filipino');
 
     await tester.tap(find.text('home'));
     await tester.pumpAndSettle();
@@ -109,6 +110,29 @@ void main() {
     // Signing in again later (or after a reinstall) never shows it.
     LanguagePrompt.resetForTest();
     expect(await opens(), isFalse);
+  });
+
+  test('the language is saved per account; signed out is English', () async {
+    final lang = AppLanguage.instance;
+    await lang.useAccount('ana');
+    expect(lang.language, 'English', reason: 'no saved choice yet');
+    await lang.setLanguage('Filipino');
+    expect((await SharedPreferences.getInstance()).getString('app_language_ana'), 'Filipino');
+
+    await lang.useAccount(null); // log out
+    expect(lang.language, 'English', reason: 'signed-out screens are English');
+    await lang.setLanguage('Hiligaynon');
+    await lang.useAccount(null);
+    expect(lang.language, 'English', reason: 'nothing is saved while signed out');
+
+    await lang.useAccount('ben');
+    expect(lang.language, 'English', reason: 'another account keeps its own (none = English)');
+    await lang.useAccount('ana');
+    expect(lang.language, 'Filipino', reason: "signing back in restores the account's choice");
+
+    await lang.setLanguage('English');
+    await lang.useAccount('ana');
+    expect(lang.language, 'English');
   });
 
   testWidgets('Me › Language changes the app right away, with a snackbar', (tester) async {

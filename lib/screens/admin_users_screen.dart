@@ -21,11 +21,58 @@ bool userMatchesSearch(Map<String, dynamic> data, String query) {
       (data['email'] ?? '').toString().toLowerCase().contains(q);
 }
 
-/// Fields admin Edit writes: always `username`, never `name`.
-Map<String, dynamic> adminEditFields(String username, String email) => {
-      'username': username.trim(),
-      'email': email.trim(),
-    };
+/// Fields admin Edit writes: only `username` (the email is the sign-in email, so it is read-only).
+Map<String, dynamic> adminEditFields(String username) => {'username': username.trim()};
+
+/// Newest sign-up first; users with no `createdAt` are listed last, not hidden.
+int compareBySignUp(Map<String, dynamic> a, Map<String, dynamic> b) {
+  final ta = a['createdAt'], tb = b['createdAt'];
+  if (ta is! Timestamp && tb is! Timestamp) return 0;
+  if (ta is! Timestamp) return 1;
+  if (tb is! Timestamp) return -1;
+  return tb.compareTo(ta);
+}
+
+/// The Edit user fields: username editable, email shown read-only.
+class AdminEditUserForm extends StatelessWidget {
+  const AdminEditUserForm({super.key, required this.nameController, required this.email});
+
+  final TextEditingController nameController;
+  final String email;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _adminField(nameController, t.adminName, Icons.person_rounded),
+        const SizedBox(height: 12),
+        _adminField(TextEditingController(text: email), t.commonEmail, Icons.email_rounded, readOnly: true),
+      ],
+    );
+  }
+}
+
+Widget _adminField(TextEditingController ctrl, String label, IconData icon, {bool readOnly = false}) {
+  return TextField(
+    controller: ctrl,
+    readOnly: readOnly,
+    enabled: !readOnly,
+    style: TextStyle(color: readOnly ? V6Colors.textMuted : V6Colors.textPrimary),
+    decoration: InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: V6Colors.textSecondary),
+      prefixIcon: Icon(icon, color: V6Colors.textMuted, size: 20),
+      filled: true,
+      fillColor: V6Colors.surfaceTint,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide.none,
+      ),
+    ),
+  );
+}
 
 class AdminUsersScreen extends StatefulWidget {
   const AdminUsersScreen({super.key});
@@ -113,10 +160,8 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: _firestore
-                  .collection('users')
-                  .orderBy('createdAt', descending: true)
-                  .snapshots(),
+              // No orderBy: it would hide users without createdAt.
+              stream: _firestore.collection('users').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
@@ -133,7 +178,11 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                       _roleFilter == 'all' || role == _roleFilter;
 
                   return matchesSearch && matchesRole;
-                }).toList();
+                }).toList()
+                  ..sort((a, b) => compareBySignUp(
+                        a.data() as Map<String, dynamic>,
+                        b.data() as Map<String, dynamic>,
+                      ));
 
                 if (docs.isEmpty) {
                   return Center(
@@ -310,7 +359,6 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
 
   void _showEditDialog(String uid, Map<String, dynamic> data) {
     final nameCtrl = TextEditingController(text: userDisplayName(data));
-    final emailCtrl = TextEditingController(text: data['email'] ?? '');
 
     showDialog(
       context: context,
@@ -321,14 +369,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
           AppLocalizations.of(context).adminEditUser,
           style: TextStyle(color: V6Colors.textPrimary, fontWeight: FontWeight.bold),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _field(nameCtrl, AppLocalizations.of(context).adminName, Icons.person_rounded),
-            const SizedBox(height: 12),
-            _field(emailCtrl, AppLocalizations.of(context).commonEmail, Icons.email_rounded),
-          ],
-        ),
+        content: AdminEditUserForm(nameController: nameCtrl, email: (data['email'] ?? '').toString()),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -348,31 +389,13 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               Navigator.pop(context);
               await _updateUser(
                 uid,
-                adminEditFields(nameCtrl.text, emailCtrl.text),
+                adminEditFields(nameCtrl.text),
                 AppLocalizations.of(context).adminUserUpdated,
               );
             },
             child: Text(AppLocalizations.of(context).commonSave, style: TextStyle(color: Colors.white)),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _field(TextEditingController ctrl, String label, IconData icon) {
-    return TextField(
-      controller: ctrl,
-      style: const TextStyle(color: V6Colors.textPrimary),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(color: V6Colors.textSecondary),
-        prefixIcon: Icon(icon, color: V6Colors.textMuted, size: 20),
-        filled: true,
-        fillColor: V6Colors.surfaceTint,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
       ),
     );
   }

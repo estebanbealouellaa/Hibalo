@@ -27,7 +27,7 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  await AppLanguage.instance.load();
+  await AppLanguage.instance.useAccount(FirebaseAuth.instance.currentUser?.uid);
 
   // First open (fresh install or cleared data) shows the full splash and
   // onboarding; every later launch shows the short plain splash.
@@ -167,7 +167,9 @@ class _AppRootState extends State<AppRoot> {
     }
   }
 
-  void _onAuthSuccess() {
+  Future<void> _onAuthSuccess() async {
+    await AppLanguage.instance.useAccount(FirebaseAuth.instance.currentUser?.uid);
+    if (!mounted) return;
     final authProvider = context.read<app.AuthProvider>();
     setState(() {
       _phase = authProvider.isAdmin ? _Phase.admin : _Phase.home;
@@ -212,6 +214,7 @@ class _AppRootState extends State<AppRoot> {
   }
 
   void _onLogout() {
+    AppLanguage.instance.useAccount(null);
     setState(() {
       _authSignUp = true;
       _phase = _Phase.auth;
