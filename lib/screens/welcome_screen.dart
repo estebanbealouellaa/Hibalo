@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,6 +15,7 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -65,12 +67,12 @@ class WelcomeScreen extends StatelessWidget {
                     children: [
                       const V6Wordmark(color: V6Colors.onPrimary),
                       SizedBox(height: 26 * sy),
-                      const V6Chip(label: 'HILIGAYNON'),
+                      V6Chip(label: t.welcomeEyebrow),
                       SizedBox(height: 12 * sy),
                       SizedBox(
                         width: 300,
                         child: Text(
-                          'Words make\nroom for us.',
+                          t.welcomeTitle,
                           style: V6Text.headlineXl.copyWith(color: V6Colors.onPrimary),
                         ),
                       ),
@@ -78,7 +80,7 @@ class WelcomeScreen extends StatelessWidget {
                       SizedBox(
                         width: 170,
                         child: Text(
-                          'Learn everyday Hiligaynon, one small conversation at a time.',
+                          t.welcomeBody,
                           style: V6Text.bodyMedium.copyWith(color: V6Colors.onPrimaryMuted),
                         ),
                       ),
@@ -97,20 +99,20 @@ class WelcomeScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: Text('Start with a hello.', style: V6Text.headlineMedium),
+                          child: Text(t.welcomeCardTitle, style: V6Text.headlineMedium),
                         ),
                         const SizedBox(height: 4),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Text(
-                            'Translate, listen and learn at your pace.',
+                            t.welcomeCardBody,
                             style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted),
                           ),
                         ),
                         SizedBox(height: 32 * sy),
-                        V6Button(label: 'Get started', expand: true, onPressed: onGetStarted),
+                        V6Button(label: t.welcomeGetStarted, expand: true, onPressed: onGetStarted),
                         SizedBox(height: 12 * sy),
-                        Center(child: V6TextLink(label: 'I already have an account', onTap: onSignIn)),
+                        Center(child: V6TextLink(label: t.welcomeHaveAccount, onTap: onSignIn)),
                       ],
                     ),
                   ),

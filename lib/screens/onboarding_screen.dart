@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,30 +35,30 @@ class _Slide {
   final String body;
 }
 
-const _slides = [
+List<_Slide> _slidesFor(AppLocalizations t) => [
   _Slide(
     hero: V6Colors.primary,
     softOrb: V6Colors.primaryContainer,
     mascot: 'firefly_hello',
     word: 'Hibalo · malaman',
-    title: 'Welcome to Hibalo',
-    body: 'Translate between Hiligaynon and Filipino, and learn the language as you go.',
+    title: t.onboard1Title,
+    body: t.onboard1Body,
   ),
   _Slide(
     hero: V6Colors.lagoon,
     softOrb: V6Colors.lagoonContainer,
     mascot: 'firefly_phone',
     word: 'Hambal · magsalita',
-    title: 'Type it, say it, or snap it',
-    body: 'Translate by typing, by speaking, or by taking a photo of a sign or a note.',
+    title: t.onboard2Title,
+    body: t.onboard2Body,
   ),
   _Slide(
     hero: V6Colors.coral,
     softOrb: V6Colors.coralContainer,
     mascot: 'firefly_reading',
     word: 'Tuon · mag-aral',
-    title: 'Learn a little every day',
-    body: 'Short lessons and quick quizzes. Earn XP and keep your daily streak going.',
+    title: t.onboard3Title,
+    body: t.onboard3Body,
   ),
 ];
 
@@ -65,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pages = PageController();
   int _page = 0;
 
-  bool get _isLast => _page == _slides.length - 1;
+  bool get _isLast => _page == _slidesFor(AppLocalizations.of(context)).length - 1;
 
   @override
   void dispose() {
@@ -83,6 +84,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -96,9 +98,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 PageView.builder(
                   controller: _pages,
-                  itemCount: _slides.length,
+                  itemCount: _slidesFor(AppLocalizations.of(context)).length,
                   onPageChanged: (p) => setState(() => _page = p),
-                  itemBuilder: (_, i) => _SlideView(slide: _slides[i], index: i, sx: sx, sy: sy),
+                  itemBuilder: (_, i) => _SlideView(slide: _slidesFor(AppLocalizations.of(context))[i], index: i, sx: sx, sy: sy),
                 ),
                 // Skip: pages 1–2, white on the hero (Figma 295, 28).
                 if (!_isLast)
@@ -112,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         minimumSize: const Size(72, 48),
                         textStyle: V6Text.labelLargeBold,
                       ),
-                      child: const Text('Skip'),
+                      child: Text(t.onboardSkip),
                     ),
                   ),
                 // Page dots and Next / Get started (Figma y 684).
@@ -122,12 +124,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   bottom: bottom + 24 * sy,
                   child: Row(
                     children: [
-                      _Dots(count: _slides.length, current: _page),
+                      _Dots(count: _slidesFor(AppLocalizations.of(context)).length, current: _page),
                       const Spacer(),
                       SizedBox(
                         width: 160,
                         child: V6Button(
-                          label: _isLast ? 'Get started' : 'Next',
+                          label: _isLast ? t.welcomeGetStarted : t.onboardNext,
                           expand: true,
                           onPressed: _next,
                         ),
@@ -216,7 +218,7 @@ class _SlideView extends StatelessWidget {
           _at(30, 318, const _IconChip(icon: Icons.text_fields_rounded)),
         ],
       _ => [
-          _at(22, 100, const _Pill(icon: Icons.local_fire_department_rounded, iconColor: V6Colors.coral, text: '3 DAY STREAK'), turns: 4),
+          _at(22, 100, _Pill(icon: Icons.local_fire_department_rounded, iconColor: V6Colors.coral, text: '3 ${AppLocalizations.of(context).homeDayStreak}'), turns: 4),
           _at(236, 196, const _Pill(icon: Icons.bolt_rounded, iconColor: V6Colors.glowText, text: '120 XP'), turns: -4),
           _at(136, 328, const _LessonCard(), turns: -3),
         ],
@@ -267,8 +269,9 @@ class _Dots extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return Semantics(
-      label: 'Page ${current + 1} of $count',
+      label: t.onboardPageOf(current + 1, count),
       child: Row(
         children: [
           for (var i = 0; i < count; i++) ...[
@@ -428,7 +431,7 @@ class _LessonCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Greetings & Courtesy', style: V6Text.labelLargeBold),
-                Text('12 parts • 10 min', style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
+                Text(AppLocalizations.of(context).lessonMeta(12, 10), style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
               ],
             ),
           ],

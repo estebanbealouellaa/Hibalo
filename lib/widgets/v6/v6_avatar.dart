@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../learning/theme/v6_colors.dart';
@@ -64,7 +65,7 @@ class V6Avatar extends StatelessWidget {
       );
     }
     return Semantics(
-      label: 'Profile picture',
+      label: AppLocalizations.of(context).commonProfilePicture,
       image: true,
       child: Container(
         width: size,

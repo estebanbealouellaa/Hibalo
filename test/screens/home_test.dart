@@ -32,11 +32,8 @@ class _CounterTabState extends State<_CounterTab> {
   int taps = 0;
   @override
   Widget build(BuildContext context) => Center(
-        child: TextButton(
-          onPressed: () => setState(() => taps++),
-          child: Text('${widget.name} $taps'),
-        ),
-      );
+    child: TextButton(onPressed: () => setState(() => taps++), child: Text('${widget.name} $taps')),
+  );
 }
 
 void main() {
@@ -54,14 +51,18 @@ void main() {
   // ── Shell ──────────────────────────────────────────────────────────────
 
   Future<HomeScreenState> shell(WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
-      theme: buildAppTheme(),
-      home: HomeScreen(
-        onLogout: () {},
-        userDoc: Stream.value({'username': 'Ana'}),
-        tabs: const [_CounterTab('Home'), _CounterTab('Translate'), _CounterTab('Learn'), _CounterTab('Me')],
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLanguage.delegates,
+        supportedLocales: AppLanguage.supportedLocales,
+        theme: buildAppTheme(),
+        home: HomeScreen(
+          onLogout: () {},
+          userDoc: Stream.value({'username': 'Ana'}),
+          tabs: const [_CounterTab('Home'), _CounterTab('Translate'), _CounterTab('Learn'), _CounterTab('Me')],
+        ),
       ),
-    ));
+    );
     await tester.pump();
     return tester.state<HomeScreenState>(find.byType(HomeScreen));
   }
@@ -124,19 +125,21 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     final progress = LearningProgress.ready(catalog, ProgressSnapshot());
-    await tester.pumpWidget(ChangeNotifierProvider.value(
-      value: progress,
-      child: MaterialApp(
-        theme: buildAppTheme(),
-        localizationsDelegates: AppLanguage.delegates,
-        supportedLocales: AppLanguage.supportedLocales,
-        home: HomeScreen(
-          onLogout: () {},
-          userDoc: Stream.value({'username': 'Ana'}),
-          tabs: const [_CounterTab('Home'), _CounterTab('Translate'), LearnScreen(), _CounterTab('Me')],
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(
+        value: progress,
+        child: MaterialApp(
+          theme: buildAppTheme(),
+          localizationsDelegates: AppLanguage.delegates,
+          supportedLocales: AppLanguage.supportedLocales,
+          home: HomeScreen(
+            onLogout: () {},
+            userDoc: Stream.value({'username': 'Ana'}),
+            tabs: const [_CounterTab('Home'), _CounterTab('Translate'), LearnScreen(), _CounterTab('Me')],
+          ),
         ),
       ),
-    ));
+    );
     final state = tester.state<HomeScreenState>(find.byType(HomeScreen));
     state.select(HomeScreen.learnTab);
     await tester.pumpAndSettle();
@@ -156,7 +159,8 @@ void main() {
   group('Continue card choice', () {
     ContinuePick pick(Map<String, LessonProgress> p) => pickContinue(catalog, LearningRules(catalog, p));
     const done = LessonProgress(partsDone: 8, completed: true);
-    LessonProgress passed(Lesson l) => LessonProgress(partsDone: l.partsCount, completed: true, passed: true, bestScore: 8);
+    LessonProgress passed(Lesson l) =>
+        LessonProgress(partsDone: l.partsCount, completed: true, passed: true, bestScore: 8);
 
     test('first time: Lesson 1', () {
       final p = pick({});
@@ -189,22 +193,24 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     final progress = LearningProgress.ready(catalog, ProgressSnapshot(lessons: {...lessons}, xp: 120, streak: 3));
-    await tester.pumpWidget(ChangeNotifierProvider.value(
-      value: progress,
-      child: MaterialApp(
-        theme: buildAppTheme(),
-        localizationsDelegates: AppLanguage.delegates,
-        supportedLocales: AppLanguage.supportedLocales,
-        home: Scaffold(
-          body: HomeTab(
-            userName: 'Ana',
-            photoUrl: null,
-            onOpenLearn: () {},
-            clock: () => now ?? DateTime(2026, 11, 6, 9),
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(
+        value: progress,
+        child: MaterialApp(
+          theme: buildAppTheme(),
+          localizationsDelegates: AppLanguage.delegates,
+          supportedLocales: AppLanguage.supportedLocales,
+          home: Scaffold(
+            body: HomeTab(
+              userName: 'Ana',
+              photoUrl: null,
+              onOpenLearn: () {},
+              clock: () => now ?? DateTime(2026, 11, 6, 9),
+            ),
           ),
         ),
       ),
-    ));
+    );
     await tester.pump();
     return progress;
   }

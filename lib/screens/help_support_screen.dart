@@ -1,41 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/v6/v6.dart';
 
-/// The support address (unchanged from before; Figma shows
-/// hibalo.app@gmail.com, to be confirmed by Lance).
+/// The support address (Lance, Nov 6).
 const String kSupportEmail = 'hibalo@gmail.com';
 
 /// Figma 612:6044 questions. The first answer is Figma's; the others are
 /// written from how the app works (Figma has no answer text for them).
-const List<(String, String)> kFaqs = [
-  (
-    'How do I translate a photo?',
-    'On Translate, tap the camera button, then take a photo or choose one from your gallery. '
-        'Check the text Hibalo reads, then tap Translate.',
-  ),
-  (
-    'Does Hibalo work without internet?',
-    'Yes, after you sign in once. Translating, reading photos, the Hiligaynon voice and the lessons work offline. '
-        'Your progress is saved to your account when you are back online. Speaking to translate uses your '
-        "phone's speech service, which may need internet.",
-  ),
-  (
-    'What if a translation looks wrong?',
-    'Translations are made on your phone and may not be exact. Try a shorter sentence or check the spelling. '
-        'For voice and photos, fix the text in the box, then tap Translate.',
-  ),
-  (
-    'How do I unlock the next lesson?',
-    "Pass the lesson's quiz with at least 80%. Lesson 2 unlocks when you finish Lesson 1.",
-  ),
-  (
-    'How do I earn XP?',
-    'Finish a lesson (20 XP), answer a quick check right (5 XP) or answer a quiz question right (10 XP). '
-        'Each one gives XP only the first time.',
-  ),
-  ('How do I change my avatar?', 'Go to Me, tap Edit profile, choose an avatar, then tap Save changes.'),
+List<(String, String)> faqs(AppLocalizations t) => [
+  (t.helpQ1, t.helpA1),
+  (t.helpQ2, t.helpA2),
+  (t.helpQ3, t.helpA3),
+  (t.helpQ4, t.helpA4),
+  (t.helpQ5, t.helpA5),
+  (t.helpQ6, t.helpA6),
 ];
 
 /// Help & Support (Figma 612:6044): the FAQ (one answer open at a time) and
@@ -60,12 +40,14 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else if (mounted) {
-      showV6Snackbar(context, "Couldn't open the email app.", icon: Icons.error_rounded);
+      showV6Snackbar(context, AppLocalizations.of(context).helpCantOpenEmail, icon: Icons.error_rounded);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final kFaqs = faqs(t);
     return Scaffold(
       backgroundColor: V6Colors.background,
       body: SafeArea(
@@ -73,12 +55,12 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            V6TopAppBar(title: 'Help & Support', onBack: () => Navigator.of(context).pop()),
+            V6TopAppBar(title: t.helpTitle, onBack: () => Navigator.of(context).pop()),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
                 children: [
-                  Text('Frequently asked questions', style: V6Text.titleMediumBold),
+                  Text(t.helpFaqTitle, style: V6Text.titleMediumBold),
                   const SizedBox(height: 12),
                   Container(
                     decoration: BoxDecoration(
@@ -126,10 +108,10 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Still need help?', style: V6Text.titleMediumBold),
+                                  Text(t.helpStillNeed, style: V6Text.titleMediumBold),
                                   const SizedBox(height: 2),
                                   Text(
-                                    'Email us at $kSupportEmail',
+                                    t.helpEmailUs(kSupportEmail),
                                     style: V6Text.bodyMedium.copyWith(color: V6Colors.textPrimary),
                                   ),
                                 ],

@@ -188,6 +188,15 @@ class TranslationStore extends ChangeNotifier {
     return _write(history: false);
   }
 
+  /// Deletes [uid]'s History and Saved from the phone (Delete account), and
+  /// hides them if that account is shown.
+  Future<void> deleteUserData(String uid) async {
+    if (_uid == uid) await setUser(null);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(historyKeyFor(uid));
+    await prefs.remove(savedKeyFor(uid));
+  }
+
   /// Tests: forget the account and what was loaded.
   @visibleForTesting
   void resetForTest() {

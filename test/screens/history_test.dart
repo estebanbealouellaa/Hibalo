@@ -3,6 +3,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hibalo_app/l10n/app_language.dart';
+import 'package:hibalo_app/l10n/app_localizations.dart';
 import 'package:hibalo_app/screens/settings_screen.dart';
 import 'package:hibalo_app/screens/translate/history_screen.dart';
 import 'package:hibalo_app/services/translation_store.dart';
@@ -29,6 +31,8 @@ Future<List<Object?>> _open(WidgetTester tester, Widget screen) async {
   final results = <Object?>[];
   await tester.pumpWidget(
     MaterialApp(
+      localizationsDelegates: AppLanguage.delegates,
+      supportedLocales: AppLanguage.supportedLocales,
       theme: buildAppTheme(),
       home: Builder(
         builder: (context) => Scaffold(
@@ -134,9 +138,9 @@ void main() {
 
     test('Today / Yesterday / date', () {
       final now = DateTime(2026, 11, 6, 9);
-      expect(dayLabel(DateTime(2026, 11, 6, 1), now), 'Today');
-      expect(dayLabel(DateTime(2026, 11, 5, 23), now), 'Yesterday');
-      expect(dayLabel(DateTime(2026, 11, 2), now), 'November 2');
+      expect(dayLabel(lookupAppLocalizations(const Locale('en')), DateTime(2026, 11, 6, 1), now), 'Today');
+      expect(dayLabel(lookupAppLocalizations(const Locale('en')), DateTime(2026, 11, 5, 23), now), 'Yesterday');
+      expect(dayLabel(lookupAppLocalizations(const Locale('en')), DateTime(2026, 11, 2), now), 'November 2');
     });
 
     test('share text has both languages', () {
@@ -252,6 +256,8 @@ void main() {
       var shares = 0, saves = 0;
       Future<void> pump({required bool saved, bool translating = false}) => tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLanguage.delegates,
+          supportedLocales: AppLanguage.supportedLocales,
           theme: buildAppTheme(),
           home: Scaffold(
             body: ListView(

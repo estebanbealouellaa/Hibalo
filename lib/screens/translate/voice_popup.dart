@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -157,10 +158,11 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
 
   /// Figma 495:2362 "Voice ready" and 495:2369 "Speaking".
   List<Widget> _prompt(String partial, bool listening) {
+    final t = AppLocalizations.of(context);
     final transcript = listening && partial.isNotEmpty ? '…$partial' : '…';
     return [
       Text(
-        listening ? 'Listening…' : 'Hold the mic and speak',
+        listening ? t.voiceListening : t.voiceHoldMic,
         textAlign: TextAlign.center,
         style: V6Text.titleLargeBold,
       ),
@@ -177,7 +179,7 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
       Center(
         child: Semantics(
           button: true,
-          label: listening ? 'Stop listening' : 'Start listening',
+          label: listening ? t.voiceStopListening : t.voiceStartListening,
           child: GestureDetector(
             onTap: () => _toggleMic(listening),
             onLongPressStart: (_) {
@@ -209,22 +211,23 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
       ),
       const SizedBox(height: 12),
       Text(
-        listening ? 'Tap again to stop' : 'Tap to start',
+        listening ? t.voiceTapToStop : t.voiceTapToStart,
         textAlign: TextAlign.center,
         style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
       ),
       const SizedBox(height: 12),
       Center(
-        child: V6Button(label: 'Cancel', style: V6ButtonStyle.text, onPressed: _close),
+        child: V6Button(label: t.commonCancel, style: V6ButtonStyle.text, onPressed: _close),
       ),
     ];
   }
 
   /// Figma 600:5222 "Speech error".
   List<Widget> _errorCard() {
+    final t = AppLocalizations.of(context);
     return [
       Text(
-        "Didn't catch that",
+        t.voiceDidntCatch,
         textAlign: TextAlign.center,
         style: V6Text.titleLargeBold.copyWith(color: V6Colors.coralText),
       ),
@@ -234,16 +237,16 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
       ),
       const SizedBox(height: 12),
       Text(
-        'Speak a little louder and closer to the phone, then try again.',
+        t.voiceDidntCatchBody,
         textAlign: TextAlign.center,
         style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
       ),
       const SizedBox(height: 12),
-      V6Button(label: 'Try again', style: V6ButtonStyle.coral, expand: true, onPressed: _start),
+      V6Button(label: t.tryAgain, style: V6ButtonStyle.coral, expand: true, onPressed: _start),
       const SizedBox(height: 12),
       Center(
         child: V6Button(
-          label: 'Type instead',
+          label: t.commonTypeInstead,
           style: V6ButtonStyle.text,
           onPressed: () => _close(VoiceOutcome.typeInstead),
         ),
@@ -253,19 +256,20 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
 
   /// Figma 677:7284 "Microphone access is off".
   List<Widget> _micOffCard() {
+    final t = AppLocalizations.of(context);
     return [
-      Text('Microphone access is off', textAlign: TextAlign.center, style: V6Text.titleLargeBold),
+      Text(t.voiceMicOffTitle, textAlign: TextAlign.center, style: V6Text.titleLargeBold),
       const SizedBox(height: 12),
       const Center(child: V6MascotCircle(mascot: 'firefly_phone')),
       const SizedBox(height: 12),
       Text(
-        'To translate by voice, allow microphone access in your phone settings. You can still type instead.',
+        t.voiceMicOffBody,
         textAlign: TextAlign.center,
         style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
       ),
       const SizedBox(height: 12),
       V6Button(
-        label: 'Open settings',
+        label: t.commonOpenSettings,
         expand: true,
         onPressed: () async {
           await openAppSettings();
@@ -275,7 +279,7 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
       const SizedBox(height: 12),
       Center(
         child: V6Button(
-          label: 'Type instead',
+          label: t.commonTypeInstead,
           style: V6ButtonStyle.text,
           onPressed: () => _close(VoiceOutcome.typeInstead),
         ),

@@ -2,10 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hibalo_app/l10n/app_language.dart';
 import 'package:hibalo_app/theme/v6_app_theme.dart';
 import 'package:hibalo_app/widgets/v6/v6.dart';
 
 Widget _app(Widget child) => MaterialApp(
+      localizationsDelegates: AppLanguage.delegates,
+      supportedLocales: AppLanguage.supportedLocales,
       theme: buildAppTheme(),
       home: Scaffold(body: Center(child: Padding(padding: const EdgeInsets.all(20), child: child))),
     );

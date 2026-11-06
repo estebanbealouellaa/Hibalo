@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -69,14 +70,16 @@ class _TranslateHistoryScreenState extends State<TranslateHistoryScreen> {
   void _open(TranslationEntry e) => Navigator.of(context).pop(e);
 
   Future<void> _clearAll() async {
+    final t = AppLocalizations.of(context);
     if (await confirmClearHistory(context)) {
       unawaited(_store.clearHistory());
-      if (mounted) showV6Snackbar(context, 'Translation history cleared');
+      if (mounted) showV6Snackbar(context, t.histCleared);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: V6Colors.background,
       body: SafeArea(
@@ -84,7 +87,7 @@ class _TranslateHistoryScreenState extends State<TranslateHistoryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            V6TopAppBar(title: 'History', onBack: () => Navigator.of(context).pop()),
+            V6TopAppBar(title: t.trHistory, onBack: () => Navigator.of(context).pop()),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
               child: _Tabs(saved: _saved, onChanged: (saved) => setState(() => _saved = saved)),
@@ -102,17 +105,18 @@ class _TranslateHistoryScreenState extends State<TranslateHistoryScreen> {
   }
 
   Widget _historyList() {
+    final t = AppLocalizations.of(context);
     final items = _store.history;
     if (items.isEmpty) {
       return _Empty(
-        title: 'No translations yet',
-        message: 'Words and phrases you translate will show up here, so you can open them again.',
+        title: t.histEmptyTitle,
+        message: t.histEmptyBody,
         onStart: () => Navigator.of(context).pop(),
       );
     }
     final groups = <String, List<TranslationEntry>>{};
     for (final e in items) {
-      groups.putIfAbsent(dayLabel(e.time, DateTime.now()), () => []).add(e);
+      groups.putIfAbsent(dayLabel(t, e.time, DateTime.now()), () => []).add(e);
     }
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -121,11 +125,11 @@ class _TranslateHistoryScreenState extends State<TranslateHistoryScreen> {
           children: [
             Expanded(
               child: Text(
-                'Tap a translation to open it again.',
+                t.histTapToOpen,
                 style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
               ),
             ),
-            V6Button(label: 'Clear all', style: V6ButtonStyle.text, onPressed: _clearAll),
+            V6Button(label: t.histClearAll, style: V6ButtonStyle.text, onPressed: _clearAll),
           ],
         ),
         for (final MapEntry(key: day, value: entries) in groups.entries) ...[
@@ -149,11 +153,12 @@ class _TranslateHistoryScreenState extends State<TranslateHistoryScreen> {
   }
 
   Widget _savedList() {
+    final t = AppLocalizations.of(context);
     final items = _store.saved;
     if (items.isEmpty) {
       return _Empty(
-        title: 'No saved words yet',
-        message: 'Tap the bookmark on a translation to keep it here for practice.',
+        title: t.savedEmptyTitle,
+        message: t.savedEmptyBody,
         onStart: () => Navigator.of(context).pop(),
       );
     }
@@ -161,7 +166,7 @@ class _TranslateHistoryScreenState extends State<TranslateHistoryScreen> {
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
       children: [
         Text(
-          items.length == 1 ? '1 saved word or phrase' : '${items.length} saved words and phrases',
+          items.length == 1 ? t.savedCountOne : t.savedCountMany(items.length),
           style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
         ),
         const SizedBox(height: 12),
@@ -182,14 +187,23 @@ class _TranslateHistoryScreenState extends State<TranslateHistoryScreen> {
   }
 }
 
-/// "Today", "Yesterday", or the date (e.g. "November 4").
-String dayLabel(DateTime time, DateTime now) {
+/// "Today", "Yesterday", or the date (e.g. "November 4"), in the app
+/// language (Hiligaynon dates use the English month names).
+String dayLabel(AppLocalizations t, DateTime time, DateTime now) {
   final day = DateTime(time.year, time.month, time.day);
   final today = DateTime(now.year, now.month, now.day);
   final diff = today.difference(day).inDays;
-  if (diff == 0) return 'Today';
-  if (diff == 1) return 'Yesterday';
-  return DateFormat(time.year == now.year ? 'MMMM d' : 'MMMM d, y').format(time);
+  if (diff == 0) return t.histToday;
+  if (diff == 1) return t.histYesterday;
+  final pattern = time.year == now.year ? 'MMMM d' : 'MMMM d, y';
+  if (t.localeName == 'fil') {
+    try {
+      return DateFormat(pattern, 'fil').format(time);
+    } catch (_) {
+      // Filipino date names not loaded: English below.
+    }
+  }
+  return DateFormat(pattern, 'en_US').format(time);
 }
 
 /// Figma "Tabs · History | Saved": a Primary Container pill, the active tab
@@ -202,6 +216,7 @@ class _Tabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     Widget tab(String label, bool active, bool value) => Expanded(
       child: Semantics(
         selected: active,
@@ -227,7 +242,7 @@ class _Tabs extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(color: V6Colors.primaryContainer, borderRadius: BorderRadius.circular(24)),
-      child: Row(children: [tab('History', !saved, false), tab('Saved', saved, true)]),
+      child: Row(children: [tab(t.trHistory, !saved, false), tab(t.commonSaved, saved, true)]),
     );
   }
 }
@@ -269,11 +284,12 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return SizedBox(
       width: 48,
       height: 48,
       child: IconButton(
-        tooltip: saved ? 'Remove from saved' : 'Save',
+        tooltip: saved ? t.histRemoveSaved : t.commonSave,
         onPressed: onPressed,
         style: IconButton.styleFrom(backgroundColor: saved ? V6Colors.primaryContainer : Colors.transparent),
         icon: Icon(
@@ -297,6 +313,7 @@ class _HistoryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return InkWell(
       onTap: onTap,
       child: ConstrainedBox(
@@ -325,7 +342,7 @@ class _HistoryRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${entry.fromLanguage} → ${entry.toLanguage}',
+                      t.histFromTo(entry.fromLanguage, entry.toLanguage),
                       style: V6Text.caption.copyWith(color: V6Colors.textSecondary),
                     ),
                     const SizedBox(height: 2),
@@ -374,6 +391,7 @@ class _SavedRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -401,7 +419,7 @@ class _SavedRow extends StatelessWidget {
               width: 48,
               height: 48,
               child: IconButton(
-                tooltip: speaking ? 'Stop' : 'Listen',
+                tooltip: speaking ? t.commonStop : t.commonListen,
                 onPressed: onListen,
                 icon: Icon(speaking ? Icons.stop_rounded : Icons.volume_up_rounded, color: V6Colors.primary),
               ),
@@ -426,6 +444,7 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 32, 20, 24),
       children: [
@@ -439,7 +458,7 @@ class _Empty extends StatelessWidget {
           style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
         ),
         const SizedBox(height: 16),
-        V6Button(label: 'Start translating', expand: true, onPressed: onStart),
+        V6Button(label: t.commonStartTranslating, expand: true, onPressed: onStart),
       ],
     );
   }

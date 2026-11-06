@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -366,28 +367,27 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
 
   /// Figma 595:4668 "Camera access is off".
   Future<void> _cameraAccessOff() async {
+    final t = AppLocalizations.of(context);
     final choice = await showV6ChoiceDialog(
       context,
-      title: 'Camera access is off',
-      message:
-          'To take a photo, allow camera access in your phone settings. '
-          'You can still choose a photo from your gallery.',
+      title: t.camAccessOffTitle,
+      message: t.camAccessOffBody,
       mascot: 'firefly_phone',
-      primaryLabel: 'Open settings',
-      textActions: const ['Choose from gallery', 'Not now'],
+      primaryLabel: t.commonOpenSettings,
+      textActions: [t.commonChooseFromGallery, t.commonNotNow],
     );
     if (!mounted) return;
-    switch (choice) {
-      case 'Open settings':
-        await openAppSettings();
-      case 'Choose from gallery':
-        await _scanFrom(ImageSource.gallery);
+    if (choice == t.commonOpenSettings) {
+      await openAppSettings();
+    } else if (choice == t.commonChooseFromGallery) {
+      await _scanFrom(ImageSource.gallery);
     }
   }
 
   // ── UI (Figma 03 · Translate) ───────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final provider = context.watch<TranslatorProvider>();
     final state = provider.state;
     final isFilToHil = state.sourceLanguage == Languages.tagalog;
@@ -421,8 +421,8 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
                 height: 64,
                 child: Row(
                   children: [
-                    Expanded(child: Text('Translate', style: V6Text.headlineLargeTight.copyWith(letterSpacing: -0.28))),
-                    V6IconButton(icon: Icons.history_rounded, tooltip: 'History', onPressed: _openHistory),
+                    Expanded(child: Text(t.trTitle, style: V6Text.headlineLargeTight.copyWith(letterSpacing: -0.28))),
+                    V6IconButton(icon: Icons.history_rounded, tooltip: t.trHistory, onPressed: _openHistory),
                   ],
                 ),
               ),
@@ -457,7 +457,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
                     style: translationInputStyle,
                     cursorColor: V6Colors.primary,
                     decoration: InputDecoration.collapsed(
-                      hintText: 'Type or paste text here',
+                      hintText: t.trTypeHere,
                       hintStyle: translationInputStyle.copyWith(color: V6Colors.textMuted),
                     ),
                   ),
@@ -496,6 +496,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
   /// What sits above the input card: the "From your voice / photo" row
   /// (Figma 600:5120, 597:4863) or a scan message card (597:4962, 597:5049).
   List<Widget> _above() {
+    final t = AppLocalizations.of(context);
     const gap = SizedBox(height: 12);
     switch (_scan) {
       case ScanStage.noText:
@@ -503,16 +504,16 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
           V6MessageCard(
             icon: Icons.document_scanner_rounded,
             background: V6Colors.glowContainerSoft,
-            title: 'No text found',
-            message: 'Try a clearer photo with good light, and keep the words straight and close.',
+            title: t.camNoTextTitle,
+            message: t.camNoTextBody,
             actions: [
               V6Button(
-                label: 'Take a photo',
+                label: t.commonTakePhoto,
                 style: V6ButtonStyle.secondary,
                 onPressed: () => _scanFrom(ImageSource.camera),
               ),
               V6Button(
-                label: 'Choose from gallery',
+                label: t.commonChooseFromGallery,
                 style: V6ButtonStyle.text,
                 onPressed: () => _scanFrom(ImageSource.gallery),
               ),
@@ -526,12 +527,12 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
             icon: Icons.error_outline_rounded,
             iconColor: V6Colors.error,
             background: V6Colors.coralContainer,
-            title: "Couldn't read the photo",
-            message: 'Something went wrong. Please try again or choose another photo.',
+            title: t.camCouldntReadTitle,
+            message: t.camCouldntReadBody,
             actions: [
-              V6Button(label: 'Try again', style: V6ButtonStyle.secondary, onPressed: () => _scanFrom(_source)),
+              V6Button(label: t.tryAgain, style: V6ButtonStyle.secondary, onPressed: () => _scanFrom(_source)),
               V6Button(
-                label: 'Choose another',
+                label: t.camChooseAnother,
                 style: V6ButtonStyle.text,
                 onPressed: () => _scanFrom(ImageSource.gallery),
               ),
@@ -546,8 +547,8 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
       TextOrigin.voice => [
         FromSourceRow(
           leading: const SourceIconTile(icon: Icons.mic_rounded),
-          text: 'From your voice · check for mistakes',
-          actionLabel: 'Speak again',
+          text: t.trFromVoice,
+          actionLabel: t.trSpeakAgain,
           onAction: _openVoice,
         ),
         gap,
@@ -559,8 +560,8 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
                 ? const SourceIconTile(icon: Icons.photo_rounded)
                 : Image.file(_photo!, fit: BoxFit.cover),
           ),
-          text: 'From your photo · check for mistakes',
-          actionLabel: 'Scan again',
+          text: t.trFromPhoto,
+          actionLabel: t.trScanAgain,
           onAction: _openScan,
         ),
         gap,

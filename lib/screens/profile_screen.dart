@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_language.dart';
+import '../l10n/app_localizations.dart';
 import '../learning/models/catalog.dart';
 import '../learning/state/learning_progress.dart';
 import '../widgets/v6/v6.dart';
 import '../widgets/v6/v6_avatar.dart';
 import 'edit_profile_screen.dart';
 import 'help_support_screen.dart';
+import 'language_screen.dart';
 import 'home/home_tab.dart' show StatPill;
 import 'settings_screen.dart';
 
@@ -84,8 +87,8 @@ String? _email() {
 }
 
 /// Me (Figma 607:5271): the profile card (avatar, name, email, level, the
-/// streak / lessons / XP pills, edit button) and the Account rows. Language
-/// is hidden for now (extra #4).
+/// streak / lessons / XP pills, edit button) and the Account rows, including
+/// Language (703:7482).
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, this.userName, this.photoUrl, this.onLogout, this.email});
 
@@ -100,37 +103,48 @@ class ProfileScreen extends StatelessWidget {
   ({String userName, String? photoUrl, VoidCallback onLogout}) _data(BuildContext context) {
     final scope = context.dependOnInheritedWidgetOfExactType<_MeScope>();
     return (
-      userName: userName ?? scope?.userName ?? 'User',
+      userName: userName ?? scope?.userName ?? AppLocalizations.of(context).meUser,
       photoUrl: photoUrl ?? scope?.photoUrl,
       onLogout: onLogout ?? scope?.onLogout ?? () {},
     );
   }
 
-  Future<void> _openEditProfile(BuildContext context, String userName, String? photoUrl) async {
+  Future<void> _openEditProfile(
+    BuildContext context,
+    String userName,
+    String? photoUrl,
+    VoidCallback onLogout,
+  ) async {
     HapticFeedback.lightImpact();
     final saved = await Navigator.of(context).push<bool>(
       MaterialPageRoute(
-        builder: (_) => EditProfileScreen(currentUsername: userName, currentPhotoUrl: photoUrl),
+        builder: (_) => EditProfileScreen(
+          currentUsername: userName,
+          currentPhotoUrl: photoUrl,
+          // Delete account: the same way out as Log out (→ Sign Up).
+          onAccountDeleted: onLogout,
+        ),
       ),
     );
     // Figma 629:6451.
-    if (saved == true && context.mounted) showV6Snackbar(context, 'Profile updated');
+    if (saved == true && context.mounted) showV6Snackbar(context, AppLocalizations.of(context).meProfileUpdated);
   }
 
   void _open(BuildContext context, Widget page) => Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
 
   /// Figma 608:5645.
   Future<void> _logout(BuildContext context, VoidCallback onLogout) async {
-    const logOut = 'Log out';
+    final t = AppLocalizations.of(context);
+    final logOut = t.meLogOut;
     final picked = await showV6ChoiceDialog(
       context,
       mascot: 'firefly_goodbye',
       mascotCircle: V6Colors.coralTonal,
-      title: 'Log out?',
-      message: 'Your progress is saved. You can sign back in any time.',
-      primaryLabel: 'Stay',
-      textActions: const [logOut],
-      dangerActions: const {logOut},
+      title: t.meLogOutTitle,
+      message: t.meLogOutBody,
+      primaryLabel: t.meStay,
+      textActions: [logOut],
+      dangerActions: {logOut},
     );
     if (picked == logOut) onLogout();
   }
@@ -138,6 +152,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final progress = context.watch<LearningProgress>();
+    final t = AppLocalizations.of(context);
     final (:userName, :photoUrl, :onLogout) = _data(context);
     final level = currentLevel(progress);
     final mail = email ?? _email();
@@ -156,7 +171,7 @@ class ProfileScreen extends StatelessWidget {
                 height: 64,
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Me', style: V6Text.headlineLargeTight.copyWith(letterSpacing: -0.28)),
+                  child: Text(t.meTitle, style: V6Text.headlineLargeTight.copyWith(letterSpacing: -0.28)),
                 ),
               ),
               const SizedBox(height: 8),
@@ -193,7 +208,7 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               if (level != null) ...[
                                 const SizedBox(height: 6),
-                                V6Chip(label: '${level.$1.title} · Level ${level.$2 + 1}', tone: V6ChipTone.brand),
+                                V6Chip(label: t.homeLevelChip(level.$1.title, level.$2 + 1), tone: V6ChipTone.brand),
                               ],
                             ],
                           ),
@@ -203,8 +218,8 @@ class ProfileScreen extends StatelessWidget {
                           width: 48,
                           height: 48,
                           child: IconButton(
-                            tooltip: 'Edit profile',
-                            onPressed: () => _openEditProfile(context, userName, photoUrl),
+                            tooltip: t.meEditProfile,
+                            onPressed: () => _openEditProfile(context, userName, photoUrl, onLogout),
                             style: IconButton.styleFrom(backgroundColor: V6Colors.primaryContainer),
                             icon: const Icon(Icons.edit_rounded, color: V6Colors.primary),
                           ),
@@ -218,7 +233,7 @@ class ProfileScreen extends StatelessWidget {
                           child: StatPill(
                             icon: Icons.local_fire_department_rounded,
                             value: progress.streak,
-                            label: 'DAY STREAK',
+                            label: t.homeDayStreak,
                             color: V6Colors.coral,
                           ),
                         ),
@@ -227,7 +242,7 @@ class ProfileScreen extends StatelessWidget {
                           child: StatPill(
                             icon: Icons.menu_book_rounded,
                             value: progress.lessonsCompleted,
-                            label: progress.lessonsCompleted == 1 ? 'LESSON' : 'LESSONS',
+                            label: progress.lessonsCompleted == 1 ? t.homeLesson : t.homeLessons,
                             color: V6Colors.lagoon,
                           ),
                         ),
@@ -236,7 +251,7 @@ class ProfileScreen extends StatelessWidget {
                           child: StatPill(
                             icon: Icons.bolt_rounded,
                             value: progress.xp,
-                            label: 'XP',
+                            label: t.homeXp,
                             color: V6Colors.citrus,
                           ),
                         ),
@@ -246,31 +261,37 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text('Account', style: V6Text.titleMediumBold),
+              Text(t.meAccount, style: V6Text.titleMediumBold),
               const SizedBox(height: 12),
               V6ListCard(
                 children: [
                   V6ListRow(
                     icon: Icons.person_rounded,
-                    title: 'Edit profile',
-                    subtitle: 'Name and avatar',
-                    onTap: () => _openEditProfile(context, userName, photoUrl),
+                    title: t.meEditProfile,
+                    subtitle: t.meEditProfileSub,
+                    onTap: () => _openEditProfile(context, userName, photoUrl, onLogout),
+                  ),
+                  V6ListRow(
+                    icon: Icons.language_rounded,
+                    title: t.meLanguageRow,
+                    subtitle: AppLanguage.instance.language,
+                    onTap: () => _open(context, const LanguageScreen()),
                   ),
                   V6ListRow(
                     icon: Icons.settings_rounded,
-                    title: 'Settings',
-                    subtitle: 'Data, privacy, credits',
+                    title: t.meSettings,
+                    subtitle: t.meSettingsSub,
                     onTap: () => _open(context, const SettingsScreen()),
                   ),
                   V6ListRow(
                     icon: Icons.help_rounded,
-                    title: 'Help & Support',
-                    subtitle: 'FAQ, contact us',
+                    title: t.meHelp,
+                    subtitle: t.meHelpSub,
                     onTap: () => _open(context, const HelpSupportScreen()),
                   ),
                   V6ListRow(
                     icon: Icons.logout_rounded,
-                    title: 'Log out',
+                    title: t.meLogOut,
                     danger: true,
                     trailing: const SizedBox.shrink(),
                     onTap: () => _logout(context, onLogout),

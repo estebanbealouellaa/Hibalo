@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -39,22 +40,27 @@ class AuthBanner {
   /// no connection → the Warning banner; wrong email or password → "Wrong
   /// email or password."; email in use → "This email is already in use.";
   /// anything else → Firebase's own message, as before.
-  static AuthBanner fromError({required String? code, required String? message, required bool isLogin}) {
+  static AuthBanner fromError({
+    required AppLocalizations t,
+    required String? code,
+    required String? message,
+    required bool isLogin,
+  }) {
     if (code == 'network-request-failed') {
       return AuthBanner(
         V6BannerType.warning,
-        isLogin ? 'No internet. Connect to sign in.' : 'No internet. Connect to sign up.',
+        isLogin ? t.authNoInternetSignIn : t.authNoInternetSignUp,
       );
     }
     if (isLogin &&
         const {'invalid-credential', 'wrong-password', 'user-not-found', 'invalid-email', 'INVALID_LOGIN_CREDENTIALS'}
             .contains(code)) {
-      return const AuthBanner(V6BannerType.error, 'Wrong email or password.');
+      return AuthBanner(V6BannerType.error, t.authWrongCredentials);
     }
     if (!isLogin && code == 'email-already-in-use') {
-      return const AuthBanner(V6BannerType.error, 'This email is already in use.', emailTaken: true);
+      return AuthBanner(V6BannerType.error, t.authEmailInUse, emailTaken: true);
     }
-    return AuthBanner(V6BannerType.error, message ?? 'Something went wrong. Try again.');
+    return AuthBanner(V6BannerType.error, message ?? t.commonSomethingWrong);
   }
 }
 
@@ -131,7 +137,7 @@ class _AuthScreenState extends State<AuthScreen> {
         widget.onAuthSuccess();
       } else {
         debugPrint('Auth failed: ${auth.errorCode} ${auth.errorMessage}');
-        _showError(AuthBanner.fromError(code: auth.errorCode, message: auth.errorMessage, isLogin: _isLogin));
+        _showError(AuthBanner.fromError(t: AppLocalizations.of(context), code: auth.errorCode, message: auth.errorMessage, isLogin: _isLogin));
       }
     } catch (e, st) {
       debugPrint('Auth exception: $e\n$st');
@@ -201,6 +207,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   // ── Header: wordmark + logo, title, subtitle ───────────────────────────
   Widget _header() {
+    final t = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -210,14 +217,14 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
         const SizedBox(height: 24),
         Text(
-          _isLogin ? 'Welcome back.' : 'Join Hibalo.',
+          _isLogin ? t.authWelcomeBack : t.authJoin,
           style: V6Text.headlineXl,
         ),
         const SizedBox(height: 8),
         Text(
           _isLogin
-              ? 'Pick up where your words left off.'
-              : 'Make an account to save your lessons, XP and streak.',
+              ? t.authWelcomeBackSub
+              : t.authJoinSub,
           style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted),
         ),
       ],
@@ -226,6 +233,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   // ── Form ───────────────────────────────────────────────────────────────
   Widget _form() {
+    final t = AppLocalizations.of(context);
     final gap = SizedBox(height: _isLogin ? 16 : 8);
     final enabled = !_loading;
     return Column(
@@ -235,16 +243,16 @@ class _AuthScreenState extends State<AuthScreen> {
           V6TextField(
             key: const ValueKey('username'),
             controller: _usernameCtrl,
-            label: 'Username',
-            hint: 'Enter username',
+            label: t.authUsername,
+            hint: t.authEnterUsername,
             fieldLabel: true,
             enabled: enabled,
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.username],
             validator: (v) {
-              final t = v?.trim() ?? '';
-              if (t.isEmpty) return 'Enter a username';
-              if (t.length < 2) return 'At least 2 characters';
+              final value = v?.trim() ?? '';
+              if (value.isEmpty) return t.authEnterAUsername;
+              if (value.length < 2) return t.authAtLeast2;
               return null;
             },
           ),
@@ -253,8 +261,8 @@ class _AuthScreenState extends State<AuthScreen> {
         V6TextField(
           key: const ValueKey('email'),
           controller: _emailCtrl,
-          label: 'Email',
-          hint: 'Enter email',
+          label: t.commonEmail,
+          hint: t.commonEnterEmail,
           fieldLabel: true,
           enabled: enabled,
           keyboardType: TextInputType.emailAddress,
@@ -265,10 +273,10 @@ class _AuthScreenState extends State<AuthScreen> {
             if (_banner?.emailTaken ?? false) setState(() => _banner = null);
           },
           validator: (v) {
-            final t = v?.trim() ?? '';
-            if (t.isEmpty) return 'Enter your email';
-            if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(t)) {
-              return 'That email doesn\'t look right';
+            final value = v?.trim() ?? '';
+            if (value.isEmpty) return t.commonEnterYourEmail;
+            if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value)) {
+              return t.commonEmailLooksWrong;
             }
             return null;
           },
@@ -277,8 +285,8 @@ class _AuthScreenState extends State<AuthScreen> {
         V6TextField(
           key: const ValueKey('password'),
           controller: _passwordCtrl,
-          label: 'Password',
-          hint: 'Password',
+          label: t.commonPassword,
+          hint: t.commonPassword,
           fieldLabel: true,
           obscure: true,
           enabled: enabled,
@@ -286,8 +294,8 @@ class _AuthScreenState extends State<AuthScreen> {
           autofillHints: _isLogin ? const [AutofillHints.password] : const [AutofillHints.newPassword],
           onSubmitted: _isLogin ? (_) => _submit() : null,
           validator: (v) {
-            if (v == null || v.isEmpty) return 'Enter your password';
-            if (v.length < 6) return 'At least 6 characters';
+            if (v == null || v.isEmpty) return t.authEnterPassword;
+            if (v.length < 6) return t.commonAtLeast6;
             return null;
           },
         ),
@@ -296,7 +304,7 @@ class _AuthScreenState extends State<AuthScreen> {
           Align(
             alignment: Alignment.centerLeft,
             child: V6Button(
-              label: 'Forgot password?',
+              label: t.authForgotPassword,
               style: V6ButtonStyle.text,
               onPressed: _loading ? null : _openForgotPassword,
             ),
@@ -308,8 +316,8 @@ class _AuthScreenState extends State<AuthScreen> {
           V6TextField(
             key: const ValueKey('confirm'),
             controller: _confirmCtrl,
-            label: 'Confirm password',
-            hint: 'Re-enter password',
+            label: t.authConfirmPassword,
+            hint: t.authReenterPassword,
             fieldLabel: true,
             obscure: true,
             enabled: enabled,
@@ -317,7 +325,7 @@ class _AuthScreenState extends State<AuthScreen> {
             onSubmitted: (_) => _submit(),
             validator: (v) {
               if (v != _passwordCtrl.text) {
-                return 'Passwords do not match';
+                return t.commonPasswordsDontMatch;
               }
               return null;
             },
@@ -329,13 +337,14 @@ class _AuthScreenState extends State<AuthScreen> {
 
   // ── Submit + switch mode ───────────────────────────────────────────────
   Widget _actions() {
+    final t = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         V6Button(
           label: _loading
-              ? (_isLogin ? 'Signing in…' : 'Creating account…')
-              : (_isLogin ? 'Sign in' : 'Create account'),
+              ? (_isLogin ? t.authSigningIn : t.authCreatingAccount)
+              : (_isLogin ? t.authSignIn : t.authCreateAccount),
           loading: _loading,
           expand: true,
           onPressed: _submit,
@@ -346,12 +355,12 @@ class _AuthScreenState extends State<AuthScreen> {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Text(
-              _isLogin ? 'New to Hibalo?' : 'Already have an account?',
+              _isLogin ? t.authNewToHibalo : t.authHaveAccount,
               style: V6Text.bodyMedium.copyWith(color: V6Colors.textNeutralStrong),
             ),
             const SizedBox(width: 4),
             V6TextLink(
-              label: _isLogin ? 'Create an account' : 'Sign in',
+              label: _isLogin ? t.authCreateAnAccount : t.authSignIn,
               onTap: _loading ? null : () => _setMode(!_isLogin),
             ),
           ],
@@ -385,7 +394,8 @@ class StrengthMeter extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = password.isEmpty ? 0 : _score;
     const colors = [V6Colors.error, V6Colors.warning, V6Colors.success, V6Colors.success];
-    const labels = ['Too weak', 'Fair', 'Good', 'Strong'];
+    final t = AppLocalizations.of(context);
+    final labels = [t.authStrengthTooWeak, t.authStrengthFair, t.authStrengthGood, t.authStrengthStrong];
     final color = s == 0 ? V6Colors.borderDivider : colors[s - 1];
 
     return SizedBox(

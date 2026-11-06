@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,27 +9,28 @@ import '../../widgets/v6/v6.dart';
 /// Figma 595:4593 "Scan options": a bottom sheet with Take a photo and
 /// Choose from gallery. Returns the picked source, or null for Cancel.
 Future<ImageSource?> showScanOptions(BuildContext context) {
+  final t = AppLocalizations.of(context);
   return showV6BottomSheet<ImageSource>(
     context,
-    title: 'Scan text from a photo',
-    description: 'Hibalo reads the words in the photo and translates them.',
+    title: t.trScanPhoto,
+    description: t.camSheetBody,
     children: (sheet) => [
       _ScanOption(
         icon: Icons.photo_camera_rounded,
-        title: 'Take a photo',
-        subtitle: 'Use your camera',
+        title: t.commonTakePhoto,
+        subtitle: t.camUseCamera,
         onTap: () => Navigator.pop(sheet, ImageSource.camera),
       ),
       const SizedBox(height: 8),
       _ScanOption(
         icon: Icons.photo_library_rounded,
-        title: 'Choose from gallery',
-        subtitle: 'Pick a photo you already have',
+        title: t.commonChooseFromGallery,
+        subtitle: t.camPickExisting,
         onTap: () => Navigator.pop(sheet, ImageSource.gallery),
       ),
       const SizedBox(height: 8),
       Center(
-        child: V6Button(label: 'Cancel', style: V6ButtonStyle.text, onPressed: () => Navigator.pop(sheet)),
+        child: V6Button(label: t.commonCancel, style: V6ButtonStyle.text, onPressed: () => Navigator.pop(sheet)),
       ),
     ],
   );
@@ -92,6 +94,7 @@ class ScanningCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(13),
       decoration: BoxDecoration(
@@ -121,7 +124,7 @@ class ScanningCard extends StatelessWidget {
                   children: [
                     const Icon(Icons.document_scanner_rounded, size: 22, color: V6Colors.primary),
                     const SizedBox(width: 10),
-                    Flexible(child: Text('Reading the text…', style: V6Text.titleMediumBold)),
+                    Flexible(child: Text(t.camReading, style: V6Text.titleMediumBold)),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -135,7 +138,7 @@ class ScanningCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'This takes a few seconds and works offline.',
+                  t.camTakesSeconds,
                   style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
                 ),
               ],
@@ -143,7 +146,7 @@ class ScanningCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Center(
-            child: V6Button(label: 'Cancel', style: V6ButtonStyle.text, onPressed: onCancel),
+            child: V6Button(label: t.commonCancel, style: V6ButtonStyle.text, onPressed: onCancel),
           ),
         ],
       ),

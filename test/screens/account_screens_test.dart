@@ -5,6 +5,8 @@
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hibalo_app/l10n/app_language.dart';
+import 'package:hibalo_app/l10n/app_localizations.dart';
 import 'package:hibalo_app/providers/auth_provider.dart';
 import 'package:hibalo_app/screens/auth_screen.dart';
 import 'package:hibalo_app/screens/forgot_password_screen.dart';
@@ -45,7 +47,12 @@ Future<void> _pump(WidgetTester tester, Widget child, {AuthProvider? auth}) asyn
   tester.view.physicalSize = const Size(360, 760);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  Widget app = MaterialApp(theme: buildAppTheme(), home: child);
+  Widget app = MaterialApp(
+    localizationsDelegates: AppLanguage.delegates,
+    supportedLocales: AppLanguage.supportedLocales,
+    theme: buildAppTheme(),
+    home: child,
+  );
   if (auth != null) app = ChangeNotifierProvider<AuthProvider>.value(value: auth, child: app);
   await tester.pumpWidget(app);
   await tester.pump();
@@ -118,7 +125,12 @@ void main() {
       expect(find.text('No internet. Connect to sign in.'), findsOneWidget);
 
       expect(
-        AuthBanner.fromError(code: 'network-request-failed', message: null, isLogin: false).message,
+        AuthBanner.fromError(
+          t: lookupAppLocalizations(const Locale('en')),
+          code: 'network-request-failed',
+          message: null,
+          isLogin: false,
+        ).message,
         'No internet. Connect to sign up.',
       );
     });
@@ -152,7 +164,12 @@ void main() {
     });
 
     testWidgets('other errors keep Firebase\'s own message, as before', (tester) async {
-      final b = AuthBanner.fromError(code: 'too-many-requests', message: 'Try again later.', isLogin: true);
+      final b = AuthBanner.fromError(
+        t: lookupAppLocalizations(const Locale('en')),
+        code: 'too-many-requests',
+        message: 'Try again later.',
+        isLogin: true,
+      );
       expect((b.type, b.message), (V6BannerType.error, 'Try again later.'));
     });
 

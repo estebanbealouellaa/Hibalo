@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,7 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final progress = context.watch<LearningProgress>();
     final now = clock();
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -66,7 +68,7 @@ class HomeTab extends StatelessWidget {
                     child: StatPill(
                       icon: Icons.local_fire_department_rounded,
                       value: progress.streak,
-                      label: 'DAY STREAK',
+                      label: t.homeDayStreak,
                       color: V6Colors.coral,
                     ),
                   ),
@@ -75,13 +77,13 @@ class HomeTab extends StatelessWidget {
                     child: StatPill(
                       icon: Icons.menu_book_rounded,
                       value: progress.lessonsCompleted,
-                      label: progress.lessonsCompleted == 1 ? 'LESSON' : 'LESSONS',
+                      label: progress.lessonsCompleted == 1 ? t.homeLesson : t.homeLessons,
                       color: V6Colors.lagoon,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: StatPill(icon: Icons.bolt_rounded, value: progress.xp, label: 'XP', color: V6Colors.citrus),
+                    child: StatPill(icon: Icons.bolt_rounded, value: progress.xp, label: t.homeXp, color: V6Colors.citrus),
                   ),
                 ],
               ),
@@ -150,6 +152,7 @@ class ContinueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final lesson = pick.lesson;
     final level = pick.level;
     final levelIndex = level == null ? 0 : context.read<LearningProgress>().catalog.levels.indexOf(level);
@@ -157,27 +160,27 @@ class ContinueCard extends StatelessWidget {
     final (mascot, title, progressLabel, buttonLabel) = switch (pick.kind) {
       ContinueKind.firstTime || ContinueKind.notStarted => (
           'firefly_backpack',
-          'Lesson ${lesson.order}: ${lesson.title}',
-          '0 of ${pick.partsCount} parts',
-          'Start Lesson ${lesson.order}',
+          t.homeLessonTitle(lesson.order, lesson.title),
+          t.homePartsDone(0, pick.partsCount),
+          t.homeStartLesson(lesson.order),
         ),
       ContinueKind.inProgress => (
           'firefly_reading',
-          'Lesson ${lesson.order}: ${lesson.title}',
-          'Part ${pick.nextPart} of ${pick.partsCount}',
-          'Continue lesson',
+          t.homeLessonTitle(lesson.order, lesson.title),
+          t.homePartOf(pick.nextPart, pick.partsCount),
+          t.continueLesson,
         ),
       ContinueKind.quizPending => (
           'firefly_reading',
-          'Lesson ${lesson.order}: ${lesson.title}',
-          '${pick.partsCount} of ${pick.partsCount} parts',
-          'Take the quiz',
+          t.homeLessonTitle(lesson.order, lesson.title),
+          t.homePartsDone(pick.partsCount, pick.partsCount),
+          t.homeTakeQuiz,
         ),
       ContinueKind.allDone => (
           'firefly_celebrate',
-          '${level?.title ?? 'Beginner'} complete!',
-          'Every lesson done',
-          'Review lessons',
+          level == null ? t.homeAllComplete : t.homeLevelComplete(level.title),
+          t.homeEveryLessonDone,
+          t.homeReviewLessons,
         ),
     };
     final value = allDone ? 1.0 : pick.partsDone / pick.partsCount;
@@ -212,7 +215,7 @@ class ContinueCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (level != null) V6Chip(label: '${level.title} · Level ${levelIndex + 1}', tone: V6ChipTone.surface),
+                    if (level != null) V6Chip(label: t.homeLevelChip(level.title, levelIndex + 1), tone: V6ChipTone.surface),
                     const SizedBox(height: 8),
                     Text(title, style: V6Text.headlineMedium),
                   ],
@@ -284,6 +287,7 @@ class PhraseOfTheDayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final tag = V6Text.labelMedium.copyWith(color: V6Colors.glowText);
     final example = item.example;
     return Container(
@@ -311,7 +315,7 @@ class PhraseOfTheDayCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.star_rounded, size: 18, color: V6Colors.glow),
                   const SizedBox(width: 6),
-                  Text('Phrase of the day', style: V6Text.labelLarge),
+                  Text(t.homePhraseOfDay, style: V6Text.labelLarge),
                 ],
               ),
               const SizedBox(height: 8),
@@ -336,7 +340,7 @@ class PhraseOfTheDayCard extends StatelessWidget {
                     color: V6Colors.glow,
                     shape: const CircleBorder(),
                     child: IconButton(
-                      tooltip: 'Listen',
+                      tooltip: t.commonListen,
                       onPressed: () => LessonAudio.instance.play(item.audio),
                       icon: const Icon(Icons.volume_up_rounded, color: V6Colors.primaryStrong),
                     ),

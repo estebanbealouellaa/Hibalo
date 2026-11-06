@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -145,10 +146,10 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     final t = _DashTheme(_isDark);
     final now = DateTime.now();
     final greeting = now.hour < 12
-        ? 'Good Morning'
+        ? AppLocalizations.of(context).adminGoodMorning
         : now.hour < 17
-        ? 'Good Afternoon'
-        : 'Good Evening';
+        ? AppLocalizations.of(context).adminGoodAfternoon
+        : AppLocalizations.of(context).adminGoodEvening;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 400),
@@ -176,14 +177,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                               children: [
                                 _buildStatsGrid(t),
                                 const SizedBox(height: 28),
-                                _buildSectionLabel('Management', t),
+                                _buildSectionLabel(AppLocalizations.of(context).adminManagement, t),
                                 const SizedBox(height: 12),
                                 _buildManagementTile(
                                   t: t,
                                   icon: Icons.manage_accounts_rounded,
-                                  label: 'Manage Users',
+                                  label: AppLocalizations.of(context).adminManageUsers,
                                   subtitle:
-                                      'View, edit, promote or remove users',
+                                      AppLocalizations.of(context).adminManageUsersSub,
                                   color: _DashTheme.accent,
                                   onTap: () => Navigator.push(
                                     context,
@@ -196,9 +197,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                                 _buildManagementTile(
                                   t: t,
                                   icon: Icons.bar_chart_rounded,
-                                  label: 'Usage Analytics',
+                                  label: AppLocalizations.of(context).adminUsage,
                                   subtitle:
-                                      'Daily & weekly active user breakdown',
+                                      AppLocalizations.of(context).adminUsageSub,
                                   color: _DashTheme.teal,
                                   onTap: () => Navigator.push(
                                     context,
@@ -208,7 +209,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                                   ),
                                 ),
                                 const SizedBox(height: 28),
-                                _buildSectionLabel('Recent Signups', t),
+                                _buildSectionLabel(AppLocalizations.of(context).adminRecentSignups, t),
                                 const SizedBox(height: 12),
                                 _buildRecentUsers(t),
                               ],
@@ -290,7 +291,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                   ),
                 ),
                 Text(
-                  'Admin Dashboard',
+                  AppLocalizations.of(context).adminTitle,
                   style: TextStyle(
                     color: t.textPrimary,
                     fontSize: 15, // reduced from 17 to prevent wrapping
@@ -331,7 +332,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
             bg: t.surfaceAlt,
             border: t.border,
             onTap: _toggleTheme,
-            tooltip: _isDark ? 'Switch to Light' : 'Switch to Dark',
+            tooltip: _isDark ? AppLocalizations.of(context).adminSwitchLight : AppLocalizations.of(context).adminSwitchDark,
           ),
 
           const SizedBox(width: 4),
@@ -343,7 +344,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
             bg: t.surfaceAlt,
             border: t.border,
             onTap: _loadStats,
-            tooltip: 'Refresh',
+            tooltip: AppLocalizations.of(context).adminRefresh,
           ),
 
           const SizedBox(width: 4),
@@ -355,7 +356,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
             bg: _DashTheme.rose.withValues(alpha: 0.08),
             border: _DashTheme.rose.withValues(alpha: 0.2),
             onTap: _logout,
-            tooltip: 'Logout',
+            tooltip: AppLocalizations.of(context).adminLogout,
           ),
         ],
       ),
@@ -395,25 +396,25 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
   Widget _buildStatsGrid(_DashTheme t) {
     final stats = [
       _StatData(
-        'Total Users',
+        AppLocalizations.of(context).adminTotalUsers,
         '$_totalUsers',
         Icons.people_alt_rounded,
         _DashTheme.accent,
       ),
       _StatData(
-        'Admins',
+        AppLocalizations.of(context).adminAdmins,
         '$_totalAdmins',
         Icons.admin_panel_settings_rounded,
         _DashTheme.amber,
       ),
       _StatData(
-        'Active Today',
+        AppLocalizations.of(context).adminActiveToday,
         '$_dailyActive',
         Icons.today_rounded,
         _DashTheme.rose,
       ),
       _StatData(
-        'Active / Week',
+        AppLocalizations.of(context).adminActiveWeek,
         '$_weeklyActive',
         Icons.date_range_rounded,
         _DashTheme.teal,
@@ -646,14 +647,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
         if (docs.isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(24),
-            child: Text('No users yet.', style: TextStyle(color: t.textMuted)),
+            child: Text(AppLocalizations.of(context).adminNoUsersYet, style: TextStyle(color: t.textMuted)),
           );
         }
 
         return Column(
           children: docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            final name = data['username'] ?? data['name'] ?? 'Unknown';
+            final name = data['username'] ?? data['name'] ?? AppLocalizations.of(context).adminUnknown;
             final email = data['email'] ?? '';
             final role = data['role'] ?? 'user';
             final isAdmin = role == 'admin';
@@ -731,8 +732,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                                     color: _DashTheme.amber.withValues(alpha: 0.3),
                                   ),
                                 ),
-                                child: const Text(
-                                  'ADMIN',
+                                child: Text(
+                                  AppLocalizations.of(context).adminBadge,
                                   style: TextStyle(
                                     color: _DashTheme.amber,
                                     fontSize: 9,
@@ -746,7 +747,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          email.isNotEmpty ? email : 'No email',
+                          email.isNotEmpty ? email : AppLocalizations.of(context).adminNoEmail,
                           style: TextStyle(
                             color: t.textSecondary,
                             fontSize: 11,
@@ -794,7 +795,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
           ),
           const SizedBox(height: 14),
           Text(
-            'Loading dashboard...',
+            AppLocalizations.of(context).adminLoading,
             style: TextStyle(color: t.textSecondary, fontSize: 13),
           ),
         ],

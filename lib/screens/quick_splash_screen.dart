@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class _QuickSplashScreenState extends State<QuickSplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -62,7 +64,7 @@ class _QuickSplashScreenState extends State<QuickSplashScreen> {
                       strokeWidth: 3,
                       color: V6Colors.citrus,
                       backgroundColor: V6Colors.onPrimary.withValues(alpha: 0.3),
-                      semanticsLabel: 'Loading',
+                      semanticsLabel: t.commonLoading,
                     ),
                   ),
                 ),

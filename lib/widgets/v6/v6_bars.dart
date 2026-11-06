@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../learning/theme/v6_colors.dart';
@@ -62,7 +63,7 @@ class V6TopAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     this.onBack,
-    this.backTooltip = 'Back',
+    this.backTooltip,
     this.trailing,
   });
 
@@ -70,7 +71,8 @@ class V6TopAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// Null hides the back button.
   final VoidCallback? onBack;
-  final String backTooltip;
+  /// Defaults to "Back" in the app language.
+  final String? backTooltip;
   final Widget? trailing;
 
   @override
@@ -84,7 +86,7 @@ class V6TopAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Row(
         children: [
           if (onBack != null) ...[
-            V6IconButton(icon: Icons.arrow_back_rounded, tooltip: backTooltip, onPressed: onBack),
+            V6IconButton(icon: Icons.arrow_back_rounded, tooltip: backTooltip ?? AppLocalizations.of(context).back, onPressed: onBack),
             const SizedBox(width: 4),
           ] else
             const SizedBox(width: 16),

@@ -4,17 +4,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hibalo_app/l10n/app_language.dart';
 import 'package:hibalo_app/learning/data/lesson_repository.dart';
 import 'package:hibalo_app/learning/models/catalog.dart';
 import 'package:hibalo_app/learning/models/progress.dart';
 import 'package:hibalo_app/learning/state/learning_progress.dart';
-import 'package:hibalo_app/screens/about_screens.dart';
 import 'package:hibalo_app/screens/edit_profile_screen.dart';
 import 'package:hibalo_app/screens/help_support_screen.dart';
 import 'package:hibalo_app/screens/profile_screen.dart';
 import 'package:hibalo_app/screens/settings_screen.dart';
 import 'package:hibalo_app/theme/v6_app_theme.dart';
 import 'package:hibalo_app/widgets/v6/v6_avatar.dart';
+import 'package:hibalo_app/l10n/app_localizations.dart';
+import 'package:hibalo_app/services/account_service.dart';
+import 'package:hibalo_app/widgets/v6/v6.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,16 +31,31 @@ void main() {
   setUpAll(() async {
     catalog = (await LessonRepository.load(rootBundle)).catalog;
   });
-  setUp(() => SharedPreferences.setMockInitialValues({}));
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+    PackageInfo.setMockInitialValues(
+      appName: 'Hibalo',
+      packageName: 'com.example.hibalo_app',
+      version: '1.0.0',
+      buildNumber: '1',
+      buildSignature: '',
+    );
+  });
+  final en = lookupAppLocalizations(const Locale('en'));
 
-  Future<void> pump(WidgetTester tester, Widget home) async {
-    tester.view.physicalSize = const Size(360, 1000);
+  Future<void> pump(WidgetTester tester, Widget home, {double height = 1000}) async {
+    tester.view.physicalSize = Size(360, height);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     await tester.pumpWidget(
       ChangeNotifierProvider.value(
         value: LearningProgress.ready(catalog, ProgressSnapshot()),
-        child: MaterialApp(theme: buildAppTheme(), home: home),
+        child: MaterialApp(
+          localizationsDelegates: AppLanguage.delegates,
+          supportedLocales: AppLanguage.supportedLocales,
+          theme: buildAppTheme(),
+          home: home,
+        ),
       ),
     );
     await tester.pumpAndSettle();
@@ -65,7 +84,7 @@ void main() {
   });
 
   group('Me', () {
-    testWidgets('profile card and Account rows; Language is hidden', (tester) async {
+    testWidgets('profile card and Account rows, with Language', (tester) async {
       await pump(
         tester,
         ProfileScreen(userName: 'ana_hibalo', photoUrl: 'asset:avatar1', email: 'ana@example.com', onLogout: () {}),
@@ -75,10 +94,10 @@ void main() {
       expect(find.text('ana@example.com'), findsOneWidget);
       expect(find.text('${catalog.levels.first.title} · Level 1'), findsOneWidget);
       expect(find.text('DAY STREAK'), findsOneWidget);
-      for (final row in ['Edit profile', 'Settings', 'Help & Support', 'Log out']) {
+      for (final row in ['Edit profile', 'Language', 'Settings', 'Help & Support', 'Log out']) {
         expect(find.text(row), findsOneWidget, reason: row);
       }
-      expect(find.text('Language'), findsNothing);
+      expect(find.text('English'), findsOneWidget, reason: 'the Language row shows the current language');
     });
 
     testWidgets('Log out asks first; Stay keeps you, Log out logs out', (tester) async {
@@ -128,9 +147,10 @@ void main() {
   });
 
   group('Edit profile', () {
-    testWidgets('username + avatar only; saves "asset:avatarN"; short name shows the error', (tester) async {
-      final saved = <(String, String)>[];
+    Future<(_FakeAccount, List<Object?>, List<int>)> openEdit(WidgetTester tester, {String? photo}) async {
+      final account = _FakeAccount();
       final results = <Object?>[];
+      final deleted = <int>[];
       await pump(
         tester,
         Builder(
@@ -142,8 +162,9 @@ void main() {
                   MaterialPageRoute(
                     builder: (_) => EditProfileScreen(
                       currentUsername: 'ana_hibalo',
-                      currentPhotoUrl: _diceBearMochi,
-                      save: (name, photo) async => saved.add((name, photo)),
+                      currentPhotoUrl: photo ?? _diceBearMochi,
+                      account: account,
+                      onAccountDeleted: () => deleted.add(1),
                     ),
                   ),
                 ),
@@ -152,30 +173,141 @@ void main() {
             ),
           ),
         ),
+        height: 1600,
       );
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
+      return (account, results, deleted);
+    }
 
-      expect(find.text('Choose an avatar'), findsOneWidget);
-      expect(find.text('10/30'), findsOneWidget);
-      for (final hidden in ['Email', 'New password', 'Forgot your password?', 'Delete account']) {
-        expect(find.text(hidden), findsNothing, reason: hidden);
+    /// The text field under [label] (V6TextField: label, then the field).
+    Finder field(String label) => find.descendant(
+      of: find.ancestor(of: find.text(label), matching: find.byType(V6TextField)),
+      matching: find.byType(TextField),
+    );
+
+    const current = "Current password (to confirm it's you)";
+
+    testWidgets('all Figma fields; username + avatar save as "asset:avatarN"; short name shows the error', (
+      tester,
+    ) async {
+      final (account, results, _) = await openEdit(tester);
+      for (final label in [
+        'Choose an avatar',
+        'Username',
+        'Email',
+        'New password',
+        'Confirm new password',
+        current,
+        'Only needed to change your email or password.',
+        'Forgot your password?',
+        'Save changes',
+        'Delete account',
+      ]) {
+        expect(find.text(label), findsWidgets, reason: label);
       }
+      expect(find.text('10/30'), findsOneWidget);
+      expect(find.text('ana@example.com'), findsOneWidget, reason: 'the email field shows the current email');
       // The old DiceBear avatar starts on its slot (3).
       expect(tester.getSemantics(find.bySemanticsLabel('Avatar 3')).flagsCollection.isSelected.name, 'isTrue');
 
-      await tester.enterText(find.byType(TextField), 'An');
+      await tester.enterText(field('Username'), 'An');
       await tester.tap(find.text('Save changes'));
       await tester.pumpAndSettle();
       expect(find.text('Username must be at least 3 characters.'), findsOneWidget);
-      expect(saved, isEmpty);
+      expect(account.calls, isEmpty);
 
-      await tester.enterText(find.byType(TextField), 'ana_new');
+      await tester.enterText(field('Username'), 'ana_new');
       await tester.tap(find.bySemanticsLabel('Avatar 5'));
       await tester.tap(find.text('Save changes'));
       await tester.pumpAndSettle();
-      expect(saved, [('ana_new', 'asset:avatar5')]);
+      expect(account.calls, ['save ana_new asset:avatar5'], reason: 'no password needed for name and avatar');
       expect(results, [true], reason: 'Me then shows "Profile updated"');
+    });
+
+    testWidgets('wrong current password: the error, and nothing changes', (tester) async {
+      final (account, results, _) = await openEdit(tester);
+      account.passwordOk = false;
+      await tester.enterText(field('New password'), 'newpass123');
+      await tester.enterText(field('Confirm new password'), 'newpass123');
+      await tester.enterText(field(current), 'wrong1');
+      await tester.tap(find.text('Save changes'));
+      await tester.pumpAndSettle();
+      expect(find.text("That password isn't right. Try again."), findsOneWidget);
+      expect(account.calls, ['confirm wrong1']);
+      expect(results, isEmpty);
+    });
+
+    testWidgets('new password: rules as Sign Up, needs the current password, then changes it', (tester) async {
+      final (account, results, _) = await openEdit(tester);
+      await tester.enterText(field('New password'), 'abc');
+      await tester.enterText(field('Confirm new password'), 'abd');
+      await tester.tap(find.text('Save changes'));
+      await tester.pumpAndSettle();
+      expect(find.text('At least 6 characters'), findsOneWidget);
+      expect(find.text('Passwords do not match'), findsOneWidget);
+      expect(find.text('Enter your current password to change your email or password.'), findsOneWidget);
+      expect(account.calls, isEmpty);
+
+      await tester.enterText(field('New password'), 'newpass123');
+      await tester.enterText(field('Confirm new password'), 'newpass123');
+      await tester.enterText(field(current), 'old123');
+      await tester.tap(find.text('Save changes'));
+      await tester.pumpAndSettle();
+      expect(account.calls, ['confirm old123', 'save ana_hibalo asset:avatar3', 'password newpass123']);
+      expect(results, [true]);
+    });
+
+    testWidgets('new email: verify link, "Check your new email", Resend link', (tester) async {
+      final (account, results, _) = await openEdit(tester);
+      await tester.enterText(field('Email'), 'ana.new@example.com');
+      await tester.enterText(field(current), 'old123');
+      await tester.tap(find.text('Save changes'));
+      await tester.pumpAndSettle();
+      expect(find.text('Check your new email'), findsOneWidget);
+      expect(find.textContaining('We sent a link to ana.new@example.com'), findsOneWidget);
+      await tester.tap(find.text('Resend link'));
+      await tester.pumpAndSettle();
+      expect(account.calls.where((c) => c == 'email ana.new@example.com'), hasLength(2));
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+      expect(results, [true]);
+    });
+
+    testWidgets('Delete account: needs the current password, then confirm; Keep does nothing', (tester) async {
+      final (account, _, deleted) = await openEdit(tester);
+      await tester.tap(find.text('Delete account'));
+      await tester.pumpAndSettle();
+      expect(find.text('Enter your current password to delete your account.'), findsOneWidget);
+      expect(find.text('Delete your account?'), findsNothing);
+
+      await tester.enterText(field(current), 'old123');
+      await tester.tap(find.text('Delete account'));
+      await tester.pumpAndSettle();
+      expect(find.text('Delete your account?'), findsOneWidget);
+      await tester.tap(find.text('Keep my account'));
+      await tester.pumpAndSettle();
+      expect(account.calls, isEmpty);
+
+      await tester.tap(find.text('Delete account'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete account').last);
+      await tester.pumpAndSettle();
+      expect(account.calls, ['confirm old123', 'delete']);
+      expect(deleted, [1], reason: 'then Sign Up');
+    });
+
+    testWidgets('Delete account with a wrong password deletes nothing', (tester) async {
+      final (account, _, deleted) = await openEdit(tester);
+      account.passwordOk = false;
+      await tester.enterText(field(current), 'wrong1');
+      await tester.tap(find.text('Delete account'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete account').last);
+      await tester.pumpAndSettle();
+      expect(find.text("That password isn't right. Try again."), findsOneWidget);
+      expect(account.calls, ['confirm wrong1']);
+      expect(deleted, isEmpty);
     });
   });
 
@@ -184,11 +316,12 @@ void main() {
       await pump(tester, const SettingsScreen());
       expect(find.text('Clear translation history'), findsOneWidget);
       expect(find.text('Clear saved words'), findsOneWidget);
-      expect(find.text('App version'), findsNothing, reason: 'hidden: no version source yet');
+      expect(find.text('App version'), findsOneWidget);
+      expect(find.text('Hibalo 1.0.0'), findsOneWidget);
 
       await tester.tap(find.text('Privacy policy'));
       await tester.pumpAndSettle();
-      expect(find.text(kPrivacyIntro), findsOneWidget);
+      expect(find.text(en.privacyIntro), findsOneWidget);
       expect(
         find.textContaining('Your translation history and saved words are kept only on your phone', findRichText: true),
         findsOneWidget,
@@ -198,7 +331,7 @@ void main() {
 
       await tester.tap(find.text('Credits & licences'));
       await tester.pumpAndSettle();
-      expect(find.text(kCreditsIntro), findsOneWidget);
+      expect(find.text(en.creditsIntro), findsOneWidget);
       expect(find.textContaining('CC BY-NC 4.0', findRichText: true), findsOneWidget);
       await tester.ensureVisible(find.text('Open-source software'));
       await tester.pumpAndSettle();
@@ -209,13 +342,40 @@ void main() {
 
     testWidgets('Help: one answer open at a time, and the contact row', (tester) async {
       await pump(tester, const HelpSupportScreen());
-      expect(find.text(kFaqs[0].$2), findsOneWidget, reason: 'the first answer is open, as in Figma');
-      await tester.tap(find.text(kFaqs[4].$1));
+      expect(find.text(faqs(en)[0].$2), findsOneWidget, reason: 'the first answer is open, as in Figma');
+      await tester.tap(find.text(faqs(en)[4].$1));
       await tester.pumpAndSettle();
-      expect(find.text(kFaqs[4].$2), findsOneWidget);
-      expect(find.text(kFaqs[0].$2), findsNothing);
+      expect(find.text(faqs(en)[4].$2), findsOneWidget);
+      expect(find.text(faqs(en)[0].$2), findsNothing);
       expect(find.text('Still need help?'), findsOneWidget);
       expect(find.text('Email us at $kSupportEmail'), findsOneWidget);
     });
   });
+}
+
+/// Records what Edit profile asks the account to do.
+class _FakeAccount implements AccountActions {
+  final calls = <String>[];
+  bool passwordOk = true;
+
+  @override
+  String? get email => 'ana@example.com';
+
+  @override
+  Future<void> saveProfile(String username, String photoUrl) async => calls.add('save $username $photoUrl');
+
+  @override
+  Future<void> confirmPassword(String password) async {
+    calls.add('confirm $password');
+    if (!passwordOk) throw const AccountException(AccountProblem.wrongPassword);
+  }
+
+  @override
+  Future<void> changeEmail(String newEmail) async => calls.add('email $newEmail');
+
+  @override
+  Future<void> changePassword(String newPassword) async => calls.add('password $newPassword');
+
+  @override
+  Future<void> deleteAccount() async => calls.add('delete');
 }

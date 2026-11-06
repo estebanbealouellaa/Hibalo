@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart' as app; // ← PREFIX ADDED
@@ -31,7 +32,7 @@ class AdminEntryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.white54),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
@@ -41,7 +42,7 @@ class AdminEntryButton extends StatelessWidget {
             ),
             SizedBox(width: 4),
             Text(
-              'Admin',
+              AppLocalizations.of(context).adminEntry,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,

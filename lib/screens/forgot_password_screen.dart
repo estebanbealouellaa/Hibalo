@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +42,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Future<bool> _sendLink() async {
+    final t = AppLocalizations.of(context);
     setState(() {
       _loading = true;
       _banner = null;
@@ -52,8 +54,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       debugPrint('Reset failed: ${e.code} ${e.message}');
       if (mounted) {
         setState(() => _banner = e.code == 'network-request-failed'
-            ? const V6Banner(type: V6BannerType.warning, message: 'No internet. Connect to send the link.')
-            : V6Banner(type: V6BannerType.error, message: e.message ?? 'Something went wrong. Try again.'));
+            ? V6Banner(type: V6BannerType.warning, message: t.forgotNoInternet)
+            : V6Banner(type: V6BannerType.error, message: e.message ?? t.commonSomethingWrong));
       }
       return false;
     } catch (e) {
@@ -75,11 +77,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Future<void> _resend() async {
-    if (await _sendLink() && mounted) showV6Snackbar(context, 'Reset link sent again');
+    final t = AppLocalizations.of(context);
+    if (await _sendLink() && mounted) showV6Snackbar(context, t.forgotLinkSentAgain);
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
@@ -101,13 +105,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           children: [V6Wordmark(), V6LogoMark()],
                         ),
                         const SizedBox(height: 24),
-                        Text(_sent ? 'Check your email' : 'Forgot your password?', style: V6Text.headlineXl),
+                        Text(_sent ? t.forgotCheckEmail : t.forgotTitle, style: V6Text.headlineXl),
                         const SizedBox(height: 8),
                         Text(
                           _sent
-                              ? 'We sent a reset link to ${_emailCtrl.text.trim()}. '
-                                  'Open it on this phone to make a new password.'
-                              : 'Enter your email and we\'ll send you a link to make a new one.',
+                              ? t.forgotSentTo(_emailCtrl.text.trim())
+                              : t.forgotBody,
                           style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted),
                         ),
                         const SizedBox(height: 24),
@@ -125,8 +128,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           const SizedBox(height: 44),
                           V6TextField(
                             controller: _emailCtrl,
-                            label: 'Email',
-                            hint: 'Enter email',
+                            label: t.commonEmail,
+                            hint: t.commonEnterEmail,
                             fieldLabel: true,
                             enabled: !_loading,
                             keyboardType: TextInputType.emailAddress,
@@ -134,17 +137,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             autofillHints: const [AutofillHints.email],
                             onSubmitted: (_) => _submit(),
                             validator: (v) {
-                              final t = v?.trim() ?? '';
-                              if (t.isEmpty) return 'Enter your email';
-                              if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(t)) {
-                                return 'That email doesn\'t look right';
+                              final value = v?.trim() ?? '';
+                              if (value.isEmpty) return t.commonEnterYourEmail;
+                              if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value)) {
+                                return t.commonEmailLooksWrong;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 24),
                           V6Button(
-                            label: _loading ? 'Sending…' : 'Send reset link',
+                            label: _loading ? t.forgotSending : t.forgotSendLink,
                             loading: _loading,
                             expand: true,
                             onPressed: _submit,
@@ -154,7 +157,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         const SizedBox(height: 16),
                         if (_sent)
                           V6Button(
-                            label: 'Back to sign in',
+                            label: t.forgotBackToSignIn,
                             expand: true,
                             onPressed: () => Navigator.of(context).maybePop(),
                           ),
@@ -164,14 +167,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             Text(
-                              _sent ? 'Didn\'t get it?' : 'Remembered it?',
+                              _sent ? t.forgotDidntGetIt : t.forgotRemembered,
                               style: V6Text.bodyMedium.copyWith(color: V6Colors.textNeutralStrong),
                             ),
                             const SizedBox(width: 4),
                             _sent
-                                ? V6TextLink(label: 'Resend link', onTap: _loading ? null : _resend)
+                                ? V6TextLink(label: t.forgotResend, onTap: _loading ? null : _resend)
                                 : V6TextLink(
-                                    label: 'Back to sign in',
+                                    label: t.forgotBackToSignIn,
                                     onTap: () => Navigator.of(context).maybePop(),
                                   ),
                           ],

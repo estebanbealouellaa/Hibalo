@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,11 @@ import 'package:provider/provider.dart';
 import '../learning/learning_routes.dart';
 import '../learning/screens/learn_screen.dart';
 import '../providers/translator_provider.dart';
+import '../services/account_service.dart';
 import '../services/translation_store.dart';
 import '../widgets/v6/v6_nav_bar.dart';
 import 'home/home_tab.dart';
+import 'language_screen.dart';
 import 'profile_screen.dart';
 import 'translator_screen.dart';
 
@@ -63,6 +66,14 @@ class HomeScreenState extends State<HomeScreen> {
     // "Back to lessons", Continue on S04/S05 and Leave return to Learn.
     LearningRoutes.showLearnTab = _showLearn;
     TranslationStore.instance.setUser(FirebaseAuthSafe.uid());
+    if (widget.tabs == null) {
+      // After a verified email change, users/{uid} gets the new email.
+      syncEmail();
+      // Figma 705:7496: once per phone, the first time Home opens.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) askLanguageOnce(context);
+      });
+    }
   }
 
   @override
@@ -99,7 +110,7 @@ class HomeScreenState extends State<HomeScreen> {
       stream: _userDoc,
       builder: (context, snapshot) {
         final data = snapshot.data;
-        final userName = (data?['username'] as String?) ?? 'User';
+        final userName = (data?['username'] as String?) ?? AppLocalizations.of(context).meUser;
         final photoUrl = (data?['photoUrl'] as String?) ?? FirebaseAuthSafe.photoUrl();
         return PopScope(
           canPop: _tab == HomeScreen.homeTab,
@@ -129,11 +140,11 @@ class HomeScreenState extends State<HomeScreen> {
               bottomNavigationBar: V6NavBar(
                 selected: _tab,
                 onSelect: select,
-                items: const [
-                  V6NavItem(Icons.home_rounded, 'Home'),
-                  V6NavItem(Icons.translate_rounded, 'Translate'),
-                  V6NavItem(Icons.menu_book_rounded, 'Learn'),
-                  V6NavItem(Icons.person_rounded, 'Me'),
+                items: [
+                  V6NavItem(Icons.home_rounded, AppLocalizations.of(context).navHome),
+                  V6NavItem(Icons.translate_rounded, AppLocalizations.of(context).navTranslate),
+                  V6NavItem(Icons.menu_book_rounded, AppLocalizations.of(context).navLearn),
+                  V6NavItem(Icons.person_rounded, AppLocalizations.of(context).navMe),
                 ],
               ),
             ),

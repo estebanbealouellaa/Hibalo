@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hibalo_app/l10n/app_language.dart';
 import 'package:hibalo_app/main.dart';
 import 'package:hibalo_app/screens/quick_splash_screen.dart';
 import 'package:hibalo_app/screens/splash_screen.dart';
@@ -35,7 +36,13 @@ void main() {
 
   testWidgets('later launches show the plain splash: the wordmark only', (tester) async {
     var ready = 0;
-    await tester.pumpWidget(MaterialApp(home: QuickSplashScreen(onReady: () => ready++)));
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLanguage.delegates,
+        supportedLocales: AppLanguage.supportedLocales,
+        home: QuickSplashScreen(onReady: () => ready++),
+      ),
+    );
     expect(find.text('Hibalo'), findsOneWidget);
     expect(find.text('Hiligaynon · Filipino'), findsNothing);
     expect(find.byType(Image), findsNothing, reason: 'no mascot');

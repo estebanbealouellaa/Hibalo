@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../widgets/v6/v6.dart';
 
 /// One section of an info card: an optional icon, a title and the text.
@@ -12,90 +13,49 @@ class InfoSection {
   final VoidCallback? onTap;
 }
 
-/// The Privacy policy text (Lance, Nov 6), shown word for word: each row is
-/// "Label: text" with the label in bold.
-const String kPrivacyIntro =
-    'Hibalo was made by students of the Polytechnic University of the Philippines for a capstone study.';
-const List<InfoSection> kPrivacySections = [
-  InfoSection(
-    'What we save',
-    'your username, email address and chosen avatar; when you signed up and last signed in; and your learning '
-        'progress (lessons finished, quiz scores, XP and streak). These are saved in Google Firebase so your '
-        "progress isn't lost.",
-  ),
-  InfoSection(
-    "What we don't save",
-    'the text you translate, the pictures you scan and your voice. Your translation history and saved words are '
-        'kept only on your phone; uninstalling the app or clearing them in Settings deletes them. Translation and '
-        "picture reading happen on your phone. Speech-to-text uses your phone's own speech service, which may "
-        "follow Google's privacy terms. Speaking practice in lessons is kept on your phone only while you use it, "
-        'then deleted.',
-  ),
-  InfoSection(
-    'Who can see your data',
-    "only you and the research team (app administrators). You can't see other users' data, and they can't see "
-        'yours.',
-  ),
-  InfoSection('How your data is used', 'only for this study. It is not sold or shared.'),
-  InfoSection('Deleting your data', 'ask the research team, and they will delete your account and progress.'),
-  InfoSection('Questions', 'contact the Hibalo research team.'),
-];
-
-/// Settings › Privacy policy (Figma 619:6273 layout).
+/// Settings › Privacy policy (Figma 619:6273 layout). Lance's text (Nov 6),
+/// word for word in English: each row is "Label: text" with the label in
+/// bold. Filipino and Hiligaynon are drafts.
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _InfoPage(title: 'Privacy policy', intro: kPrivacyIntro, sections: kPrivacySections);
+    final t = AppLocalizations.of(context);
+    return _InfoPage(
+      title: t.settingsPrivacy,
+      intro: t.privacyIntro,
+      sections: [
+        InfoSection(t.privacySaveLabel, t.privacySaveText),
+        InfoSection(t.privacyNotSaveLabel, t.privacyNotSaveText),
+        InfoSection(t.privacyWhoLabel, t.privacyWhoText),
+        InfoSection(t.privacyUseLabel, t.privacyUseText),
+        InfoSection(t.privacyDeleteLabel, t.privacyDeleteText),
+        InfoSection(t.privacyQuestionsLabel, t.privacyQuestionsText),
+      ],
+    );
   }
 }
 
-/// The Credits & licences text (Lance, Nov 6), shown exactly as written.
-const String kCreditsIntro = 'Made by the Hibalo team, Polytechnic University of the Philippines.';
-
-/// Settings › Credits & licences (Figma 612:5896 layout). The last row opens
-/// Flutter's licence list.
+/// Settings › Credits & licences (Figma 612:5896 layout). Lance's text (Nov
+/// 6). The last row opens Flutter's licence list.
 class CreditsScreen extends StatelessWidget {
   const CreditsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return _InfoPage(
-      title: 'Credits & licences',
-      intro: kCreditsIntro,
+      title: t.settingsCredits,
+      intro: t.creditsIntro,
       sections: [
-        const InfoSection(
-          'Hiligaynon voice',
-          "a fine-tuned version of Meta's MMS-TTS (VITS) model, licensed CC BY-NC 4.0 (non-commercial use only).",
-          icon: Icons.graphic_eq_rounded,
-        ),
-        const InfoSection(
-          'Voice training data',
-          'Philippine Languages Database (PLD), University of the Philippines Diliman Digital Signal Processing '
-              'Laboratory (UP-DSP).',
-          icon: Icons.dataset_rounded,
-        ),
-        const InfoSection(
-          'Translation',
-          'a MarianMT model trained by the Hibalo team, with help from the MADLAD-400 model and public Hiligaynon '
-              'and Filipino texts.',
-          icon: Icons.translate_rounded,
-        ),
-        const InfoSection(
-          'Lesson content',
-          'written by the Hibalo team and checked against public references, including Omniglot, Iloilo Directory, '
-              'Wikipedia, the ERIC Hiligaynon language packet (ED402758) and pinoydictionary.com.',
-          icon: Icons.menu_book_rounded,
-        ),
-        const InfoSection(
-          'Text reading',
-          'Google ML Kit. Font: Plus Jakarta Sans (SIL Open Font License). Icons: Material Symbols (Apache License '
-              '2.0).',
-          icon: Icons.star_rounded,
-        ),
+        InfoSection(t.creditsVoiceLabel, t.creditsVoiceText, icon: Icons.graphic_eq_rounded),
+        InfoSection(t.creditsDataLabel, t.creditsDataText, icon: Icons.dataset_rounded),
+        InfoSection(t.creditsTranslationLabel, t.creditsTranslationText, icon: Icons.translate_rounded),
+        InfoSection(t.creditsLessonsLabel, t.creditsLessonsText, icon: Icons.menu_book_rounded),
+        InfoSection(t.creditsReadingLabel, t.creditsReadingText, icon: Icons.star_rounded),
         InfoSection(
-          'Open-source software',
+          t.creditsOpenSource,
           null,
           icon: Icons.code_rounded,
           onTap: () => showLicensePage(context: context, applicationName: 'Hibalo'),

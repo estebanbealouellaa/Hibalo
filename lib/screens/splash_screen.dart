@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final reduce = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
@@ -91,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       ),
                       SizedBox(height: 16 * s),
                       Text(
-                        'Hiligaynon · Filipino',
+                        t.splashTagline,
                         textAlign: TextAlign.center,
                         style: V6Text.bodyLargeMedium.copyWith(color: V6Colors.onPrimaryMuted),
                       ),
@@ -110,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         strokeWidth: 3,
                         color: V6Colors.citrus,
                         backgroundColor: V6Colors.onPrimary.withValues(alpha: 0.3),
-                        semanticsLabel: 'Loading',
+                        semanticsLabel: t.commonLoading,
                       ),
                     ),
                   ),

@@ -1,6 +1,7 @@
 // What the user sees when the phone has no offline Filipino voice. All the
 // text is here, so it is easy to change.
 
+import '../l10n/app_localizations.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +9,6 @@ import 'package:flutter/services.dart';
 
 import 'v6/v6.dart';
 
-const String kFilipinoVoiceDialogTitle = 'Filipino voice';
-const String kFilipinoVoiceDialogText =
-    'Para marinig ang Filipino, i-install ang Filipino voice ng iyong telepono.';
-const String kFilipinoVoiceInstallButton = 'I-install';
-const String kFilipinoVoiceLaterButton = 'Mamaya na';
-const String kFilipinoVoiceSnackBarText =
-    'Wala pang Filipino voice sa telepono. I-install sa Settings.';
-const String kFilipinoVoiceNotReadyText =
-    'Hindi pa handa ang Filipino voice. Kumonekta sa internet at subukan ulit.';
 
 /// The phone's voice install screen first, then its speech settings.
 const List<String> _installActions = [
@@ -30,25 +22,25 @@ bool _dialogShown = false;
 /// Shows the dialog the first time, and a short SnackBar after that.
 Future<void> showFilipinoVoiceHelp(BuildContext context) async {
   if (_dialogShown) {
-    showV6Snackbar(context, kFilipinoVoiceSnackBarText, icon: Icons.info_outline_rounded);
+    showV6Snackbar(context, AppLocalizations.of(context).voiceFilipinoMissing, icon: Icons.info_outline_rounded);
     return;
   }
   _dialogShown = true;
 
   final install = await showV6Dialog(
     context,
-    title: kFilipinoVoiceDialogTitle,
-    message: kFilipinoVoiceDialogText,
+    title: AppLocalizations.of(context).voiceFilipinoTitle,
+    message: AppLocalizations.of(context).voiceFilipinoInstall,
     mascot: 'firefly_phone',
-    primaryLabel: kFilipinoVoiceInstallButton,
-    secondaryLabel: kFilipinoVoiceLaterButton,
+    primaryLabel: AppLocalizations.of(context).voiceInstall,
+    secondaryLabel: AppLocalizations.of(context).voiceLater,
   );
   if (install) await _openVoiceInstall();
 }
 
 /// The phone lists a Filipino voice, but it didn't speak.
 void showFilipinoVoiceNotReady(BuildContext context) {
-  showV6Snackbar(context, kFilipinoVoiceNotReadyText, icon: Icons.info_outline_rounded);
+  showV6Snackbar(context, AppLocalizations.of(context).voiceFilipinoNotReady, icon: Icons.info_outline_rounded);
 }
 
 Future<void> _openVoiceInstall() async {

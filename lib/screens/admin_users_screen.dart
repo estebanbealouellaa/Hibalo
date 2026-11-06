@@ -1,3 +1,4 @@
+import '../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -32,8 +33,8 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       appBar: AppBar(
         backgroundColor: V6Colors.surface,
         elevation: 0,
-        title: const Text(
-          'Manage Users',
+        title: Text(
+          AppLocalizations.of(context).adminManageUsers,
           style: TextStyle(color: V6Colors.textPrimary, fontWeight: FontWeight.bold),
         ),
         iconTheme: const IconThemeData(color: V6Colors.textPrimary),
@@ -47,7 +48,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               controller: _searchController,
               style: const TextStyle(color: V6Colors.textPrimary),
               decoration: InputDecoration(
-                hintText: 'Search by name or email...',
+                hintText: AppLocalizations.of(context).adminSearch,
                 hintStyle: const TextStyle(color: V6Colors.textMuted),
                 prefixIcon: const Icon(Icons.search, color: V6Colors.textMuted),
                 filled: true,
@@ -70,7 +71,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: ChoiceChip(
-                    label: Text(f == 'all' ? 'All' : f.capitalize()),
+                    label: Text(f == 'all' ? AppLocalizations.of(context).adminAll : f.capitalize()),
                     selected: selected,
                     selectedColor: V6Colors.primary.withValues(alpha: 0.25),
                     backgroundColor: V6Colors.surface,
@@ -123,9 +124,9 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                 }).toList();
 
                 if (docs.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      'No users found.',
+                      AppLocalizations.of(context).adminNoUsersFound,
                       style: TextStyle(color: V6Colors.textMuted),
                     ),
                   );
@@ -150,8 +151,8 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   }
 
   Widget _userTile(String uid, Map<String, dynamic> data) {
-    final name = data['name'] ?? 'No Name';
-    final email = data['email'] ?? 'No Email';
+    final name = data['name'] ?? AppLocalizations.of(context).adminNoName;
+    final email = data['email'] ?? AppLocalizations.of(context).adminNoEmailCap;
     final role = data['role'] ?? 'user';
     final isAdmin = role == 'admin';
 
@@ -224,18 +225,18 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
           icon: const Icon(Icons.more_vert, color: V6Colors.textMuted),
           onSelected: (action) => _handleAction(action, uid, data),
           itemBuilder: (_) => [
-            _menuItem('edit', Icons.edit_rounded, 'Edit'),
+            _menuItem('edit', Icons.edit_rounded, AppLocalizations.of(context).adminEdit),
             _menuItem(
               isAdmin ? 'demote' : 'promote',
               isAdmin
                   ? Icons.remove_moderator_rounded
                   : Icons.admin_panel_settings_rounded,
-              isAdmin ? 'Remove Admin' : 'Make Admin',
+              isAdmin ? AppLocalizations.of(context).adminRemoveAdmin : AppLocalizations.of(context).adminMakeAdmin,
             ),
             _menuItem(
               'delete',
               Icons.delete_rounded,
-              'Delete',
+              AppLocalizations.of(context).adminDelete,
               destructive: true,
             ),
           ],
@@ -269,10 +270,10 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
         _showEditDialog(uid, data);
         break;
       case 'promote':
-        _updateUser(uid, {'role': 'admin'}, 'User promoted to admin');
+        _updateUser(uid, {'role': 'admin'}, AppLocalizations.of(context).adminPromoted);
         break;
       case 'demote':
-        _updateUser(uid, {'role': 'user'}, 'Admin role removed');
+        _updateUser(uid, {'role': 'user'}, AppLocalizations.of(context).adminDemoted);
         break;
       case 'delete':
         _confirmDelete(uid, data['name'] ?? 'this user');
@@ -285,11 +286,12 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
     Map<String, dynamic> fields,
     String successMsg,
   ) async {
+    final l10n = AppLocalizations.of(context);
     try {
       await _firestore.collection('users').doc(uid).update(fields);
       _showSnack(successMsg);
     } catch (e) {
-      _showSnack('Error: $e', error: true);
+      _showSnack(l10n.adminError(e), error: true);
     }
   }
 
@@ -302,23 +304,23 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       builder: (_) => AlertDialog(
         backgroundColor: V6Colors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text(
-          'Edit User',
+        title: Text(
+          AppLocalizations.of(context).adminEditUser,
           style: TextStyle(color: V6Colors.textPrimary, fontWeight: FontWeight.bold),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _field(nameCtrl, 'Name', Icons.person_rounded),
+            _field(nameCtrl, AppLocalizations.of(context).adminName, Icons.person_rounded),
             const SizedBox(height: 12),
-            _field(emailCtrl, 'Email', Icons.email_rounded),
+            _field(emailCtrl, AppLocalizations.of(context).commonEmail, Icons.email_rounded),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Cancel',
+            child: Text(
+              AppLocalizations.of(context).commonCancel,
               style: TextStyle(color: V6Colors.textMuted),
             ),
           ),
@@ -334,9 +336,9 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               await _updateUser(uid, {
                 'name': nameCtrl.text.trim(),
                 'email': emailCtrl.text.trim(),
-              }, 'User updated');
+              }, AppLocalizations.of(context).adminUserUpdated);
             },
-            child: const Text('Save', style: TextStyle(color: Colors.white)),
+            child: Text(AppLocalizations.of(context).commonSave, style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -367,22 +369,22 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       builder: (_) => AlertDialog(
         backgroundColor: V6Colors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text(
-          'Delete User',
+        title: Text(
+          AppLocalizations.of(context).adminDeleteUser,
           style: TextStyle(
             color: V6Colors.error,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: Text(
-          'Are you sure you want to delete "$name"?\nThis cannot be undone.',
+          AppLocalizations.of(context).adminDeleteConfirm(name),
           style: const TextStyle(color: V6Colors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Cancel',
+            child: Text(
+              AppLocalizations.of(context).commonCancel,
               style: TextStyle(color: V6Colors.textMuted),
             ),
           ),
@@ -394,6 +396,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               ),
             ),
             onPressed: () async {
+              final l10n = AppLocalizations.of(context);
               Navigator.pop(context);
               try {
                 // The user's learning progress first (lessonProgress and
@@ -403,12 +406,12 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                   uid,
                   also: (batch) => batch.delete(_firestore.collection('users').doc(uid)),
                 );
-                _showSnack('User deleted');
+                _showSnack(l10n.adminUserDeleted);
               } catch (e) {
-                _showSnack('Error: $e', error: true);
+                _showSnack(l10n.adminError(e), error: true);
               }
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text(AppLocalizations.of(context).adminDelete, style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -482,8 +485,8 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
       appBar: AppBar(
         backgroundColor: V6Colors.surface,
         elevation: 0,
-        title: const Text(
-          'Usage Analytics',
+        title: Text(
+          AppLocalizations.of(context).adminUsage,
           style: TextStyle(color: V6Colors.textPrimary, fontWeight: FontWeight.bold),
         ),
         iconTheme: const IconThemeData(color: V6Colors.textPrimary),
@@ -503,8 +506,8 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'DAILY ACTIVE USERS — LAST 7 DAYS',
+                  Text(
+                    AppLocalizations.of(context).adminDailyActive,
                     style: TextStyle(
                       color: V6Colors.textMuted,
                       fontSize: 12,
@@ -515,8 +518,8 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                   const SizedBox(height: 20),
                   _barChart(),
                   const SizedBox(height: 24),
-                  const Text(
-                    'BREAKDOWN',
+                  Text(
+                    AppLocalizations.of(context).adminBreakdown,
                     style: TextStyle(
                       color: V6Colors.textMuted,
                       fontSize: 12,
@@ -544,7 +547,7 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
                             style: const TextStyle(color: V6Colors.textSecondary),
                           ),
                           Text(
-                            '${e.value} active',
+                            AppLocalizations.of(context).adminActiveCount(e.value),
                             style: const TextStyle(
                               color: V6Colors.primary,
                               fontWeight: FontWeight.bold,

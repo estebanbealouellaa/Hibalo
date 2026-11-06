@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hibalo_app/l10n/app_language.dart';
 import 'package:hibalo_app/providers/translator_provider.dart';
 import 'package:hibalo_app/screens/translate/scan_pieces.dart';
 import 'package:hibalo_app/screens/translate/voice_popup.dart';
@@ -26,6 +27,8 @@ Future<void> _pump(WidgetTester tester, Widget child) async {
   addTearDown(tester.view.reset);
   await tester.pumpWidget(
     MaterialApp(
+      localizationsDelegates: AppLanguage.delegates,
+      supportedLocales: AppLanguage.supportedLocales,
       theme: buildAppTheme(),
       home: Scaffold(
         body: ListView(padding: const EdgeInsets.all(20), children: [child]),
@@ -214,6 +217,8 @@ void main() {
       ImageSource? picked;
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLanguage.delegates,
+          supportedLocales: AppLanguage.supportedLocales,
           theme: buildAppTheme(),
           home: Builder(
             builder: (context) => Scaffold(
@@ -314,6 +319,8 @@ void main() {
       String? picked;
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: AppLanguage.delegates,
+          supportedLocales: AppLanguage.supportedLocales,
           theme: buildAppTheme(),
           home: Builder(
             builder: (context) => Scaffold(
@@ -383,6 +390,8 @@ Future<_Outcome> _openPopup(WidgetTester tester, _FakeTranslator provider, {Perm
     ChangeNotifierProvider<TranslatorProvider>.value(
       value: provider,
       child: MaterialApp(
+        localizationsDelegates: AppLanguage.delegates,
+        supportedLocales: AppLanguage.supportedLocales,
         theme: buildAppTheme(),
         home: Builder(
           builder: (context) => Scaffold(
@@ -418,6 +427,8 @@ Future<TranslatorScreenState> _pumpTranslate(
     ChangeNotifierProvider<TranslatorProvider>.value(
       value: provider,
       child: MaterialApp(
+        localizationsDelegates: AppLanguage.delegates,
+        supportedLocales: AppLanguage.supportedLocales,
         theme: buildAppTheme(),
         home: TranslatorScreen(readPhoto: read),
       ),

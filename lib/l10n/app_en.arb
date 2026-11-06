@@ -1,331 +1,2198 @@
 {
   "@@locale": "en",
-
   "learnTitle": "Learn",
-  "@learnTitle": {"description": "S01 title."},
+  "@learnTitle": {
+    "description": "S01 title."
+  },
   "learnSubtitle": "Explore Hiligaynon through bite-sized lessons!",
-  "@learnSubtitle": {"description": "S01 line under the title."},
+  "@learnSubtitle": {
+    "description": "S01 line under the title."
+  },
   "learnSearchHint": "Search lessons...",
-  "@learnSearchHint": {"description": "S01 search field placeholder."},
+  "@learnSearchHint": {
+    "description": "S01 search field placeholder."
+  },
   "learnLessonsHeading": "Lessons",
-  "@learnLessonsHeading": {"description": "S01 heading above the lesson list."},
+  "@learnLessonsHeading": {
+    "description": "S01 heading above the lesson list."
+  },
   "learnLockedLevelsHint": "{levels}: finish {previous} to unlock",
   "@learnLockedLevelsHint": {
     "description": "S01 hint under the level tabs while later levels are locked, e.g. 'Intermediate and Advanced: finish Beginner to unlock'.",
-    "placeholders": {"levels": {"type": "String"}, "previous": {"type": "String"}}
+    "placeholders": {
+      "levels": {
+        "type": "String"
+      },
+      "previous": {
+        "type": "String"
+      }
+    }
   },
   "listAnd": "and",
-  "@listAnd": {"description": "Joins the last two names in a list: 'Intermediate and Advanced'."},
+  "@listAnd": {
+    "description": "Joins the last two names in a list: 'Intermediate and Advanced'."
+  },
   "learnLevelLocked": "Finish {previous} to unlock {level}",
   "@learnLevelLocked": {
     "description": "S01 snackbar when a locked level tab is tapped.",
-    "placeholders": {"previous": {"type": "String"}, "level": {"type": "String"}}
+    "placeholders": {
+      "previous": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
   },
   "learnNoResultsTitle": "No lessons found for '{query}'",
   "@learnNoResultsTitle": {
     "description": "S01 empty search result.",
-    "placeholders": {"query": {"type": "String"}}
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
   },
   "learnNoResultsHint": "Try another word, like 'greetings' or 'numbers'.",
-  "@learnNoResultsHint": {"description": "S01 empty search result, second line."},
+  "@learnNoResultsHint": {
+    "description": "S01 empty search result, second line."
+  },
   "learnComingSoon": "Lessons coming soon",
-  "@learnComingSoon": {"description": "S01 when an unlocked level has no lessons yet."},
+  "@learnComingSoon": {
+    "description": "S01 when an unlocked level has no lessons yet."
+  },
   "learnLoadError": "The lessons couldn't be loaded.",
-  "@learnLoadError": {"description": "S01 when lessons.json fails to load."},
+  "@learnLoadError": {
+    "description": "S01 when lessons.json fails to load."
+  },
   "tryAgain": "Try again",
-  "@tryAgain": {"description": "Retry button."},
+  "@tryAgain": {
+    "description": "Retry button."
+  },
   "back": "Back",
-  "@back": {"description": "Back button tooltip."},
-
+  "@back": {
+    "description": "Back button tooltip."
+  },
   "lessonMeta": "{parts} parts • {minutes} min",
   "@lessonMeta": {
     "description": "Lesson row meta line and S02 chip.",
-    "placeholders": {"parts": {"type": "int"}, "minutes": {"type": "int"}}
+    "placeholders": {
+      "parts": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
   },
-  "rowQuizPending": "Take the quiz to unlock Lesson\u00A0{next}",
+  "rowQuizPending": "Take the quiz to unlock Lesson {next}",
   "@rowQuizPending": {
     "description": "S01 row meta when the lesson is finished but its quiz isn't passed.",
-    "placeholders": {"next": {"type": "int"}}
+    "placeholders": {
+      "next": {
+        "type": "int"
+      }
+    }
   },
   "rowQuizPendingLast": "Take the quiz to finish {level}",
   "@rowQuizPendingLast": {
     "description": "Quiz pending on the last lesson of a level (no next lesson).",
-    "placeholders": {"level": {"type": "String"}}
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
   },
-  "rowLockedPassQuiz": "Pass Lesson\u00A0{lesson} quiz to unlock",
+  "rowLockedPassQuiz": "Pass Lesson {lesson} quiz to unlock",
   "@rowLockedPassQuiz": {
     "description": "S01 locked row: needs the quiz of an earlier lesson.",
-    "placeholders": {"lesson": {"type": "int"}}
+    "placeholders": {
+      "lesson": {
+        "type": "int"
+      }
+    }
   },
-  "rowLockedFinish": "Finish Lesson\u00A0{lesson} to unlock",
+  "rowLockedFinish": "Finish Lesson {lesson} to unlock",
   "@rowLockedFinish": {
     "description": "S01 locked row: needs an earlier lesson finished (Lesson 2).",
-    "placeholders": {"lesson": {"type": "int"}}
+    "placeholders": {
+      "lesson": {
+        "type": "int"
+      }
+    }
   },
   "rowCompleted": "Completed",
-  "@rowCompleted": {"description": "Screen reader label for a completed lesson row."},
+  "@rowCompleted": {
+    "description": "Screen reader label for a completed lesson row."
+  },
   "rowLocked": "Locked",
-  "@rowLocked": {"description": "Screen reader label for a locked row or level tab."},
-
+  "@rowLocked": {
+    "description": "Screen reader label for a locked row or level tab."
+  },
   "lessonNumber": "Lesson {number}",
   "@lessonNumber": {
     "description": "S02 top bar title.",
-    "placeholders": {"number": {"type": "int"}}
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
   },
   "inThisLesson": "In this lesson:",
-  "@inThisLesson": {"description": "S02 heading above the objectives."},
+  "@inThisLesson": {
+    "description": "S02 heading above the objectives."
+  },
   "startLesson": "Start lesson",
-  "@startLesson": {"description": "S02 primary button, not started."},
+  "@startLesson": {
+    "description": "S02 primary button, not started."
+  },
   "continueLesson": "Continue lesson",
-  "@continueLesson": {"description": "S02 primary button, in progress."},
+  "@continueLesson": {
+    "description": "S02 primary button, in progress."
+  },
   "reviewLesson": "Review lesson",
-  "@reviewLesson": {"description": "S02 primary button, completed."},
+  "@reviewLesson": {
+    "description": "S02 primary button, completed."
+  },
   "retakeQuiz": "Retake the quiz",
-  "@retakeQuiz": {"description": "S02 text button, completed."},
+  "@retakeQuiz": {
+    "description": "S02 text button, completed."
+  },
   "lessonProgressTitle": "Lesson progress",
-  "@lessonProgressTitle": {"description": "S02 progress card title."},
+  "@lessonProgressTitle": {
+    "description": "S02 progress card title."
+  },
   "partsProgress": "{done} / {total} parts",
   "@partsProgress": {
     "description": "S02 progress card count.",
-    "placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   },
   "completedQuizChip": "Completed · Quiz {score}/{total}",
   "@completedQuizChip": {
     "description": "S02 chip on a completed lesson: best quiz score.",
-    "placeholders": {"score": {"type": "int"}, "total": {"type": "int"}}
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   },
   "completedChip": "Completed",
-  "@completedChip": {"description": "S02 chip on a completed lesson with no quiz (Lesson 1)."},
-
+  "@completedChip": {
+    "description": "S02 chip on a completed lesson with no quiz (Lesson 1)."
+  },
   "partCaption": "Lesson {lesson} · Part {part} of {total}",
-  "@partCaption": {"description": "Caption under the segmented bar on every part.", "placeholders": {"lesson": {"type": "int"}, "part": {"type": "int"}, "total": {"type": "int"}}},
+  "@partCaption": {
+    "description": "Caption under the segmented bar on every part.",
+    "placeholders": {
+      "lesson": {
+        "type": "int"
+      },
+      "part": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "xpChip": "{xp} XP",
-  "@xpChip": {"description": "XP earned in this lesson so far (top right).", "placeholders": {"xp": {"type": "int"}}},
+  "@xpChip": {
+    "description": "XP earned in this lesson so far (top right).",
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "leaveLessonTooltip": "Leave the lesson",
-  "@leaveLessonTooltip": {"description": "X button tooltip on lesson parts."},
+  "@leaveLessonTooltip": {
+    "description": "X button tooltip on lesson parts."
+  },
   "nextButton": "Next",
-  "@nextButton": {"description": "Primary button on lesson parts."},
+  "@nextButton": {
+    "description": "Primary button on lesson parts."
+  },
   "finishAndPractice": "Finish & practice",
-  "@finishAndPractice": {"description": "Last part when the lesson has a quiz (settings.lessonButtons.lastPartWithQuiz)."},
+  "@finishAndPractice": {
+    "description": "Last part when the lesson has a quiz (settings.lessonButtons.lastPartWithQuiz)."
+  },
   "finishLesson": "Finish lesson",
-  "@finishLesson": {"description": "Last part when the lesson has no quiz (settings.lessonButtons.lastPartNoQuiz)."},
+  "@finishLesson": {
+    "description": "Last part when the lesson has no quiz (settings.lessonButtons.lastPartNoQuiz)."
+  },
   "leaveLessonTitle": "Leave this lesson?",
-  "@leaveLessonTitle": {"description": "S06 title, lesson version."},
+  "@leaveLessonTitle": {
+    "description": "S06 title, lesson version."
+  },
   "leaveLessonText": "You'll restart this part next time.",
-  "@leaveLessonText": {"description": "S06 text, lesson version."},
+  "@leaveLessonText": {
+    "description": "S06 text, lesson version."
+  },
   "keepGoing": "Keep going",
-  "@keepGoing": {"description": "S06 primary button."},
+  "@keepGoing": {
+    "description": "S06 primary button."
+  },
   "leave": "Leave",
-  "@leave": {"description": "S06 text button."},
+  "@leave": {
+    "description": "S06 text button."
+  },
   "newWordChip": "New word",
-  "@newWordChip": {"description": "P04 chip."},
+  "@newWordChip": {
+    "description": "P04 chip."
+  },
   "hiligaynonLabel": "Hiligaynon",
-  "@hiligaynonLabel": {"description": "Label above a Hiligaynon word and on term cards."},
+  "@hiligaynonLabel": {
+    "description": "Label above a Hiligaynon word and on term cards."
+  },
   "alsoSaid": "Also said: {alt}",
-  "@alsoSaid": {"description": "P04 line for another Hiligaynon way to say the word.", "placeholders": {"alt": {"type": "String"}}},
+  "@alsoSaid": {
+    "description": "P04 line for another Hiligaynon way to say the word.",
+    "placeholders": {
+      "alt": {
+        "type": "String"
+      }
+    }
+  },
   "playAudio": "Play",
-  "@playAudio": {"description": "Audio button label for screen readers."},
+  "@playAudio": {
+    "description": "Audio button label for screen readers."
+  },
   "playSlow": "Play slowly",
-  "@playSlow": {"description": "Slow audio button label for screen readers."},
+  "@playSlow": {
+    "description": "Slow audio button label for screen readers."
+  },
   "exampleLabel": "Example",
-  "@exampleLabel": {"description": "P04 example box label."},
+  "@exampleLabel": {
+    "description": "P04 example box label."
+  },
   "noteLabel": "NOTE",
-  "@noteLabel": {"description": "P01 term card row label."},
+  "@noteLabel": {
+    "description": "P01 term card row label."
+  },
   "filipinoLabel": "FILIPINO",
-  "@filipinoLabel": {"description": "P01 term card row label."},
+  "@filipinoLabel": {
+    "description": "P01 term card row label."
+  },
   "lettersSeen": "{seen} / {total} seen",
-  "@lettersSeen": {"description": "P05 header count.", "placeholders": {"seen": {"type": "int"}, "total": {"type": "int"}}},
+  "@lettersSeen": {
+    "description": "P05 header count.",
+    "placeholders": {
+      "seen": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "lettersHint": "Swipe through the letters. Say each example word out loud.",
-  "@lettersHint": {"description": "P05 instruction."},
+  "@lettersHint": {
+    "description": "P05 instruction."
+  },
   "calledLabel": "CALLED",
-  "@calledLabel": {"description": "P05 label above the letter name."},
+  "@calledLabel": {
+    "description": "P05 label above the letter name."
+  },
   "letterPosition": "{position} / {total}",
-  "@letterPosition": {"description": "P05 progress under the carousel.", "placeholders": {"position": {"type": "int"}, "total": {"type": "int"}}},
+  "@letterPosition": {
+    "description": "P05 progress under the carousel.",
+    "placeholders": {
+      "position": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "quickCheckChip": "Quick check · practice",
-  "@quickCheckChip": {"description": "P06 chip."},
+  "@quickCheckChip": {
+    "description": "P06 chip."
+  },
   "quickCheckNote": "No timer, no score. Just practice.",
-  "@quickCheckNote": {"description": "P06 line under the question."},
+  "@quickCheckNote": {
+    "description": "P06 line under the question."
+  },
   "feedbackCorrect": "Correct!",
-  "@feedbackCorrect": {"description": "F01 title."},
+  "@feedbackCorrect": {
+    "description": "F01 title."
+  },
   "feedbackWrong": "Not quite",
-  "@feedbackWrong": {"description": "F02 title."},
+  "@feedbackWrong": {
+    "description": "F02 title."
+  },
   "correctAnswerLabel": "Correct answer:",
-  "@correctAnswerLabel": {"description": "F02/F03 label."},
+  "@correctAnswerLabel": {
+    "description": "F02/F03 label."
+  },
   "xpGain": "+{xp} XP",
-  "@xpGain": {"description": "XP paid on the Correct sheet.", "placeholders": {"xp": {"type": "int"}}},
+  "@xpGain": {
+    "description": "XP paid on the Correct sheet.",
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "continueButton": "Continue",
-  "@continueButton": {"description": "Feedback sheet button."},
+  "@continueButton": {
+    "description": "Feedback sheet button."
+  },
   "showAllFilipino": "Show all Filipino",
-  "@showAllFilipino": {"description": "P07/P08 switch."},
+  "@showAllFilipino": {
+    "description": "P07/P08 switch."
+  },
   "dialogueHint": "Read each line aloud, then tap it to check the Filipino.",
-  "@dialogueHint": {"description": "P07 hint."},
+  "@dialogueHint": {
+    "description": "P07 hint."
+  },
   "readingHint": "Read each sentence aloud, then tap it to check the Filipino.",
-  "@readingHint": {"description": "P08 hint."},
+  "@readingHint": {
+    "description": "P08 hint."
+  },
   "tapToSeeFilipino": "Tap to see Filipino",
-  "@tapToSeeFilipino": {"description": "P07 bubble hint, Filipino hidden."},
+  "@tapToSeeFilipino": {
+    "description": "P07 bubble hint, Filipino hidden."
+  },
   "tapToHideFilipino": "Tap to hide Filipino",
-  "@tapToHideFilipino": {"description": "P07 bubble hint, Filipino shown."},
+  "@tapToHideFilipino": {
+    "description": "P07 bubble hint, Filipino shown."
+  },
   "commonMistakes": "Common mistakes",
-  "@commonMistakes": {"description": "P09 second section title."},
+  "@commonMistakes": {
+    "description": "P09 second section title."
+  },
   "moreExamples": "More examples",
-  "@moreExamples": {"description": "P03 section title."},
+  "@moreExamples": {
+    "description": "P03 section title."
+  },
   "cultureNoteLabel": "Culture note",
-  "@cultureNoteLabel": {"description": "P10 label above the text."},
-
+  "@cultureNoteLabel": {
+    "description": "P10 label above the text."
+  },
   "qtChoose": "Choose",
-  "@qtChoose": {"description": "Question type chip: Q01 Multiple choice."},
+  "@qtChoose": {
+    "description": "Question type chip: Q01 Multiple choice."
+  },
   "qtListening": "Listening",
-  "@qtListening": {"description": "Question type chip: Q02."},
+  "@qtListening": {
+    "description": "Question type chip: Q02."
+  },
   "qtFillBlank": "Fill in the blank",
-  "@qtFillBlank": {"description": "Question type chip: Q03."},
+  "@qtFillBlank": {
+    "description": "Question type chip: Q03."
+  },
   "qtTypeAnswer": "Type the answer",
-  "@qtTypeAnswer": {"description": "Question type chip: Q04."},
+  "@qtTypeAnswer": {
+    "description": "Question type chip: Q04."
+  },
   "qtBuildSentence": "Build the sentence",
-  "@qtBuildSentence": {"description": "Question type chip: Q05."},
+  "@qtBuildSentence": {
+    "description": "Question type chip: Q05."
+  },
   "qtRealSituation": "Real situation",
-  "@qtRealSituation": {"description": "Question type chip: Q06."},
+  "@qtRealSituation": {
+    "description": "Question type chip: Q06."
+  },
   "qtMatchPairs": "Match pairs",
-  "@qtMatchPairs": {"description": "Question type chip: Q07."},
+  "@qtMatchPairs": {
+    "description": "Question type chip: Q07."
+  },
   "qtDictation": "Dictation",
-  "@qtDictation": {"description": "Question type chip: Q08."},
+  "@qtDictation": {
+    "description": "Question type chip: Q08."
+  },
   "qtSpeaking": "Speaking",
-  "@qtSpeaking": {"description": "Question type chip: Q09."},
+  "@qtSpeaking": {
+    "description": "Question type chip: Q09."
+  },
   "qtOpenAnswer": "Open answer",
-  "@qtOpenAnswer": {"description": "Question type chip: Q10."},
+  "@qtOpenAnswer": {
+    "description": "Question type chip: Q10."
+  },
   "checkButton": "Check",
-  "@checkButton": {"description": "Quiz primary button before an answer is checked."},
+  "@checkButton": {
+    "description": "Quiz primary button before an answer is checked."
+  },
   "submitButton": "Submit",
-  "@submitButton": {"description": "Q10 primary button."},
+  "@submitButton": {
+    "description": "Q10 primary button."
+  },
   "q01Hint": "Choose the correct answer.",
-  "@q01Hint": {"description": "Q01 line under the question."},
+  "@q01Hint": {
+    "description": "Q01 line under the question."
+  },
   "q02Hint": "Listen, then choose the answer.",
-  "@q02Hint": {"description": "Q02 line under the question."},
+  "@q02Hint": {
+    "description": "Q02 line under the question."
+  },
   "q03Title": "Complete the sentence:",
-  "@q03Title": {"description": "Q03 title."},
+  "@q03Title": {
+    "description": "Q03 title."
+  },
   "q03Hint": "Choose the missing word.",
-  "@q03Hint": {"description": "Q03 line under the title."},
+  "@q03Hint": {
+    "description": "Q03 line under the title."
+  },
   "q04TitleToHil": "Type this in Hiligaynon",
-  "@q04TitleToHil": {"description": "Q04 title when the text is Filipino."},
+  "@q04TitleToHil": {
+    "description": "Q04 title when the text is Filipino."
+  },
   "q04TitleToFil": "Type this in Filipino",
-  "@q04TitleToFil": {"description": "Q04 title when the text is Hiligaynon."},
+  "@q04TitleToFil": {
+    "description": "Q04 title when the text is Hiligaynon."
+  },
   "q04HintToHil": "Write the Hiligaynon word or phrase.",
-  "@q04HintToHil": {"description": "Q04 line under the title (Filipino to Hiligaynon)."},
+  "@q04HintToHil": {
+    "description": "Q04 line under the title (Filipino to Hiligaynon)."
+  },
   "q04HintToFil": "Write the Filipino word or phrase.",
-  "@q04HintToFil": {"description": "Q04 line under the title (Hiligaynon to Filipino)."},
+  "@q04HintToFil": {
+    "description": "Q04 line under the title (Hiligaynon to Filipino)."
+  },
   "yourAnswer": "Your answer",
-  "@yourAnswer": {"description": "Label above the Q04/Q08 text field."},
+  "@yourAnswer": {
+    "description": "Label above the Q04/Q08 text field."
+  },
   "q05Title": "Build the sentence",
-  "@q05Title": {"description": "Q05 title."},
+  "@q05Title": {
+    "description": "Q05 title."
+  },
   "q05Hint": "Tap the words in the right order.",
-  "@q05Hint": {"description": "Q05 line under the title."},
+  "@q05Hint": {
+    "description": "Q05 line under the title."
+  },
   "q06Title": "What would you say?",
-  "@q06Title": {"description": "Q06 title."},
+  "@q06Title": {
+    "description": "Q06 title."
+  },
   "q08Hint": "Listen, then type it in Hiligaynon.",
-  "@q08Hint": {"description": "Q08 line under the question."},
+  "@q08Hint": {
+    "description": "Q08 line under the question."
+  },
   "wordBankLabel": "Word bank (optional)",
-  "@wordBankLabel": {"description": "Q08 label above the word chips."},
+  "@wordBankLabel": {
+    "description": "Q08 label above the word chips."
+  },
   "q09Hint": "Practice saying the phrase. There is no score.",
-  "@q09Hint": {"description": "Q09 line under the question."},
+  "@q09Hint": {
+    "description": "Q09 line under the question."
+  },
   "nativeSpeaker": "Native speaker",
-  "@nativeSpeaker": {"description": "Q09 button that plays the recording."},
+  "@nativeSpeaker": {
+    "description": "Q09 button that plays the recording."
+  },
   "youLabel": "You",
-  "@youLabel": {"description": "Q09 button that plays the learner's recording."},
+  "@youLabel": {
+    "description": "Q09 button that plays the learner's recording."
+  },
   "recordTooltip": "Record",
-  "@recordTooltip": {"description": "Q09 mic button (screen readers)."},
+  "@recordTooltip": {
+    "description": "Q09 mic button (screen readers)."
+  },
   "stopRecordingTooltip": "Stop recording",
-  "@stopRecordingTooltip": {"description": "Q09 stop button (screen readers)."},
+  "@stopRecordingTooltip": {
+    "description": "Q09 stop button (screen readers)."
+  },
   "micUnavailable": "Mic not available. You can skip this one.",
-  "@micUnavailable": {"description": "Q09 when the mic is refused or missing."},
+  "@micUnavailable": {
+    "description": "Q09 when the mic is refused or missing."
+  },
   "charCount": "{count} / {max} characters",
-  "@charCount": {"description": "Q10 counter under the field.", "placeholders": {"count": {"type": "int"}, "max": {"type": "int"}}},
+  "@charCount": {
+    "description": "Q10 counter under the field.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "feedbackTimeUp": "Time's up!",
-  "@feedbackTimeUp": {"description": "F03 title."},
+  "@feedbackTimeUp": {
+    "description": "F03 title."
+  },
   "sampleAnswerTitle": "Sample answer:",
-  "@sampleAnswerTitle": {"description": "F04 title."},
+  "@sampleAnswerTitle": {
+    "description": "F04 title."
+  },
   "correctPairsLabel": "Correct pairs:",
-  "@correctPairsLabel": {"description": "F02/F03 label for Q07 (match pairs)."},
+  "@correctPairsLabel": {
+    "description": "F02/F03 label for Q07 (match pairs)."
+  },
   "leaveQuizTooltip": "Leave the quiz",
-  "@leaveQuizTooltip": {"description": "Quiz X button (screen readers)."},
+  "@leaveQuizTooltip": {
+    "description": "Quiz X button (screen readers)."
+  },
   "leaveQuizTitle": "Leave the quiz?",
-  "@leaveQuizTitle": {"description": "S06 title, quiz version."},
+  "@leaveQuizTitle": {
+    "description": "S06 title, quiz version."
+  },
   "leaveQuizText": "Your answers won't be saved.",
-  "@leaveQuizText": {"description": "S06 text, quiz version."},
+  "@leaveQuizText": {
+    "description": "S06 text, quiz version."
+  },
   "timeLeft": "{seconds} seconds left",
-  "@timeLeft": {"description": "Timer chip (screen readers).", "placeholders": {"seconds": {"type": "int"}}},
+  "@timeLeft": {
+    "description": "Timer chip (screen readers).",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "backToLessons": "Back to lessons",
-  "@backToLessons": {"description": "Button back to S01."},
+  "@backToLessons": {
+    "description": "Button back to S01."
+  },
   "filipinoName": "Filipino",
-  "@filipinoName": {"description": "Label on the quiz prompt card (Q04, Q05) when the text is Filipino."},
+  "@filipinoName": {
+    "description": "Label on the quiz prompt card (Q04, Q05) when the text is Filipino."
+  },
   "lessonCompleteTitle": "Lesson complete!",
-  "@lessonCompleteTitle": {"description": "S03 title."},
+  "@lessonCompleteTitle": {
+    "description": "S03 title."
+  },
   "lessonCompleteLine": "You finished Lesson {number}: {title}.",
-  "@lessonCompleteLine": {"description": "S03 line under the title.", "placeholders": {"number": {"type": "int"}, "title": {"type": "String"}}},
+  "@lessonCompleteLine": {
+    "description": "S03 line under the title.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "statXpPlus": "+{xp}",
-  "@statXpPlus": {"description": "S03 XP tile value.", "placeholders": {"xp": {"type": "int"}}},
+  "@statXpPlus": {
+    "description": "S03 XP tile value.",
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "statXpLabel": "XP",
-  "@statXpLabel": {"description": "S03 XP tile label."},
+  "@statXpLabel": {
+    "description": "S03 XP tile label."
+  },
   "xpAlreadyEarned": "XP · Already earned",
-  "@xpAlreadyEarned": {"description": "S03 XP tile label when the lesson XP was paid before."},
+  "@xpAlreadyEarned": {
+    "description": "S03 XP tile label when the lesson XP was paid before."
+  },
   "newWordsLabel": "New words",
-  "@newWordsLabel": {"description": "S03 tile label."},
+  "@newWordsLabel": {
+    "description": "S03 tile label."
+  },
   "lettersLabel": "Letters",
-  "@lettersLabel": {"description": "S03 Letters tile label."},
+  "@lettersLabel": {
+    "description": "S03 Letters tile label."
+  },
   "lessonUnlockedChip": "Lesson {number} unlocked",
-  "@lessonUnlockedChip": {"description": "S03 Letters / S04 passed chip.", "placeholders": {"number": {"type": "int"}}},
+  "@lessonUnlockedChip": {
+    "description": "S03 Letters / S04 passed chip.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "levelCompleteChip": "{level} complete!",
-  "@levelCompleteChip": {"description": "S04 chip after the last quiz of a level: \"Beginner complete!\".", "placeholders": {"level": {"type": "String"}}},
+  "@levelCompleteChip": {
+    "description": "S04 chip after the last quiz of a level: \"Beginner complete!\".",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "passToUnlockChip": "Pass this quiz to unlock Lesson {number}",
-  "@passToUnlockChip": {"description": "S04 failed chip.", "placeholders": {"number": {"type": "int"}}},
+  "@passToUnlockChip": {
+    "description": "S04 failed chip.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "passToFinishLevelChip": "Pass this quiz to complete {level}",
-  "@passToFinishLevelChip": {"description": "S04 failed chip on the last lesson of a level.", "placeholders": {"level": {"type": "String"}}},
+  "@passToFinishLevelChip": {
+    "description": "S04 failed chip on the last lesson of a level.",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "takeLessonQuiz": "Take the lesson quiz",
-  "@takeLessonQuiz": {"description": "S03 primary button."},
+  "@takeLessonQuiz": {
+    "description": "S03 primary button."
+  },
   "continueToLesson": "Continue to Lesson {number}",
-  "@continueToLesson": {"description": "S03 Letters primary button.", "placeholders": {"number": {"type": "int"}}},
+  "@continueToLesson": {
+    "description": "S03 Letters primary button.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "quizScoreLine": "You got {correct} out of {total} correct.",
-  "@quizScoreLine": {"description": "S04 (not passed) and S05 line.", "placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}}},
+  "@quizScoreLine": {
+    "description": "S04 (not passed) and S05 line.",
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "quizScoreLinePassed": "You got {correct} out of {total} correct!",
-  "@quizScoreLinePassed": {"description": "S04 line when passed.", "placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}}},
+  "@quizScoreLinePassed": {
+    "description": "S04 line when passed.",
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "xpEarnedLabel": "XP earned",
-  "@xpEarnedLabel": {"description": "S04 tile label."},
+  "@xpEarnedLabel": {
+    "description": "S04 tile label."
+  },
   "accuracyLabel": "Accuracy",
-  "@accuracyLabel": {"description": "S04 tile label."},
+  "@accuracyLabel": {
+    "description": "S04 tile label."
+  },
   "accuracyValue": "{percent}%",
-  "@accuracyValue": {"description": "S04 accuracy tile value.", "placeholders": {"percent": {"type": "int"}}},
+  "@accuracyValue": {
+    "description": "S04 accuracy tile value.",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "reviewAnswers": "Review answers",
-  "@reviewAnswers": {"description": "S04 text button and S05 title."},
+  "@reviewAnswers": {
+    "description": "S04 text button and S05 title."
+  },
   "reviewQuestion": "{number}. {text}",
-  "@reviewQuestion": {"description": "S05 row title.", "placeholders": {"number": {"type": "int"}, "text": {"type": "String"}}},
+  "@reviewQuestion": {
+    "description": "S05 row title.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "reviewTyped": "{type}: {text}",
-  "@reviewTyped": {"description": "S05 row title after the number, e.g. \"Listening: What does…\".", "placeholders": {"type": {"type": "String"}, "text": {"type": "String"}}},
+  "@reviewTyped": {
+    "description": "S05 row title after the number, e.g. \"Listening: What does…\".",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "text": {
+        "type": "String"
+      }
+    }
+  },
   "rvListening": "Listening",
-  "@rvListening": {"description": "S05 type label."},
+  "@rvListening": {
+    "description": "S05 type label."
+  },
   "rvFillBlank": "Fill in the blank",
-  "@rvFillBlank": {"description": "S05 type label."},
+  "@rvFillBlank": {
+    "description": "S05 type label."
+  },
   "rvType": "Type",
-  "@rvType": {"description": "S05 type label."},
+  "@rvType": {
+    "description": "S05 type label."
+  },
   "rvBuild": "Build",
-  "@rvBuild": {"description": "S05 type label."},
+  "@rvBuild": {
+    "description": "S05 type label."
+  },
   "rvRealSituation": "Real situation",
-  "@rvRealSituation": {"description": "S05 type label."},
+  "@rvRealSituation": {
+    "description": "S05 type label."
+  },
   "rvMatchPairs": "Match the pairs",
-  "@rvMatchPairs": {"description": "S05 row title for Q07."},
+  "@rvMatchPairs": {
+    "description": "S05 row title for Q07."
+  },
   "rvDictation": "Dictation",
-  "@rvDictation": {"description": "S05 type label."},
+  "@rvDictation": {
+    "description": "S05 type label."
+  },
   "rvSpeaking": "Speaking",
-  "@rvSpeaking": {"description": "S05 type label."},
+  "@rvSpeaking": {
+    "description": "S05 type label."
+  },
   "rvOpenAnswer": "Open answer",
-  "@rvOpenAnswer": {"description": "S05 type label."},
+  "@rvOpenAnswer": {
+    "description": "S05 type label."
+  },
   "yourAnswerIs": "Your answer: {answer}",
-  "@yourAnswerIs": {"description": "S05 row.", "placeholders": {"answer": {"type": "String"}}},
+  "@yourAnswerIs": {
+    "description": "S05 row.",
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
   "correctAnswerIs": "Correct answer: {answer}",
-  "@correctAnswerIs": {"description": "S05 wrong row.", "placeholders": {"answer": {"type": "String"}}},
+  "@correctAnswerIs": {
+    "description": "S05 wrong row.",
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
   "timeUpAnswer": "(time's up)",
-  "@timeUpAnswer": {"description": "S05: the answer of a timed-out question."},
+  "@timeUpAnswer": {
+    "description": "S05: the answer of a timed-out question."
+  },
   "pairsScore": "{right} of {total} pairs",
-  "@pairsScore": {"description": "S05 Q07 answer.", "placeholders": {"right": {"type": "int"}, "total": {"type": "int"}}},
+  "@pairsScore": {
+    "description": "S05 Q07 answer.",
+    "placeholders": {
+      "right": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "practiceTag": "Practice",
-  "@practiceTag": {"description": "S05 practice tag."},
+  "@practiceTag": {
+    "description": "S05 practice tag."
+  },
   "practiceNote": "Saved for practice only. No score.",
-  "@practiceNote": {"description": "S05 practice row."}
+  "@practiceNote": {
+    "description": "S05 practice row."
+  },
+  "commonCancel": "Cancel",
+  "@commonCancel": {
+    "description": "Common."
+  },
+  "commonOpenSettings": "Open settings",
+  "@commonOpenSettings": {
+    "description": "Common."
+  },
+  "commonNotNow": "Not now",
+  "@commonNotNow": {
+    "description": "Common."
+  },
+  "commonOk": "OK",
+  "@commonOk": {
+    "description": "Common."
+  },
+  "commonSomethingWrong": "Something went wrong. Try again.",
+  "@commonSomethingWrong": {
+    "description": "Common."
+  },
+  "commonLoading": "Loading",
+  "@commonLoading": {
+    "description": "Common."
+  },
+  "commonEmail": "Email",
+  "@commonEmail": {
+    "description": "Common."
+  },
+  "commonEnterEmail": "Enter email",
+  "@commonEnterEmail": {
+    "description": "Common."
+  },
+  "commonEnterYourEmail": "Enter your email",
+  "@commonEnterYourEmail": {
+    "description": "Common."
+  },
+  "commonEmailLooksWrong": "That email doesn't look right",
+  "@commonEmailLooksWrong": {
+    "description": "Common."
+  },
+  "commonPassword": "Password",
+  "@commonPassword": {
+    "description": "Common."
+  },
+  "commonAtLeast6": "At least 6 characters",
+  "@commonAtLeast6": {
+    "description": "Common."
+  },
+  "commonPasswordsDontMatch": "Passwords do not match",
+  "@commonPasswordsDontMatch": {
+    "description": "Common."
+  },
+  "commonShowPassword": "Show password",
+  "@commonShowPassword": {
+    "description": "Common."
+  },
+  "commonHidePassword": "Hide password",
+  "@commonHidePassword": {
+    "description": "Common."
+  },
+  "commonProfilePicture": "Profile picture",
+  "@commonProfilePicture": {
+    "description": "Common."
+  },
+  "commonCharCounter": "{count}/{max}",
+  "@commonCharCounter": {
+    "description": "Common.",
+    "placeholders": {
+      "count": {
+        "type": "Object"
+      },
+      "max": {
+        "type": "Object"
+      }
+    }
+  },
+  "commonHiligaynon": "Hiligaynon",
+  "@commonHiligaynon": {
+    "description": "Common."
+  },
+  "commonFilipino": "Filipino",
+  "@commonFilipino": {
+    "description": "Common."
+  },
+  "commonEnglish": "English",
+  "@commonEnglish": {
+    "description": "Common."
+  },
+  "commonListen": "Listen",
+  "@commonListen": {
+    "description": "Common."
+  },
+  "commonStop": "Stop",
+  "@commonStop": {
+    "description": "Common."
+  },
+  "commonSave": "Save",
+  "@commonSave": {
+    "description": "Common."
+  },
+  "commonSaved": "Saved",
+  "@commonSaved": {
+    "description": "Common."
+  },
+  "commonTakePhoto": "Take a photo",
+  "@commonTakePhoto": {
+    "description": "Common."
+  },
+  "commonChooseFromGallery": "Choose from gallery",
+  "@commonChooseFromGallery": {
+    "description": "Common."
+  },
+  "commonTypeInstead": "Type instead",
+  "@commonTypeInstead": {
+    "description": "Common."
+  },
+  "commonStartTranslating": "Start translating",
+  "@commonStartTranslating": {
+    "description": "Common."
+  },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Bottom bar."
+  },
+  "navTranslate": "Translate",
+  "@navTranslate": {
+    "description": "Bottom bar."
+  },
+  "navLearn": "Learn",
+  "@navLearn": {
+    "description": "Bottom bar."
+  },
+  "navMe": "Me",
+  "@navMe": {
+    "description": "Bottom bar."
+  },
+  "splashTagline": "Hiligaynon · Filipino",
+  "@splashTagline": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "welcomeEyebrow": "HILIGAYNON",
+  "@welcomeEyebrow": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "welcomeTitle": "Words make\nroom for us.",
+  "@welcomeTitle": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "welcomeBody": "Learn everyday Hiligaynon, one small conversation at a time.",
+  "@welcomeBody": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "welcomeCardTitle": "Start with a hello.",
+  "@welcomeCardTitle": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "welcomeCardBody": "Translate, listen and learn at your pace.",
+  "@welcomeCardBody": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "welcomeGetStarted": "Get started",
+  "@welcomeGetStarted": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "welcomeHaveAccount": "I already have an account",
+  "@welcomeHaveAccount": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboard1Title": "Welcome to Hibalo",
+  "@onboard1Title": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboard1Body": "Translate between Hiligaynon and Filipino, and learn the language as you go.",
+  "@onboard1Body": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboard2Title": "Type it, say it, or snap it",
+  "@onboard2Title": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboard2Body": "Translate by typing, by speaking, or by taking a photo of a sign or a note.",
+  "@onboard2Body": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboard3Title": "Learn a little every day",
+  "@onboard3Title": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboard3Body": "Short lessons and quick quizzes. Earn XP and keep your daily streak going.",
+  "@onboard3Body": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboardSkip": "Skip",
+  "@onboardSkip": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboardNext": "Next",
+  "@onboardNext": {
+    "description": "Splash / Welcome / Onboarding."
+  },
+  "onboardPageOf": "Page {current} of {count}",
+  "@onboardPageOf": {
+    "description": "Splash / Welcome / Onboarding.",
+    "placeholders": {
+      "current": {
+        "type": "Object"
+      },
+      "count": {
+        "type": "Object"
+      }
+    }
+  },
+  "authNoInternetSignIn": "No internet. Connect to sign in.",
+  "@authNoInternetSignIn": {
+    "description": "Sign in / Sign up."
+  },
+  "authNoInternetSignUp": "No internet. Connect to sign up.",
+  "@authNoInternetSignUp": {
+    "description": "Sign in / Sign up."
+  },
+  "authWrongCredentials": "Wrong email or password.",
+  "@authWrongCredentials": {
+    "description": "Sign in / Sign up."
+  },
+  "authEmailInUse": "This email is already in use.",
+  "@authEmailInUse": {
+    "description": "Sign in / Sign up."
+  },
+  "authWelcomeBack": "Welcome back.",
+  "@authWelcomeBack": {
+    "description": "Sign in / Sign up."
+  },
+  "authWelcomeBackSub": "Pick up where your words left off.",
+  "@authWelcomeBackSub": {
+    "description": "Sign in / Sign up."
+  },
+  "authJoin": "Join Hibalo.",
+  "@authJoin": {
+    "description": "Sign in / Sign up."
+  },
+  "authJoinSub": "Make an account to save your lessons, XP and streak.",
+  "@authJoinSub": {
+    "description": "Sign in / Sign up."
+  },
+  "authUsername": "Username",
+  "@authUsername": {
+    "description": "Sign in / Sign up."
+  },
+  "authEnterUsername": "Enter username",
+  "@authEnterUsername": {
+    "description": "Sign in / Sign up."
+  },
+  "authEnterAUsername": "Enter a username",
+  "@authEnterAUsername": {
+    "description": "Sign in / Sign up."
+  },
+  "authAtLeast2": "At least 2 characters",
+  "@authAtLeast2": {
+    "description": "Sign in / Sign up."
+  },
+  "authEnterPassword": "Enter your password",
+  "@authEnterPassword": {
+    "description": "Sign in / Sign up."
+  },
+  "authForgotPassword": "Forgot password?",
+  "@authForgotPassword": {
+    "description": "Sign in / Sign up."
+  },
+  "authConfirmPassword": "Confirm password",
+  "@authConfirmPassword": {
+    "description": "Sign in / Sign up."
+  },
+  "authReenterPassword": "Re-enter password",
+  "@authReenterPassword": {
+    "description": "Sign in / Sign up."
+  },
+  "authSigningIn": "Signing in…",
+  "@authSigningIn": {
+    "description": "Sign in / Sign up."
+  },
+  "authCreatingAccount": "Creating account…",
+  "@authCreatingAccount": {
+    "description": "Sign in / Sign up."
+  },
+  "authSignIn": "Sign in",
+  "@authSignIn": {
+    "description": "Sign in / Sign up."
+  },
+  "authCreateAccount": "Create account",
+  "@authCreateAccount": {
+    "description": "Sign in / Sign up."
+  },
+  "authNewToHibalo": "New to Hibalo?",
+  "@authNewToHibalo": {
+    "description": "Sign in / Sign up."
+  },
+  "authHaveAccount": "Already have an account?",
+  "@authHaveAccount": {
+    "description": "Sign in / Sign up."
+  },
+  "authCreateAnAccount": "Create an account",
+  "@authCreateAnAccount": {
+    "description": "Sign in / Sign up."
+  },
+  "authStrengthTooWeak": "Too weak",
+  "@authStrengthTooWeak": {
+    "description": "Sign in / Sign up."
+  },
+  "authStrengthFair": "Fair",
+  "@authStrengthFair": {
+    "description": "Sign in / Sign up."
+  },
+  "authStrengthGood": "Good",
+  "@authStrengthGood": {
+    "description": "Sign in / Sign up."
+  },
+  "authStrengthStrong": "Strong",
+  "@authStrengthStrong": {
+    "description": "Sign in / Sign up."
+  },
+  "forgotNoInternet": "No internet. Connect to send the link.",
+  "@forgotNoInternet": {
+    "description": "Forgot password."
+  },
+  "forgotLinkSentAgain": "Reset link sent again",
+  "@forgotLinkSentAgain": {
+    "description": "Forgot password."
+  },
+  "forgotCheckEmail": "Check your email",
+  "@forgotCheckEmail": {
+    "description": "Forgot password."
+  },
+  "forgotTitle": "Forgot your password?",
+  "@forgotTitle": {
+    "description": "Forgot password."
+  },
+  "forgotSentTo": "We sent a reset link to {email}. Open it on this phone to make a new password.",
+  "@forgotSentTo": {
+    "description": "Forgot password.",
+    "placeholders": {
+      "email": {
+        "type": "Object"
+      }
+    }
+  },
+  "forgotBody": "Enter your email and we'll send you a link to make a new one.",
+  "@forgotBody": {
+    "description": "Forgot password."
+  },
+  "forgotSending": "Sending…",
+  "@forgotSending": {
+    "description": "Forgot password."
+  },
+  "forgotSendLink": "Send reset link",
+  "@forgotSendLink": {
+    "description": "Forgot password."
+  },
+  "forgotBackToSignIn": "Back to sign in",
+  "@forgotBackToSignIn": {
+    "description": "Forgot password."
+  },
+  "forgotDidntGetIt": "Didn't get it?",
+  "@forgotDidntGetIt": {
+    "description": "Forgot password."
+  },
+  "forgotRemembered": "Remembered it?",
+  "@forgotRemembered": {
+    "description": "Forgot password."
+  },
+  "forgotResend": "Resend link",
+  "@forgotResend": {
+    "description": "Forgot password."
+  },
+  "homeDayStreak": "DAY STREAK",
+  "@homeDayStreak": {
+    "description": "Home."
+  },
+  "homeLesson": "LESSON",
+  "@homeLesson": {
+    "description": "Home."
+  },
+  "homeLessons": "LESSONS",
+  "@homeLessons": {
+    "description": "Home."
+  },
+  "homeXp": "XP",
+  "@homeXp": {
+    "description": "Home."
+  },
+  "homeLessonTitle": "Lesson {number}: {title}",
+  "@homeLessonTitle": {
+    "description": "Home.",
+    "placeholders": {
+      "number": {
+        "type": "Object"
+      },
+      "title": {
+        "type": "Object"
+      }
+    }
+  },
+  "homePartsDone": "{done} of {total} parts",
+  "@homePartsDone": {
+    "description": "Home.",
+    "placeholders": {
+      "done": {
+        "type": "Object"
+      },
+      "total": {
+        "type": "Object"
+      }
+    }
+  },
+  "homePartOf": "Part {part} of {total}",
+  "@homePartOf": {
+    "description": "Home.",
+    "placeholders": {
+      "part": {
+        "type": "Object"
+      },
+      "total": {
+        "type": "Object"
+      }
+    }
+  },
+  "homeStartLesson": "Start Lesson {number}",
+  "@homeStartLesson": {
+    "description": "Home.",
+    "placeholders": {
+      "number": {
+        "type": "Object"
+      }
+    }
+  },
+  "homeTakeQuiz": "Take the quiz",
+  "@homeTakeQuiz": {
+    "description": "Home."
+  },
+  "homeLevelComplete": "{level} complete!",
+  "@homeLevelComplete": {
+    "description": "Home.",
+    "placeholders": {
+      "level": {
+        "type": "Object"
+      }
+    }
+  },
+  "homeAllComplete": "All complete!",
+  "@homeAllComplete": {
+    "description": "Home."
+  },
+  "homeEveryLessonDone": "Every lesson done",
+  "@homeEveryLessonDone": {
+    "description": "Home."
+  },
+  "homeReviewLessons": "Review lessons",
+  "@homeReviewLessons": {
+    "description": "Home."
+  },
+  "homeLevelChip": "{level} · Level {number}",
+  "@homeLevelChip": {
+    "description": "Home.",
+    "placeholders": {
+      "level": {
+        "type": "Object"
+      },
+      "number": {
+        "type": "Object"
+      }
+    }
+  },
+  "homePhraseOfDay": "Phrase of the day",
+  "@homePhraseOfDay": {
+    "description": "Home."
+  },
+  "langChooseTitle": "Choose your language",
+  "@langChooseTitle": {
+    "description": "Language."
+  },
+  "langContinue": "Continue",
+  "@langContinue": {
+    "description": "Language."
+  },
+  "langTitle": "Language",
+  "@langTitle": {
+    "description": "Language."
+  },
+  "langAppLanguage": "App language",
+  "@langAppLanguage": {
+    "description": "Language."
+  },
+  "langNote": "Changes the menus and buttons right away. Lessons stay in Hiligaynon with Filipino meanings.",
+  "@langNote": {
+    "description": "Language."
+  },
+  "langChangedTo": "Language changed to {language}",
+  "@langChangedTo": {
+    "description": "Language.",
+    "placeholders": {
+      "language": {
+        "type": "Object"
+      }
+    }
+  },
+  "trTitle": "Translate",
+  "@trTitle": {
+    "description": "Translate."
+  },
+  "trHistory": "History",
+  "@trHistory": {
+    "description": "Translate."
+  },
+  "trTypeHere": "Type or paste text here",
+  "@trTypeHere": {
+    "description": "Translate."
+  },
+  "trFromTo": "From {from} to {to}",
+  "@trFromTo": {
+    "description": "Translate.",
+    "placeholders": {
+      "from": {
+        "type": "Object"
+      },
+      "to": {
+        "type": "Object"
+      }
+    }
+  },
+  "trSwap": "Swap languages",
+  "@trSwap": {
+    "description": "Translate."
+  },
+  "trClearText": "Clear text",
+  "@trClearText": {
+    "description": "Translate."
+  },
+  "trCharacters": "{count} characters",
+  "@trCharacters": {
+    "description": "Translate.",
+    "placeholders": {
+      "count": {
+        "type": "Object"
+      }
+    }
+  },
+  "trSpeak": "Speak",
+  "@trSpeak": {
+    "description": "Translate."
+  },
+  "trScanPhoto": "Scan text from a photo",
+  "@trScanPhoto": {
+    "description": "Translate."
+  },
+  "trTranslating": "Translating…",
+  "@trTranslating": {
+    "description": "Translate."
+  },
+  "trTranslatingShort": "Translating",
+  "@trTranslatingShort": {
+    "description": "Translate."
+  },
+  "trTranslateButton": "Translate",
+  "@trTranslateButton": {
+    "description": "Translate."
+  },
+  "trPreparingVoice": "Preparing the voice",
+  "@trPreparingVoice": {
+    "description": "Translate."
+  },
+  "trCopy": "Copy",
+  "@trCopy": {
+    "description": "Translate."
+  },
+  "trCopied": "Copied",
+  "@trCopied": {
+    "description": "Translate."
+  },
+  "trShare": "Share",
+  "@trShare": {
+    "description": "Translate."
+  },
+  "trFromVoice": "From your voice · check for mistakes",
+  "@trFromVoice": {
+    "description": "Translate."
+  },
+  "trSpeakAgain": "Speak again",
+  "@trSpeakAgain": {
+    "description": "Translate."
+  },
+  "trFromPhoto": "From your photo · check for mistakes",
+  "@trFromPhoto": {
+    "description": "Translate."
+  },
+  "trScanAgain": "Scan again",
+  "@trScanAgain": {
+    "description": "Translate."
+  },
+  "camAccessOffTitle": "Camera access is off",
+  "@camAccessOffTitle": {
+    "description": "Camera."
+  },
+  "camAccessOffBody": "To take a photo, allow camera access in your phone settings. You can still choose a photo from your gallery.",
+  "@camAccessOffBody": {
+    "description": "Camera."
+  },
+  "camNoTextTitle": "No text found",
+  "@camNoTextTitle": {
+    "description": "Camera."
+  },
+  "camNoTextBody": "Try a clearer photo with good light, and keep the words straight and close.",
+  "@camNoTextBody": {
+    "description": "Camera."
+  },
+  "camCouldntReadTitle": "Couldn't read the photo",
+  "@camCouldntReadTitle": {
+    "description": "Camera."
+  },
+  "camCouldntReadBody": "Something went wrong. Please try again or choose another photo.",
+  "@camCouldntReadBody": {
+    "description": "Camera."
+  },
+  "camChooseAnother": "Choose another",
+  "@camChooseAnother": {
+    "description": "Camera."
+  },
+  "camSheetBody": "Hibalo reads the words in the photo and translates them.",
+  "@camSheetBody": {
+    "description": "Camera."
+  },
+  "camUseCamera": "Use your camera",
+  "@camUseCamera": {
+    "description": "Camera."
+  },
+  "camPickExisting": "Pick a photo you already have",
+  "@camPickExisting": {
+    "description": "Camera."
+  },
+  "camReading": "Reading the text…",
+  "@camReading": {
+    "description": "Camera."
+  },
+  "camTakesSeconds": "This takes a few seconds and works offline.",
+  "@camTakesSeconds": {
+    "description": "Camera."
+  },
+  "voiceListening": "Listening…",
+  "@voiceListening": {
+    "description": "Voice."
+  },
+  "voiceHoldMic": "Hold the mic and speak",
+  "@voiceHoldMic": {
+    "description": "Voice."
+  },
+  "voiceStopListening": "Stop listening",
+  "@voiceStopListening": {
+    "description": "Voice."
+  },
+  "voiceStartListening": "Start listening",
+  "@voiceStartListening": {
+    "description": "Voice."
+  },
+  "voiceTapToStop": "Tap again to stop",
+  "@voiceTapToStop": {
+    "description": "Voice."
+  },
+  "voiceTapToStart": "Tap to start",
+  "@voiceTapToStart": {
+    "description": "Voice."
+  },
+  "voiceDidntCatch": "Didn't catch that",
+  "@voiceDidntCatch": {
+    "description": "Voice."
+  },
+  "voiceDidntCatchBody": "Speak a little louder and closer to the phone, then try again.",
+  "@voiceDidntCatchBody": {
+    "description": "Voice."
+  },
+  "voiceMicOffTitle": "Microphone access is off",
+  "@voiceMicOffTitle": {
+    "description": "Voice."
+  },
+  "voiceMicOffBody": "To translate by voice, allow microphone access in your phone settings. You can still type instead.",
+  "@voiceMicOffBody": {
+    "description": "Voice."
+  },
+  "voiceFilipinoTitle": "Filipino voice",
+  "@voiceFilipinoTitle": {
+    "description": "Voice."
+  },
+  "voiceFilipinoInstall": "To hear Filipino, install your phone's Filipino voice.",
+  "@voiceFilipinoInstall": {
+    "description": "Voice."
+  },
+  "voiceInstall": "Install",
+  "@voiceInstall": {
+    "description": "Voice."
+  },
+  "voiceLater": "Later",
+  "@voiceLater": {
+    "description": "Voice."
+  },
+  "voiceFilipinoMissing": "Your phone has no Filipino voice yet. Install it in Settings.",
+  "@voiceFilipinoMissing": {
+    "description": "Voice."
+  },
+  "voiceFilipinoNotReady": "The Filipino voice isn't ready yet. Connect to the internet and try again.",
+  "@voiceFilipinoNotReady": {
+    "description": "Voice."
+  },
+  "histTapToOpen": "Tap a translation to open it again.",
+  "@histTapToOpen": {
+    "description": "History / Saved."
+  },
+  "histClearAll": "Clear all",
+  "@histClearAll": {
+    "description": "History / Saved."
+  },
+  "histEmptyTitle": "No translations yet",
+  "@histEmptyTitle": {
+    "description": "History / Saved."
+  },
+  "histEmptyBody": "Words and phrases you translate will show up here, so you can open them again.",
+  "@histEmptyBody": {
+    "description": "History / Saved."
+  },
+  "savedEmptyTitle": "No saved words yet",
+  "@savedEmptyTitle": {
+    "description": "History / Saved."
+  },
+  "savedEmptyBody": "Tap the bookmark on a translation to keep it here for practice.",
+  "@savedEmptyBody": {
+    "description": "History / Saved."
+  },
+  "savedCountOne": "1 saved word or phrase",
+  "@savedCountOne": {
+    "description": "History / Saved."
+  },
+  "savedCountMany": "{count} saved words and phrases",
+  "@savedCountMany": {
+    "description": "History / Saved.",
+    "placeholders": {
+      "count": {
+        "type": "Object"
+      }
+    }
+  },
+  "histToday": "Today",
+  "@histToday": {
+    "description": "History / Saved."
+  },
+  "histYesterday": "Yesterday",
+  "@histYesterday": {
+    "description": "History / Saved."
+  },
+  "histFromTo": "{from} → {to}",
+  "@histFromTo": {
+    "description": "History / Saved.",
+    "placeholders": {
+      "from": {
+        "type": "Object"
+      },
+      "to": {
+        "type": "Object"
+      }
+    }
+  },
+  "histRemoveSaved": "Remove from saved",
+  "@histRemoveSaved": {
+    "description": "History / Saved."
+  },
+  "histCleared": "Translation history cleared",
+  "@histCleared": {
+    "description": "History / Saved."
+  },
+  "clearHistoryAction": "Clear history",
+  "@clearHistoryAction": {
+    "description": "History / Saved."
+  },
+  "clearHistoryTitle": "Clear translation history?",
+  "@clearHistoryTitle": {
+    "description": "History / Saved."
+  },
+  "clearHistoryBody": "This removes all your past translations from this phone. Your saved words stay.",
+  "@clearHistoryBody": {
+    "description": "History / Saved."
+  },
+  "clearHistoryKeep": "Keep history",
+  "@clearHistoryKeep": {
+    "description": "History / Saved."
+  },
+  "clearSavedAction": "Clear saved words",
+  "@clearSavedAction": {
+    "description": "History / Saved."
+  },
+  "clearSavedTitle": "Clear saved words?",
+  "@clearSavedTitle": {
+    "description": "History / Saved."
+  },
+  "clearSavedBody": "This removes every word you saved. Your lesson progress stays.",
+  "@clearSavedBody": {
+    "description": "History / Saved."
+  },
+  "clearSavedKeep": "Keep saved words",
+  "@clearSavedKeep": {
+    "description": "History / Saved."
+  },
+  "savedCleared": "Saved words cleared",
+  "@savedCleared": {
+    "description": "History / Saved."
+  },
+  "meTitle": "Me",
+  "@meTitle": {
+    "description": "Me."
+  },
+  "meAccount": "Account",
+  "@meAccount": {
+    "description": "Me."
+  },
+  "meEditProfile": "Edit profile",
+  "@meEditProfile": {
+    "description": "Me."
+  },
+  "meEditProfileSub": "Name and avatar",
+  "@meEditProfileSub": {
+    "description": "Me."
+  },
+  "meLanguageRow": "Language",
+  "@meLanguageRow": {
+    "description": "Me."
+  },
+  "meSettings": "Settings",
+  "@meSettings": {
+    "description": "Me."
+  },
+  "meSettingsSub": "Data, privacy, credits",
+  "@meSettingsSub": {
+    "description": "Me."
+  },
+  "meHelp": "Help & Support",
+  "@meHelp": {
+    "description": "Me."
+  },
+  "meHelpSub": "FAQ, contact us",
+  "@meHelpSub": {
+    "description": "Me."
+  },
+  "meLogOut": "Log out",
+  "@meLogOut": {
+    "description": "Me."
+  },
+  "meLogOutTitle": "Log out?",
+  "@meLogOutTitle": {
+    "description": "Me."
+  },
+  "meLogOutBody": "Your progress is saved. You can sign back in any time.",
+  "@meLogOutBody": {
+    "description": "Me."
+  },
+  "meStay": "Stay",
+  "@meStay": {
+    "description": "Me."
+  },
+  "meProfileUpdated": "Profile updated",
+  "@meProfileUpdated": {
+    "description": "Me."
+  },
+  "meUser": "User",
+  "@meUser": {
+    "description": "Me."
+  },
+  "editTitle": "Edit profile",
+  "@editTitle": {
+    "description": "Edit profile."
+  },
+  "editChooseAvatar": "Choose an avatar",
+  "@editChooseAvatar": {
+    "description": "Edit profile."
+  },
+  "editAvatar": "Avatar {number}",
+  "@editAvatar": {
+    "description": "Edit profile.",
+    "placeholders": {
+      "number": {
+        "type": "Object"
+      }
+    }
+  },
+  "editUsernameEmpty": "Username cannot be empty.",
+  "@editUsernameEmpty": {
+    "description": "Edit profile."
+  },
+  "editUsernameShort": "Username must be at least 3 characters.",
+  "@editUsernameShort": {
+    "description": "Edit profile."
+  },
+  "editNewPassword": "New password",
+  "@editNewPassword": {
+    "description": "Edit profile."
+  },
+  "editConfirmNewPassword": "Confirm new password",
+  "@editConfirmNewPassword": {
+    "description": "Edit profile."
+  },
+  "editCurrentPassword": "Current password (to confirm it's you)",
+  "@editCurrentPassword": {
+    "description": "Edit profile."
+  },
+  "editCurrentPasswordHint": "Current password",
+  "@editCurrentPasswordHint": {
+    "description": "Edit profile."
+  },
+  "editOnlyNeeded": "Only needed to change your email or password.",
+  "@editOnlyNeeded": {
+    "description": "Edit profile."
+  },
+  "editForgotPassword": "Forgot your password?",
+  "@editForgotPassword": {
+    "description": "Edit profile."
+  },
+  "editSaveChanges": "Save changes",
+  "@editSaveChanges": {
+    "description": "Edit profile."
+  },
+  "editDeleteAccount": "Delete account",
+  "@editDeleteAccount": {
+    "description": "Edit profile."
+  },
+  "editWrongPassword": "That password isn't right. Try again.",
+  "@editWrongPassword": {
+    "description": "Edit profile."
+  },
+  "editNeedPassword": "Enter your current password to change your email or password.",
+  "@editNeedPassword": {
+    "description": "Edit profile."
+  },
+  "editNeedPasswordDelete": "Enter your current password to delete your account.",
+  "@editNeedPasswordDelete": {
+    "description": "Edit profile."
+  },
+  "editEmailInUse": "This email is already in use.",
+  "@editEmailInUse": {
+    "description": "Edit profile."
+  },
+  "editNoInternet": "No internet. Connect and try again.",
+  "@editNoInternet": {
+    "description": "Edit profile."
+  },
+  "editTooManyTries": "Too many tries. Wait a moment and try again.",
+  "@editTooManyTries": {
+    "description": "Edit profile."
+  },
+  "editCouldntSave": "Couldn't save. Please try again.",
+  "@editCouldntSave": {
+    "description": "Edit profile."
+  },
+  "editCheckEmailTitle": "Check your new email",
+  "@editCheckEmailTitle": {
+    "description": "Edit profile."
+  },
+  "editCheckEmailBody": "We sent a link to {email}. Open it to finish changing your email. Until then, sign in with your old email.",
+  "@editCheckEmailBody": {
+    "description": "Edit profile.",
+    "placeholders": {
+      "email": {
+        "type": "Object"
+      }
+    }
+  },
+  "editResendLink": "Resend link",
+  "@editResendLink": {
+    "description": "Edit profile."
+  },
+  "editLinkSent": "Link sent again",
+  "@editLinkSent": {
+    "description": "Edit profile."
+  },
+  "editDeleteTitle": "Delete your account?",
+  "@editDeleteTitle": {
+    "description": "Edit profile."
+  },
+  "editDeleteBody": "This removes your profile, progress, saved words and history. This can't be undone.",
+  "@editDeleteBody": {
+    "description": "Edit profile."
+  },
+  "editDeleteKeep": "Keep my account",
+  "@editDeleteKeep": {
+    "description": "Edit profile."
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings."
+  },
+  "settingsData": "Data",
+  "@settingsData": {
+    "description": "Settings."
+  },
+  "settingsAbout": "About",
+  "@settingsAbout": {
+    "description": "Settings."
+  },
+  "settingsPrivacy": "Privacy policy",
+  "@settingsPrivacy": {
+    "description": "Settings."
+  },
+  "settingsCredits": "Credits & licences",
+  "@settingsCredits": {
+    "description": "Settings."
+  },
+  "settingsCreditsSub": "Voice, data, icons and fonts",
+  "@settingsCreditsSub": {
+    "description": "Settings."
+  },
+  "settingsAppVersion": "App version",
+  "@settingsAppVersion": {
+    "description": "Settings."
+  },
+  "settingsVersionValue": "Hibalo {version}",
+  "@settingsVersionValue": {
+    "description": "Settings.",
+    "placeholders": {
+      "version": {
+        "type": "Object"
+      }
+    }
+  },
+  "privacyIntro": "Hibalo was made by students of the Polytechnic University of the Philippines for a capstone study.",
+  "@privacyIntro": {
+    "description": "Privacy policy."
+  },
+  "privacySaveLabel": "What we save",
+  "@privacySaveLabel": {
+    "description": "Privacy policy."
+  },
+  "privacySaveText": "your username, email address and chosen avatar; when you signed up and last signed in; and your learning progress (lessons finished, quiz scores, XP and streak). These are saved in Google Firebase so your progress isn't lost.",
+  "@privacySaveText": {
+    "description": "Privacy policy."
+  },
+  "privacyNotSaveLabel": "What we don't save",
+  "@privacyNotSaveLabel": {
+    "description": "Privacy policy."
+  },
+  "privacyNotSaveText": "the text you translate, the pictures you scan and your voice. Your translation history and saved words are kept only on your phone; uninstalling the app or clearing them in Settings deletes them. Translation and picture reading happen on your phone. Speech-to-text uses your phone's own speech service, which may follow Google's privacy terms. Speaking practice in lessons is kept on your phone only while you use it, then deleted.",
+  "@privacyNotSaveText": {
+    "description": "Privacy policy."
+  },
+  "privacyWhoLabel": "Who can see your data",
+  "@privacyWhoLabel": {
+    "description": "Privacy policy."
+  },
+  "privacyWhoText": "only you and the research team (app administrators). You can't see other users' data, and they can't see yours.",
+  "@privacyWhoText": {
+    "description": "Privacy policy."
+  },
+  "privacyUseLabel": "How your data is used",
+  "@privacyUseLabel": {
+    "description": "Privacy policy."
+  },
+  "privacyUseText": "only for this study. It is not sold or shared.",
+  "@privacyUseText": {
+    "description": "Privacy policy."
+  },
+  "privacyDeleteLabel": "Deleting your data",
+  "@privacyDeleteLabel": {
+    "description": "Privacy policy."
+  },
+  "privacyDeleteText": "you can delete your account and progress in Me › Edit profile, or ask the research team to do it.",
+  "@privacyDeleteText": {
+    "description": "Privacy policy."
+  },
+  "privacyQuestionsLabel": "Questions",
+  "@privacyQuestionsLabel": {
+    "description": "Privacy policy."
+  },
+  "privacyQuestionsText": "contact the Hibalo research team.",
+  "@privacyQuestionsText": {
+    "description": "Privacy policy."
+  },
+  "creditsIntro": "Made by the Hibalo team, Polytechnic University of the Philippines.",
+  "@creditsIntro": {
+    "description": "Credits."
+  },
+  "creditsVoiceLabel": "Hiligaynon voice",
+  "@creditsVoiceLabel": {
+    "description": "Credits."
+  },
+  "creditsVoiceText": "a fine-tuned version of Meta's MMS-TTS (VITS) model, licensed CC BY-NC 4.0 (non-commercial use only).",
+  "@creditsVoiceText": {
+    "description": "Credits."
+  },
+  "creditsDataLabel": "Voice training data",
+  "@creditsDataLabel": {
+    "description": "Credits."
+  },
+  "creditsDataText": "Philippine Languages Database (PLD), University of the Philippines Diliman Digital Signal Processing Laboratory (UP-DSP).",
+  "@creditsDataText": {
+    "description": "Credits."
+  },
+  "creditsTranslationLabel": "Translation",
+  "@creditsTranslationLabel": {
+    "description": "Credits."
+  },
+  "creditsTranslationText": "a MarianMT model trained by the Hibalo team, with help from the MADLAD-400 model and public Hiligaynon and Filipino texts.",
+  "@creditsTranslationText": {
+    "description": "Credits."
+  },
+  "creditsLessonsLabel": "Lesson content",
+  "@creditsLessonsLabel": {
+    "description": "Credits."
+  },
+  "creditsLessonsText": "written by the Hibalo team and checked against public references, including Omniglot, Iloilo Directory, Wikipedia, the ERIC Hiligaynon language packet (ED402758) and pinoydictionary.com.",
+  "@creditsLessonsText": {
+    "description": "Credits."
+  },
+  "creditsReadingLabel": "Text reading",
+  "@creditsReadingLabel": {
+    "description": "Credits."
+  },
+  "creditsReadingText": "Google ML Kit. Font: Plus Jakarta Sans (SIL Open Font License). Icons: Material Symbols (Apache License 2.0).",
+  "@creditsReadingText": {
+    "description": "Credits."
+  },
+  "creditsOpenSource": "Open-source software",
+  "@creditsOpenSource": {
+    "description": "Credits."
+  },
+  "helpTitle": "Help & Support",
+  "@helpTitle": {
+    "description": "Help."
+  },
+  "helpFaqTitle": "Frequently asked questions",
+  "@helpFaqTitle": {
+    "description": "Help."
+  },
+  "helpQ1": "How do I translate a photo?",
+  "@helpQ1": {
+    "description": "Help."
+  },
+  "helpA1": "On Translate, tap the camera button, then take a photo or choose one from your gallery. Check the text Hibalo reads, then tap Translate.",
+  "@helpA1": {
+    "description": "Help."
+  },
+  "helpQ2": "Does Hibalo work without internet?",
+  "@helpQ2": {
+    "description": "Help."
+  },
+  "helpA2": "Yes, after you sign in once. Translating, reading photos, the Hiligaynon voice and the lessons work offline. Your progress is saved to your account when you are back online. Speaking to translate uses your phone's speech service, which may need internet.",
+  "@helpA2": {
+    "description": "Help."
+  },
+  "helpQ3": "What if a translation looks wrong?",
+  "@helpQ3": {
+    "description": "Help."
+  },
+  "helpA3": "Translations are made on your phone and may not be exact. Try a shorter sentence or check the spelling. For voice and photos, fix the text in the box, then tap Translate.",
+  "@helpA3": {
+    "description": "Help."
+  },
+  "helpQ4": "How do I unlock the next lesson?",
+  "@helpQ4": {
+    "description": "Help."
+  },
+  "helpA4": "Pass the lesson's quiz with at least 80%. Lesson 2 unlocks when you finish Lesson 1.",
+  "@helpA4": {
+    "description": "Help."
+  },
+  "helpQ5": "How do I earn XP?",
+  "@helpQ5": {
+    "description": "Help."
+  },
+  "helpA5": "Finish a lesson (20 XP), answer a quick check right (5 XP) or answer a quiz question right (10 XP). Each one gives XP only the first time.",
+  "@helpA5": {
+    "description": "Help."
+  },
+  "helpQ6": "How do I change my avatar?",
+  "@helpQ6": {
+    "description": "Help."
+  },
+  "helpA6": "Go to Me, tap Edit profile, choose an avatar, then tap Save changes.",
+  "@helpA6": {
+    "description": "Help."
+  },
+  "helpStillNeed": "Still need help?",
+  "@helpStillNeed": {
+    "description": "Help."
+  },
+  "helpEmailUs": "Email us at {email}",
+  "@helpEmailUs": {
+    "description": "Help.",
+    "placeholders": {
+      "email": {
+        "type": "Object"
+      }
+    }
+  },
+  "helpCantOpenEmail": "Couldn't open the email app.",
+  "@helpCantOpenEmail": {
+    "description": "Help."
+  },
+  "adminGoodMorning": "Good Morning",
+  "@adminGoodMorning": {
+    "description": "Admin."
+  },
+  "adminGoodAfternoon": "Good Afternoon",
+  "@adminGoodAfternoon": {
+    "description": "Admin."
+  },
+  "adminGoodEvening": "Good Evening",
+  "@adminGoodEvening": {
+    "description": "Admin."
+  },
+  "adminTitle": "Admin Dashboard",
+  "@adminTitle": {
+    "description": "Admin."
+  },
+  "adminManagement": "Management",
+  "@adminManagement": {
+    "description": "Admin."
+  },
+  "adminManageUsers": "Manage Users",
+  "@adminManageUsers": {
+    "description": "Admin."
+  },
+  "adminManageUsersSub": "View, edit, promote or remove users",
+  "@adminManageUsersSub": {
+    "description": "Admin."
+  },
+  "adminUsage": "Usage Analytics",
+  "@adminUsage": {
+    "description": "Admin."
+  },
+  "adminUsageSub": "Daily & weekly active user breakdown",
+  "@adminUsageSub": {
+    "description": "Admin."
+  },
+  "adminRecentSignups": "Recent Signups",
+  "@adminRecentSignups": {
+    "description": "Admin."
+  },
+  "adminSwitchLight": "Switch to Light",
+  "@adminSwitchLight": {
+    "description": "Admin."
+  },
+  "adminSwitchDark": "Switch to Dark",
+  "@adminSwitchDark": {
+    "description": "Admin."
+  },
+  "adminRefresh": "Refresh",
+  "@adminRefresh": {
+    "description": "Admin."
+  },
+  "adminLogout": "Logout",
+  "@adminLogout": {
+    "description": "Admin."
+  },
+  "adminTotalUsers": "Total Users",
+  "@adminTotalUsers": {
+    "description": "Admin."
+  },
+  "adminAdmins": "Admins",
+  "@adminAdmins": {
+    "description": "Admin."
+  },
+  "adminActiveToday": "Active Today",
+  "@adminActiveToday": {
+    "description": "Admin."
+  },
+  "adminActiveWeek": "Active / Week",
+  "@adminActiveWeek": {
+    "description": "Admin."
+  },
+  "adminNoUsersYet": "No users yet.",
+  "@adminNoUsersYet": {
+    "description": "Admin."
+  },
+  "adminUnknown": "Unknown",
+  "@adminUnknown": {
+    "description": "Admin."
+  },
+  "adminBadge": "ADMIN",
+  "@adminBadge": {
+    "description": "Admin."
+  },
+  "adminNoEmail": "No email",
+  "@adminNoEmail": {
+    "description": "Admin."
+  },
+  "adminLoading": "Loading dashboard...",
+  "@adminLoading": {
+    "description": "Admin."
+  },
+  "adminSearch": "Search by name or email...",
+  "@adminSearch": {
+    "description": "Admin."
+  },
+  "adminAll": "All",
+  "@adminAll": {
+    "description": "Admin."
+  },
+  "adminNoUsersFound": "No users found.",
+  "@adminNoUsersFound": {
+    "description": "Admin."
+  },
+  "adminNoName": "No Name",
+  "@adminNoName": {
+    "description": "Admin."
+  },
+  "adminNoEmailCap": "No Email",
+  "@adminNoEmailCap": {
+    "description": "Admin."
+  },
+  "adminEdit": "Edit",
+  "@adminEdit": {
+    "description": "Admin."
+  },
+  "adminRemoveAdmin": "Remove Admin",
+  "@adminRemoveAdmin": {
+    "description": "Admin."
+  },
+  "adminMakeAdmin": "Make Admin",
+  "@adminMakeAdmin": {
+    "description": "Admin."
+  },
+  "adminDelete": "Delete",
+  "@adminDelete": {
+    "description": "Admin."
+  },
+  "adminPromoted": "User promoted to admin",
+  "@adminPromoted": {
+    "description": "Admin."
+  },
+  "adminDemoted": "Admin role removed",
+  "@adminDemoted": {
+    "description": "Admin."
+  },
+  "adminError": "Error: {error}",
+  "@adminError": {
+    "description": "Admin.",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "adminEditUser": "Edit User",
+  "@adminEditUser": {
+    "description": "Admin."
+  },
+  "adminName": "Name",
+  "@adminName": {
+    "description": "Admin."
+  },
+  "adminUserUpdated": "User updated",
+  "@adminUserUpdated": {
+    "description": "Admin."
+  },
+  "adminDeleteUser": "Delete User",
+  "@adminDeleteUser": {
+    "description": "Admin."
+  },
+  "adminDeleteConfirm": "Are you sure you want to delete \"{name}\"?\nThis cannot be undone.",
+  "@adminDeleteConfirm": {
+    "description": "Admin.",
+    "placeholders": {
+      "name": {
+        "type": "Object"
+      }
+    }
+  },
+  "adminUserDeleted": "User deleted",
+  "@adminUserDeleted": {
+    "description": "Admin."
+  },
+  "adminDailyActive": "DAILY ACTIVE USERS — LAST 7 DAYS",
+  "@adminDailyActive": {
+    "description": "Admin."
+  },
+  "adminBreakdown": "BREAKDOWN",
+  "@adminBreakdown": {
+    "description": "Admin."
+  },
+  "adminActiveCount": "{count} active",
+  "@adminActiveCount": {
+    "description": "Admin.",
+    "placeholders": {
+      "count": {
+        "type": "Object"
+      }
+    }
+  },
+  "adminEntry": "Admin",
+  "@adminEntry": {
+    "description": "Admin."
+  },
+  "settingsClearHistory": "Clear translation history",
+  "@settingsClearHistory": {
+    "description": "History / Saved."
+  }
 }

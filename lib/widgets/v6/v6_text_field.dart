@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../learning/theme/v6_colors.dart';
@@ -29,7 +30,11 @@ class V6TextField extends StatefulWidget {
     this.errorText,
     this.prefixIcon,
     this.maxLength,
+    this.helperText,
   });
+
+  /// A caption under the field (hidden while there is an error).
+  final String? helperText;
 
   /// A 24 icon at the start of the field (Text/Neutral Strong).
   final IconData? prefixIcon;
@@ -73,6 +78,7 @@ class _V6TextFieldState extends State<V6TextField> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final labelStyle = widget.fieldLabel
         ? V6AppText.labelField.copyWith(color: widget.enabled ? V6Colors.primary : V6Colors.textDisabled)
         : V6Text.labelLarge.copyWith(color: widget.enabled ? V6Colors.textNeutralStrong : V6Colors.textDisabled);
@@ -92,15 +98,10 @@ class _V6TextFieldState extends State<V6TextField> {
           onChanged: widget.onChanged,
           validator: widget.validator,
           maxLength: widget.maxLength,
+          // The counter is drawn below, at the field's left edge (Figma).
           buildCounter: widget.maxLength == null
               ? null
-              : (context, {required currentLength, required isFocused, maxLength}) => Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '$currentLength/$maxLength',
-                    style: V6Text.caption.copyWith(color: V6Colors.textMuted),
-                  ),
-                ),
+              : (context, {required currentLength, required isFocused, maxLength}) => null,
           style: V6Text.bodyLarge.copyWith(
             color: widget.enabled ? V6Colors.textPrimary : V6Colors.textDisabled,
           ),
@@ -124,7 +125,7 @@ class _V6TextFieldState extends State<V6TextField> {
             focusedErrorBorder: _border(V6Colors.error, 2),
             suffixIcon: widget.obscure
                 ? IconButton(
-                    tooltip: _hidden ? 'Show password' : 'Hide password',
+                    tooltip: _hidden ? t.commonShowPassword : t.commonHidePassword,
                     onPressed: widget.enabled ? () => setState(() => _hidden = !_hidden) : null,
                     icon: Icon(
                       _hidden ? Icons.visibility_off_rounded : Icons.visibility_rounded,
@@ -142,6 +143,19 @@ class _V6TextFieldState extends State<V6TextField> {
             prefixIconConstraints: const BoxConstraints(minWidth: 48, minHeight: 48),
           ),
         ),
+        if (widget.errorText == null && (widget.maxLength != null || widget.helperText != null))
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: widget.maxLength != null && widget.controller != null
+                ? ListenableBuilder(
+                    listenable: widget.controller!,
+                    builder: (context, _) => Text(
+                      '${widget.controller!.text.characters.length}/${widget.maxLength}',
+                      style: V6Text.caption.copyWith(color: V6Colors.textMuted),
+                    ),
+                  )
+                : Text(widget.helperText ?? '', style: V6Text.caption.copyWith(color: V6Colors.textMuted)),
+          ),
       ],
     );
   }

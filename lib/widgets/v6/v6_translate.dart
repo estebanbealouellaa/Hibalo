@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../learning/theme/v6_colors.dart';
@@ -20,10 +21,11 @@ class LanguageSwitchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final label = V6Text.labelLanguage;
     final icon = Icon(Icons.swap_horiz_rounded, size: 24, color: V6Colors.onCitrus);
     return Semantics(
-      label: 'From $from to $to',
+      label: t.trFromTo(from, to),
       child: Container(
         height: 64,
         decoration: BoxDecoration(color: V6Colors.primaryContainer, borderRadius: BorderRadius.circular(16)),
@@ -60,7 +62,7 @@ class LanguageSwitchCard extends StatelessWidget {
                   width: 48,
                   height: 48,
                   child: Tooltip(
-                    message: 'Swap languages',
+                    message: t.trSwap,
                     child: swapTurns == null ? icon : RotationTransition(turns: swapTurns!, child: icon),
                   ),
                 ),
@@ -132,6 +134,7 @@ class TranslationInputCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
       decoration: BoxDecoration(
@@ -155,7 +158,7 @@ class TranslationInputCard extends StatelessWidget {
                     top: 2,
                     right: 2,
                     child: IconButton(
-                      tooltip: 'Clear text',
+                      tooltip: t.trClearText,
                       onPressed: onClear,
                       icon: const Icon(Icons.close_rounded, size: 22, color: V6Colors.textSecondary),
                     ),
@@ -165,16 +168,16 @@ class TranslationInputCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '$characters characters',
+            t.trCharacters(characters),
             textAlign: TextAlign.right,
             style: V6Text.caption.copyWith(color: V6Colors.textMuted),
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              TonalIconButton(icon: Icons.mic_rounded, tooltip: 'Speak', onPressed: onSpeak),
+              TonalIconButton(icon: Icons.mic_rounded, tooltip: t.trSpeak, onPressed: onSpeak),
               const SizedBox(width: 8),
-              TonalIconButton(icon: Icons.photo_camera_rounded, tooltip: 'Scan text from a photo', onPressed: onScan),
+              TonalIconButton(icon: Icons.photo_camera_rounded, tooltip: t.trScanPhoto, onPressed: onScan),
               const SizedBox(width: 8),
               Expanded(
                 child: Align(
@@ -193,19 +196,19 @@ class TranslationInputCard extends StatelessWidget {
                         shape: const StadiumBorder(),
                       ),
                       child: translating
-                          ? const Row(
+                          ? Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 18,
                                   height: 18,
                                   child: CircularProgressIndicator(strokeWidth: 2.2, color: V6Colors.onPrimary),
                                 ),
-                                SizedBox(width: 8),
-                                Flexible(child: Text('Translating…', maxLines: 1, overflow: TextOverflow.ellipsis)),
+                                const SizedBox(width: 8),
+                                Flexible(child: Text(t.trTranslating, maxLines: 1, overflow: TextOverflow.ellipsis)),
                               ],
                             )
-                          : const Text('Translate'),
+                          : Text(t.trTranslateButton),
                     ),
                   ),
                 ),
@@ -262,6 +265,7 @@ class TranslationResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final showSkeleton = translating && text.isEmpty;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -283,7 +287,7 @@ class TranslationResultCard extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 72),
             child: showSkeleton
                 ? Semantics(
-                    label: 'Translating',
+                    label: t.trTranslatingShort,
                     child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -309,9 +313,9 @@ class TranslationResultCard extends StatelessWidget {
                   height: 48,
                   child: IconButton(
                     tooltip: switch (listen) {
-                      ListenState.idle => 'Listen',
-                      ListenState.preparing => 'Preparing the voice',
-                      ListenState.speaking => 'Stop',
+                      ListenState.idle => t.commonListen,
+                      ListenState.preparing => t.trPreparingVoice,
+                      ListenState.speaking => t.commonStop,
                     },
                     onPressed: showSkeleton ? null : onListen,
                     style: IconButton.styleFrom(
@@ -331,7 +335,7 @@ class TranslationResultCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 child: IconButton(
-                  tooltip: copied ? 'Copied' : 'Copy',
+                  tooltip: copied ? t.trCopied : t.trCopy,
                   onPressed: showSkeleton ? null : onCopy,
                   icon: Icon(
                     copied ? Icons.check_rounded : Icons.content_copy_rounded,
@@ -344,7 +348,7 @@ class TranslationResultCard extends StatelessWidget {
                   width: 48,
                   height: 48,
                   child: IconButton(
-                    tooltip: 'Share',
+                    tooltip: t.trShare,
                     onPressed: translating ? null : onShare,
                     icon: const Icon(Icons.ios_share_rounded, color: V6Colors.primary),
                   ),
@@ -354,7 +358,7 @@ class TranslationResultCard extends StatelessWidget {
                   width: 48,
                   height: 48,
                   child: IconButton(
-                    tooltip: saved ? 'Saved' : 'Save',
+                    tooltip: saved ? t.commonSaved : t.commonSave,
                     onPressed: translating ? null : onSave,
                     style: IconButton.styleFrom(
                       backgroundColor: saved ? V6Colors.primaryContainer : Colors.transparent,
