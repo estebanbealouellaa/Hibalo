@@ -767,6 +767,10 @@ class AppLocalizationsFil extends AppLocalizations {
   String get forgotCheckEmail => 'Tingnan ang iyong email';
 
   @override
+  String get forgotCheckSpam =>
+      'Hindi mo makita? Tingnan ang iyong Spam folder.';
+
+  @override
   String get forgotTitle => 'Nakalimutan ang iyong password?';
 
   @override

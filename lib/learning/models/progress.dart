@@ -1,8 +1,6 @@
 import '../sync/progress_cloud.dart' show CloudProgress, QuizAttemptRecord;
 
-/// What the learner has done in one lesson. Saved on the phone, and synced to
-/// Firestore `users/{uid}/lessonProgress/{lessonId}` with the same field
-/// names.
+/// Progress in one lesson; same field names as users/{uid}/lessonProgress/{lessonId}.
 class LessonProgress {
   const LessonProgress({
     this.partsDone = 0,
@@ -18,16 +16,13 @@ class LessonProgress {
   /// `partsDone` (0-based).
   final int partsDone;
 
-  /// Every part finished at least once.
   final bool completed;
 
   /// Best quiz result: correct scored questions. Null if never finished.
   final int? bestScore;
 
-  /// The quiz was passed at least once.
   final bool passed;
 
-  /// When the lesson was first finished.
   final DateTime? completedAt;
 
   LessonProgress copyWith({
@@ -66,7 +61,6 @@ class LessonProgress {
   }
 }
 
-/// Everything saved on the phone for the learning module.
 class ProgressSnapshot {
   ProgressSnapshot({
     Map<String, LessonProgress>? lessons,
@@ -84,7 +78,6 @@ class ProgressSnapshot {
   /// Lesson id → progress. Lessons never opened are missing.
   final Map<String, LessonProgress> lessons;
 
-  /// Total XP.
   int xp;
 
   /// Days in a row with a finished part or quiz, as last saved.
@@ -97,20 +90,12 @@ class ProgressSnapshot {
   /// so repeating them pays nothing.
   final Set<String> paid;
 
-  // ── Sync bookkeeping ────────────────────────────────────────────────
-
-  /// The account this progress belongs to, or null for a guest. Guest
-  /// progress merges into the first account that signs in; another account
-  /// starts from its own cloud progress.
+  /// The account this progress belongs to (null = guest; guest progress merges into the first account that signs in).
   String? ownerUid;
 
-  /// What [ownerUid]'s cloud copy is known to hold: read when the account
-  /// was merged, then raised with every write. Null until the cloud has
-  /// been read, and nothing is sent before that. Writes only ever send
-  /// what is above it, so the cloud is never lowered.
+  /// What [ownerUid]'s cloud copy holds; null until read, and writes only send what is above it, so the cloud is never lowered.
   CloudProgress? cloud;
 
-  /// Quiz attempts not sent yet.
   final List<QuizAttemptRecord> pendingAttempts;
 
   /// Lessons with every part finished (users/{uid}.lessonsCompleted).

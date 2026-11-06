@@ -28,9 +28,6 @@ class TranslatorProvider extends ChangeNotifier {
   // Speech-to-text (and the microphone permission) starts on the first tap
   // on Speak, in startListening, not when the app opens.
 
-  // ─────────────────────────────────────────────
-  // INIT SPEECH
-  // ─────────────────────────────────────────────
   Future<void> _initSpeech() async {
     _speechAvailable = await _speech.initialize(
       onError: (error) {
@@ -62,9 +59,6 @@ class TranslatorProvider extends ChangeNotifier {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // START LISTENING
-  // ─────────────────────────────────────────────
   Future<void> startListening() async {
     if (!_speechAvailable) {
       await _initSpeech();
@@ -114,9 +108,6 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────
-  // STOP LISTENING
-  // ─────────────────────────────────────────────
   Future<void> stopListening() async {
     await _speech.stop();
 
@@ -125,12 +116,10 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────
-  // TRANSLATE
-  // ─────────────────────────────────────────────
   // The offline model is the main path. Firestore is only the fallback for
-  // when the model can't be used.
-  Future<(String, bool)> _doTranslate(
+  // when the model can't be used. (Tests replace it.)
+  @protected
+  Future<(String, bool)> runTranslation(
     String text,
     String sourceLanguage,
     void Function(String textSoFar) onPartial,
@@ -167,18 +156,12 @@ class TranslatorProvider extends ChangeNotifier {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // UPDATE ORIGINAL TEXT
-  // ─────────────────────────────────────────────
   Future<void> updateOriginalText(String text) async {
     _state = _state.copyWith(originalText: text);
 
     await _performTranslation(text);
   }
 
-  // ─────────────────────────────────────────────
-  // PERFORM TRANSLATION
-  // ─────────────────────────────────────────────
   Future<void> _performTranslation(String text) async {
     final request = ++_translationRequest;
 
@@ -195,7 +178,7 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
 
     // Finished sentences are shown while the rest is still being translated.
-    final (result, isDictionaryMeaning) = await _doTranslate(
+    final (result, isDictionaryMeaning) = await runTranslation(
       text,
       _state.sourceLanguage,
       (textSoFar) {
@@ -218,9 +201,6 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────
-  // SHOW A PHOTO'S TEXT
-  // ─────────────────────────────────────────────
   // The text read from a photo goes into the input; its first translation
   // uses the scan pipeline (piece by piece), as the Camera screen did.
   Future<void> showScan(PhotoText scan) async {
@@ -257,9 +237,6 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────
-  // RESTORE (History / Saved)
-  // ─────────────────────────────────────────────
   // Puts an earlier translation back as it was, without translating again.
   void restore({
     required String originalText,
@@ -279,32 +256,31 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────
-  // SWAP LANGUAGES
-  // ─────────────────────────────────────────────
-  void swapLanguages() {
+  // Only the direction changes: the input stays and is translated again the new way (never replaced by the translation).
+  void swapLanguages({String? inputText}) {
     final newSource = _state.sourceLanguage == 'hiligaynon'
         ? 'tagalog'
         : 'hiligaynon';
 
-    final newOriginal = _state.translatedText;
+    final text = inputText ?? _state.originalText;
 
     _state = _state.copyWith(
       sourceLanguage: newSource,
-      originalText: newOriginal,
+      originalText: text,
       translatedText: '',
+      isDictionaryMeaning: false,
     );
 
-    notifyListeners();
-
-    if (newOriginal.isNotEmpty) {
-      _performTranslation(newOriginal);
+    if (text.trim().isEmpty) {
+      _translationRequest++;
+      _state = _state.copyWith(isTranslating: false);
+      notifyListeners();
+      return;
     }
+
+    _performTranslation(text);
   }
 
-  // ─────────────────────────────────────────────
-  // CLEAR TEXT
-  // ─────────────────────────────────────────────
   void clearText() {
     _translationRequest++;
 
@@ -313,18 +289,12 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────
-  // CLEAR ERROR
-  // ─────────────────────────────────────────────
   void clearError() {
     _state = _state.copyWith(recognitionError: '');
 
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────
-  // MAP ERRORS
-  // ─────────────────────────────────────────────
   String _mapError(String raw) {
     if (raw.contains('network')) {
       return 'Network error. Check connection.';

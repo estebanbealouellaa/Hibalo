@@ -6,10 +6,7 @@ import '../../l10n/app_language.dart';
 import '../models/progress.dart';
 import '../state/learning_progress.dart';
 
-/// Debug builds only: sets lesson progress and the app language, so every
-/// S01/S02 state can be checked before the lesson and quiz players exist.
-/// The bug icon that opens it is hidden in release builds. English only on
-/// purpose: it is a developer tool, not part of the app.
+/// Debug builds only (no bug icon in release): sets lesson progress and the app language for testing; English on purpose.
 void showLearnDebugMenu(BuildContext context) {
   if (!kDebugMode) return;
   final progress = context.read<LearningProgress>();

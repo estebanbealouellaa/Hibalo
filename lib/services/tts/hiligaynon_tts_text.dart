@@ -1,8 +1,4 @@
-// Text side of the Hiligaynon voice (v4: MMS-TTS / VITS, HIL_0619).
-// Exact port of voice_text(), ends_statement(), to_ids(), split_sentences()
-// and split_first() in C:\Hibalo-TTS-Mobile\generate_tts_v4.py, so the
-// phone feeds the model exactly what the PC does. Checked against
-// test/tts/v4_reference.json.
+// Text side of the v4 voice: exact port of generate_tts_v4.py's text functions (checked in test/tts/v4_reference.json).
 
 /// Pause after a sentence, in seconds (HIBALO_GAP).
 const double kSentenceGap = 0.50;
@@ -40,9 +36,7 @@ String _strip(String s) => s.replaceAll(_edgeWs, '');
 
 final RegExp _combiningMarks = RegExp(r'\p{Mn}', unicode: true);
 
-/// Python's strip_accents(): ñ -> ny, then unicodedata NFD with the
-/// combining marks dropped. Dart has no NFD, so the letters it changes are
-/// listed in [_accents].
+/// Python's strip_accents(): ñ -> ny, then NFD without combining marks (Dart has no NFD, so see [_accents]).
 String stripAccents(String s) {
   s = s.replaceAll('ñ', 'ny').replaceAll('Ñ', 'Ny');
   final sb = StringBuffer();
@@ -58,18 +52,14 @@ String stripAccents(String s) {
 bool endsStatement(String piece, bool isLast) =>
     isLast && !piece.replaceAll(RegExp('$_ws+\$'), '').endsWith('?');
 
-/// Same as the v4 training text: '— text —', commas -> '—', '?' -> '|'.
-/// With [stretchEnd], the last vowel is doubled: pamilya -> pamilyaa.
-/// Returns '' when nothing is left to say.
+/// Same as the v4 training text: '— text —', commas -> '—', '?' -> '|'; [stretchEnd] doubles the last vowel.
 String voiceText(String s, {bool stretchEnd = true}) {
   s = stripAccents(s).toLowerCase();
   s = s.replaceAll(RegExp('$_ws+-$_ws+|--+'), ' — ');
   s = s.replaceAll('?', ' | ');
   s = s.replaceAll('!', ' ').replaceAll('.', ' — ');
   s = s.replaceAll(RegExp('[,;:]'), ' — ');
-  // TODO(numbers): digits are dropped for now ("May 3 ka libro." ->
-  // "— may ka libro —"). Hiligaynon number words come in a separate change,
-  // once a native speaker has checked them (update generate_tts_v4.py too).
+  // Digits are dropped here; callers turn numbers into words first (hil_numbers.dart).
   s = s.replaceAll(RegExp("[^a-z'\\-—| ]"), ' ');
   s = _strip(s.replaceAll(_wsRun, ' '));
   s = s.replaceAll(RegExp('(—$_ws*)+—'), '—'); // no double pauses
@@ -97,11 +87,7 @@ List<int> toIds(String text, Map<String, int> vocab) {
   return ids;
 }
 
-/// One whole sentence at a time. A question with a lead-in part
-/// ("Maayong aga sa imo, kumusta ka?") is said as two: the lead-in, then the
-/// question on its own, the way short questions sound best. The very first
-/// part is also cut once by [splitFirst] when it is long.
-/// Returns (text, pause after in seconds) pairs.
+/// One sentence at a time; "lead-in, question?" is said as two parts, and a long first part is cut once by [splitFirst].
 List<(String, double)> splitSentences(String text) {
   final out = <(String, double)>[];
   var first = true;
@@ -135,9 +121,7 @@ List<(String, double)> splitSentences(String text) {
 List<String> _words(String s) =>
     _strip(s).split(_wsRun).where((w) => w.isNotEmpty).toList();
 
-/// Only for the very first sentence: cut it once so the voice can start
-/// speaking sooner. Cut at its first comma (where a speaker pauses anyway),
-/// otherwise before a clause word (kag, kon, para, ...) near the middle.
+/// First sentence only: cut once (at the first comma, else before a clause word near the middle) so speech starts sooner.
 List<String> splitFirst(String s) {
   final w = _words(s);
   if (w.length <= kFirstMax) return [s];
@@ -170,9 +154,7 @@ List<String> splitFirst(String s) {
   return [w.sublist(0, best).join(' '), w.sublist(best).join(' ')];
 }
 
-/// Letters whose NFD form (combining marks dropped) changes what the voice
-/// gets. Generated from Python's unicodedata (every BMP letter for which
-/// strip_accents() changes the result of voice_text()).
+/// Letters whose NFD form changes the voice text (generated from Python's unicodedata).
 // dart format off
 const Map<String, String> _accents = {
   '\u{00C0}': 'A', '\u{00C1}': 'A', '\u{00C2}': 'A', '\u{00C3}': 'A', '\u{00C4}': 'A', '\u{00C5}': 'A',

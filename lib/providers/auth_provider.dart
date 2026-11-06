@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/database_service.dart';
+import '../services/language_prompt.dart';
 
 class AuthProvider extends ChangeNotifier {
   // Lazy, so tests can subclass this without a Firebase app.
@@ -9,7 +10,6 @@ class AuthProvider extends ChangeNotifier {
   late final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   User? get currentUser => _auth.currentUser;
-
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
@@ -22,9 +22,6 @@ class AuthProvider extends ChangeNotifier {
   bool _isAdmin = false;
   bool get isAdmin => _isAdmin;
 
-  // ─────────────────────────────────────────────────
-  // Sign Up
-  // ─────────────────────────────────────────────────
   Future<bool> signUp({
     required String name,
     required String email,
@@ -42,13 +39,14 @@ class AuthProvider extends ChangeNotifier {
 
       final user = credential.user;
       if (user != null) {
-        // Use DatabaseService to keep user creation in one place
         await DatabaseService.createUser(
           uid: user.uid,
           username: name,
           email: email,
         );
         await _checkAdminRole(user.uid);
+        // New account: the language pop-up shows once on Home.
+        await LanguagePrompt.afterSignUp(user.uid);
       }
 
       return true;
@@ -61,9 +59,6 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  // ─────────────────────────────────────────────────
-  // Sign In
-  // ─────────────────────────────────────────────────
   Future<bool> signIn({required String email, required String password}) async {
     try {
       _errorMessage = null;
@@ -91,9 +86,6 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  // ─────────────────────────────────────────────────
-  // Sign Out
-  // ─────────────────────────────────────────────────
   Future<void> signOut() async {
     await _auth.signOut();
     _isAdmin = false;
@@ -101,27 +93,18 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────────
-  // Refresh role — called by main.dart on splash
-  // ─────────────────────────────────────────────────
   Future<void> refreshAdminRole(String uid) async {
     await _checkAdminRole(uid);
     await _updateLastActive(uid);
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────────
-  // Clear error (call before retrying auth)
-  // ─────────────────────────────────────────────────
   void clearError() {
     _errorMessage = null;
     _errorCode = null;
     notifyListeners();
   }
 
-  // ─────────────────────────────────────────────────
-  // Helpers
-  // ─────────────────────────────────────────────────
   Future<void> _checkAdminRole(String uid) async {
     try {
       final doc = await _firestore.collection('users').doc(uid).get();

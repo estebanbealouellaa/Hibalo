@@ -1,10 +1,4 @@
-// The offline Hiligaynon <-> Filipino translator. This is the only file the
-// rest of the app needs. It runs the pipeline from section 10 of
-// docs/translation/summary.md:
-//
-//   phrase lookup -> normalize -> spelling map (Hiligaynon input only)
-//   -> number protect -> SentencePiece + language tag -> ONNX -> decode
-//   -> number restore -> match_style
+// The offline Hiligaynon <-> Filipino translator: the pipeline from section 10 of docs/translation/summary.md.
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -16,19 +10,15 @@ import 'sentencepiece_tokenizer.dart';
 import 'text_rules.dart';
 import 'translation_engine.dart';
 
-/// Sentences longer than this use greedy instead of beam search. On a slow
-/// phone (Galaxy A03) a sentence over 15 words took 8.9 s on average with
-/// beam 4 and 2.2 s with greedy.
+/// Longer sentences use greedy: on a Galaxy A03 beam 4 took 8.9 s vs 2.2 s greedy for 15+ words.
 const int kBeamMaxWords = 15;
 
-/// Shown under each translation.
 const String kTranslationNote = 'Maaaring hindi eksakto ang salin.';
 
 /// The note text, with a label for single-word dictionary meanings.
 String translationNote({required bool isDictionaryMeaning}) =>
     isDictionaryMeaning ? 'Dictionary meaning. $kTranslationNote' : kTranslationNote;
 
-/// How a translation was made.
 enum TranslationMethod { phraseList, beam, greedy }
 
 class TranslationResult {
@@ -147,11 +137,7 @@ class OfflineTranslator {
     });
   }
 
-  /// The full pipeline, as used by the app. The text is translated one
-  /// sentence at a time. [onPartial] gets the sentences finished so far, so
-  /// the screen can show them while the rest is still being translated.
-  /// [partOfParagraph]: this text is one piece of a longer input, such as one
-  /// line of a scan, so it gets the paragraph beam size.
+  /// Translates one sentence at a time; [onPartial] gets the finished sentences so far.
   Future<TranslationResult> translate(
     String text, {
     required bool fromHiligaynon,

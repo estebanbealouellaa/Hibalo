@@ -11,23 +11,13 @@ import '../theme/v6_text.dart';
 import '../theme/v6_theme.dart';
 import '../widgets/result_parts.dart';
 
-/// S04 · Quiz result, after the last question. The attempt is already saved.
-///
-/// - The tier from `settings.resultTiers`: Perpekto! (100%), Maayo gid!
-///   (≥ 80%) or Keep practicing (< 80%), each with its mascot.
-/// - "You got X out of Y correct.", tiles "+N XP" (newly paid only) and
-///   Accuracy.
-/// - Passed: chip "Lesson N+1 unlocked" ("Beginner complete!" after the
-///   level's last lesson), Continue → S01, Review answers → S05 · Passed.
-/// - Not passed: chip "Pass this quiz to unlock Lesson N+1", Try again →
-///   question 1 with a fresh score and a new shuffle, Review answers → S05.
+/// S04 Quiz result; the attempt is already saved.
 class QuizResultScreen extends StatelessWidget {
   const QuizResultScreen({super.key, required this.lessonId, required this.result, required this.answers});
 
   final String lessonId;
   final QuizAttemptResult result;
 
-  /// Every question in quiz order, for Review answers.
   final List<AnsweredQuestion> answers;
 
   /// The chip text and whether it shows as unlocked.

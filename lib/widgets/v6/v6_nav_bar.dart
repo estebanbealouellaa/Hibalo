@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../learning/theme/v6_colors.dart';
 import '../../learning/theme/v6_text.dart';
 
-/// One destination of [V6NavBar].
 class V6NavItem {
   const V6NavItem(this.icon, this.label);
 
@@ -11,10 +10,7 @@ class V6NavItem {
   final String label;
 }
 
-/// Figma "Navigation Bar" (448:1678, Items=4): Surface with a Divider top
-/// border, 80 high. Each item: a 64 × 32 indicator (Primary Container when
-/// selected), a 24 px icon and Label/Medium (Bold Primary when selected,
-/// Text/Muted otherwise). The whole item is the touch target.
+/// Figma "Navigation Bar" (448:1678): 80 high; the whole item is the touch target.
 class V6NavBar extends StatelessWidget {
   const V6NavBar({super.key, required this.items, required this.selected, required this.onSelect});
 

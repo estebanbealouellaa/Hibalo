@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/v6_colors.dart';
 
-/// Text from lessons.json where words between `*asterisks*` are Hiligaynon
-/// or Filipino examples: those are shown italic and violet (or [exampleColor],
-/// e.g. Lagoon Text inside the teal tip card). The asterisks are not shown.
+/// lessons.json text where *asterisked* words are examples, shown italic violet (or [exampleColor]).
 class MarkupText extends StatelessWidget {
   const MarkupText(
     this.text, {
@@ -40,4 +38,3 @@ List<TextSpan> markupSpans(String text, TextStyle style, Color exampleColor) {
         TextSpan(text: pieces[i], style: i.isOdd ? example : style),
   ];
 }
-

@@ -36,7 +36,6 @@ class AccountException implements Exception {
 /// What Edit profile can do with the account. [FirebaseAccount] is the real
 /// one; tests use a fake.
 abstract class AccountActions {
-  /// The signed-in user's email.
   String? get email;
 
   /// Saves the username and avatar ("asset:avatarN").
@@ -51,9 +50,7 @@ abstract class AccountActions {
 
   Future<void> changePassword(String newPassword);
 
-  /// Deletes lessonProgress, quizAttempts and users/{uid}, then the Firebase
-  /// account, then this account's History and Saved on the phone. Call
-  /// [confirmPassword] first.
+  /// Deletes progress, users/{uid}, the Firebase account, then History and Saved on the phone; call [confirmPassword] first.
   Future<void> deleteAccount();
 }
 

@@ -762,6 +762,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotCheckEmail => 'Check your email';
 
   @override
+  String get forgotCheckSpam => 'Don\'t see it? Check your Spam folder.';
+
+  @override
   String get forgotTitle => 'Forgot your password?';
 
   @override

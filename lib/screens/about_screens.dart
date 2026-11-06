@@ -13,9 +13,7 @@ class InfoSection {
   final VoidCallback? onTap;
 }
 
-/// Settings › Privacy policy (Figma 619:6273 layout). Lance's text (Nov 6),
-/// word for word in English: each row is "Label: text" with the label in
-/// bold. Filipino and Hiligaynon are drafts.
+/// Settings › Privacy policy: Lance's text, word for word in English (fil/hil are drafts).
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
@@ -65,7 +63,6 @@ class CreditsScreen extends StatelessWidget {
   }
 }
 
-/// Top app bar, an intro line, and one white card of sections.
 class _InfoPage extends StatelessWidget {
   const _InfoPage({required this.title, required this.intro, required this.sections});
 

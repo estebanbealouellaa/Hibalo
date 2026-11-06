@@ -29,7 +29,6 @@ final RegExp _sentence = RegExp(
   dotAll: true,
 );
 
-/// Splits text into sentences, keeping each one's end punctuation.
 List<String> splitSentences(String text) => _sentence
     .allMatches(text)
     .map((m) => m.group(0)!.trim())
@@ -39,10 +38,7 @@ List<String> splitSentences(String text) => _sentence
 final RegExp _lineEnd = RegExp(r'''[.?!:]["')\]]*$''');
 final RegExp _startsLowercase = RegExp(r'^\p{Ll}', unicode: true);
 
-/// Turns scanned text into pieces to translate separately, so a menu or list
-/// isn't read as one long sentence. [blocks] are the OCR's text blocks, each a
-/// list of lines. A line continues the one before it only when that line has
-/// no end punctuation and this one starts in lowercase (a wrapped sentence).
+/// Splits scanned text into pieces so a menu isn't one long sentence; a line joins the previous one only when it wraps mid-sentence.
 List<String> scanSegments(List<List<String>> blocks) {
   final segments = <String>[];
   for (final block in blocks) {

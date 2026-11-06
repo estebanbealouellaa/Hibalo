@@ -43,7 +43,6 @@ class PartLayout extends StatelessWidget {
   }
 }
 
-/// A scroll view that fades its bottom edge while there is more to see.
 class FadingScroll extends StatefulWidget {
   const FadingScroll({super.key, required this.child});
 
@@ -96,7 +95,6 @@ class _FadingScrollState extends State<FadingScroll> {
 class PartHeader extends StatelessWidget {
   const PartHeader({super.key, required this.icon, required this.title, this.trailing});
 
-  /// A Material Symbols name from the JSON.
   final String icon;
   final String title;
   final Widget? trailing;
@@ -134,7 +132,6 @@ class IconTile extends StatelessWidget {
   }
 }
 
-/// Body text of a part, with *markup*.
 class PartText extends StatelessWidget {
   const PartText(this.text, {super.key});
 
@@ -259,9 +256,7 @@ class ShowAllSwitch extends StatelessWidget {
                 children: [
                   Text(label, style: V6Text.labelLargeSemiBold),
                   const SizedBox(width: 8),
-                  // The Material track is 52 x 32 (inside a wider box with
-                  // its own padding), so it is scaled by 40 / 52 around its
-                  // centre to give Figma's 40 x 24 track.
+                  // Material's track is 52 x 32, so it is scaled by 40 / 52 to get Figma's 40 x 24.
                   SizedBox(
                     width: 40,
                     height: 24,
@@ -354,7 +349,6 @@ class AudioButton extends StatelessWidget {
   }
 }
 
-/// White card with a light border, used by most parts.
 class PartCard extends StatelessWidget {
   const PartCard({super.key, required this.child, this.padding = const EdgeInsets.all(16), this.radius = 16});
 

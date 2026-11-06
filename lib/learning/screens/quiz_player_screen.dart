@@ -24,17 +24,7 @@ import '../widgets/quiz/quiz_common.dart';
 import '../widgets/quiz/tile_questions.dart';
 import '../widgets/quiz/typed_questions.dart';
 
-/// The quiz player: a lesson's `quiz.questions` in order, each with the
-/// widget for its template (Q01–Q10), then the result (§4).
-///
-/// - Top: X (→ S06 Leave quiz), a smooth progress bar, "n / N", and a 30 s
-///   timer chip on timed types. No Back; Android back opens Leave quiz.
-/// - Meta row: the question-type chip and "+10 XP" (hidden when unscored).
-/// - Bottom: Check (Q01–Q08), Continue (Q09) or Submit (Q10), disabled until
-///   an answer is given. After Check: F01 or F02; at 0 s: F03 (wrong).
-/// - The timer pauses while the Leave pop-up or a sheet is open.
-/// - Leave drops the attempt. After the last question the attempt is saved
-///   (score, pass, unlock, XP paid once per question) and the result shows.
+/// Quiz player (Q01–Q10), then the result; no Back, Android back opens Leave quiz.
 class QuizPlayerScreen extends StatefulWidget {
   const QuizPlayerScreen({
     super.key,
@@ -70,7 +60,6 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
   final Map<String, List<int>> _orders = {};
   final Map<String, QuestionOutcome> _outcomes = {};
 
-  /// The answer given to each question, for Quiz review (S05).
   final Map<String, AnswerState> _given = {};
 
   int _index = 0;
@@ -113,8 +102,6 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     _recorder.dispose();
     super.dispose();
   }
-
-  // ── Question flow ──────────────────────────────────────────────────────
 
   void _startQuestion() {
     _timer?.dispose();
@@ -263,8 +250,6 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     LearningRoutes.showQuizResult(context, _lesson, result, answers);
   }
 
-  // ── Leaving ──────────────────────────────────────────────────────────
-
   /// S06 Leave quiz. The timer pauses while it is open; Keep going keeps
   /// the exact state. Leave drops the attempt: no score, no XP.
   Future<void> _confirmLeave() async {
@@ -277,8 +262,6 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     if (!mounted) return;
     LearningRoutes.backToLearn(context);
   }
-
-  // ── Building ─────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {

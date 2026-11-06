@@ -26,17 +26,7 @@ import '../widgets/parts/table_part.dart';
 import '../widgets/parts/words_part.dart';
 import '../widgets/segmented_progress.dart';
 
-/// The lesson part player: shows a lesson's parts in order, each with the
-/// widget for its template (P01–P10).
-///
-/// - Top: X (→ Leave pop-up), the segmented bar, the lesson's XP so far.
-/// - Under it: "Lesson N · Part X of Y" on every part.
-/// - Bottom: Back + Next. A step is a card (P04), a letter (P05) or a part;
-///   Back goes one step back and is disabled only on the very first step
-///   (§1.2). On the last part Next reads "Finish & practice" or
-///   "Finish lesson" (§1.7).
-/// - Each finished part is saved when Next leaves it. Leaving drops only the
-///   part in progress.
+/// Lesson part player (P01–P10); a Back/Next step is a card (P04), a letter (P05) or a whole part.
 class LessonPlayerScreen extends StatefulWidget {
   const LessonPlayerScreen({
     super.key,
@@ -101,13 +91,10 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
     return !_busy && (part is! QuickCheckPartData || _answers.containsKey(part.id));
   }
 
-  /// Bookkeeping when a step is shown: letters count as seen.
   void _enterStep() {
     final part = _current;
     if (part is LettersPartData) (_seen[part.id] ??= {}).add(_step);
   }
-
-  // ── Back / Next ─────────────────────────────────────────────────────────
 
   Future<void> _next() async {
     if (!_canGoNext) return;
@@ -168,8 +155,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
     LearningRoutes.openLessonComplete(context, _lesson, replace: true, xpJustPaid: paid);
   }
 
-  // ── Leaving ─────────────────────────────────────────────────────────────
-
   Future<void> _confirmLeave() async {
     final leave = await showLeaveLessonDialog(context);
     if (!leave || !mounted) return;
@@ -180,8 +165,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   /// Android back = the on-screen Back; on the very first step it asks to
   /// leave instead.
   void _onSystemBack() => _isFirstStep ? _confirmLeave() : _back();
-
-  // ── Quick check ─────────────────────────────────────────────────────────
 
   List<int> _orderFor(QuickCheckPartData part) {
     return _orders.putIfAbsent(part.id, () {
@@ -214,8 +197,6 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
     // Continue on the sheet goes to the next part.
     if (mounted && _current == part) await _next();
   }
-
-  // ── Building ────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {

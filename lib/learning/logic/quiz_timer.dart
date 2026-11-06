@@ -15,12 +15,10 @@ class QuizTimer extends ChangeNotifier {
   int _pauses = 0;
   bool _stopped = false;
 
-  /// Whole seconds left.
   int get secondsLeft => _left;
 
   bool get isPaused => _pauses > 0;
 
-  /// "00:30" style, for the timer chip.
   String get label {
     final m = (_left ~/ 60).toString().padLeft(2, '0');
     final s = (_left % 60).toString().padLeft(2, '0');
@@ -40,7 +38,6 @@ class QuizTimer extends ChangeNotifier {
     if (_pauses > 0) _pauses--;
   }
 
-  /// Stops for good (the question was answered).
   void stop() {
     _stopped = true;
     _ticker?.cancel();

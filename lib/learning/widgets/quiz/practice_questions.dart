@@ -12,12 +12,7 @@ import 'quiz_common.dart';
 
 /// The unscored questions: Q09 Speaking and Q10 Open answer (§4).
 
-// ── Q09 Speaking ────────────────────────────────────────────────────────────
-
-/// Shows `text` + `meaning`. "Native speaker" plays `audio`; the mic records
-/// (the button turns into Stop while recording); "You" plays the recording.
-/// Continue is enabled after one recording, or straight away when the mic is
-/// refused or missing ("Mic not available. You can skip this one.").
+/// Q09: Continue is enabled after one recording, or at once when the mic is refused or missing.
 class SpeakingQuestion extends StatefulWidget {
   const SpeakingQuestion({
     super.key,
@@ -232,8 +227,6 @@ class _CompareButton extends StatelessWidget {
     );
   }
 }
-
-// ── Q10 Open answer ─────────────────────────────────────────────────────────
 
 /// `prompt`, `hint` and a text field with an "N / maxChars characters"
 /// counter. Submit (enabled when the field isn't empty) opens F04.

@@ -23,7 +23,6 @@ sealed class LessonPart {
 
   final String id;
 
-  /// "P01" … "P10".
   final String template;
 
   /// How many Back/Next steps the part has: one per card (P04) or letter
@@ -101,8 +100,6 @@ sealed class LessonPart {
   }
 }
 
-// ── P01 Key idea ────────────────────────────────────────────────────────────
-
 class KeyIdeaPartData extends LessonPart {
   KeyIdeaPartData(
     String id, {
@@ -120,7 +117,6 @@ class KeyIdeaPartData extends LessonPart {
   /// May contain *markup*.
   final String text;
 
-  /// Optional term cards (may be empty).
   final List<Term> terms;
 }
 
@@ -138,8 +134,6 @@ class Term {
   factory Term.fromJson(JsonReader r) =>
       Term(hil: r.str('hil'), note: r.strOrNull('note'), fil: r.strOrNull('fil'));
 }
-
-// ── P02 Table ───────────────────────────────────────────────────────────────
 
 class TablePartData extends LessonPart {
   TablePartData(
@@ -195,8 +189,6 @@ class TablePartData extends LessonPart {
     );
   }
 }
-
-// ── P03 Pattern ─────────────────────────────────────────────────────────────
 
 class PatternPartData extends LessonPart {
   PatternPartData(
@@ -255,22 +247,17 @@ class PatternSlot {
       );
 }
 
-// ── P04 Words (learn cards) ─────────────────────────────────────────────────
-
 class WordsPartData extends LessonPart {
   WordsPartData(String id, {required this.title, required this.items})
       : super(id, 'P04');
 
   final String title;
 
-  /// One learn card per item, in `itemIds` order.
   final List<LessonItem> items;
 
   @override
   int get stepCount => items.length;
 }
-
-// ── P05 Letters & sounds ────────────────────────────────────────────────────
 
 class LettersPartData extends LessonPart {
   LettersPartData(String id, {required this.title, required this.letters})
@@ -278,14 +265,11 @@ class LettersPartData extends LessonPart {
 
   final String title;
 
-  /// The lesson's letters (19 in Lesson 1).
   final List<Letter> letters;
 
   @override
   int get stepCount => letters.length;
 }
-
-// ── P06 Quick check ─────────────────────────────────────────────────────────
 
 class QuickCheckPartData extends LessonPart {
   QuickCheckPartData(
@@ -301,7 +285,6 @@ class QuickCheckPartData extends LessonPart {
   /// In JSON order. Shuffle before showing.
   final List<String> options;
 
-  /// Index of the right option in [options].
   final int answer;
   final String explain;
 
@@ -329,8 +312,6 @@ void checkOptions(JsonReader r, List<String> options, int answer) {
   }
 }
 
-// ── P07 Dialogue ────────────────────────────────────────────────────────────
-
 class DialoguePartData extends LessonPart {
   DialoguePartData(
     String id, {
@@ -344,7 +325,6 @@ class DialoguePartData extends LessonPart {
   final String title;
   final String icon;
 
-  /// One line describing the scene.
   final String setting;
   final List<DialogueLine> lines;
 
@@ -363,8 +343,6 @@ class DialogueLine {
       DialogueLine(speaker: r.str('speaker'), hil: r.str('hil'), fil: r.str('fil'));
 }
 
-// ── P08 Reading ─────────────────────────────────────────────────────────────
-
 class ReadingPartData extends LessonPart {
   ReadingPartData(
     String id, {
@@ -379,8 +357,6 @@ class ReadingPartData extends LessonPart {
   final List<HilFil> lines;
   final String? tip;
 }
-
-// ── P09 Filipino bridge & mistakes ──────────────────────────────────────────
 
 class BridgeMistakesPartData extends LessonPart {
   BridgeMistakesPartData(
@@ -409,8 +385,6 @@ class Mistake {
   factory Mistake.fromJson(JsonReader r) =>
       Mistake(wrong: r.str('wrong'), right: r.str('right'), why: r.str('why'));
 }
-
-// ── P10 Culture note ────────────────────────────────────────────────────────
 
 class CultureNotePartData extends LessonPart {
   CultureNotePartData(

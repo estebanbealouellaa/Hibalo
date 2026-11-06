@@ -7,35 +7,27 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:            # ← App-language strings (gen-l10n)
+  flutter_localizations:
     sdk: flutter
   flutter_tts: ^4.0.2
-  # ── UI ─────────────────────────────────────
   provider: ^6.1.2
-  # ── Speech Recognition ─────────────────────
   speech_to_text: ^7.0.0
   permission_handler: ^11.3.1
-  # ── Firebase ───────────────────────────────
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.0
   cloud_firestore: ^5.5.0
   intl: ^0.20.2
-  # ── Camera & OCR ───────────────────────────
   image_picker: ^1.1.2
   google_mlkit_text_recognition: ^0.13.0
-  # ── Storage ────────────────────────────────
   shared_preferences: ^2.3.0
-  # ── Share ────────────────────────────────────────
-  share_plus: ^11.0.0               # Translate result Share (Android share menu)
-  package_info_plus: ^8.0.0         # Settings > App version
-  # ── URL Launcher ───────────────────────────
-  url_launcher: ^6.3.0              # ← ADDED for Help & Support email button
-  # ── NLP ────────────────────────────────────
+  share_plus: ^11.0.0
+  package_info_plus: ^8.0.0
+  url_launcher: ^6.3.0
   flutter_onnxruntime: ^1.9.0
   audioplayers: ^6.8.1
   flutter_pcm_sound: ^3.3.3
-  unorm_dart: ^0.3.0                # ← Unicode NFD/NFC for the offline translator
-  android_intent_plus: ^6.1.0       # ← Opens the phone's voice install screen
+  unorm_dart: ^0.3.0
+  android_intent_plus: ^6.1.0
   flutter_svg: ^2.3.2
   record: ^7.1.2
 dev_dependencies:
@@ -45,31 +37,21 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  # ── App Icon Generator ─────────────────────
   flutter_launcher_icons: ^0.13.1
-# ── APP ICON CONFIG ──────────────────────────
 flutter_launcher_icons:
   android: true
   ios: false
   image_path: "assets/logo.png"
 flutter:
   uses-material-design: true
-  generate: true                    # gen-l10n, see l10n.yaml
-  # ── ASSETS ─────────────────────────────────
+  generate: true
   assets:
     - assets/Account.png
-    # Hiligaynon voice v4 (MMS-TTS, seed 7), from
-    # C:/Hibalo-TTS-Mobile/models/hil_0619_v4_onnx_r. The .onnx file is
-    # stored with Git LFS: install Git LFS before cloning/pulling, or the
-    # voice won't load (tested on PC with generate_tts_v4.py).
+    # The .onnx voice and translator models are stored with Git LFS: install it before cloning.
     - assets/tts/models/
-    # Offline Hiligaynon <-> Filipino translator (round-2 8x8 student, spec in
-    # docs/translation/summary.md). The .onnx files are stored with Git LFS.
     - assets/translation/models/
     - assets/translation/data/
-    # Learning module. Only folders that exist are listed: Flutter stops the
-    # build on a missing folder. Add assets/audio/bNN/ here when the
-    # recordings arrive. Until then the app treats those clips as missing.
+    # Only existing folders (a missing one stops the build): add assets/audio/bNN/ when recorded.
     - assets/lessons/
     - assets/images/lessons/
     - assets/images/mascots/

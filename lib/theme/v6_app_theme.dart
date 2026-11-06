@@ -4,10 +4,7 @@ import '../learning/theme/v6_colors.dart';
 import '../learning/theme/v6_text.dart';
 import '../learning/theme/v6_theme.dart';
 
-/// The app-wide V6 theme. It starts from the Learning theme (same tokens,
-/// same Plus Jakarta Sans) and adds what the other screens need. The
-/// Learning screens keep their own [LearningTheme] wrapper, so nothing here
-/// changes how they look.
+/// App-wide V6 theme built on the Learning tokens; the Learning screens keep their own [LearningTheme].
 ThemeData buildAppTheme() {
   final base = buildLearningTheme();
   return base.copyWith(

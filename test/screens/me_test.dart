@@ -1,5 +1,4 @@
-// Stage D: Me, Edit profile (username + local avatar), avatars (old
-// DiceBear values still show), Settings › Privacy / Credits, Help.
+// Me, Edit profile, avatars (old DiceBear values still show), Settings › Privacy / Credits, Help.
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

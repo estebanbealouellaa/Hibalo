@@ -8,10 +8,7 @@ import '../../theme/v6_text.dart';
 import '../markup_text.dart';
 import 'part_common.dart';
 
-/// P09 · Filipino bridge & mistakes: a bullet card with a pink left bar,
-/// then "Common mistakes" (wrong struck through in red, right in green, why
-/// in grey). No audio. Sizes from Figma "P09 · Part · Filipino bridge &
-/// mistakes": 14 between blocks, 40 px icon tiles, 18 px card corners.
+/// P09 Filipino bridge & mistakes (Figma "P09 · Part · Filipino bridge & mistakes"); no audio.
 class BridgeMistakesPart extends StatelessWidget {
   const BridgeMistakesPart({super.key, required this.data});
 

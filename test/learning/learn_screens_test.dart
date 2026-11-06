@@ -74,8 +74,8 @@ void main() {
       expect(find.text('Finish Lesson\u00A01 to unlock'), findsOneWidget);
       expect(find.text('Pass Lesson\u00A02 quiz to unlock'), findsOneWidget);
       expect(find.text('Pass Lesson\u00A012 quiz to unlock'), findsOneWidget);
-      expect(find.text('Intermediate and Advanced: finish Beginner to unlock'),
-          findsOneWidget);
+      // No hint line under the level tabs (Lance, Nov 7); tabs stay locked.
+      expect(find.textContaining('finish Beginner to unlock'), findsNothing);
       // Rows keep their numbers.
       for (var n = 1; n <= 13; n++) {
         expect(find.text('$n'), findsOneWidget, reason: 'row $n');
@@ -125,7 +125,7 @@ void main() {
         for (final l in lessons) l.id: l.hasQuiz ? passed(8) : done,
       });
 
-      expect(find.text('Advanced: finish Intermediate to unlock'), findsOneWidget);
+      expect(find.textContaining('to unlock'), findsNothing, reason: 'no hint line');
       await tester.tap(find.text('Intermediate'));
       await tester.pumpAndSettle();
       expect(find.text('Lessons coming soon'), findsOneWidget);

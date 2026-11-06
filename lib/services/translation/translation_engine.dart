@@ -1,20 +1,4 @@
-// Offline translation model: round-2 student (MarianMT, ONNX int8), section
-// (G) of docs/translation/summary.md.
-//
-// Encoder:  input_ids, attention_mask -> last_hidden_state
-// Decoder:  one token at a time, with a cache of past results:
-//   input_ids [1, 1], encoder_attention_mask, encoder_hidden_states,
-//   use_cache_branch [1], past_key_values.{L}.decoder.key|value and
-//   past_key_values.{L}.encoder.key|value
-//   -> logits [1, 1, vocab], present.{L}.*  (same names)
-//
-// The first decoder step gets zeros as cache. The encoder part of the cache
-// is only set once, from step 1. The decoder part changes on every step.
-//
-// flutter_onnxruntime runs the model on a native background thread, so these
-// calls don't block the UI. Tensors live on the native side and we only hold
-// handles, so beam search can share a cache between hypotheses without
-// copying it.
+// Offline translation model: round-2 student (MarianMT, ONNX int8), section (G) of docs/translation/summary.md.
 
 import 'dart:async';
 import 'dart:convert';
@@ -30,7 +14,6 @@ const int kBeamSize = 4;
 /// The same, for each sentence of an input with 2 or more sentences.
 const int kParagraphBeamSize = 2;
 
-/// CPU threads for one model call.
 const int kTranslationThreads = 2;
 
 /// A decoder cache that may be used by several hypotheses. It is freed when
@@ -66,7 +49,6 @@ class _Candidate {
   final _SharedCache cache;
 }
 
-/// What one decoder step gives back.
 class _StepResult {
   _StepResult(this.logits, this.present);
 
@@ -126,7 +108,6 @@ class TranslationEngine {
     }
   }
 
-  /// Loads the two sessions once and keeps them in memory.
   Future<void> load() => _loading ??= _load().catchError((Object e) {
     _loading = null; // allow a retry
     throw e;
@@ -264,7 +245,6 @@ class TranslationEngine {
   Iterable<String> get _encoderPast =>
       _pastNames.where((n) => n.contains('.encoder.'));
 
-  // ── Greedy (summary.md, "Greedy loop") ─────────────────────────────────
   Future<List<int>> _greedy(OrtValue hidden, OrtValue mask) async {
     final output = <int>[];
     var encoderPast = <String, OrtValue>{};
@@ -312,12 +292,7 @@ class TranslationEngine {
     return best;
   }
 
-  // ── Beam search ────────────────────────────────────────────────────────
-  //
-  // Each hypothesis runs on its own, one decoder call per step, reusing its
-  // cache handles. (Batching would mean copying all the cache tensors through
-  // the plugin on every step.) The rule was checked in Python on the everyday
-  // test: 75.35 / 64.86 chrF++ against 75.1 / 64.9 in the spec.
+  // Each hypothesis runs on its own (batching would copy every cache tensor through the plugin each step); checked in Python: 75.35 / 64.86 chrF++.
   Future<List<int>> _beam(OrtValue hidden, OrtValue mask, int beamSize) async {
     final finished = <(double, List<int>)>[]; // (score, tokens), best first
     var encoderPast = <String, OrtValue>{};
@@ -418,7 +393,6 @@ class TranslationEngine {
     return out;
   }
 
-  /// The [count] highest-scoring ids, best first.
   static List<int> _topIds(List<double> scores, int count) {
     final top = <int>[];
     for (var id = 0; id < scores.length; id++) {

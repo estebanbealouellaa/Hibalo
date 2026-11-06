@@ -5,9 +5,7 @@ import '../theme/v6_colors.dart';
 import '../theme/v6_text.dart';
 import 'lesson_image.dart';
 
-/// One lesson in the S01 list (Figma component "Lesson row", 335 × 80):
-/// number box, icon, title, one meta line and a trailing icon. The look
-/// follows [state]; the texts are worked out by the Learn screen.
+/// One lesson row on S01 (Figma "Lesson row", 335 × 80); the texts come from the Learn screen.
 class LessonRow extends StatelessWidget {
   const LessonRow({
     super.key,
@@ -139,7 +137,6 @@ class LessonRow extends StatelessWidget {
   }
 }
 
-/// The 32 × 32 number box at the start of a row.
 class _NumberBox extends StatelessWidget {
   const _NumberBox({required this.number, required this.state});
 

@@ -8,10 +8,7 @@ import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
 import 'part_common.dart';
 
-/// P07 · Dialogue: chat bubbles, Ana on the right in violet, everyone else
-/// on the left in light violet, each with a name and a round avatar. Tap a
-/// bubble to show or hide its Filipino; the switch shows or hides all of
-/// them. Text only, no audio. The tip card closes the chat.
+/// P07 Dialogue: Ana on the right in violet, others on the left; tap a bubble (or the switch) for the Filipino. No audio.
 class DialoguePart extends StatefulWidget {
   const DialoguePart({super.key, required this.data, required this.avatars});
 

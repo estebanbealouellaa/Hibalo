@@ -1,7 +1,4 @@
-// Copies the end punctuation and the first capital letter from the user's
-// input to the translation. Dart port of docs/translation/postprocess.py.
-// Run it on the final text (model output AND phrase-list output), after the
-// numbers are restored.
+// Copies end punctuation and the first capital from the input to the translation (port of postprocess.py); run after numbers are restored.
 
 const String _end = '.?!';
 const String _open = '"\'([';

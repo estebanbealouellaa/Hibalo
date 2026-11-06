@@ -6,10 +6,7 @@ import 'package:flutter/services.dart';
 
 import '../widgets/v6/v6.dart';
 
-/// Splash (Figma 659:7167): a violet screen with the orbs, the firefly,
-/// "Hibalo", the tagline, a citrus spinner and the footer. It shows for
-/// about 1.7 s while the app starts, then calls [onFinish] (the app root
-/// decides: onboarding the first time, Welcome, or Home if signed in).
+/// First-open splash (Figma 659:7167), about 1.7 s, then [onFinish].
 class SplashScreen extends StatefulWidget {
   final VoidCallback onFinish;
 

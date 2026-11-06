@@ -2,7 +2,6 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ── Helpers ────────────────────────────────────────────────────────
     function signedIn() {
       return request.auth != null;
     }
@@ -18,13 +17,12 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // ── Translations dictionary (unchanged) ────────────────────────────
+    // Translations dictionary: public read, no writes.
     match /translations/{document=**} {
       allow read: if true;
       allow write: if false;
     }
 
-    // ── User profiles and progress totals ──────────────────────────────
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
 
@@ -32,24 +30,20 @@ service cloud.firestore {
       allow create: if isOwner(uid)
         && (!('role' in request.resource.data) || request.resource.data.role == 'user');
 
-      // The owner may change anything except role. Admins may change
-      // anything, including promoting and demoting.
+      // The owner may change anything except role; admins may change anything.
       allow update: if (isOwner(uid)
           && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']))
         || isAdmin();
 
       allow delete: if isOwner(uid) || isAdmin();
 
-      // Learning progress, one document per lesson. Admins may read
-      // them, and delete them when they delete the user.
+      // Admins may read progress and delete it when they delete the user.
       match /lessonProgress/{lessonId} {
         allow read: if isOwner(uid) || isAdmin();
         allow write: if isOwner(uid);
         allow delete: if isAdmin();
       }
 
-      // Finished quiz attempts. Admins may read them, and delete them
-      // when they delete the user.
       match /quizAttempts/{attemptId} {
         allow read: if isOwner(uid) || isAdmin();
         allow write: if isOwner(uid);
@@ -57,7 +51,7 @@ service cloud.firestore {
       }
     }
 
-    // ── Camera translation history (owner = the uid field) ─────────────
+    // Owner = the uid field.
     match /camera_translations/{docId} {
       allow read: if (signedIn() && resource.data.uid == request.auth.uid) || isAdmin();
       allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
@@ -67,7 +61,7 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.uid == request.auth.uid;
     }
 
-    // ── Saved words (owner = the uid field) ────────────────────────────
+    // Owner = the uid field.
     match /library/{docId} {
       allow read: if (signedIn() && resource.data.uid == request.auth.uid) || isAdmin();
       allow create: if signedIn() && request.resource.data.uid == request.auth.uid;

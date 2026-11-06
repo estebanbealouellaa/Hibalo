@@ -4,9 +4,7 @@ import '../../learning/theme/v6_colors.dart';
 import '../../learning/theme/v6_text.dart';
 import 'v6_button.dart';
 
-/// Shared V6 surfaces: mascot circle, dialog, bottom sheet, message card,
-/// list card and row (Figma frames in 01–06; the dialog matches the
-/// Learning "Leave" dialog: 311 wide, radius 24, padding 24 / 24 / 20).
+/// Shared V6 surfaces: mascot circle, dialog, bottom sheet, message card, list card and row.
 
 /// "Mascot circle": a firefly over a tinted circle.
 class V6MascotCircle extends StatelessWidget {
@@ -52,9 +50,7 @@ class V6MascotCircle extends StatelessWidget {
   }
 }
 
-/// A V6 dialog: optional mascot circle, title (Title/Large · Bold, centred),
-/// message, a full-width primary action and any number of text actions.
-/// Completes with the label that was tapped, or null when dismissed.
+/// A V6 dialog; completes with the tapped label, or null when dismissed.
 Future<String?> showV6ChoiceDialog(
   BuildContext context, {
   required String title,
@@ -260,7 +256,6 @@ class V6MessageCard extends StatelessWidget {
   }
 }
 
-/// A white card holding rows, separated by dividers (Me, Settings, lists).
 class V6ListCard extends StatelessWidget {
   const V6ListCard({super.key, required this.children});
 

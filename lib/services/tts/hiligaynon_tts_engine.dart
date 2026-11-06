@@ -1,23 +1,4 @@
-// Offline Hiligaynon voice v4: fine-tuned MMS-TTS (VITS), HIL_0619, exported
-// to ONNX as hibalo_tts_v4r.onnx (package
-// C:\Hibalo-TTS-Mobile\models\hil_0619_v4_onnx_r). Dart port of
-// C:\Hibalo-TTS-Mobile\generate_tts_v4.py (mode "sentence", question tone
-// on, split questions on, first sentence cut once, end fix "c", speed 0.85)
-// - same text step, sentence parts, pauses, trimming and volume.
-//
-// ONE model call per sentence part:
-//   input_ids             int64   [1, N]
-//   noise_dur             float32 [1, 2, 2000]   } fixed seed-7 noise from
-//   noise_prior           float32 [1, 192, 3000] } voice_seed7.bin
-//   noise_scale           float32 [1]
-//   noise_scale_duration  float32 [1]
-//   speed                 float32 [1]        } 0.85 ([speed]); the 1.0 in
-//                                              } voice_settings.json is unused
-//   -> waveform           float32 [1, samples], 16 kHz mono
-//
-// The noise is decoded once at load and the same tensors are reused for every
-// call, so the same text always gives the same audio. (flutter_onnxruntime
-// keeps input tensors alive after run(); they are only freed by dispose().)
+// Offline Hiligaynon voice v4 (MMS-TTS / VITS, HIL_0619, hibalo_tts_v4r.onnx): Dart port of generate_tts_v4.py.
 
 import 'dart:async';
 import 'dart:convert';
@@ -33,10 +14,7 @@ import 'hiligaynon_tts_text.dart';
 class TtsCancelled implements Exception {}
 
 class HiligaynonTtsEngine {
-  /// [useXnnpack]: run the model with the XNNPACK execution provider (with
-  /// the normal CPU provider for the parts it can't do). Falls back to CPU
-  /// only when XNNPACK can't be used. Off by default until it is shown to be
-  /// faster on a phone (see integration_test/hiligaynon_tts_test.dart).
+  /// [useXnnpack]: off by default until it is shown to be faster on a phone (falls back to CPU).
   HiligaynonTtsEngine({this.useXnnpack = false, this.threads = kTtsThreads});
 
   /// CPU threads for one model call. On a Galaxy A03 (8 cores) the 16 s
@@ -95,7 +73,6 @@ class HiligaynonTtsEngine {
     }
   }
 
-  /// Loads the vocab, the fixed noise and the model session (once).
   Future<void> load() => _loading ??= _load().catchError((Object e) {
     _loading = null; // allow a retry
     throw e;
@@ -216,11 +193,7 @@ class HiligaynonTtsEngine {
   /// [TtsCancelled]). A model call that already started still finishes.
   void cancel() => _epoch++;
 
-  /// Text -> 16 kHz mono audio, the same samples as generate_tts_v4.py.
-  ///
-  /// [onChunk] receives the audio part by part, in order, as soon as each
-  /// sentence part is ready: [pause before it] + [the part]. Joining all
-  /// chunks gives the returned audio.
+  /// Text -> 16 kHz mono audio, the same samples as generate_tts_v4.py; [onChunk] gets each part (with its pause) as soon as it is ready.
   Future<Float32List> synthesize(
     String text, {
     void Function(Float32List piece)? onChunk,
@@ -290,7 +263,6 @@ class HiligaynonTtsEngine {
     if (_runEpoch != _epoch) throw TtsCancelled();
   }
 
-  /// One model call: ids -> raw waveform.
   Future<Float32List> _infer(List<int> ids) async {
     final idsValue = await OrtValue.fromList(Int64List.fromList(ids), [
       1,

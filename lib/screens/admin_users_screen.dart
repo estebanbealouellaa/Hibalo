@@ -6,6 +6,27 @@ import '../learning/sync/firestore_progress_cloud.dart';
 import '../widgets/v6/v6.dart';
 import '../widgets/v6/v6_avatar.dart';
 
+/// The app saves the name as `username` in users/{uid}; very old docs used
+/// `name`. Empty when neither is set.
+String userDisplayName(Map<String, dynamic> data) {
+  final v = data['username'] ?? data['name'];
+  return (v ?? '').toString().trim();
+}
+
+/// Search box match on the username (or old `name`) and the email.
+bool userMatchesSearch(Map<String, dynamic> data, String query) {
+  if (query.isEmpty) return true;
+  final q = query.toLowerCase();
+  return userDisplayName(data).toLowerCase().contains(q) ||
+      (data['email'] ?? '').toString().toLowerCase().contains(q);
+}
+
+/// Fields admin Edit writes: always `username`, never `name`.
+Map<String, dynamic> adminEditFields(String username, String email) => {
+      'username': username.trim(),
+      'email': email.trim(),
+    };
+
 class AdminUsersScreen extends StatefulWidget {
   const AdminUsersScreen({super.key});
 
@@ -17,7 +38,6 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-  // Filter: 'all' | 'admin' | 'user'
   String _roleFilter = 'all';
 
   @override
@@ -41,7 +61,6 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       ),
       body: Column(
         children: [
-          // ── Search bar ──────────────────────────────────
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: TextField(
@@ -62,7 +81,6 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
             ),
           ),
-          // ── Role filter chips ───────────────────────────
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(
@@ -93,7 +111,6 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               }).toList(),
             ),
           ),
-          // ── Users list ──────────────────────────────────
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _firestore
@@ -109,14 +126,9 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
 
                 final docs = snapshot.data!.docs.where((doc) {
                   final data = doc.data() as Map<String, dynamic>;
-                  final name = (data['name'] ?? '').toString().toLowerCase();
-                  final email = (data['email'] ?? '').toString().toLowerCase();
                   final role = (data['role'] ?? 'user').toString();
 
-                  final matchesSearch =
-                      _searchQuery.isEmpty ||
-                      name.contains(_searchQuery) ||
-                      email.contains(_searchQuery);
+                  final matchesSearch = userMatchesSearch(data, _searchQuery);
                   final matchesRole =
                       _roleFilter == 'all' || role == _roleFilter;
 
@@ -151,7 +163,8 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   }
 
   Widget _userTile(String uid, Map<String, dynamic> data) {
-    final name = data['name'] ?? AppLocalizations.of(context).adminNoName;
+    final stored = userDisplayName(data);
+    final name = stored.isNotEmpty ? stored : AppLocalizations.of(context).adminNoName;
     final email = data['email'] ?? AppLocalizations.of(context).adminNoEmailCap;
     final role = data['role'] ?? 'user';
     final isAdmin = role == 'admin';
@@ -276,7 +289,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
         _updateUser(uid, {'role': 'user'}, AppLocalizations.of(context).adminDemoted);
         break;
       case 'delete':
-        _confirmDelete(uid, data['name'] ?? 'this user');
+        _confirmDelete(uid, userDisplayName(data).isNotEmpty ? userDisplayName(data) : 'this user');
         break;
     }
   }
@@ -296,7 +309,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   }
 
   void _showEditDialog(String uid, Map<String, dynamic> data) {
-    final nameCtrl = TextEditingController(text: data['name'] ?? '');
+    final nameCtrl = TextEditingController(text: userDisplayName(data));
     final emailCtrl = TextEditingController(text: data['email'] ?? '');
 
     showDialog(
@@ -333,10 +346,11 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             ),
             onPressed: () async {
               Navigator.pop(context);
-              await _updateUser(uid, {
-                'name': nameCtrl.text.trim(),
-                'email': emailCtrl.text.trim(),
-              }, AppLocalizations.of(context).adminUserUpdated);
+              await _updateUser(
+                uid,
+                adminEditFields(nameCtrl.text, emailCtrl.text),
+                AppLocalizations.of(context).adminUserUpdated,
+              );
             },
             child: Text(AppLocalizations.of(context).commonSave, style: TextStyle(color: Colors.white)),
           ),
@@ -429,8 +443,6 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
     );
   }
 }
-
-// ── Usage Analytics Screen ──────────────────────────────────────────────────
 
 class AdminUsageScreen extends StatefulWidget {
   const AdminUsageScreen({super.key});
@@ -629,7 +641,6 @@ class _AdminUsageScreenState extends State<AdminUsageScreen> {
   }
 }
 
-// Simple extension so 'admin'.capitalize() → 'Admin'
 extension StringCap on String {
   String capitalize() =>
       isEmpty ? this : '${this[0].toUpperCase()}${substring(1)}';

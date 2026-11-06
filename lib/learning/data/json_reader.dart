@@ -1,12 +1,9 @@
-/// Small helpers for reading lessons.json safely. Every error names where in
-/// the JSON it happened (for example "b02 > parts[3] > options"), so a typo in
-/// the file is easy to find.
+/// Reads lessons.json; every error names its place in the JSON (e.g. "b02 > parts[3] > options").
 class JsonReader {
   JsonReader(this.map, this.path);
 
   final Map<String, dynamic> map;
 
-  /// Where this object sits in the file, for error messages.
   final String path;
 
   Never fail(String message) => throw FormatException('$path: $message');
@@ -64,7 +61,6 @@ class JsonReader {
     return items.cast<String>();
   }
 
-  /// An optional list of text: missing or null gives an empty list.
   List<String> stringsOrEmpty(String key) =>
       map[key] == null ? const [] : strings(key);
 
@@ -96,7 +92,6 @@ class JsonReader {
     ];
   }
 
-  /// An optional list of objects: missing or null gives an empty list.
   List<JsonReader> objectsOrEmpty(String key) =>
       map[key] == null ? const [] : objects(key);
 }
@@ -115,18 +110,13 @@ class AssetRef {
   /// Audio keeps its path even when the clip is missing (see resolveAudio).
   final String? assetPath;
 
-  /// The file is bundled with the app.
   final bool found;
 }
 
-/// Turns JSON paths into bundled asset paths. The JSON leaves out "assets/",
-/// so it is added here. A picture that isn't in the AssetManifest becomes
-/// null, and the screens show firefly_reading. Audio keeps its path either
-/// way (see [resolveAudio]). Every lookup is recorded in [refs].
+/// Adds "assets/" to JSON paths; a missing picture becomes null (firefly_reading is shown).
 class AssetResolver {
   AssetResolver(this.available);
 
-  /// Every asset bundled with the app (from the AssetManifest).
   final Set<String> available;
 
   final List<AssetRef> refs = [];
@@ -139,9 +129,7 @@ class AssetResolver {
     return found ? full : null;
   }
 
-  /// Audio clips keep their path even when the file isn't in the app yet:
-  /// the audio buttons always show, and a missing clip simply plays nothing
-  /// (§1.4). When the recordings are added, the same buttons play them.
+  /// Audio keeps its path even before the clip exists: the button shows and plays nothing until it is recorded.
   String? resolveAudio(String? jsonPath, String where) {
     if (jsonPath == null || jsonPath.isEmpty) return null;
     final full = 'assets/$jsonPath';

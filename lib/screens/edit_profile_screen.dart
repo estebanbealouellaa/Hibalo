@@ -6,14 +6,7 @@ import '../widgets/v6/v6.dart';
 import '../widgets/v6/v6_avatar.dart';
 import 'forgot_password_screen.dart';
 
-/// Edit profile (Figma 608:5354 / 618:6102; errors 608:5500 and 629:6564;
-/// "Check your new email" 629:6726; Delete account 618:5935).
-///
-/// Save changes: the username and avatar always; a new email or password
-/// only after the current password is confirmed. A new email is changed by
-/// Firebase once the link in the email is opened. Closes with true after
-/// saving. Delete account asks for the current password first, then
-/// confirms, then deletes everything and calls [onAccountDeleted].
+/// Edit profile (Figma 608:5354): username and avatar always; a new email or password only after the current password is confirmed.
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({
     super.key,
@@ -62,7 +55,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _usernameError = _emailError = _newPasswordError = _confirmError = _currentError = null;
   }
 
-  /// Shows [e] on the right field, or as a snackbar.
   void _showProblem(Object e, AppLocalizations t) {
     final problem = AccountException.from(e).problem;
     setState(() {

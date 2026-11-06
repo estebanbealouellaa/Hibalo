@@ -7,7 +7,6 @@ import 'text_rules.dart';
 final RegExp _punctuation = RegExp(r"""[.,!?;:"()\[\]…—–'~*]""");
 final RegExp _spaces = RegExp(r'\s+');
 
-/// One row found in the list.
 class PhraseMatch {
   const PhraseMatch(this.output, {required this.isDictionaryWord});
 
@@ -18,9 +17,7 @@ class PhraseMatch {
 }
 
 class PhraseList {
-  /// [useEvalRows]: keep it true in the app. Set it to false when the app is
-  /// scored on the everyday test, so the test sentences don't get their
-  /// answers from this list.
+  /// [useEvalRows]: true in the app; false when scoring on the everyday test, so test sentences don't come from this list.
   factory PhraseList.fromTsv(
     String phraseTsv,
     SpellingMap spelling, {

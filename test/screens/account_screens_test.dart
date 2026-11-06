@@ -1,6 +1,4 @@
-// Stage A screens: onboarding Skip, the Sign In / Sign Up banners and
-// Forgot password. Firebase is never touched: the auth provider and the
-// reset call are fakes.
+// Onboarding Skip, Sign In / Sign Up banners and Forgot password, with a fake auth provider (no Firebase).
 
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException;
 import 'package:flutter/material.dart';
@@ -67,7 +65,6 @@ Future<void> _signIn(WidgetTester tester) async {
 }
 
 void main() {
-  // ── Onboarding ─────────────────────────────────────────────────────────
 
   group('Onboarding', () {
     testWidgets('Skip finishes onboarding from page 1', (tester) async {
@@ -102,8 +99,6 @@ void main() {
     await tester.tap(find.text('I already have an account'));
     expect((started, signIn), (1, 1));
   });
-
-  // ── Sign In / Sign Up banners ─────────────────────────────────────────
 
   group('Auth banners', () {
     testWidgets('wrong password: the error banner "Wrong email or password."', (tester) async {
@@ -191,8 +186,6 @@ void main() {
       expect(find.byType(V6Banner), findsNothing);
     });
   });
-
-  // ── Forgot password ───────────────────────────────────────────────────
 
   group('Forgot password', () {
     testWidgets('Send reset link → Check your email, with the address', (tester) async {

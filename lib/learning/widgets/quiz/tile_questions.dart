@@ -9,11 +9,7 @@ import '../../theme/v6_colors.dart';
 import 'question_contract.dart';
 import 'quiz_common.dart';
 
-// ── Q05 Build the sentence ──────────────────────────────────────────────────
-
-/// The Filipino `prompt`, then the word tiles (shuffled; one is a
-/// distractor). Tap a tile to move it into the answer line; tap it there to
-/// send it back. Check compares with `answer` in order.
+/// Q05: tap a tile to move it into the answer line and back; Check compares with `answer` in order.
 class BuildSentenceQuestion extends StatefulWidget {
   const BuildSentenceQuestion({
     super.key,
@@ -97,12 +93,7 @@ class _BuildSentenceQuestionState extends State<BuildSentenceQuestion> {
   }
 }
 
-// ── Q07 Match pairs ─────────────────────────────────────────────────────────
-
-/// Hiligaynon on the left, Filipino on the right (right column shuffled).
-/// Tap one on each side: a right pair turns green and locks; a wrong pair
-/// flashes red and resets. Check is enabled when every pair is matched. The
-/// question counts as right only if there were no wrong taps (§4, §7).
+/// Q07: right pairs turn green and lock, wrong pairs flash red; right only with no wrong taps (§4, §7).
 class MatchPairsQuestion extends StatefulWidget {
   const MatchPairsQuestion({
     super.key,
@@ -120,7 +111,6 @@ class MatchPairsQuestion extends StatefulWidget {
   final QuestionPhase phase;
   final AnswerChanged onChanged;
 
-  /// How long a wrong pair stays red.
   final Duration flash;
 
   @override

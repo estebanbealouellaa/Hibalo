@@ -767,6 +767,9 @@ class AppLocalizationsHil extends AppLocalizations {
   String get forgotCheckEmail => 'Tan-awa ang imo email';
 
   @override
+  String get forgotCheckSpam => 'Indi mo makita? Tan-awa ang imo Spam folder.';
+
+  @override
   String get forgotTitle => 'Nalipatan mo ang imo password?';
 
   @override

@@ -1,11 +1,4 @@
-// Hiligaynon number words for the voice. Dart port of
-// docs/translation/hil_numbers.py.
-//
-// Use it ONLY on Hiligaynon text right before it is spoken, never on the text
-// shown on screen, and never before translating.
-//
-// CHECK items need a native speaker. They are constants, so they are easy to
-// change.
+// Hiligaynon number words for the voice only (port of hil_numbers.py): never on shown text or before translating.
 
 const List<String> _ones = [
   '', 'isa', 'duha', 'tatlo', 'apat', 'lima',
@@ -116,7 +109,6 @@ final List<(RegExp, String Function(Match))> _rules = [
     RegExp('(?:₱|\\bPhp ?|\\bP)($_num)\\b'),
     (m) => '${numberWords(m.group(1)!)} ka pesos',
   ),
-  // percent
   (RegExp('($_num) ?%'), (m) => '${numberWords(m.group(1)!)} porsiyento'),
   // ranges: 12-17 -> napulo kag duha tubtob napulo kag pito
   (
@@ -125,7 +117,6 @@ final List<(RegExp, String Function(Match))> _rules = [
   ),
   // 21-anyos -> duha ka pulo kag isa ka tuig
   (RegExp(r'\b(\d+)-anyos\b'), (m) => '${numberWords(m.group(1)!)} ka tuig'),
-  // any other number
   (RegExp('(?<![\\w.])($_num)(?![\\w])'), (m) => numberWords(m.group(1)!)),
 ];
 

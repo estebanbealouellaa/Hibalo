@@ -1,6 +1,4 @@
-// Saving progress, the streak and the Firestore sync (step 5). Firestore is
-// replaced by a fake ProgressCloud that applies every batch the way merge
-// writes do: only the fields sent change.
+// Progress, streak and Firestore sync, with a fake cloud that applies merge writes (only the sent fields change).
 
 import 'dart:async';
 import 'dart:io';
@@ -76,8 +74,6 @@ void main() {
   Lesson lesson(String id) => catalog.lessonById(id)!;
   final day = DateTime(2026, 11, 5, 9);
 
-  // ── Best score and streak ──────────────────────────────────────────────
-
   test('the best score is kept, and passed stays passed', () async {
     final p = LearningProgress.ready(catalog, ProgressSnapshot());
     final b02 = lesson('b02');
@@ -123,8 +119,6 @@ void main() {
       expect(p.streak, 1);
     });
   });
-
-  // ── Sync while signed in ──────────────────────────────────────────────
 
   LearningProgress signedIn(FakeCloud cloud, {String uid = 'u1', ProgressSnapshot? snapshot}) =>
       LearningProgress.ready(catalog, snapshot ?? ProgressSnapshot(ownerUid: uid),
@@ -273,8 +267,6 @@ void main() {
     p.dispose();
   });
 
-  // ── Merge on sign-in ──────────────────────────────────────────────────
-
   test('guest progress merges into the first account, keeping the best', () async {
     final cloud = FakeCloud({
       'u1': CloudProgress(
@@ -374,8 +366,6 @@ void main() {
     expect(cloud.users['u1'], isNull, reason: 'u1 is not written to');
   });
 
-  // ── Debug reset ───────────────────────────────────────────────────────
-
   test('debug reset clears the phone and this account\'s cloud progress, then syncs from zero', () async {
     final cloud = FakeCloud();
     final p = signedIn(cloud);
@@ -418,8 +408,6 @@ void main() {
     expect(p.progressFor('b02').bestScore, 8, reason: 'never lowered, merged back');
     expect(cloud.users['u1']!.xp, 20);
   });
-
-  // ── Firestore shape ───────────────────────────────────────────────────
 
   test('users/{uid}: XP with FieldValue.increment, paid with arrayUnion, no nulls, never role', () {
     final fields = FirestoreProgressCloud.userFields(const CloudUpdate(

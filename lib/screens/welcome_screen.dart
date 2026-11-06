@@ -4,9 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../widgets/v6/v6.dart';
 
-/// Welcome (Figma 468:1880): the violet hero with the flag firefly, then
-/// "Start with a hello." with Get started (→ Sign Up) and "I already have
-/// an account" (→ Sign In).
+/// Welcome (Figma 468:1880): Get started → Sign Up, "I already have an account" → Sign In.
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key, required this.onGetStarted, required this.onSignIn});
 

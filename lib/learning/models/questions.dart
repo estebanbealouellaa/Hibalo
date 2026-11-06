@@ -29,7 +29,6 @@ sealed class QuizQuestion {
 
   final String id;
 
-  /// "Q01" … "Q10".
   final String template;
 
   /// The JSON `type`, e.g. "multiple_choice". Used for the timer rule.
@@ -193,20 +192,16 @@ sealed class QuizQuestion {
 mixin ChoiceQuestion {
   List<String> get options;
 
-  /// Index of the right option in [options].
   int get answer;
 
   String get correctOption => options[answer];
 }
 
-/// Questions answered by typing (Q04, Q08).
 mixin TypedQuestion {
   /// Every accepted answer. Compare ignoring capitals, spaces at the ends and
   /// . , ! ?
   List<String> get accepted;
 }
-
-// ── Q01 Multiple choice ─────────────────────────────────────────────────────
 
 class MultipleChoiceData extends QuizQuestion with ChoiceQuestion {
   MultipleChoiceData(
@@ -223,8 +218,6 @@ class MultipleChoiceData extends QuizQuestion with ChoiceQuestion {
   @override
   final int answer;
 }
-
-// ── Q02 Listening ───────────────────────────────────────────────────────────
 
 class ListeningData extends QuizQuestion with ChoiceQuestion {
   ListeningData(
@@ -250,8 +243,6 @@ class ListeningData extends QuizQuestion with ChoiceQuestion {
   final int answer;
 }
 
-// ── Q03 Fill in the blank ───────────────────────────────────────────────────
-
 class FillBlankData extends QuizQuestion with ChoiceQuestion {
   FillBlankData(
     String id, {
@@ -273,8 +264,6 @@ class FillBlankData extends QuizQuestion with ChoiceQuestion {
   final int answer;
 }
 
-// ── Q04 Type the answer ─────────────────────────────────────────────────────
-
 enum TypeDirection {
   /// Shown as "Type this in Hiligaynon".
   filToHil,
@@ -294,13 +283,10 @@ class TypeAnswerData extends QuizQuestion with TypedQuestion {
 
   final TypeDirection direction;
 
-  /// The text to translate.
   final String text;
   @override
   final List<String> accepted;
 }
-
-// ── Q05 Build the sentence ──────────────────────────────────────────────────
 
 class BuildSentenceData extends QuizQuestion {
   BuildSentenceData(
@@ -317,11 +303,8 @@ class BuildSentenceData extends QuizQuestion {
   /// In JSON order, including one distractor. Shuffle before showing.
   final List<String> tiles;
 
-  /// The tiles in the right order.
   final List<String> answer;
 }
-
-// ── Q06 Real situation ──────────────────────────────────────────────────────
 
 class RealSituationData extends QuizQuestion with ChoiceQuestion {
   RealSituationData(
@@ -342,8 +325,6 @@ class RealSituationData extends QuizQuestion with ChoiceQuestion {
   @override
   final int answer;
 }
-
-// ── Q07 Match pairs ─────────────────────────────────────────────────────────
 
 class MatchPair {
   const MatchPair(this.hil, this.fil);
@@ -366,8 +347,6 @@ class MatchPairsData extends QuizQuestion {
   final List<MatchPair> pairs;
 }
 
-// ── Q08 Dictation ───────────────────────────────────────────────────────────
-
 class DictationData extends QuizQuestion with TypedQuestion {
   DictationData(
     String id, {
@@ -389,8 +368,6 @@ class DictationData extends QuizQuestion with TypedQuestion {
   final List<String> wordBank;
 }
 
-// ── Q09 Speaking (not scored) ───────────────────────────────────────────────
-
 class SpeakingData extends QuizQuestion {
   SpeakingData(
     String id, {
@@ -405,14 +382,11 @@ class SpeakingData extends QuizQuestion {
   /// The Hiligaynon to say.
   final String text;
 
-  /// Its Filipino meaning.
   final String meaning;
 
   /// The "Native speaker" clip (kept even if the file isn't in the app yet).
   final String? audio;
 }
-
-// ── Q10 Open answer (not scored) ────────────────────────────────────────────
 
 class OpenAnswerData extends QuizQuestion {
   OpenAnswerData(

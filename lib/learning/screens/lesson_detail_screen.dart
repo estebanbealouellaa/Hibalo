@@ -11,9 +11,7 @@ import '../theme/v6_text.dart';
 import '../theme/v6_theme.dart';
 import '../widgets/lesson_image.dart';
 
-/// S02 · Lesson Detail: banner, title, objectives, the primary button and
-/// the progress card. Three states: not started, in progress, completed.
-/// Lesson 1 (letters) uses the same layout.
+/// S02 Lesson Detail: not started, in progress or completed (Lesson 1 uses the same layout).
 class LessonDetailScreen extends StatelessWidget {
   const LessonDetailScreen({super.key, required this.lessonId});
 
@@ -165,7 +163,6 @@ class _Chip extends StatelessWidget {
   }
 }
 
-/// One "In this lesson" line with the citrus check.
 class _Objective extends StatelessWidget {
   const _Objective(this.text);
 

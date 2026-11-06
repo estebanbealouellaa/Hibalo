@@ -1,7 +1,4 @@
-// Translation speed on a real phone: thread counts, then sentence by sentence.
-//   flutter build apk --profile -t integration_test/translation_speed_test.dart
-//       --target-platform android-arm64
-// Install it, start it, and read the results with: adb logcat -s flutter:I
+// Translation speed on a phone; build with --profile -t integration_test/translation_speed_test.dart, read with adb logcat -s flutter:I
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hibalo_app/services/translation/offline_translator.dart';

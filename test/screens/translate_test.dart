@@ -1,5 +1,4 @@
-// Stage C: the Translate pieces (input, result with skeleton / Listen /
-// Copied), the Voice pop-up, and the photo scan inside Translate.
+// Translate input and result, the Voice pop-up and the photo scan inside Translate.
 
 import 'dart:async';
 import 'dart:io';

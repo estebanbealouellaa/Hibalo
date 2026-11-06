@@ -1,7 +1,4 @@
-// Quiz screens in Filipino and Hiligaynon at the Galaxy A03's width
-// (360 dp): every question of a lesson quiz, its feedback and the result
-// screen. Any overflow fails the test. Each question is left to time out (or
-// skipped), so all question types are drawn without answering.
+// Every quiz question, feedback and result in Filipino and Hiligaynon at 360 dp; any overflow fails.
 
 import 'dart:math';
 

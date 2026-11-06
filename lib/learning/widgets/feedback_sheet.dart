@@ -13,10 +13,10 @@ enum FeedbackType {
   /// F02 Wrong (red).
   wrong,
 
-  /// F03 Time's up (coral). Used by the quiz in step 4.
+  /// F03 Time's up (coral).
   timeout,
 
-  /// F04 Sample answer (lavender). Used by the quiz in step 4.
+  /// F04 Sample answer (lavender).
   info,
 }
 
@@ -70,7 +70,7 @@ class FeedbackSheet extends StatelessWidget {
 
   final FeedbackType type;
 
-  /// Overrides the default title (e.g. "Time's up!" in step 4).
+  /// Overrides the default title (e.g. "Time's up!").
   final String? title;
 
   /// "+N XP" on F01; null hides it (already paid).
@@ -131,11 +131,7 @@ class FeedbackSheet extends StatelessWidget {
         };
     final info = type == FeedbackType.info;
 
-    // Figma "Feedback Sheet": padding 20, radius 24 on top, 16 between the
-    // top row and Continue; a 64 x 72 firefly, then the title
-    // (Headline/Medium · ExtraBold) and its lines, 4 apart. The 24 px
-    // gesture bar in Figma is the system's: only the real inset is added.
-    // Lines under the title: green on F01, red on F02, coral text on F03.
+    // Figma "Feedback Sheet": the 24 px gesture bar is the system's, so only the real inset is added.
     final detailColor = switch (type) {
       FeedbackType.correct => V6Colors.success,
       FeedbackType.wrong => V6Colors.error,

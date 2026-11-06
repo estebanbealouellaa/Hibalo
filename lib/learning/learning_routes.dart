@@ -17,7 +17,6 @@ abstract final class LearningRoutes {
   /// app S01 is the Learn tab under the bottom bar.
   static const String learnRoute = '/learn';
 
-  /// Shows the Learn tab; set by the app's tab shell (HomeScreen).
   static VoidCallback? showLearnTab;
 
   /// S02 Lesson Detail.
@@ -57,9 +56,7 @@ abstract final class LearningRoutes {
     return replace ? navigator.pushReplacement(route) : navigator.push(route);
   }
 
-  /// S03 Lesson complete: after the last part ([replace] swaps out the
-  /// player) or from a "Quiz pending" row. [xpJustPaid] shows "+20 XP";
-  /// otherwise "20 XP · Already earned".
+  /// S03 Lesson complete; [xpJustPaid] shows "+20 XP", otherwise "Already earned".
   static Future<void> openLessonComplete(
     BuildContext context,
     Lesson lesson, {

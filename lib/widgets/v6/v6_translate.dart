@@ -98,10 +98,7 @@ class TonalIconButton extends StatelessWidget {
   }
 }
 
-/// Figma "Translation Input / With actions" (448:1738): Surface card
-/// (1 px Border/Input, 2 px Border/Focus when filled), the source language,
-/// a Surface Tint text area (Body/Input 20/28), "N characters", then the
-/// Speak and Scan buttons and Translate.
+/// Figma "Translation Input / With actions" (448:1738).
 class TranslationInputCard extends StatelessWidget {
   const TranslationInputCard({
     super.key,
@@ -124,7 +121,6 @@ class TranslationInputCard extends StatelessWidget {
 
   final String language;
 
-  /// The text field (or read-only text) inside the tinted area.
   final Widget textArea;
   final int characters;
   final bool filled;
@@ -227,11 +223,7 @@ TextStyle get translationInputStyle => V6Text.bodyInput.copyWith(color: V6Colors
 /// The Listen button's look while the voice is idle, preparing or speaking.
 enum ListenState { idle, preparing, speaking }
 
-/// Figma "Result card": Glow Container Soft with a Glow border, the target
-/// language, the translation (Headline/Medium, at least 72 high, or two
-/// skeleton lines while translating), an optional note, then Listen (48
-/// violet circle), Copy (a check for 1.5 s after copying), Share and Save
-/// (Figma 628:6382: a tonal circle with a filled bookmark when saved).
+/// Figma "Result card": the translation (skeleton lines while translating), an optional note, Listen, Copy, Share and Save.
 class TranslationResultCard extends StatelessWidget {
   const TranslationResultCard({
     super.key,

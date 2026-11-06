@@ -27,7 +27,6 @@ class _LearnScreenState extends State<LearnScreen> {
   final _search = TextEditingController();
   String _query = '';
 
-  /// The chosen level tab (index into catalog.levels).
   int _levelIndex = 0;
 
   @override
@@ -83,7 +82,6 @@ class _LearnScreenState extends State<LearnScreen> {
               _searchField(t),
               const SizedBox(height: 14),
               _levelTabs(context, rules, levels, t),
-              ..._lockedHint(rules, levels, t),
               const SizedBox(height: 14),
               if (!noResults) ...[
                 Text(t.learnLessonsHeading, style: V6Text.titleLarge),
@@ -115,7 +113,6 @@ class _LearnScreenState extends State<LearnScreen> {
     );
   }
 
-  /// Lessons of the tab whose title contains the search text.
   List<Lesson> _filter(List<Lesson> lessons) {
     final q = _query.trim().toLowerCase();
     if (q.isEmpty) return lessons;
@@ -123,9 +120,7 @@ class _LearnScreenState extends State<LearnScreen> {
   }
 
   Widget _topBar(BuildContext context, AppLocalizations t) {
-    // In the app S01 is the Learn tab (no back arrow; the bottom bar
-    // replaces it). Pushed on its own (tests), it keeps the arrow. Asking the
-    // route also rebuilds this when routes above it come and go.
+    // In the app S01 is the Learn tab (no back arrow); pushed on its own (tests) it keeps the arrow.
     final canPop = !(ModalRoute.of(context)?.isFirst ?? true);
     return SizedBox(
       height: 64,
@@ -238,25 +233,6 @@ class _LearnScreenState extends State<LearnScreen> {
       return;
     }
     setState(() => _levelIndex = index);
-  }
-
-  /// "Intermediate and Advanced: finish Beginner to unlock", while any
-  /// level is locked.
-  List<Widget> _lockedHint(LearningRules rules, List<Level> levels, AppLocalizations t) {
-    final locked = [for (final l in levels) if (!rules.isLevelUnlocked(l)) l];
-    if (locked.isEmpty) return const [];
-    final blocking = rules.blockingLevel(locked.first);
-    final names = locked.map((l) => l.title).toList();
-    final joined = names.length == 1
-        ? names.single
-        : '${names.sublist(0, names.length - 1).join(', ')} ${t.listAnd} ${names.last}';
-    return [
-      const SizedBox(height: 14),
-      Text(
-        t.learnLockedLevelsHint(joined, blocking?.title ?? ''),
-        style: V6Text.caption.copyWith(color: V6Colors.textSecondary),
-      ),
-    ];
   }
 
   Widget _row(
@@ -472,7 +448,6 @@ class _Message extends StatelessWidget {
   }
 }
 
-/// Shown while the lessons load, or if they couldn't be loaded.
 class _NotReady extends StatelessWidget {
   const _NotReady({required this.progress});
 

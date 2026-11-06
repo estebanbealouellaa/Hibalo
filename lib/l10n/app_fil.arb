@@ -225,6 +225,7 @@
   "forgotNoInternet": "Walang internet. Kumonekta para maipadala ang link.",
   "forgotLinkSentAgain": "Naipadala ulit ang reset link",
   "forgotCheckEmail": "Tingnan ang iyong email",
+  "forgotCheckSpam": "Hindi mo makita? Tingnan ang iyong Spam folder.",
   "forgotTitle": "Nakalimutan ang iyong password?",
   "forgotSentTo": "Nagpadala kami ng reset link sa {email}. Buksan ito sa teleponong ito para gumawa ng bagong password.",
   "forgotBody": "Ilagay ang iyong email at magpapadala kami ng link para gumawa ng bago.",

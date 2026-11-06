@@ -5,10 +5,7 @@ import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
 import 'part_common.dart';
 
-/// P02 · Table: icon + title, the explanation, then a 2–4 column table.
-/// Columns share the width and the text wraps, so it never scrolls sideways.
-/// Hiligaynon columns (`hilColumns`) are italic violet; a column named
-/// "Filipino" is grey. No audio.
+/// P02 Table: 2–4 columns that share the width and wrap (never scroll sideways). No audio.
 class TablePart extends StatelessWidget {
   const TablePart({super.key, required this.data});
 

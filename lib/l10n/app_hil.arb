@@ -225,6 +225,7 @@
   "forgotNoInternet": "Wala sang internet. Mag-connect para mapadala ang link.",
   "forgotLinkSentAgain": "Napadala liwat ang reset link",
   "forgotCheckEmail": "Tan-awa ang imo email",
+  "forgotCheckSpam": "Indi mo makita? Tan-awa ang imo Spam folder.",
   "forgotTitle": "Nalipatan mo ang imo password?",
   "forgotSentTo": "Nagpadala kami sang reset link sa {email}. Buksi ini sa sini nga telepono para maghimo sang bag-o nga password.",
   "forgotBody": "Isulod ang imo email kag magapadala kami sang link para maghimo sang bag-o.",

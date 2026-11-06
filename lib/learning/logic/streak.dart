@@ -1,6 +1,4 @@
-// The streak rule (LEARNING_BEHAVIOR §1.11): a day counts when the learner
-// finishes at least one lesson part or quiz. Missing a whole day resets the
-// streak to 0. Uses the phone's date, because the app works offline.
+// A day counts for the streak when a part or quiz is finished; uses the phone's date because the app works offline.
 
 /// The phone's date as "yyyy-MM-dd" (the format saved in lastActiveDate).
 String dayKey(DateTime date) =>

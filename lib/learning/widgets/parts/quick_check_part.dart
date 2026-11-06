@@ -6,9 +6,7 @@ import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
 import 'part_common.dart';
 
-/// P06 · Quick check: one question, options in a shuffled [order]. Tapping
-/// an option answers at once (no Check button, no timer, one try). The
-/// player shows the feedback sheet and pays the XP; this widget only draws.
+/// P06 Quick check: tapping an option answers at once (one try, no timer); the player shows feedback and pays XP.
 class QuickCheckPart extends StatelessWidget {
   const QuickCheckPart({
     super.key,
@@ -64,7 +62,7 @@ class QuickCheckPart extends StatelessWidget {
 
 enum OptionState { idle, selected, right, wrong }
 
-/// One answer card (P06 now; the quiz options in step 4 reuse it).
+/// One answer card (P06 and the quiz options).
 class OptionCard extends StatelessWidget {
   const OptionCard({super.key, required this.text, required this.state, this.onTap});
 

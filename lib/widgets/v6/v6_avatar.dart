@@ -7,10 +7,8 @@ import '../../learning/theme/v6_colors.dart';
 /// saved in photoUrl is "asset:avatar1" … "asset:avatar6".
 const int kAvatarCount = 6;
 
-/// The photoUrl value for avatar [index] (0–5).
 String avatarValue(int index) => 'asset:avatar${index + 1}';
 
-/// The asset path for avatar [index] (0–5).
 String avatarAsset(int index) => 'assets/images/profile/avatar${index + 1}.webp';
 
 /// The DiceBear seeds of the old picker, in the same order as the local
@@ -31,10 +29,7 @@ int? avatarIndexOf(String? photoUrl) {
   return null;
 }
 
-/// The user's round avatar. [photoUrl] can be "asset:avatarN" (local), an
-/// old DiceBear web address (shown from the web, or the matching local
-/// avatar when offline), or an asset path ("assets/…"); anything missing or
-/// broken falls back to assets/Account.png.
+/// Round avatar: "asset:avatarN", an old DiceBear URL (web, or the matching local avatar offline) or an asset path; else assets/Account.png.
 class V6Avatar extends StatelessWidget {
   const V6Avatar({super.key, required this.photoUrl, this.size = 48});
 

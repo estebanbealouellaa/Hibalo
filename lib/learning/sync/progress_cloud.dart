@@ -1,8 +1,6 @@
 import '../models/progress.dart';
 
-/// The cloud copy of a learner's progress (Firestore `users/{uid}` and its
-/// `lessonProgress` subcollection): as read on sign-in, and then as known
-/// on the phone after each write.
+/// The cloud copy of a learner's progress, as read on sign-in and then as known after each write.
 class CloudProgress {
   CloudProgress({
     this.xp = 0,
@@ -60,10 +58,8 @@ class QuizAttemptRecord {
 
   final String lessonId;
 
-  /// Right answers among the scored questions.
   final int score;
 
-  /// Scored questions in the quiz.
   final int total;
   final int xpEarned;
 
@@ -93,10 +89,7 @@ class QuizAttemptRecord {
   }
 }
 
-/// The lessonProgress fields one write raises. A field that is null (or
-/// false) is not sent at all, so a merge write can only keep or raise the
-/// cloud's values: partsDone and bestScore only when higher, completed and
-/// passed only as true, completedAt only when the cloud has none.
+/// lessonProgress fields one write raises; null fields aren't sent, so a merge write never lowers the cloud.
 class LessonRaise {
   const LessonRaise({this.partsDone, this.completed = false, this.bestScore, this.passed = false, this.completedAt});
 
@@ -134,10 +127,7 @@ class LessonRaise {
   }
 }
 
-/// Everything one sync sends, as one batch of merge writes. XP is added
-/// with `FieldValue.increment` and paid ids with `FieldValue.arrayUnion`,
-/// never with a transaction (transactions fail offline). Null fields are
-/// not sent.
+/// One sync's merge writes: XP via FieldValue.increment, paid ids via arrayUnion, no transactions (they fail offline).
 class CloudUpdate {
   const CloudUpdate({
     this.xpIncrement = 0,
@@ -159,10 +149,8 @@ class CloudUpdate {
   /// Sent only when higher.
   final int? lessonsCompleted;
 
-  /// lessonProgress fields to raise, per lesson.
   final Map<String, LessonRaise> lessons;
 
-  /// quizAttempts documents to add.
   final List<QuizAttemptRecord> attempts;
 
   bool get isEmpty =>
@@ -184,15 +172,11 @@ abstract class ProgressCloud {
   /// on the phone (offline persistence) and sends them when online.
   void write(String uid, CloudUpdate update);
 
-  /// Debug builds only ("Reset all progress"): deletes the learner's
-  /// progress (the progress fields and `paid` on users/{uid}, and every
-  /// lessonProgress and quizAttempts document). Never the profile or role.
+  /// Debug reset only: deletes the progress fields, paid, lessonProgress and quizAttempts; never the profile or role.
   Future<void> deleteProgress(String uid);
 }
 
-/// What [local] sends to a cloud known as [known]: only new paid ids (and
-/// their XP), raised lesson fields, a later streak day, more lessons
-/// completed, and attempts not sent yet. [known] is updated to match.
+/// What [local] sends to a cloud known as [known] (only raises); [known] is updated to match.
 CloudUpdate raiseCloud({
   required ProgressSnapshot local,
   required CloudProgress known,
@@ -238,14 +222,7 @@ CloudUpdate raiseCloud({
   return update;
 }
 
-/// Merges the phone's progress with the cloud's when a learner signs in
-/// (approved: "Merge, keep the best"):
-/// - per lesson: highest partsDone, completed if either, highest bestScore,
-///   passed if either, earliest completedAt;
-/// - paid ids: the union; XP = cloud XP + XP for ids only the phone had
-///   paid (so nothing paid before the cloud was read is counted twice);
-/// - streak: the one with the later lastActiveDate.
-/// [xpOf] gives the XP a paid id is worth.
+/// Sign-in merge, keeping the best: highest per-lesson values, union of paid ids, XP = cloud XP + XP of ids only the phone paid.
 ProgressSnapshot mergeProgress({
   required ProgressSnapshot local,
   required CloudProgress cloud,

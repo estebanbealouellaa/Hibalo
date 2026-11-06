@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../l10n/app_language.dart';
 import '../l10n/app_localizations.dart';
+import '../services/language_prompt.dart';
 import '../widgets/v6/v6.dart';
 
-/// The pop-up shows once per phone (key below), the first time Home opens
-/// after signing in.
-const String kLanguageAskedKey = 'language_asked_v1';
-
-/// The three choices, by AppLanguage name.
 const List<String> kLanguages = ['English', 'Filipino', 'Hiligaynon'];
 
-/// Shows the "Choose your language" pop-up (Figma 705:7496) if it was never
-/// shown on this phone.
-Future<void> askLanguageOnce(BuildContext context) async {
-  final prefs = await SharedPreferences.getInstance();
-  if (prefs.getBool(kLanguageAskedKey) ?? false) return;
+/// Shows the language pop-up only right after Sign Up (see LanguagePrompt), never when an existing account signs in.
+Future<void> askLanguageAfterSignUp(BuildContext context, {String? uid}) async {
+  if (!LanguagePrompt.takePending(uid)) return;
   if (!context.mounted) return;
   await showLanguagePopup(context);
-  await prefs.setBool(kLanguageAskedKey, true);
 }
 
 /// Figma 705:7496: mascot, "Choose your language", the three choices and
@@ -94,7 +86,6 @@ class LanguageScreen extends StatelessWidget {
     if (language == AppLanguage.instance.language) return;
     await AppLanguage.instance.setLanguage(language);
     if (!context.mounted) return;
-    // In the new language.
     final t = lookupAppLocalizations(AppLanguage.locales[language]!);
     showV6Snackbar(context, t.langChangedTo(language));
   }

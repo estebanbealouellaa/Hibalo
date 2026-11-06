@@ -9,8 +9,6 @@ import '../parts/part_common.dart' show AudioButton;
 /// Building blocks shared by the Q01–Q10 widgets, sized from the Figma
 /// "09 · Quiz" frames.
 
-// ── Question meta row ──────────────────────────────────────────────────────
-
 /// "Question Type Chip": Choose = citrus, Listening = lagoon, Speaking =
 /// coral, Writing = orange-yellow (Figma component description).
 class QuestionTypeChip extends StatelessWidget {
@@ -79,8 +77,6 @@ class QuizXpChip extends StatelessWidget {
   }
 }
 
-// ── Title, hint and prompt card ────────────────────────────────────────────
-
 /// The question title (Headline/Medium · ExtraBold) and the grey line under
 /// it (Body/Medium, Text/Muted).
 class QuizTitle extends StatelessWidget {
@@ -104,9 +100,7 @@ class QuizTitle extends StatelessWidget {
   }
 }
 
-/// "Prompt" card: glow fill and outline, padding 20/18, radius 20. A small
-/// label ("Hiligaynon", "Filipino"), the big text, an optional line under it
-/// and optional content at the end.
+/// Figma "Prompt" card: a small language label, the big text, an optional line and optional content.
 class PromptCard extends StatelessWidget {
   const PromptCard({
     super.key,
@@ -149,8 +143,6 @@ class PromptCard extends StatelessWidget {
     );
   }
 }
-
-// ── Word tiles (Q05, Q07, Q08 word bank) ───────────────────────────────────
 
 enum TileState { idle, selected, disabled, matched, wrong }
 
@@ -210,8 +202,6 @@ class WordTile extends StatelessWidget {
   }
 }
 
-// ── Typed answer field (Q04, Q08) ──────────────────────────────────────────
-
 /// "Text Field": "Your answer" label above a 52 px white field; border
 /// Border/Neutral, 2 px Primary when focused, radius 12.
 class QuizTextField extends StatelessWidget {
@@ -266,8 +256,6 @@ class QuizTextField extends StatelessWidget {
     );
   }
 }
-
-// ── Big audio buttons (Q02, Q08) ───────────────────────────────────────────
 
 /// The 88 px play button and the 48 px slow button side by side. Always
 /// shown; a clip that isn't recorded yet plays nothing (§1.4).

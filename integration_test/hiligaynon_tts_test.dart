@@ -1,12 +1,4 @@
-// Runs the real Hiligaynon voice (v4, hibalo_tts_v4r.onnx) end to end.
-//   flutter test integration_test/hiligaynon_tts_test.dart -d <phone id>
-// (also works with -d windows). Needs the 4 voice files in
-// assets/tts/models. The WAVs are written to the app's temp folder; the path
-// is printed. Compare them with C:\Hibalo-TTS-Mobile\generate_tts_v4.py.
-//
-// Every text is made twice: with the normal CPU provider and with XNNPACK
-// (HiligaynonTtsEngine(useXnnpack: true)), and the times are printed side by
-// side. Listen to <name>_cpu.wav and <name>_xnnpack.wav to check the audio.
+// Runs the real Hiligaynon voice end to end: flutter test integration_test/hiligaynon_tts_test.dart -d <phone id>
 
 import 'dart:io';
 import 'dart:math' as math;
@@ -150,7 +142,6 @@ void main() {
       final xnn = await _measure(xnnEngine, 'xnnpack', outDir);
       await xnnEngine.close();
 
-      // Side-by-side table.
       String row(List<String> c) =>
           '${c[0].padRight(14)}${c[1].padLeft(12)}${c[2].padLeft(12)}'
           '${c[3].padLeft(14)}';

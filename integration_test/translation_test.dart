@@ -1,11 +1,4 @@
-// Runs the real translation model. It needs a device, because the ONNX plugin
-// doesn't work in plain `flutter test`:
-//   flutter test integration_test/translation_test.dart -d <device id>
-//
-// Greedy must match the reference exactly. If it doesn't, check in this order
-// (summary.md, section 11): normalize, the tag id (3 or 4), the </s> at the
-// end of the source, the encoder cache being set only on step 1, and the
-// blocked ids (0, 2, 3, 4).
+// Runs the real model on a device (ONNX doesn't work in plain flutter test); greedy must match the reference exactly (summary.md section 11).
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hibalo_app/services/translation/offline_translator.dart';
@@ -73,7 +66,6 @@ void main() {
       _log('SECTION 11: ${_section11.length} cases, $bad wrong');
       expect(bad, 0);
 
-      // Greedy, both directions, every CSV row.
       final greedySw = Stopwatch()..start();
       var rowsDone = 0;
       // --dart-define=QUICK_ROWS=150 runs only the first rows, greedy only.
@@ -276,7 +268,6 @@ void main() {
       expect(model.text, contains('3'));
       _log('APP: "${model.text}" in ${model.milliseconds} ms');
 
-      // The longest reference row, for a worst-case time.
       final longest = kReferenceRows
           .map((r) => r.$1)
           .reduce((a, b) => a.length >= b.length ? a : b);

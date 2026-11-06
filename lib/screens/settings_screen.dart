@@ -9,9 +9,7 @@ import '../widgets/v6/v6.dart';
 import 'about_screens.dart';
 import 'translate/clear_dialogs.dart';
 
-/// Me › Settings (Figma 611:5521): Data (Clear translation history 619:5983,
-/// snackbar 619:6183; Clear saved words 619:6084, snackbar 629:6361) and
-/// About (Privacy policy, Credits & licences, App version).
+/// Me › Settings (Figma 611:5521): Data and About.
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key, TranslationStore? store}) : _store = store;
 

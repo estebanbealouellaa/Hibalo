@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// A lesson picture that never breaks: if [path] is null (not in the app) or
-/// the file can't be read, it shows [fallback] (firefly_reading) instead,
-/// centred on [fallbackColor].
+/// A lesson picture that never breaks: null or unreadable [path] shows [fallback] (firefly_reading).
 class LessonImage extends StatelessWidget {
   const LessonImage({
     super.key,
@@ -18,7 +16,6 @@ class LessonImage extends StatelessWidget {
   /// Asset path, or null when the picture isn't made yet.
   final String? path;
 
-  /// Asset path of the fallback picture.
   final String fallback;
   final double? width;
   final double? height;

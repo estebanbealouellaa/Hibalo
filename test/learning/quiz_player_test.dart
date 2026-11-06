@@ -1,11 +1,4 @@
-// The quiz player (§4, §5, S06): seeded shuffling, the Q07 no-wrong-taps
-// rule, the timer pausing for S06 and the sheets, time out = wrong, Leave
-// dropping the attempt, a full Lesson 2 quiz (score without the unscored
-// question, XP paid once), and Q09 when the mic isn't available.
-//   flutter test test/learning/quiz_player_test.dart
-//
-// No pumpAndSettle while a timed question is open: its 30 s timer keeps
-// ticking, so settling would run it down to "Time's up!".
+// The quiz player: shuffling, Q07 no-wrong-taps, timer pauses, time out = wrong, Leave, a full Lesson 2 quiz and Q09 without a mic.
 
 import 'dart:math';
 
@@ -185,8 +178,6 @@ void main() {
     if (q is! SpeakingData) await press(tester, find.text('Continue').last);
   }
 
-  // ── Shuffling and the right answer ─────────────────────────────────────
-
   testWidgets('options are shown in the seeded order and the right one is tracked', (tester) async {
     final q = quizOf('b02').first as MultipleChoiceData;
     final order = shuffledOrder(q.options.length, Random(42));
@@ -208,8 +199,6 @@ void main() {
     await tester.pump();
     expect(last, AnswerState(ready: true, correct: true, text: q.correctOption));
   });
-
-  // ── Q07 ────────────────────────────────────────────────────────────────
 
   group('Q07 match pairs', () {
     MatchPairsData q() => quizOf('b02').whereType<MatchPairsData>().first;
@@ -250,8 +239,6 @@ void main() {
       expect(states.last, AnswerState(ready: true, correct: false, pairsRight: q().pairs.length - 2));
     });
   });
-
-  // ── Timer ──────────────────────────────────────────────────────────────
 
   testWidgets('S06: the timer pauses, Keep going keeps the answer and the time', (tester) async {
     await open(tester, 'b02');
@@ -319,8 +306,6 @@ void main() {
     expect(progress.xp, 10 * (total - 1), reason: 'no XP for the timed-out question');
   });
 
-  // ── Leave ──────────────────────────────────────────────────────────────
-
   testWidgets('Leave drops the attempt: back to Learn, no score, no XP', (tester) async {
     final (progress, recorder) = await open(tester, 'b02');
     final q = quizOf('b02').first as MultipleChoiceData;
@@ -344,8 +329,6 @@ void main() {
     await frames(tester);
     expect(find.text('Leave the quiz?'), findsOneWidget);
   });
-
-  // ── A whole quiz ───────────────────────────────────────────────────────
 
   testWidgets('Lesson 2: every question right passes, pays XP once, unlocks Lesson 3', (tester) async {
     final (progress, recorder) = await open(tester, 'b02');
@@ -417,8 +400,6 @@ void main() {
     expect(progress.xp, 10 * (total - 2));
     expect(progress.progressFor('b02').passed, (total - 2) / total >= 0.8);
   });
-
-  // ── Q09 ────────────────────────────────────────────────────────────────
 
   testWidgets('Q09: mic not available shows the message and allows Continue', (tester) async {
     final q = quizOf('b02').whereType<SpeakingData>().first;

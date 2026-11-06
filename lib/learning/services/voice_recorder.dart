@@ -5,28 +5,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_pcm_sound/flutter_pcm_sound.dart';
 import 'package:record/record.dart';
 
-/// Records the learner's voice for Q09 Speaking and plays it back (§4).
-///
-/// The recording is kept **in memory only**: it is never written to storage
-/// and never uploaded. [clear] deletes it; the quiz calls it when it ends.
+/// Q09 recording: kept in memory only, never written to storage or uploaded; [clear] deletes it.
 abstract class VoiceRecorder {
   /// Starts recording. Returns false when the mic is not available
   /// (permission refused, no mic, or the recorder failed to start).
   Future<bool> start();
 
-  /// Stops recording and keeps what was recorded.
   Future<void> stop();
 
-  /// A recording is kept and can be played.
   bool get hasRecording;
 
-  /// Plays the kept recording.
   Future<void> play();
 
-  /// Deletes the recording from memory.
   Future<void> clear();
 
-  /// Releases the mic and the player.
   Future<void> dispose();
 }
 

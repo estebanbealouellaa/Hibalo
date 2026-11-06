@@ -5,11 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_localizations.dart';
 
-/// The app language the user picked: English, Filipino or Hiligaynon
-/// (`settings.uiLanguages` in lessons.json). It only changes the app's own
-/// words. The picker (language pop-up, Me › Language) is a later task; until
-/// then the app stays in English unless the setting is changed in code or in
-/// the debug menu on the Learn screen.
+/// The app language (English, Filipino or Hiligaynon); it changes only the app's own words, never lesson content.
 class AppLanguage extends ChangeNotifier {
   AppLanguage._();
 
@@ -51,9 +47,7 @@ class AppLanguage extends ChangeNotifier {
     await prefs.setString(_prefsKey, language);
   }
 
-  /// Everything MaterialApp needs for the app strings. Flutter has no
-  /// Hiligaynon translations of its own buttons and dialogs, so for "hil" the
-  /// three fallback delegates give it the English ones.
+  /// Flutter has no Hiligaynon strings for its own widgets, so "hil" falls back to English ones.
   static const List<LocalizationsDelegate<dynamic>> delegates = [
     AppLocalizations.delegate,
     _HilMaterialFallback(),

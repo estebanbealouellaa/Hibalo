@@ -1,5 +1,4 @@
-// Language (#4): the first-time pop-up, Me › Language, and the whole app's
-// UI words in English, Filipino and Hiligaynon.
+// The language pop-up (after Sign Up only), Me › Language, and every UI string in English, Filipino and Hiligaynon.
 
 import 'dart:convert';
 import 'dart:io';
@@ -10,6 +9,7 @@ import 'package:hibalo_app/l10n/app_language.dart';
 import 'package:hibalo_app/l10n/app_localizations.dart';
 import 'package:hibalo_app/screens/language_screen.dart';
 import 'package:hibalo_app/screens/settings_screen.dart';
+import 'package:hibalo_app/services/language_prompt.dart';
 import 'package:hibalo_app/theme/v6_app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,12 +39,14 @@ void main() {
   });
   tearDown(() => AppLanguage.instance.setLanguage('English'));
 
-  testWidgets('the pop-up shows once; Continue saves the choice', (tester) async {
+  testWidgets('after Sign Up the pop-up shows once; Continue saves the choice', (tester) async {
+    LanguagePrompt.resetForTest();
+    await tester.runAsync(() => LanguagePrompt.afterSignUp('u1'));
     await tester.pumpWidget(
       _app(
         Builder(
           builder: (context) => Scaffold(
-            body: TextButton(onPressed: () => askLanguageOnce(context), child: const Text('home')),
+            body: TextButton(onPressed: () => askLanguageAfterSignUp(context, uid: 'u1'), child: const Text('home')),
           ),
         ),
       ),
@@ -64,6 +66,49 @@ void main() {
     await tester.tap(find.text('home'));
     await tester.pumpAndSettle();
     expect(find.text('Piliin ang iyong wika'), findsNothing, reason: 'only once');
+  });
+
+  testWidgets('only a brand-new account sees the pop-up; signing in never shows it', (tester) async {
+    LanguagePrompt.resetForTest();
+    String uid = 'existing';
+    await tester.pumpWidget(
+      _app(
+        Builder(
+          builder: (context) => Scaffold(
+            body: TextButton(
+              onPressed: () => askLanguageAfterSignUp(context, uid: uid),
+              child: const Text('home'),
+            ),
+          ),
+        ),
+      ),
+    );
+    Future<bool> opens() async {
+      await tester.tap(find.text('home'));
+      await tester.pumpAndSettle();
+      final shown = find.text('Choose your language').evaluate().isNotEmpty;
+      if (shown) {
+        await tester.tap(find.text('Continue'));
+        await tester.pumpAndSettle();
+      }
+      return shown;
+    }
+
+    expect(await opens(), isFalse, reason: 'existing account signing in (first time on this phone too)');
+    expect(await opens(), isFalse);
+
+    // Sign Up: marked seen right away, keyed by uid, and Home shows it once.
+    await tester.runAsync(() => LanguagePrompt.afterSignUp('newbie'));
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getBool(LanguagePrompt.seenKey('newbie')), isTrue);
+    expect(await opens(), isFalse, reason: 'another account is on Home');
+    uid = 'newbie';
+    expect(await opens(), isTrue, reason: 'right after Sign Up');
+    expect(await opens(), isFalse, reason: 'never twice');
+
+    // Signing in again later (or after a reinstall) never shows it.
+    LanguagePrompt.resetForTest();
+    expect(await opens(), isFalse);
   });
 
   testWidgets('Me › Language changes the app right away, with a snackbar', (tester) async {

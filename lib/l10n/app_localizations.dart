@@ -1444,6 +1444,12 @@ abstract class AppLocalizations {
   /// **'Check your email'**
   String get forgotCheckEmail;
 
+  /// Forgot password, Check your email screen, under the sent-to text.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t see it? Check your Spam folder.'**
+  String get forgotCheckSpam;
+
   /// Forgot password.
   ///
   /// In en, this message translates to:

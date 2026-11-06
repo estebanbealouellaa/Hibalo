@@ -1,4 +1,4 @@
-// S03 Lesson complete, S04 Quiz result and S05 Quiz review (step 5).
+// S03 Lesson complete, S04 Quiz result and S05 Quiz review.
 
 import 'dart:math';
 
@@ -76,8 +76,6 @@ void main() {
     await frames(tester);
     return progress;
   }
-
-  // ── S03 ────────────────────────────────────────────────────────────────
 
   group('S03 Lesson complete', () {
     testWidgets('words lesson: +20 XP, N New words, quiz and Back to lessons', (tester) async {
@@ -159,8 +157,6 @@ void main() {
       expect(find.text('LEARN'), findsOneWidget);
     });
   });
-
-  // ── S04 ────────────────────────────────────────────────────────────────
 
   QuizAttemptResult result(int correct, int total, {int xp = 0, bool? lessonPassed}) {
     final passed = correct / total >= 0.8 - 1e-9;
@@ -252,8 +248,6 @@ void main() {
     });
   });
 
-  // ── S05 ────────────────────────────────────────────────────────────────
-
   group('S05 Quiz review', () {
     List<AnsweredQuestion> mixed() {
       final qs = quizOf('b02');
@@ -290,13 +284,10 @@ void main() {
       // Wrong: red ✕, the answer given and the right one.
       expect(find.text('Your answer: Pasayloa'), findsOneWidget);
       expect(find.text('Correct answer: ${first.correctOption}'), findsOneWidget);
-      // Timed out.
       expect(find.text("Your answer: (time's up)"), findsOneWidget);
-      // Q07.
       final pairs = qs.whereType<MatchPairsData>().first.pairs.length;
       expect(find.text('Your answer: 2 of $pairs pairs'), findsOneWidget);
       expect(find.text('Correct answer: $pairs of $pairs pairs'), findsOneWidget);
-      // Practice rows.
       final practice = qs.where((q) => !q.scored).length;
       expect(find.text('Practice'), findsNWidgets(practice));
       expect(find.text('Saved for practice only. No score.'), findsNWidgets(practice));
@@ -338,8 +329,6 @@ void main() {
       expect(find.text('LEARN'), findsOneWidget);
     });
   });
-
-  // ── Try again ──────────────────────────────────────────────────────────
 
   testWidgets('Try again restarts at question 1 with a fresh score and a new shuffle', (tester) async {
     var seed = 0;

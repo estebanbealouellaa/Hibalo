@@ -8,9 +8,7 @@ import '../../theme/v6_text.dart';
 import '../lesson_image.dart';
 import 'part_common.dart';
 
-/// P04 · Words (learn cards). One card per item; the player passes the card
-/// [index] and moves it with Back/Next (the segmented bar doesn't move).
-/// The picture rule and the Example rule are independent (§3 P04).
+/// P04 Words: one learn card per item; Back/Next move [index] (the segmented bar doesn't move).
 class WordsPart extends StatelessWidget {
   const WordsPart({
     super.key,

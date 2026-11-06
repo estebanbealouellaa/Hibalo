@@ -9,16 +9,7 @@ import '../theme/v6_text.dart';
 import '../theme/v6_theme.dart';
 import '../widgets/result_parts.dart';
 
-/// S03 · Lesson complete, after "Finish & practice" / "Finish lesson", or
-/// from a "Quiz pending" row on S01.
-///
-/// - firefly_celebrate, "Lesson complete!", "You finished Lesson N: Title."
-/// - Tiles: "+20 XP" (or "20 XP · Already earned" when the lesson XP was
-///   paid before) and "N New words" (Letters version: "19 Letters").
-/// - Words lesson: "Take the lesson quiz" → question 1.
-/// - Letters lesson (no quiz): chip "Lesson 2 unlocked" and "Continue to
-///   Lesson 2" → S02 of Lesson 2.
-/// - "Back to lessons" → S01 (the row then shows Quiz pending).
+/// S03 Lesson complete, after the last part or from a "Quiz pending" row on S01.
 class LessonCompleteScreen extends StatelessWidget {
   const LessonCompleteScreen({super.key, required this.lessonId, required this.xpJustPaid});
 

@@ -277,9 +277,7 @@ class ContinueCard extends StatelessWidget {
   }
 }
 
-/// Figma "Phrase of the day card": a word from the lessons with its
-/// Filipino meaning, a Listen button (the word's recorded clip; silent
-/// until it is recorded, never the TTS voice) and its example sentence.
+/// Figma "Phrase of the day card": Listen plays the word's recorded clip (silent until recorded), never the TTS voice.
 class PhraseOfTheDayCard extends StatelessWidget {
   const PhraseOfTheDayCard({super.key, required this.item});
 
@@ -363,7 +361,6 @@ class PhraseOfTheDayCard extends StatelessWidget {
   }
 }
 
-/// The Hiligaynon example with the day's word in bold (when it appears).
 class _ExampleLine extends StatelessWidget {
   const _ExampleLine({required this.text, required this.bold});
 

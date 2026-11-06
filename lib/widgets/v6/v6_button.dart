@@ -27,9 +27,7 @@ enum V6ButtonStyle {
   dangerText,
 }
 
-/// Figma "Button": 52 high (48 for text styles), full radius, V6/Button
-/// text, 24 side padding (12 for text styles). [onPressed] null = Disabled;
-/// [loading] = spinner + label, not tappable. [expand] makes it full width.
+/// Figma "Button": [onPressed] null = Disabled; [loading] = spinner + label, not tappable; [expand] = full width.
 class V6Button extends StatelessWidget {
   const V6Button({
     super.key,

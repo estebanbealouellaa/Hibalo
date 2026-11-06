@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'v6_colors.dart';
 import 'v6_text.dart';
 
-/// The V6 look for the learning screens only. Wrap a learning screen in
-/// [LearningTheme] so the rest of the app (Welcome, Sign In/Up, Translate…)
-/// keeps the app-wide theme.
+/// The V6 look for the learning screens only (wrap them in [LearningTheme]).
 ThemeData buildLearningTheme() {
   final scheme = ColorScheme.fromSeed(
     seedColor: V6Colors.primary,
@@ -55,7 +53,6 @@ ThemeData buildLearningTheme() {
   );
 }
 
-/// Applies the V6 learning theme to everything under [child].
 class LearningTheme extends StatelessWidget {
   const LearningTheme({super.key, required this.child});
 

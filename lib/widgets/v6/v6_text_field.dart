@@ -5,13 +5,7 @@ import '../../learning/theme/v6_colors.dart';
 import '../../learning/theme/v6_text.dart';
 import 'v6_styles.dart';
 
-/// Figma "Text Field" (448:1563): the label above a 52-high white field.
-/// Border Border/Neutral; focus 2 px Primary; error 2 px Error with the
-/// message below (16 px icon + caption). Disabled: State/Disabled fill.
-/// [obscure] adds the 48 × 48 show / hide password button.
-///
-/// [fieldLabel] uses the auth screens' uppercase violet label (V6/Label/Field);
-/// otherwise the label is Label/Large in Text/Neutral Strong.
+/// Figma "Text Field" (448:1563); [obscure] adds the show / hide password button.
 class V6TextField extends StatefulWidget {
   const V6TextField({
     super.key,

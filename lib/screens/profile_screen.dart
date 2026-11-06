@@ -26,7 +26,7 @@ class MeTab extends StatelessWidget {
 
   static final GlobalKey<NavigatorState> _navigator = GlobalKey<NavigatorState>();
 
-  /// Back on the Me tab: close the open page. True when handled.
+  /// Back on the Me tab closes the open page; true when handled.
   static bool handleBack() {
     final nav = _navigator.currentState;
     if (nav != null && nav.canPop()) {
@@ -34,6 +34,11 @@ class MeTab extends StatelessWidget {
       return true;
     }
     return false;
+  }
+
+  /// Leaving the tab: back to the Me page.
+  static void closePages() {
+    _navigator.currentState?.popUntil((route) => route.isFirst);
   }
 
   @override
@@ -86,9 +91,7 @@ String? _email() {
   return levels.isEmpty ? null : (levels.last, levels.length - 1);
 }
 
-/// Me (Figma 607:5271): the profile card (avatar, name, email, level, the
-/// streak / lessons / XP pills, edit button) and the Account rows, including
-/// Language (703:7482).
+/// Me (Figma 607:5271): the profile card and the Account rows.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, this.userName, this.photoUrl, this.onLogout, this.email});
 

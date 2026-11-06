@@ -9,9 +9,7 @@ import '../parts/quick_check_part.dart' show OptionCard, OptionState;
 import 'question_contract.dart';
 import 'quiz_common.dart';
 
-/// The option-card questions: Q01 Multiple choice, Q02 Listening, Q03 Fill
-/// in the blank and Q06 Real situation. Tap selects one card (violet);
-/// Check reveals it (green / red, and the right one turns green).
+/// Q01, Q02, Q03 and Q06: tap selects one option card, Check reveals right / wrong.
 
 /// The shuffled option cards, shared by the four widgets below.
 class _OptionList extends StatelessWidget {
@@ -75,8 +73,6 @@ mixin _ChoiceState<W extends StatefulWidget> on State<W> {
   }
 }
 
-// ── Q01 Multiple choice ─────────────────────────────────────────────────────
-
 class MultipleChoiceQuestion extends StatefulWidget {
   const MultipleChoiceQuestion({
     super.key,
@@ -120,8 +116,6 @@ class _MultipleChoiceQuestionState extends State<MultipleChoiceQuestion>
     );
   }
 }
-
-// ── Q02 Listening ───────────────────────────────────────────────────────────
 
 class ListeningQuestion extends StatefulWidget {
   const ListeningQuestion({
@@ -168,8 +162,6 @@ class _ListeningQuestionState extends State<ListeningQuestion>
     );
   }
 }
-
-// ── Q03 Fill in the blank ───────────────────────────────────────────────────
 
 class FillBlankQuestion extends StatefulWidget {
   const FillBlankQuestion({
@@ -223,8 +215,6 @@ class _FillBlankQuestionState extends State<FillBlankQuestion>
     );
   }
 }
-
-// ── Q06 Real situation ──────────────────────────────────────────────────────
 
 class RealSituationQuestion extends StatefulWidget {
   const RealSituationQuestion({

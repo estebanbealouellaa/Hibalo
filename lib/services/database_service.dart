@@ -3,9 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // ==========================
-  // USERS
-  // ==========================
   static Future<void> createUser({
     required String uid,
     required String username,
@@ -21,26 +18,9 @@ class DatabaseService {
     });
   }
 
-  // ==========================
-  // TEXT / SPEECH TRANSLATION
-  // ==========================
-
-  // ==========================
-  // CAMERA TRANSLATION
-  // ==========================
-
-  // ==========================
-  // LIBRARY
-  // ==========================
-
-  // ==========================
-  // HILIGAYNON TRANSLATION
-  // FIX: Tamang collection = 'translations', fields = 'fil' at 'hil'
-  // ==========================
   static Future<String?> translateToHiligaynon(String text) async {
     final cleaned = text.toLowerCase().trim();
 
-    // 1. Exact match ng buong phrase
     final exact = await _db
         .collection('translations')
         .where('fil', isEqualTo: cleaned)
@@ -49,7 +29,6 @@ class DatabaseService {
 
     if (exact.docs.isNotEmpty) return exact.docs.first['hil'];
 
-    // 2. Word-by-word fallback para sa multi-word input
     final words = cleaned.split(RegExp(r'\s+'));
     if (words.length > 1) {
       final translated = <String>[];
@@ -75,7 +54,6 @@ class DatabaseService {
   static Future<String?> translateToFilipino(String text) async {
     final cleaned = text.toLowerCase().trim();
 
-    // 1. Exact match ng buong phrase
     final exact = await _db
         .collection('translations')
         .where('hil', isEqualTo: cleaned)
@@ -84,7 +62,6 @@ class DatabaseService {
 
     if (exact.docs.isNotEmpty) return exact.docs.first['fil'];
 
-    // 2. Word-by-word fallback para sa multi-word input
     final words = cleaned.split(RegExp(r'\s+'));
     if (words.length > 1) {
       final translated = <String>[];
@@ -107,7 +84,4 @@ class DatabaseService {
     return null;
   }
 
-  // ==========================
-  // DICTIONARY MANAGEMENT (ADMIN)
-  // ==========================
 }

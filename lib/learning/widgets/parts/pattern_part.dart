@@ -6,10 +6,7 @@ import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
 import 'part_common.dart';
 
-/// P03 · Pattern: icon + title, the explanation, the pattern card (3 or 4
-/// slot blocks joined by "+", then "= Filipino") and "More examples".
-/// The highlighted slot (the link word) is violet with a glow; the others
-/// alternate citrus and lagoon. No audio.
+/// P03 Pattern: slot blocks joined by "+", then "= Filipino"; the link word is violet with a glow. No audio.
 class PatternPart extends StatelessWidget {
   const PatternPart({super.key, required this.data});
 
@@ -89,9 +86,7 @@ class PatternPart extends StatelessWidget {
           child: Text('+', style: V6Text.titleLarge.copyWith(color: V6Colors.textSecondary)),
         ));
       }
-      // Figma "Block": padding 16/12, radius 14, Hiligaynon/Word · Bold. The
-      // link word is violet with a 3 px glow border; the others alternate
-      // citrus and lagoon with dark text.
+      // Figma "Block": the link word is violet with a 3 px glow border; the others alternate citrus and lagoon.
       final (Color background, Color foreground) = slot.highlight
           ? (V6Colors.primary, V6Colors.onPrimary)
           : (plain++).isEven

@@ -10,14 +10,7 @@ import '../models/progress.dart';
 import '../services/progress_store.dart';
 import '../sync/progress_cloud.dart';
 
-/// The learner's progress for the whole app: lessons, XP, streak and
-/// unlocking. Provided at the top of the app, so Home, Me, Translate and the
-/// learning screens all show the same numbers.
-///
-/// Loads in two halves: the saved progress (fast, for the stat chips) and the
-/// lessons (for the Learn screens). Everything is saved on the phone first;
-/// when a [ProgressCloud] and a signed-in account are given, each finished
-/// part, lesson or quiz is then synced (§1.10). Signed out = phone only.
+/// The learner's progress for the whole app (lessons, XP, streak, unlocking), shared by Home, Me and the learning screens.
 class LearningProgress extends ChangeNotifier {
   LearningProgress({
     ProgressStore? store,
@@ -58,7 +51,6 @@ class LearningProgress extends ChangeNotifier {
   final ProgressCloud? _cloud;
   StreamSubscription<String?>? _accounts;
 
-  /// The signed-in account, or null.
   String? _uid;
 
   /// The account whose cloud progress has been merged in this session.
@@ -96,23 +88,16 @@ class LearningProgress extends ChangeNotifier {
     }
   }
 
-  // ── Lessons ────────────────────────────────────────────────────────────
-
-  /// True once the lessons are loaded.
   bool get isReady => _catalog != null;
 
-  /// Why loading failed, or null.
   Object? get loadError => _lessonsError;
 
   LessonCatalog get catalog => _catalog!;
 
-  /// Unlocking and lesson states for the current progress.
   LearningRules get rules => LearningRules(catalog, _snapshot.lessons);
 
   LessonProgress progressFor(String lessonId) =>
       _snapshot.lessons[lessonId] ?? LessonProgress.empty;
-
-  // ── Stats (Home, Me, Translate) ────────────────────────────────────────
 
   int get xp => _snapshot.xp;
 
@@ -123,10 +108,7 @@ class LearningProgress extends ChangeNotifier {
         today: _clock(),
       );
 
-  /// Lessons with every part finished.
   int get lessonsCompleted => _snapshot.lessonsCompleted;
-
-  // ── Saving (written once per finished part, never per tap) ─────────────
 
   /// Ids in the "paid" list, so XP is only ever paid once (§1.8).
   static String quickCheckPaidId(String partId) => 'quickCheck:$partId';
@@ -145,9 +127,7 @@ class LearningProgress extends ChangeNotifier {
     return xp;
   }
 
-  /// Pays [amount] XP for [id] the first time only. Returns true if it paid.
-  /// Saved on the phone; it reaches the cloud with the next finished part,
-  /// lesson or quiz.
+  /// Pays [amount] XP for [id] the first time only; it reaches the cloud with the next sync.
   Future<bool> payXpOnce(String id, int amount) async {
     if (!_snapshot.paid.add(id)) return false;
     _snapshot.xp += amount;
@@ -165,9 +145,7 @@ class LearningProgress extends ChangeNotifier {
     return 0;
   }
 
-  /// Saves that part [partIndex] (0-based) of [lesson] is finished, counts
-  /// today for the streak, and marks the lesson completed after its last
-  /// part. Parts already saved stay saved (a review changes nothing).
+  /// Saves part [partIndex] (0-based) as finished and counts today for the streak; a review changes nothing.
   Future<void> savePartDone(Lesson lesson, int partIndex) async {
     final before = progressFor(lesson.id);
     final done = partIndex + 1 > before.partsDone ? partIndex + 1 : before.partsDone;
@@ -194,11 +172,7 @@ class LearningProgress extends ChangeNotifier {
   static String questionPaidId(String lessonId, String questionId) =>
       'question:$lessonId:$questionId';
 
-  /// Saves a finished quiz attempt on the phone (§1.10): the best score,
-  /// passed (≥ pass mark, which unlocks the next lesson), the streak day, and
-  /// XP for the scored questions [rightIds] that were never right before.
-  /// Called once when the last question ends; leaving a quiz saves nothing.
-  /// Then it is synced (with a quizAttempts document) when signed in.
+  /// Saves a finished quiz attempt (best score, passed, streak, XP for questions never right before), then syncs.
   Future<QuizAttemptResult> saveQuizResult(
     Lesson lesson, {
     required int correct,
@@ -260,8 +234,6 @@ class LearningProgress extends ChangeNotifier {
     _snapshot.lastActiveDate = today;
   }
 
-  // ── Firestore sync ─────────────────────────────────────────────────
-
   void _onAccount(String? uid) {
     if (uid == _uid) return;
     _uid = uid;
@@ -272,9 +244,7 @@ class LearningProgress extends ChangeNotifier {
     unawaited(_sync());
   }
 
-  /// A different account signed in on this phone: it starts from its own
-  /// progress at once (empty until its cloud copy is read), so nothing it
-  /// does is mixed with the previous account's. Returns true if it switched.
+  /// Another account signed in: start from its own progress so nothing is mixed with the previous account's.
   bool _switchAccount() {
     final uid = _uid;
     final owner = _snapshot.ownerUid;
@@ -284,10 +254,7 @@ class LearningProgress extends ChangeNotifier {
     return true;
   }
 
-  /// Sends what the cloud is missing. Nothing is sent for an account until
-  /// its cloud copy has been read and merged in this session (a fresh
-  /// install, or a sign-in while offline, waits); until then changes are
-  /// only kept on the phone. Never throws: the phone copy is already saved.
+  /// Sends what the cloud is missing, only after this account's cloud copy was read and merged; never throws.
   Future<void> _sync() async {
     final cloud = _cloud;
     final uid = _uid;
@@ -304,9 +271,7 @@ class LearningProgress extends ChangeNotifier {
     }
   }
 
-  /// Reads the account's cloud copy and merges it in, keeping the best.
-  /// XP paid on the phone before this is counted once: the merge adds only
-  /// paid ids the cloud doesn't have. Then sends what the cloud is missing.
+  /// Merges the cloud copy, keeping the best; phone XP is counted once (only paid ids the cloud lacks are added).
   Future<void> _merge(ProgressCloud cloud, String uid) async {
     final remote = await cloud.fetch(uid);
     if (_uid != uid) return; // signed out or switched while reading
@@ -319,10 +284,7 @@ class LearningProgress extends ChangeNotifier {
     await _store.save(_snapshot);
   }
 
-  /// One batch of merge writes with only what raises the known cloud copy:
-  /// new paid ids (and their XP as an increment), higher lesson values, a
-  /// later streak day, more lessons completed, and finished quiz attempts.
-  /// Returns false when there was nothing to send.
+  /// One batch of merge writes with only what raises the known cloud copy; false when there was nothing to send.
   bool _push(ProgressCloud cloud, String uid) {
     final known = _snapshot.cloud;
     if (known == null || _snapshot.ownerUid != uid) return false;
@@ -339,8 +301,6 @@ class LearningProgress extends ChangeNotifier {
     super.dispose();
   }
 
-  // ── Debug tools (debug builds only, see the Learn screen menu) ────────
-
   /// Replaces all lesson progress, to try the S01/S02 states. Not used in
   /// release builds.
   Future<void> debugReplaceLessons(Map<String, LessonProgress> lessons) async {
@@ -353,11 +313,7 @@ class LearningProgress extends ChangeNotifier {
     await _sync();
   }
 
-  /// "Reset all progress": the phone copy starts fresh and, when signed in,
-  /// this account's cloud progress is deleted too (progress fields and paid
-  /// on users/{uid}, lessonProgress, quizAttempts; never the profile or
-  /// role), so testing starts clean. Returns false if the cloud could not
-  /// be cleared (then the next app start merges it back).
+  /// Debug reset: clears the phone copy and this account's cloud progress (never profile or role); false if the cloud couldn't be cleared.
   Future<bool> debugResetAll() async {
     assert(kDebugMode, 'debug only');
     final uid = _uid;
@@ -392,16 +348,13 @@ class QuizAttemptResult {
     bool? lessonPassed,
   }) : lessonPassed = lessonPassed ?? passed;
 
-  /// Right answers among the scored questions.
   final int correct;
 
-  /// Scored questions.
   final int total;
 
   /// XP paid by this attempt (questions right for the first time).
   final int xpEarned;
 
-  /// This attempt reached the pass mark.
   final bool passed;
 
   /// The quiz has been passed, now or before (the next lesson is open).

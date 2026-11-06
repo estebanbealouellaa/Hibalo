@@ -1,7 +1,4 @@
-// The lesson part player: segmented bar, caption, Back/Next rule (§1.2),
-// last-part button (§1.7), Leave pop-up (S06), saving parts, quick check
-// XP paid once, and every part of every lesson drawing without errors.
-//   flutter test test/learning/lesson_player_test.dart
+// The lesson part player: Back/Next, last-part button, Leave, saving parts, quick check XP once, and every part of every lesson.
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

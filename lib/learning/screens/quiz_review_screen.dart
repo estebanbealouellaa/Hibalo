@@ -10,15 +10,7 @@ import '../theme/v6_text.dart';
 import '../theme/v6_theme.dart';
 import '../widgets/result_parts.dart';
 
-/// S05 · Quiz review: every question in quiz order with its real number.
-///
-/// - Right: green check, "Your answer: …" in green.
-/// - Wrong: red ✕, "Your answer: …" in red (a timeout shows "(time's up)")
-///   and "Correct answer: …".
-/// - Practice (speaking, open answer): a "Practice" tag and "Saved for
-///   practice only. No score."
-/// - Not passed: Try again (pops with `true`, and S04 restarts the quiz) +
-///   Back to lessons. Passed: Continue + Back to lessons. Back → S04.
+/// S05 Quiz review: every question in quiz order with its real number.
 class QuizReviewScreen extends StatelessWidget {
   const QuizReviewScreen({super.key, required this.result, required this.answers});
 

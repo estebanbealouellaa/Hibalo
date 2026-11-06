@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../../learning/theme/v6_colors.dart';
 import '../../learning/theme/v6_text.dart';
 
-/// V6 text styles used outside the Learning module that the learning tokens
-/// (lib/learning/theme/v6_text.dart) don't have. Same Figma names; the
-/// learning files stay untouched.
+/// V6 text styles the Learning tokens (v6_text.dart) don't have, so the learning files stay untouched.
 abstract final class V6AppText {
   static TextStyle _s(double size, FontWeight weight, double? lineHeightPx, {double letterSpacing = 0}) =>
       TextStyle(

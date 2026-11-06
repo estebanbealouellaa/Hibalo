@@ -55,9 +55,7 @@ class V6IconButton extends StatelessWidget {
   }
 }
 
-/// Figma "Top App Bar" (448:1552): 64 high, padding 4 / 8, a 48 back
-/// button, App Bar/Title (22 ExtraBold) and an optional 48 trailing action. Transparent, so
-/// it sits on the screen background.
+/// Figma "Top App Bar" (448:1552): 64 high, transparent, 48 back button and optional trailing action.
 class V6TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   const V6TopAppBar({
     super.key,

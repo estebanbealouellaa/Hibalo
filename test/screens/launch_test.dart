@@ -1,6 +1,4 @@
-// The three launch paths: first open (full splash → onboarding), later
-// launches signed in (plain splash → Home / admin) and signed out (plain
-// splash → Sign Up).
+// Launch paths: first open (splash → onboarding), later signed in (→ Home / admin) and signed out (→ Sign Up).
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -5,8 +5,7 @@ import 'v6_colors.dart';
 /// The bundled font family (assets/fonts/plus_jakarta_sans, see pubspec.yaml).
 const String kV6FontFamily = 'PlusJakartaSans';
 
-/// Builds one V6 text style. Figma gives the line height in pixels, Flutter
-/// wants it as a multiple of the font size, so it is divided here.
+/// Figma gives line height in pixels; Flutter wants a multiple of the font size.
 TextStyle _style(
   double size,
   FontWeight weight,
@@ -25,9 +24,7 @@ TextStyle _style(
   );
 }
 
-/// V6 text styles, copied from the Figma text styles on page "Version 6".
-/// The names follow Figma, so "V6/Label/Large · Bold" is [V6Text.labelLargeBold].
-/// Figma's "100%" line height means a line exactly as tall as the font size.
+/// V6 text styles from Figma; "100%" line height = exactly the font size.
 abstract final class V6Text {
   static const _regular = FontWeight.w400;
   static const _medium = FontWeight.w500;

@@ -171,7 +171,6 @@ void main() {
       expect(find.text('Hiligaynon → Filipino'), findsOneWidget);
       expect(find.text('Clear all'), findsOneWidget);
 
-      // Save from History.
       await tester.tap(find.byTooltip('Save').first);
       await tester.pumpAndSettle();
       expect(_store.saved.single.translation, 'Maayong aga');

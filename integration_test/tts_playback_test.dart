@@ -1,6 +1,4 @@
-// Times real playback of the 16 s paragraph through the Listen button's code:
-// time to first sound, and time until the speech ends. It plays out loud.
-//   flutter test integration_test/tts_playback_test.dart -d <phone id>
+// Times real playback of the 16 s paragraph (plays out loud): flutter test integration_test/tts_playback_test.dart -d <phone id>
 
 import 'dart:async';
 

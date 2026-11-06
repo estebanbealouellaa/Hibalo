@@ -1,4 +1,4 @@
-// Stage B: the 4-tab shell, the Continue card and the Phrase of the day.
+// The 4-tab shell, the Continue card and the Phrase of the day.
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +16,7 @@ import 'package:hibalo_app/learning/state/learning_progress.dart';
 import 'package:hibalo_app/screens/home/home_logic.dart';
 import 'package:hibalo_app/screens/home/home_tab.dart';
 import 'package:hibalo_app/screens/home_screen.dart';
+import 'package:hibalo_app/screens/profile_screen.dart';
 import 'package:hibalo_app/theme/v6_app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,8 +48,6 @@ void main() {
 
   Lesson lesson(String id) => catalog.lessonById(id)!;
   List<Lesson> beginner() => catalog.levels.first.lessons;
-
-  // ── Shell ──────────────────────────────────────────────────────────────
 
   Future<HomeScreenState> shell(WidgetTester tester) async {
     await tester.pumpWidget(
@@ -91,6 +90,67 @@ void main() {
       await tester.tap(find.text('Translate'));
       await tester.pump();
       expect(find.text('Translate 1'), findsOneWidget, reason: 'Translate kept its count');
+    });
+
+    testWidgets('a tab the user leaves goes back to its first page', (tester) async {
+      tester.view.physicalSize = const Size(360, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        ChangeNotifierProvider.value(
+          value: LearningProgress.ready(catalog, ProgressSnapshot()),
+          child: MaterialApp(
+            localizationsDelegates: AppLanguage.delegates,
+            supportedLocales: AppLanguage.supportedLocales,
+            theme: buildAppTheme(),
+            home: HomeScreen(
+              onLogout: () {},
+              userDoc: Stream.value({'username': 'Ana'}),
+              tabs: [
+                const _CounterTab('Home'),
+                const _CounterTab('Translate'),
+                const _CounterTab('Learn'),
+                MeTab(userName: 'Ana', photoUrl: null, onLogout: () {}),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final state = tester.state<HomeScreenState>(find.byType(HomeScreen));
+
+      // Me › Settings, then Home, then Me again: the Me page, not Settings.
+      state.select(HomeScreen.meTab);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Settings'));
+      await tester.pumpAndSettle();
+      expect(find.text('Clear translation history'), findsOneWidget);
+      state.select(HomeScreen.homeTab);
+      await tester.pumpAndSettle();
+      state.select(HomeScreen.meTab);
+      await tester.pumpAndSettle();
+      expect(find.text('Clear translation history'), findsNothing);
+      expect(find.text('Account'), findsOneWidget, reason: 'back on the Me page');
+      expect(MeTab.handleBack(), isFalse, reason: 'nothing left open');
+
+      // Learn is rebuilt fresh after it is left.
+      state.select(HomeScreen.learnTab);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Learn 0'));
+      await tester.pump();
+      expect(find.text('Learn 1'), findsOneWidget);
+      state.select(HomeScreen.homeTab);
+      await tester.pumpAndSettle();
+      state.select(HomeScreen.learnTab);
+      await tester.pumpAndSettle();
+      expect(find.text('Learn 0'), findsOneWidget, reason: 'a fresh lesson list');
+
+      // Re-selecting the open tab changes nothing.
+      await tester.tap(find.text('Learn 0'));
+      await tester.pump();
+      state.select(HomeScreen.learnTab);
+      await tester.pumpAndSettle();
+      expect(find.text('Learn 1'), findsOneWidget);
     });
 
     testWidgets('Android back: other tabs go to Home; on Home the app may close', (tester) async {
@@ -153,8 +213,6 @@ void main() {
     expect(state.tab, HomeScreen.learnTab);
     expect(find.byTooltip('Back'), findsNothing);
   });
-
-  // ── Continue card ──────────────────────────────────────────────────────
 
   group('Continue card choice', () {
     ContinuePick pick(Map<String, LessonProgress> p) => pickContinue(catalog, LearningRules(catalog, p));
@@ -261,8 +319,6 @@ void main() {
       expect(find.text('Maayong gab-i,\nAna.'), findsOneWidget);
     });
   });
-
-  // ── Phrase of the day ─────────────────────────────────────────────────
 
   group('Phrase of the day', () {
     test('the same all day, a different one the next day', () {

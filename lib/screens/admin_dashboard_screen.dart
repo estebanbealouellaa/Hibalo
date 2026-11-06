@@ -6,42 +6,30 @@ import 'package:intl/intl.dart';
 import 'admin_users_screen.dart';
 import '../widgets/v6/v6.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// THEME TOKENS
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _DashTheme {
   final bool isDark;
   const _DashTheme(this.isDark);
 
-  // backgrounds
   Color get bg => isDark ? const Color(0xFF0D0F18) : V6Colors.background;
   Color get surface => isDark ? const Color(0xFF161927) : V6Colors.surface;
   Color get surfaceAlt =>
       isDark ? const Color(0xFF1E2235) : V6Colors.surfaceTint;
 
-  // text
   Color get textPrimary => isDark ? Colors.white : V6Colors.textPrimary;
   Color get textSecondary =>
       isDark ? const Color(0xFF8A91AA) : V6Colors.textSecondary;
   Color get textMuted =>
       isDark ? const Color(0xFF444B63) : V6Colors.textMuted;
 
-  // border / divider
   Color get border =>
       isDark ? const Color(0xFF262B40) : V6Colors.borderDivider;
 
-  // accent
   static const Color accent = V6Colors.primary;
   static const Color accentGlow = Color(0x336837CD);
   static const Color amber = V6Colors.warning;
   static const Color rose = V6Colors.coral;
   static const Color teal = V6Colors.lagoon;
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// SCREEN
-// ─────────────────────────────────────────────────────────────────────────────
 
 class AdminDashboardScreen extends StatefulWidget {
   final VoidCallback onLogout;
@@ -55,22 +43,17 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     with TickerProviderStateMixin {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // ── stats ──
   int _totalUsers = 0, _dailyActive = 0, _weeklyActive = 0, _totalAdmins = 0;
   bool _loading = true;
 
-  // ── theme ──
   late bool _isDark;
-  // ── animations ──
   late AnimationController _fadeCtrl;
   late Animation<double> _fadeAnim;
 
-  // ─────────────────────────────────────────────────
   @override
   void initState() {
     super.initState();
 
-    // Auto theme based on time
     final hour = DateTime.now().hour;
     _isDark = hour >= 12; // AM = light, PM = dark
 
@@ -89,7 +72,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     super.dispose();
   }
 
-  // ── LOAD STATS ───────────────────────────────────
   Future<void> _loadStats() async {
     setState(() => _loading = true);
     _fadeCtrl.reset();
@@ -123,20 +105,17 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     _fadeCtrl.forward();
   }
 
-  // ── LOGOUT ───────────────────────────────────────
   Future<void> _logout() async {
     await FirebaseAuth.instance.signOut();
     widget.onLogout();
   }
 
-  // ── TOGGLE THEME ─────────────────────────────────
   void _toggleTheme() {
     setState(() {
       _isDark = !_isDark;
     });
   }
 
-  // ─────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     final t = _DashTheme(_isDark);
@@ -221,9 +200,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // ─────────────────────────────────────────────────
-  // TOP BAR  — FIX: compact layout, no text wrap
-  // ─────────────────────────────────────────────────
   Widget _buildTopBar(_DashTheme t, String greeting) {
     final timeStr = DateFormat('h:mm a').format(DateTime.now());
 
@@ -243,7 +219,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
       ),
       child: Row(
         children: [
-          // ICON
           Container(
             width: 36,
             height: 36,
@@ -271,7 +246,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
 
           const SizedBox(width: 10),
 
-          // TITLE — FIX: wrap in Expanded so it never overflows
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,7 +275,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
             ),
           ),
 
-          // TIME CHIP
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
@@ -321,7 +294,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
 
           const SizedBox(width: 4),
 
-          // THEME TOGGLE
           _iconBtn(
             icon: _isDark ? Icons.wb_sunny_rounded : Icons.nights_stay_rounded,
             color: _isDark ? _DashTheme.amber : V6Colors.primary,
@@ -333,7 +305,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
 
           const SizedBox(width: 4),
 
-          // REFRESH
           _iconBtn(
             icon: Icons.refresh_rounded,
             color: t.textSecondary,
@@ -345,7 +316,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
 
           const SizedBox(width: 4),
 
-          // LOGOUT
           _iconBtn(
             icon: Icons.logout_rounded,
             color: _DashTheme.rose,
@@ -386,9 +356,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // ─────────────────────────────────────────────────
-  // STATS GRID  — FIX: use childAspectRatio that gives enough height
-  // ─────────────────────────────────────────────────
   Widget _buildStatsGrid(_DashTheme t) {
     final stats = [
       _StatData(
@@ -513,9 +480,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // ─────────────────────────────────────────────────
-  // MANAGEMENT TILE
-  // ─────────────────────────────────────────────────
   Widget _buildManagementTile({
     required _DashTheme t,
     required IconData icon,
@@ -588,9 +552,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // ─────────────────────────────────────────────────
-  // SECTION LABEL
-  // ─────────────────────────────────────────────────
   Widget _buildSectionLabel(String text, _DashTheme t) {
     return Row(
       children: [
@@ -616,9 +577,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // ─────────────────────────────────────────────────
-  // RECENT USERS
-  // ─────────────────────────────────────────────────
   Widget _buildRecentUsers(_DashTheme t) {
     return StreamBuilder<QuerySnapshot>(
       stream: _db
@@ -673,7 +631,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
               ),
               child: Row(
                 children: [
-                  // AVATAR
                   Container(
                     width: 40,
                     height: 40,
@@ -696,7 +653,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
 
                   const SizedBox(width: 12),
 
-                  // INFO
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -754,7 +710,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                     ),
                   ),
 
-                  // DATE
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -773,9 +728,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // ─────────────────────────────────────────────────
-  // LOADER
-  // ─────────────────────────────────────────────────
   Widget _buildLoader(_DashTheme t) {
     return Center(
       child: Column(
@@ -799,10 +751,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// DATA MODEL
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _StatData {
   final String label, value;

@@ -5,12 +5,7 @@ import 'package:flutter/services.dart';
 import '../models/catalog.dart';
 import 'json_reader.dart';
 
-/// Loads assets/lessons/lessons.json once and keeps it in memory.
-///
-/// Lessons are bundled with the app, so this works offline. Picture and audio
-/// paths are checked against the AssetManifest while loading: anything not in
-/// the app becomes null, and the screens show the fallback picture or hide the
-/// audio button.
+/// Loads the bundled lessons.json once (works offline) and checks picture/audio paths against the AssetManifest.
 class LessonRepository {
   LessonRepository._(this.catalog, this.assetRefs);
 
@@ -21,7 +16,6 @@ class LessonRepository {
 
   final LessonCatalog catalog;
 
-  /// Every picture/audio path in the JSON and whether it is in the app.
   final List<AssetRef> assetRefs;
 
   /// JSON paths whose files aren't in the app yet (word pictures, audio…).
@@ -39,8 +33,6 @@ class LessonRepository {
     });
   }
 
-  /// Loads and checks the lessons from [bundle]. Throws [FormatException]
-  /// naming the place in the JSON if something is wrong.
   static Future<LessonRepository> load(AssetBundle bundle) async {
     final manifest = await AssetManifest.loadFromAssetBundle(bundle);
     final text = await bundle.loadString(lessonsAsset);

@@ -8,9 +8,7 @@ import '../../theme/v6_text.dart';
 import 'question_contract.dart';
 import 'quiz_common.dart';
 
-/// Q04 Type the answer and Q08 Dictation: the answer is typed and compared
-/// with every entry in `accepted` (ignoring capitals, spaces at the ends and
-/// . , ! ?). Check is enabled once something is typed. No timer.
+/// Q04 and Q08: compared with every `accepted` entry, ignoring capitals, end spaces and . , ! ?
 mixin _TypedState<W extends StatefulWidget> on State<W> {
   final TextEditingController controller = TextEditingController();
 
@@ -31,8 +29,6 @@ mixin _TypedState<W extends StatefulWidget> on State<W> {
     super.dispose();
   }
 }
-
-// ── Q04 Type the answer ─────────────────────────────────────────────────────
 
 class TypeAnswerQuestion extends StatefulWidget {
   const TypeAnswerQuestion({
@@ -84,8 +80,6 @@ class _TypeAnswerQuestionState extends State<TypeAnswerQuestion>
     );
   }
 }
-
-// ── Q08 Dictation ───────────────────────────────────────────────────────────
 
 class DictationQuestion extends StatefulWidget {
   const DictationQuestion({

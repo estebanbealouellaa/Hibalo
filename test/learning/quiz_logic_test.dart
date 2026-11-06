@@ -1,7 +1,4 @@
-// Quiz rules without a screen: typed-answer matching, seeded shuffling,
-// build-the-sentence checking, scoring (unscored questions left out), the
-// pausable timer, and saving an attempt (XP paid once, pass, unlock).
-//   flutter test test/learning/quiz_logic_test.dart
+// Quiz rules without a screen: typed answers, shuffling, building sentences, scoring, the timer and saving attempts.
 
 import 'dart:math';
 

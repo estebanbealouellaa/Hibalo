@@ -17,7 +17,6 @@ enum ContinueKind {
   /// Every part is done but the quiz isn't passed: "Take the quiz" → S03.
   quizPending,
 
-  /// Every lesson there is, is done.
   allDone,
 }
 
@@ -30,7 +29,6 @@ class ContinuePick {
   final Lesson lesson;
   final Level? level;
 
-  /// Finished parts of [lesson].
   final int partsDone;
 
   int get partsCount => lesson.partsCount;
@@ -39,12 +37,7 @@ class ContinuePick {
   int get nextPart => (partsDone + 1).clamp(1, partsCount);
 }
 
-/// Picks the card's lesson, in course order:
-/// 1. nothing started → the first lesson ([ContinueKind.firstTime]);
-/// 2. a lesson started but not finished → [ContinueKind.inProgress];
-/// 3. an unlocked lesson not started yet → [ContinueKind.notStarted];
-/// 4. a finished lesson whose quiz isn't passed → [ContinueKind.quizPending];
-/// 5. otherwise [ContinueKind.allDone].
+/// Picks the card's lesson in course order: first time, in progress, next not started, quiz pending, else all done.
 ContinuePick pickContinue(LessonCatalog catalog, LearningRules rules) {
   final lessons = catalog.allLessons;
   Level? levelOf(Lesson l) => catalog.levelOf(l.id);
@@ -88,7 +81,6 @@ LessonItem? phraseOfTheDay(LessonCatalog catalog, DateTime now) {
   return items[day % items.length];
 }
 
-/// The Home greeting in Hiligaynon for the time of day.
 String greetingFor(DateTime now) {
   if (now.hour < 12) return 'Maayong aga,';
   if (now.hour < 18) return 'Maayong hapon,';

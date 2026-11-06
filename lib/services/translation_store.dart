@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// How a translation's text was entered (the icon in History).
 enum EntryInput { typed, voice, photo }
 
-/// One translation in History or Saved.
 class TranslationEntry {
   const TranslationEntry({
     required this.source,
@@ -53,11 +52,7 @@ class TranslationEntry {
 /// What Share sends: both languages, one per line.
 String shareText(TranslationEntry e) => '${e.fromLanguage}: ${e.source}\n${e.toLanguage}: ${e.translation}';
 
-/// Translate History (the last [historyLimit]) and Saved words, kept ONLY on
-/// this phone (shared preferences; nothing goes to Firebase), separately for
-/// each signed-in account (keys end with the user id). Signed out = empty
-/// and nothing is written. Uninstalling the app or clearing them in Settings
-/// deletes them. Newest first.
+/// History (last [historyLimit]) and Saved, kept ONLY on this phone per account (never sent to Firebase); signed out = empty.
 class TranslationStore extends ChangeNotifier {
   TranslationStore._();
 
@@ -72,7 +67,6 @@ class TranslationStore extends ChangeNotifier {
   Future<void>? _loading;
   String? _uid;
 
-  /// The account whose lists are shown (null = signed out).
   String? get uid => _uid;
 
   List<TranslationEntry> get history => List.unmodifiable(_history);
@@ -148,12 +142,14 @@ class TranslationStore extends ChangeNotifier {
     }
   }
 
-  /// Adds a finished translation. An exact repeat of the newest one is
-  /// skipped; only the last [historyLimit] are kept. Nothing when signed out.
-  Future<void> addToHistory(TranslationEntry entry) {
+  /// Adds a finished translation (an exact repeat of the newest is skipped); [replaceLatest] replaces the newest entry of the same text after a swap.
+  Future<void> addToHistory(TranslationEntry entry, {bool replaceLatest = false}) {
     if (_uid == null) return Future.value();
     if (entry.source.trim().isEmpty || entry.translation.trim().isEmpty) return Future.value();
     if (_history.isNotEmpty && _history.first.key == entry.key) return Future.value();
+    if (replaceLatest && _history.isNotEmpty && _history.first.source == entry.source) {
+      _history.removeAt(0);
+    }
     _history.insert(0, entry);
     if (_history.length > historyLimit) _history.removeRange(historyLimit, _history.length);
     notifyListeners();
@@ -162,7 +158,6 @@ class TranslationStore extends ChangeNotifier {
 
   bool isSaved(TranslationEntry entry) => _saved.any((e) => e.key == entry.key);
 
-  /// Saves [entry], or removes it when it is already saved.
   Future<void> toggleSaved(TranslationEntry entry) {
     if (_uid == null) return Future.value();
     if (isSaved(entry)) {

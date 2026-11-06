@@ -16,15 +16,7 @@ import 'language_screen.dart';
 import 'profile_screen.dart';
 import 'translator_screen.dart';
 
-/// The signed-in app: four tabs (Home · Translate · Learn · Me) under the
-/// V6 bottom bar. Each tab keeps its state while another is shown. Lesson
-/// parts, the quiz and the result screens open full screen on top.
-///
-/// Android back: closes a page open inside Translate or Me first; else on
-/// Translate, Learn or Me it goes to Home; on Home it leaves the app.
-///
-/// History and Saved are switched to this account on start and hidden on
-/// log out.
+/// The signed-in app: four tabs (Home · Translate · Learn · Me); lessons and quizzes open full screen on top.
 class HomeScreen extends StatefulWidget {
   final VoidCallback onLogout;
 
@@ -69,9 +61,9 @@ class HomeScreenState extends State<HomeScreen> {
     if (widget.tabs == null) {
       // After a verified email change, users/{uid} gets the new email.
       syncEmail();
-      // Figma 705:7496: once per phone, the first time Home opens.
+      // Figma 705:7496: only right after Sign Up, once.
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) askLanguageOnce(context);
+        if (mounted) askLanguageAfterSignUp(context, uid: FirebaseAuthSafe.uid());
       });
     }
   }
@@ -83,13 +75,30 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void _showLearn() {
-    if (mounted) setState(() => _tab = HomeScreen.learnTab);
+    if (mounted) select(HomeScreen.learnTab);
   }
 
-  void select(int tab) => setState(() => _tab = tab);
+  /// Rebuilds the Learn tab (search and level tab cleared) after it is left.
+  int _learnGeneration = 0;
+
+  void select(int tab) {
+    if (tab != _tab) _resetTab(_tab);
+    setState(() => _tab = tab);
+  }
+
+  /// A tab the user leaves returns to its first page; full-screen lesson and quiz screens aren't inside the tabs.
+  void _resetTab(int tab) {
+    switch (tab) {
+      case HomeScreen.translateTab:
+        TranslateTab.closePages();
+      case HomeScreen.meTab:
+        MeTab.closePages();
+      case HomeScreen.learnTab:
+        _learnGeneration++;
+    }
+  }
 
   Future<void> _logout() async {
-    // Hide this account's History, Saved and last translation.
     TranslationStore.instance.setUser(null);
     try {
       context.read<TranslatorProvider>().clearText();
@@ -128,14 +137,23 @@ class HomeScreenState extends State<HomeScreen> {
             child: Scaffold(
               body: IndexedStack(
                 index: _tab,
-                children:
-                    widget.tabs ??
-                    [
-                      HomeTab(userName: userName, photoUrl: photoUrl, onOpenLearn: () => select(HomeScreen.learnTab)),
-                      const TranslateTab(),
-                      const LearnScreen(),
-                      MeTab(userName: userName, photoUrl: photoUrl, onLogout: _logout),
-                    ],
+                children: [
+                  for (final (i, tab)
+                      in (widget.tabs ??
+                              [
+                                HomeTab(
+                                  userName: userName,
+                                  photoUrl: photoUrl,
+                                  onOpenLearn: () => select(HomeScreen.learnTab),
+                                ),
+                                const TranslateTab(),
+                                const LearnScreen(),
+                                MeTab(userName: userName, photoUrl: photoUrl, onLogout: _logout),
+                              ])
+                          .indexed)
+                    // A new key after leaving Learn = a fresh lesson list.
+                    i == HomeScreen.learnTab ? KeyedSubtree(key: ValueKey(_learnGeneration), child: tab) : tab,
+                ],
               ),
               bottomNavigationBar: V6NavBar(
                 selected: _tab,

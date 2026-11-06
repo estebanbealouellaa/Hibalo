@@ -11,13 +11,10 @@ import '../../widgets/filipino_voice_dialog.dart';
 import '../../widgets/v6/v6.dart';
 import 'clear_dialogs.dart';
 
-/// Translate › History (Figma 623:6168, empty 623:6328) and Saved (628:6142,
-/// empty 628:6322), opened from the History icon on Translate. Tapping an
-/// item closes this screen with that entry, so Translate can show it again.
+/// History and Saved (Figma 623:6168, 628:6142); tapping an item closes this screen with that entry.
 class TranslateHistoryScreen extends StatefulWidget {
   const TranslateHistoryScreen({super.key, this.showSaved = false, TranslationStore? store}) : _store = store;
 
-  /// Open on the Saved tab.
   final bool showSaved;
   final TranslationStore? _store;
 
@@ -247,7 +244,6 @@ class _Tabs extends StatelessWidget {
   }
 }
 
-/// White card, radius 20, rows split by dividers.
 class _Card extends StatelessWidget {
   const _Card({required this.children});
 

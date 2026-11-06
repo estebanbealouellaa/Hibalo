@@ -15,10 +15,7 @@ String letterLabel(Letter letter) {
   return forms.join();
 }
 
-/// P05 · Letters & sounds: a carousel of letter cards (the next one peeks
-/// in), a progress bar and a grid of all letters. The player owns the
-/// current [index] (Back/Next move it); swiping and tapping a chip call
-/// [onIndexChanged]. Every letter shown counts as seen.
+/// P05 Letters & sounds: the player owns [index] (Back/Next); swipes and chip taps call [onIndexChanged].
 class LettersPart extends StatefulWidget {
   const LettersPart({
     super.key,
@@ -31,7 +28,6 @@ class LettersPart extends StatefulWidget {
   final LettersPartData data;
   final int index;
 
-  /// Indexes of the letters seen so far.
   final Set<int> seen;
   final ValueChanged<int> onIndexChanged;
 
@@ -92,10 +88,7 @@ class _LettersPartState extends State<LettersPart> {
         const SizedBox(height: 12),
         Text(t.lettersHint, style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted)),
         const SizedBox(height: 12),
-        // The carousel runs edge to edge (20 past each side of the content)
-        // with the margin inside each page, so the next card never peeks in.
-        // It doesn't clip, so the card's shadow spills into the 12 px gap
-        // under it (Figma: 232 card, pager 12 below).
+        // Edge-to-edge carousel with the margin inside each page, so the next card never peeks in; no clip, so the shadow shows.
         SizedBox(
           height: 232,
           child: LayoutBuilder(

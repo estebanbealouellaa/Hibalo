@@ -12,9 +12,6 @@ Future<void> _firebaseSendReset(String email) =>
     FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
 /// Forgot password (Figma 635:6866) → Check your email (635:6923).
-/// Opened from Sign In. "Send reset link" calls FirebaseAuth
-/// sendPasswordResetEmail; "Back to sign in" returns; "Resend link" sends
-/// it again.
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key, this.initialEmail = '', this.sendReset});
 
@@ -113,6 +110,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               : t.forgotBody,
                           style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted),
                         ),
+                        if (_sent) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            t.forgotCheckSpam,
+                            style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted),
+                          ),
+                        ],
                         const SizedBox(height: 24),
                         if (_banner != null) ...[_banner!, const SizedBox(height: 24)],
                         if (_sent)
@@ -120,7 +124,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             child: V6MascotCircle(
                               mascot: 'firefly_find',
                               circleColor: V6Colors.glow,
-                              size: 276,
+                              size: 228, // 276 in Figma; smaller so the Spam line fits
                               circleSize: 150,
                             ),
                           )

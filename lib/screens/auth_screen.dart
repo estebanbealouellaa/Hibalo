@@ -9,11 +9,7 @@ import '../providers/auth_provider.dart' as app_auth;
 import '../widgets/v6/v6.dart';
 import 'forgot_password_screen.dart';
 
-/// Sign In / Sign Up (Figma 468:1887, 468:1908), with Loading (635:6649,
-/// 635:6739), the Auth error banners (468:1894, 468:1915) and the No
-/// internet banners (468:1901, 468:1922). Only the layout is V6: submitting,
-/// the validators, createUser, the strength meter and the admin routing
-/// work exactly as before.
+/// Sign In / Sign Up (Figma 468:1887, 468:1908): only the layout is V6; submitting and validation work as before.
 class AuthScreen extends StatefulWidget {
   final VoidCallback onAuthSuccess;
 
@@ -36,10 +32,7 @@ class AuthBanner {
   /// "This email is already in use." also marks the email field.
   final bool emailTaken;
 
-  /// Maps Firebase's error [code] (and its [message]) to the Figma banner:
-  /// no connection → the Warning banner; wrong email or password → "Wrong
-  /// email or password."; email in use → "This email is already in use.";
-  /// anything else → Firebase's own message, as before.
+  /// Maps Firebase's error [code] to the Figma banner (no connection, wrong email or password, email in use, else Firebase's message).
   static AuthBanner fromError({
     required AppLocalizations t,
     required String? code,
@@ -93,7 +86,6 @@ class _AuthScreenState extends State<AuthScreen> {
     super.dispose();
   }
 
-  // ── Switch between sign in and sign up ─────────────────────────────────
   void _setMode(bool login) {
     if (login == _isLogin) return;
     HapticFeedback.selectionClick();
@@ -104,7 +96,6 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
-  // ── Submit ─────────────────────────────────────────────────────────────
   Future<void> _submit() async {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) {
@@ -160,7 +151,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ── UI ─────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -205,7 +195,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ── Header: wordmark + logo, title, subtitle ───────────────────────────
   Widget _header() {
     final t = AppLocalizations.of(context);
     return Column(
@@ -231,7 +220,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ── Form ───────────────────────────────────────────────────────────────
   Widget _form() {
     final t = AppLocalizations.of(context);
     final gap = SizedBox(height: _isLogin ? 16 : 8);
@@ -335,7 +323,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // ── Submit + switch mode ───────────────────────────────────────────────
   Widget _actions() {
     final t = AppLocalizations.of(context);
     return Column(
@@ -370,9 +357,6 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 
-// ═════════════════════════════════════════════════════════════════════════════
-// PASSWORD STRENGTH (same scoring and labels as before; V6 look)
-// ═════════════════════════════════════════════════════════════════════════════
 class StrengthMeter extends StatelessWidget {
   final String password;
   const StrengthMeter({super.key, required this.password});

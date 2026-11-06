@@ -20,7 +20,6 @@ VoiceView voiceViewFor({required bool micOff, required bool listening, required 
   return listening ? VoiceView.speaking : VoiceView.ready;
 }
 
-/// How the Voice pop-up closed.
 enum VoiceOutcome {
   /// Speech gave text; it is in the Translate input and being translated.
   spoke,
@@ -29,10 +28,7 @@ enum VoiceOutcome {
   typeInstead,
 }
 
-/// Opens the Voice pop-up over Translate (Figma 495:2362 Ready, 495:2369
-/// Speaking, 600:5222 Didn't catch that, 677:7284 Microphone access is off).
-/// Speech-to-text is the same as before (TranslatorProvider). Returns null
-/// for Cancel.
+/// Voice pop-up over Translate (Figma 495:2362, 495:2369, 600:5222, 677:7284); null for Cancel.
 Future<VoiceOutcome?> showVoicePopup(BuildContext context, {Future<PermissionStatus> Function()? micPermission}) {
   return showDialog<VoiceOutcome>(
     context: context,
@@ -83,7 +79,6 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
     super.dispose();
   }
 
-  /// Closes with [VoiceOutcome.spoke] once speech gave text.
   void _onProvider() {
     if (_provider.speechResults != _results) {
       _close(VoiceOutcome.spoke);
@@ -156,7 +151,6 @@ class _VoicePopupState extends State<VoicePopup> with SingleTickerProviderStateM
     );
   }
 
-  /// Figma 495:2362 "Voice ready" and 495:2369 "Speaking".
   List<Widget> _prompt(String partial, bool listening) {
     final t = AppLocalizations.of(context);
     final transcript = listening && partial.isNotEmpty ? '…$partial' : '…';

@@ -1,6 +1,4 @@
-// Number placeholders for the translation model. Dart port of
-// docs/translation/number_tags.py. Digits are swapped for <n1>..<n9> before
-// translating and put back afterwards, so the model can't change them.
+// Digits become <n1>..<n9> before translating and are put back after, so the model can't change them (port of number_tags.py).
 
 final RegExp _number = RegExp(r'(?<![\w.,:])\d+(?:[.,:]\d+)*(?![\w]|[.,:]\d)');
 final RegExp _tag = RegExp(r'<n([1-9])>');
@@ -8,9 +6,7 @@ final RegExp _extraSpaces = RegExp(r'\s{2,}');
 
 const int _maxTags = 9;
 
-/// Left to right, each new number gets the next tag and a repeated number
-/// reuses its tag. After 9 numbers the rest stay as they are.
-/// Returns the tagged text and the list of numbers.
+/// Each new number gets the next tag, repeats reuse it; after 9 numbers the rest stay as they are.
 (String, List<String>) protectNumbers(String source) {
   final numbers = <String>[];
   final tagged = source.replaceAllMapped(_number, (m) {

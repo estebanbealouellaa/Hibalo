@@ -15,7 +15,6 @@ class LessonCatalog {
   final LearningSettings settings;
   final List<Level> levels;
 
-  /// Every lesson of every level, in level order then lesson order.
   List<Lesson> get allLessons => [for (final l in levels) ...l.lessons];
 
   Lesson? lessonById(String id) {
@@ -25,7 +24,6 @@ class LessonCatalog {
     return null;
   }
 
-  /// The level that holds the lesson with this id.
   Level? levelOf(String lessonId) {
     for (final level in levels) {
       if (level.lessons.any((l) => l.id == lessonId)) return level;
@@ -33,7 +31,6 @@ class LessonCatalog {
     return null;
   }
 
-  /// The lesson after this one in the same level, or null for the last one.
   Lesson? nextLesson(String lessonId) {
     final level = levelOf(lessonId);
     if (level == null) return null;
@@ -55,8 +52,6 @@ class LessonCatalog {
     );
   }
 }
-
-// ── Settings ────────────────────────────────────────────────────────────────
 
 /// The app rules from `settings` in the JSON (pass mark, XP, timer, …).
 class LearningSettings {
@@ -124,7 +119,6 @@ class LearningSettings {
       ..sort((a, b) => b.minScore.compareTo(a.minScore));
     if (tiers.isEmpty) r.fail('resultTiers is empty');
 
-    // The fallback picture is given by name ("firefly_reading").
     final missingName = images.str('missingPicture');
     final missing = assets.resolve(
         'images/mascots/$missingName.webp', 'settings > images > missingPicture');
@@ -192,7 +186,6 @@ class ResultTier {
       );
 }
 
-/// A picture slot size from `settings.images`.
 class ImageSlot {
   const ImageSlot(this.width, this.height, {this.fit});
 
@@ -222,7 +215,6 @@ class AvatarRules {
   final Map<String, String?> byPrefix;
   final String? fallback;
 
-  /// The avatar for a speaker, or null if its file isn't in the app.
   String? avatarFor(String speaker) {
     if (byName.containsKey(speaker)) return byName[speaker];
     for (final entry in byPrefix.entries) {
@@ -252,8 +244,6 @@ class AvatarRules {
   }
 }
 
-// ── Levels and lessons ──────────────────────────────────────────────────────
-
 class Level {
   Level({
     required this.id,
@@ -268,7 +258,6 @@ class Level {
   /// The level that must be finished first, or null for Beginner.
   final String? unlockAfterLevel;
 
-  /// In lesson order.
   final List<Lesson> lessons;
 
   factory Level.fromJson(
@@ -291,10 +280,8 @@ enum LessonKind { letters, words }
 
 /// What unlocks a lesson (`unlock.needs`).
 enum UnlockNeed {
-  /// The lesson in `after` is finished.
   complete,
 
-  /// The quiz of the lesson in `after` is passed.
   passQuiz,
 }
 
@@ -344,7 +331,6 @@ class Lesson {
   final LessonKind kind;
   final String title;
 
-  /// The "In this lesson:" list on Lesson Detail.
   final List<String> objectives;
   final int estMinutes;
   final int partsCount;
@@ -355,7 +341,6 @@ class Lesson {
 
   final UnlockRule unlock;
 
-  /// Learn-card words, in JSON order.
   final List<LessonItem> items;
 
   /// Only Lesson 1 has letters.
@@ -369,7 +354,6 @@ class Lesson {
   bool get isLetters => kind == LessonKind.letters;
   bool get hasQuiz => quiz != null;
 
-  /// The "N New words" tile on Lesson complete.
   int get newWordsCount => items.length;
 
   factory Lesson.fromJson(
@@ -494,7 +478,6 @@ class LessonItem {
       );
 }
 
-/// One letter card in Lesson 1 (`letters[]`).
 class Letter {
   Letter({
     required this.id,
@@ -533,7 +516,6 @@ class Quiz {
 
   final String id;
 
-  /// In quiz order.
   final List<QuizQuestion> questions;
 
   List<QuizQuestion> get scoredQuestions =>

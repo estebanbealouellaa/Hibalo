@@ -6,9 +6,7 @@ import 'package:flutter/services.dart';
 
 import '../widgets/v6/v6.dart';
 
-/// The short splash on every launch after the first: V6 violet with the
-/// "Hibalo" wordmark only. It starts the sign-in check at once ([onReady]);
-/// a spinner appears only if that takes longer than a second.
+/// The short violet "Hibalo" splash on later launches; a spinner shows only if the sign-in check takes over a second.
 class QuickSplashScreen extends StatefulWidget {
   const QuickSplashScreen({super.key, required this.onReady});
 

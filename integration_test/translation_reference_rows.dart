@@ -1,7 +1,4 @@
-// Generated from docs/translation/student_v2_8x8_onnx_outputs.csv.
-// Beam outputs come from a Python reference beam search (the same rules
-// as translation_engine.dart) that scored 75.35 / 64.86 chrF++ on the
-// everyday test (spec: 75.1 / 64.9).
+// Generated from docs/translation/student_v2_8x8_onnx_outputs.csv (Python reference beam search).
 
 // (hiligaynon, filipino, greedy hil->fil, greedy fil->hil, beam hil->fil, beam fil->hil)
 const List<(String, String, String, String, String?, String?)> kReferenceRows = [

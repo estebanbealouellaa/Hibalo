@@ -4,11 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../widgets/v6/v6.dart';
 
-/// Onboarding 1–3 (Figma 667:7189 / 667:7250 / 667:7324), shown once.
-/// A coloured hero with the firefly and floating preview cards, then the
-/// word of the slide, a title and a line. Skip (pages 1–2) and the last
-/// page's Get started both call [onFinish], which saves that onboarding
-/// was seen.
+/// Onboarding 1–3 (Figma 667:7189 / 667:7250 / 667:7324), shown once; Skip and Get started call [onFinish].
 class OnboardingScreen extends StatefulWidget {
   final VoidCallback onFinish;
   const OnboardingScreen({super.key, required this.onFinish});
@@ -146,7 +142,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-/// One page: hero (orbs, firefly, preview cards) and the text below.
 class _SlideView extends StatelessWidget {
   const _SlideView({required this.slide, required this.index, required this.sx, required this.sy});
 
@@ -291,8 +286,6 @@ class _Dots extends StatelessWidget {
     );
   }
 }
-
-// ── Preview cards (decorative) ─────────────────────────────────────────────
 
 const _cardShadow = [BoxShadow(color: Color(0x2E331A59), blurRadius: 16, offset: Offset(0, 6))];
 

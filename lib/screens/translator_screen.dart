@@ -47,6 +47,12 @@ class TranslateTab extends StatefulWidget {
     return TranslatorScreen.handleBack?.call() ?? false;
   }
 
+  /// Leaving the tab: back to the main Translate page (History/Saved
+  /// closed). The typed text and the result stay.
+  static void closePages() {
+    _navigator.currentState?.popUntil((route) => route.isFirst);
+  }
+
   @override
   State<TranslateTab> createState() => _TranslateTabState();
 }
@@ -61,9 +67,7 @@ class _TranslateTabState extends State<TranslateTab> {
   }
 }
 
-/// Translate (Figma 03 · Translate). Voice opens as a pop-up over it and the
-/// photo scan happens inside it (Figma 04 · Voice, 05 · Camera), with the
-/// bottom bar showing.
+/// Translate (Figma 03): Voice is a pop-up over it and the photo scan happens inside it.
 class TranslatorScreen extends StatefulWidget {
   const TranslatorScreen({super.key, this.micPermission, this.readPhoto});
 
@@ -111,6 +115,10 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
   /// For History: a translation finished when this goes from true to false.
   bool _wasTranslating = false;
 
+  /// After a swap, the new translation replaces the History entry of the
+  /// same text (one entry per text, not one per swap).
+  bool _swapped = false;
+
   @override
   void initState() {
     super.initState();
@@ -156,15 +164,14 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     });
   }
 
-  /// Back while reading a photo cancels the scan.
   bool _handleBack() {
     if (_scan != ScanStage.scanning) return false;
     _cancelScan();
     return true;
   }
 
-  // ── Actions ─────────────────────────────────────────────────────────────
   void _translate() {
+    _swapped = false;
     FocusScope.of(context).unfocus();
     HapticFeedback.lightImpact();
     context.read<TranslatorProvider>().updateOriginalText(_inputController.text);
@@ -184,7 +191,6 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     }
   }
 
-  /// The current text and translation as a History / Saved entry.
   TranslationEntry _entryOf(TranslatorState s) => TranslationEntry(
     source: s.originalText.trim(),
     translation: s.translatedText.trim(),
@@ -206,7 +212,9 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     _wasTranslating = s.isTranslating;
     if (!finished || s.originalText.trim().isEmpty || s.translatedText.trim().isEmpty) return;
     if (s.translatedText.startsWith('Translation error')) return;
-    TranslationStore.instance.addToHistory(_entryOf(s));
+    final replace = _swapped;
+    _swapped = false;
+    TranslationStore.instance.addToHistory(_entryOf(s), replaceLatest: replace);
   }
 
   /// History (and Saved), inside the Translate tab. A tapped item comes
@@ -233,7 +241,6 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     );
   }
 
-  /// Android's share menu with both texts.
   void _share(TranslatorState s) {
     final e = _entryOf(s);
     SharePlus.instance.share(ShareParams(text: shareText(e)));
@@ -257,8 +264,8 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     });
   }
 
-  /// Clears the text and its translation (the direction stays).
   void _clear() {
+    _swapped = false;
     HapticFeedback.selectionClick();
     _inputController.clear();
     setState(() {
@@ -268,13 +275,17 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     context.read<TranslatorProvider>().updateOriginalText('');
   }
 
+  /// Only the direction changes: the input (typed, spoken or scanned)
+  /// stays and is translated again the new way.
   void _swapLanguages() {
     _swap.forward(from: 0);
-    setState(() => _origin = TextOrigin.typed);
-    context.read<TranslatorProvider>().swapLanguages();
+    final text = _inputController.text;
+    _swapped = text.trim().isNotEmpty;
+    // The text is unchanged, so a "From your voice/photo" row stays.
+    if (_scan == ScanStage.noText || _scan == ScanStage.failed) setState(() => _scan = ScanStage.idle);
+    context.read<TranslatorProvider>().swapLanguages(inputText: text);
   }
 
-  // ── Voice (Figma 04 · Voice): a pop-up over Translate ───────────────────
   Future<void> _openVoice() async {
     FocusScope.of(context).unfocus();
     final outcome = await showVoicePopup(context, micPermission: widget.micPermission);
@@ -293,7 +304,6 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     }
   }
 
-  // ── Camera (Figma 05 · Camera): inside Translate ────────────────────────
   Future<void> _openScan() async {
     FocusScope.of(context).unfocus();
     final source = await showScanOptions(context);
@@ -384,7 +394,6 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     }
   }
 
-  // ── UI (Figma 03 · Translate) ───────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);

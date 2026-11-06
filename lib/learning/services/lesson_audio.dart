@@ -2,9 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-/// Plays the recorded lesson clips (one per word and one per letter).
-/// Lesson audio is always a recording, never the TTS voice (§1.4). Slow
-/// audio is the same clip at 0.75×.
+/// Plays recorded lesson clips (never the TTS voice); slow = the same clip at 0.75×.
 class LessonAudio {
   LessonAudio._();
 

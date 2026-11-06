@@ -18,8 +18,6 @@ List<(String, String)> faqs(AppLocalizations t) => [
   (t.helpQ6, t.helpA6),
 ];
 
-/// Help & Support (Figma 612:6044): the FAQ (one answer open at a time) and
-/// "Still need help?" which opens the email app.
 class HelpSupportScreen extends StatefulWidget {
   const HelpSupportScreen({super.key});
 
@@ -133,8 +131,6 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   }
 }
 
-/// One FAQ row: the question with expand_more / expand_less; the open one
-/// has a Primary Container tint and shows the answer.
 class _FaqItem extends StatelessWidget {
   const _FaqItem({required this.question, required this.answer, required this.open, required this.onTap});
 

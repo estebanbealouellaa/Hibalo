@@ -6,14 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 
-// PROVIDERS
 import 'providers/translator_provider.dart';
 import 'providers/auth_provider.dart' as app;
 import 'learning/state/learning_progress.dart';
 import 'learning/sync/firestore_progress_cloud.dart';
 import 'l10n/app_language.dart';
 
-// SCREENS
 import 'screens/splash_screen.dart';
 import 'screens/quick_splash_screen.dart';
 import 'screens/onboarding_screen.dart';
@@ -22,16 +20,13 @@ import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/admin_dashboard_screen.dart'; // ← ADDED
 
-// THEME
 import 'theme/v6_app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ── INITIALIZE FIREBASE ─────────────────────────────
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // App language for the app's own words (English until the user picks one).
   await AppLanguage.instance.load();
 
   // First open (fresh install or cleared data) shows the full splash and
@@ -42,12 +37,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        // TRANSLATOR PROVIDER
         ChangeNotifierProvider(create: (_) => TranslatorProvider()),
 
-        // LEARNING PROGRESS (lessons, XP, streak) for Home, Me, Translate
-        // and the learning screens. Loads from the phone in the background
-        // and syncs to Firestore while signed in (phone only when not).
+        // Lessons, XP and streak: loads from the phone and syncs to Firestore while signed in.
         ChangeNotifierProvider(
           create: (_) => LearningProgress(
             cloud: FirestoreProgressCloud(),
@@ -55,7 +47,6 @@ void main() async {
           )..load(),
         ),
 
-        // AUTH PROVIDER
         ChangeNotifierProvider(create: (_) => app.AuthProvider()),
       ],
 
@@ -95,13 +86,8 @@ class HibaloApp extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// APP ROOT
-// ─────────────────────────────────────────────────────
-
 enum _Phase { splash, quickSplash, onboarding, welcome, auth, home, admin }
 
-/// Where the app goes after the splash.
 enum LaunchTarget { onboarding, signUp, home, admin }
 
 /// The launch rule: signed in → Home (admins → the admin dashboard);
@@ -138,28 +124,24 @@ class _AppRootState extends State<AppRoot> {
 
   Widget _buildPhase() {
     switch (_phase) {
-      // ── SPLASH ─────────────────────────────
       case _Phase.splash:
         return SplashScreen(
           key: const ValueKey('splash'),
           onFinish: _onSplashFinished,
         );
 
-      // ── SHORT SPLASH (every later launch) ─
       case _Phase.quickSplash:
         return QuickSplashScreen(
           key: const ValueKey('quickSplash'),
           onReady: _onSplashFinished,
         );
 
-      // ── ONBOARDING ────────────────────────
       case _Phase.onboarding:
         return OnboardingScreen(
           key: const ValueKey('onboarding'),
           onFinish: _onOnboardingFinished,
         );
 
-      // ── WELCOME ───────────────────────────
       case _Phase.welcome:
         return WelcomeScreen(
           key: const ValueKey('welcome'),
@@ -167,7 +149,6 @@ class _AppRootState extends State<AppRoot> {
           onSignIn: () => _openAuth(signUp: false),
         );
 
-      // ── AUTH ──────────────────────────────
       case _Phase.auth:
         return AuthScreen(
           key: ValueKey('auth-$_authSignUp'),
@@ -175,11 +156,9 @@ class _AppRootState extends State<AppRoot> {
           onAuthSuccess: _onAuthSuccess, // ← uses helper now
         );
 
-      // ── HOME ──────────────────────────────
       case _Phase.home:
         return HomeScreen(key: const ValueKey('home'), onLogout: _onLogout);
 
-      // ── ADMIN DASHBOARD ───────────────────
       case _Phase.admin:
         return AdminDashboardScreen(
           key: const ValueKey('admin'),
@@ -188,7 +167,6 @@ class _AppRootState extends State<AppRoot> {
     }
   }
 
-  // ── AUTH SUCCESS — check role then route ────────────
   void _onAuthSuccess() {
     final authProvider = context.read<app.AuthProvider>();
     setState(() {
@@ -196,7 +174,6 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── SPLASH FINISHED: sign-in check, then route ──────
   Future<void> _onSplashFinished() async {
     final user = FirebaseAuth.instance.currentUser;
     final authProvider = context.read<app.AuthProvider>();
@@ -218,7 +195,6 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── ONBOARDING FINISHED ─────────────────────────────
   Future<void> _onOnboardingFinished() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(kHasSeenOnboarding, true);
@@ -228,7 +204,6 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── WELCOME → SIGN IN / SIGN UP ─────────────────────
   void _openAuth({required bool signUp}) {
     setState(() {
       _authSignUp = signUp;
@@ -236,7 +211,6 @@ class _AppRootState extends State<AppRoot> {
     });
   }
 
-  // ── LOGOUT → straight to Sign Up ────────────────────
   void _onLogout() {
     setState(() {
       _authSignUp = true;

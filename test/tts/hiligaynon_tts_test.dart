@@ -1,8 +1,4 @@
-// Checks the Dart port of the Hiligaynon voice (v4) against the PC script.
-// v4_reference.json is made by C:\Hibalo-TTS-Mobile\make_ref_v4.py, which
-// imports the functions of generate_tts_v4.py (voice_text, ends_statement,
-// split_sentences, split_first, to_ids, trim_edges, even_volume) with their
-// default settings and reads voice_seed7.bin with numpy.
+// Checks the Dart port of the v4 voice against v4_reference.json (made by make_ref_v4.py from generate_tts_v4.py).
 
 import 'dart:convert';
 import 'dart:io';
@@ -25,9 +21,7 @@ const _paragraph =
     'Pagkatapos sina, mapuli kami sa balay kag magaluto sang adobo. '
     'Malipayon gid ako kon kaupod ko ang akon pamilya.';
 
-/// Same signal as test_signal() in make_ref_v4.py: a quiet hiss (below the speech level) around
-/// three swelling tones of different loudness, and a tail that is not a whole
-/// 10 ms frame.
+/// Same signal as test_signal() in make_ref_v4.py.
 Float32List _testSignal() {
   const sr = 16000;
   final out = <double>[];

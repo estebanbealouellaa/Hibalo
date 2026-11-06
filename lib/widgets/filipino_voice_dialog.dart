@@ -1,5 +1,3 @@
-// What the user sees when the phone has no offline Filipino voice. All the
-// text is here, so it is easy to change.
 
 import '../l10n/app_localizations.dart';
 import 'package:android_intent_plus/android_intent.dart';
@@ -8,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'v6/v6.dart';
-
 
 /// The phone's voice install screen first, then its speech settings.
 const List<String> _installActions = [

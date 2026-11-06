@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 
 /// Where a question is in its life, set by the quiz shell.
 enum QuestionPhase {
-  /// The learner can answer.
   answering,
 
   /// Check was pressed: the answer is locked and shown right / wrong.
@@ -22,7 +21,6 @@ class AnswerState {
     this.pairsRight,
   });
 
-  /// Nothing given yet.
   static const empty = AnswerState(ready: false);
 
   /// The primary button (Check / Submit / Continue) can be pressed.

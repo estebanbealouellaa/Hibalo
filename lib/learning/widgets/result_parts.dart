@@ -86,7 +86,6 @@ class StatTile extends StatelessWidget {
   }
 }
 
-/// Two stat tiles side by side.
 class StatRow extends StatelessWidget {
   const StatRow({super.key, required this.left, required this.right, this.gap = 12});
 
@@ -144,7 +143,6 @@ class UnlockChip extends StatelessWidget {
   }
 }
 
-/// The full-width 52 primary button.
 class ResultPrimaryButton extends StatelessWidget {
   const ResultPrimaryButton({super.key, required this.label, required this.onPressed});
 

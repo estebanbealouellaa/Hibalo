@@ -1,22 +1,18 @@
 import '../models/catalog.dart';
 import '../models/progress.dart';
 
-/// The four lesson row states on S01.
 enum LessonRowState {
   /// Finished (and its quiz passed, if it has one).
   completed,
 
-  /// Unlocked and not finished yet.
   current,
 
   /// Finished, but the quiz isn't passed yet.
   quizPending,
 
-  /// Not unlocked yet.
   locked,
 }
 
-/// The three states of S02 Lesson Detail.
 enum LessonDetailState { notStarted, inProgress, completed }
 
 /// Unlocking and lesson states (LEARNING_BEHAVIOR §1.9), worked out from the
@@ -87,7 +83,6 @@ class LearningRules {
     return LessonDetailState.notStarted;
   }
 
-  /// Parts finished, never more than the lesson has.
   int partsDone(Lesson lesson) {
     final p = progressFor(lesson.id);
     if (p.completed) return lesson.partsCount;

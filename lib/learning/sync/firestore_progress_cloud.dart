@@ -4,19 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../models/progress.dart';
 import 'progress_cloud.dart';
 
-/// Learning progress in Firestore:
-/// - `users/{uid}`: xp, streak, lastActiveDate, lessonsCompleted, paid
-/// - `users/{uid}/lessonProgress/{lessonId}`: partsDone, completed,
-///   bestScore, passed, completedAt
-/// - `users/{uid}/quizAttempts/{attemptId}`: lessonId, score, total,
-///   xpEarned, date
-///
-/// Writes go in one batch per finished part, lesson or quiz, all merge
-/// writes with only the fields that raise the cloud (never null, never a
-/// lower value). XP uses `FieldValue.increment` (no transactions: they fail
-/// offline). Firestore's offline persistence (on by default on Android and
-/// iOS) keeps the batch on the phone until it is online. Voice recordings
-/// are never uploaded.
+/// Learning progress in Firestore (users/{uid}, lessonProgress, quizAttempts): one batch of merge writes, no transactions (they fail offline).
 class FirestoreProgressCloud implements ProgressCloud {
   FirestoreProgressCloud([FirebaseFirestore? db]) : _db = db ?? FirebaseFirestore.instance;
 
@@ -83,9 +71,7 @@ class FirestoreProgressCloud implements ProgressCloud {
     );
   }
 
-  /// Deletes every lessonProgress and quizAttempts document of [uid], in
-  /// batches of up to 400; [also] adds more to the last batch. Used by the
-  /// debug reset and by the admin "Delete user".
+  /// Deletes all lessonProgress and quizAttempts docs of [uid] in batches of 400 (debug reset, admin Delete user).
   static Future<void> deleteLearningDocs(
     FirebaseFirestore db,
     String uid, {

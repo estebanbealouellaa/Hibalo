@@ -63,24 +63,12 @@ class _Job {
   }
 }
 
-/// "Listen" button for translation results.
-///
-/// Hiligaynon output is spoken by the offline native-speaker voice
-/// ([HiligaynonTtsEngine]); Filipino output, or Hiligaynon when the voice
-/// models are not in this build, uses the phone's fil-PH voice.
-///
-/// To make "Listen" feel instant:
-///  * [prepare] starts generating as soon as a translation appears, before
-///    the user taps anything;
-///  * audio is played piece by piece through a PCM stream while the rest is
-///    still being generated;
-///  * finished results are kept in memory, so a replay is immediate.
+/// "Listen": Hiligaynon uses the offline voice, Filipino (or a build without the voice) the phone's fil-PH voice; [prepare] starts early so it feels instant.
 class TranslationSpeaker {
   /// Shared by every screen so the models are loaded only once.
   static final HiligaynonTtsEngine _engine = HiligaynonTtsEngine();
   static Future<bool>? _bundled;
 
-  /// The generation in progress (or the last one).
   static _Job? _job;
 
   /// Finished audio (text -> 16-bit samples), newest last.
@@ -405,11 +393,7 @@ class TranslationSpeaker {
     }
   }
 
-  /// Plays once two pieces are ready, while the next ones are still being
-  /// generated. A long first sentence is cut in two, so this keeps the wait
-  /// out of the middle of it. On a slow phone there can still be pauses
-  /// between later sentences; removing them all would mean a much longer
-  /// wait before the first sound.
+  /// Starts once two pieces are ready, so a long cut first sentence plays without a gap.
   static bool _readyToStart(_Job job) => job.done || job.pieces.length >= 2;
 
   /// Queues [samples] on the PCM stream; returns when they will finish.

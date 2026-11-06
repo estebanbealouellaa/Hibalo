@@ -1,6 +1,4 @@
-// Loads assets/lessons/lessons.json the way the app does and checks every
-// lesson: template IDs, item ids, answer indexes and asset paths.
-//   flutter test test/learning/lessons_json_test.dart
+// Loads lessons.json like the app and checks template IDs, item ids, answer indexes and asset paths.
 
 import 'dart:convert';
 import 'dart:io';

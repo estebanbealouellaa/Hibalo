@@ -1,7 +1,4 @@
-// Checks the Dart tokenizer against the real SentencePiece library.
-// spm_reference.json holds ids made by Python sentencepiece from spm.model:
-// the normalized and number-tagged text of all 300 CSV rows, odd characters,
-// and random strings.
+// Checks the Dart tokenizer against ids from Python sentencepiece (spm_reference.json).
 
 import 'dart:convert';
 import 'dart:io';

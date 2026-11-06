@@ -1,18 +1,4 @@
-// Pure-Dart SentencePiece tokenizer (unigram model) that reads spm.model.
-// It follows the C++ library step by step, and test/translation checks its
-// ids against the real library:
-//   1. normalize with the rules stored inside spm.model (nmt_nfkc), turn
-//      spaces into "▁" and add one "▁" at the start;
-//   2. split into pieces with Viterbi (the best-scoring split).
-//
-// Symbols like <n1> and >>hil<< are "user defined": they are never normalized
-// and always come out as one id.
-//
-// spm.model is a protobuf file. We only read the few fields we need:
-//   ModelProto:      1 = pieces, 3 = normalizer spec
-//   SentencePiece:   1 = text, 2 = score, 3 = type
-//   NormalizerSpec:  2 = charsmap, 3 = add dummy prefix,
-//                    4 = remove extra spaces, 5 = escape spaces
+// Pure-Dart SentencePiece (unigram) tokenizer for spm.model, following the C++ library step by step (ids checked in test/translation).
 
 import 'dart:convert';
 import 'dart:math' as math;
@@ -40,7 +26,6 @@ double _f32(double x) {
   return _float[0];
 }
 
-/// Walks through protobuf bytes, one field at a time.
 class _ProtoReader {
   _ProtoReader(this.bytes) : _end = bytes.length;
 
@@ -144,7 +129,6 @@ class _CharsMap {
 }
 
 class SentencePieceTokenizer {
-  /// Reads the bytes of spm.model.
   factory SentencePieceTokenizer.fromBytes(Uint8List modelBytes) {
     final pieces = <String>[];
     final scores = <double>[];
@@ -257,7 +241,6 @@ class SentencePieceTokenizer {
   late final double _maxScore;
   late final double _unknownScore;
 
-  /// Id of `<unk>`.
   int unkId = 0;
 
   int get vocabSize => _pieces.length;
@@ -355,7 +338,6 @@ class SentencePieceTokenizer {
     return true;
   }
 
-  /// Bytes in the UTF-8 character that starts with [first].
   static int _charLength(int first) {
     if (first < 0x80) return 1;
     if (first < 0xe0) return 2;

@@ -5,8 +5,6 @@ import '../models/questions.dart';
 /// Pure quiz rules (§1.8, §4), kept apart from the widgets so they can be
 /// tested without a screen.
 
-// ── Typed answers (Q04, Q08) ────────────────────────────────────────────────
-
 final _ignoredPunctuation = RegExp(r'[.,!?]');
 
 /// A typed answer as it is compared: capital letters, spaces at the ends and
@@ -20,8 +18,6 @@ bool matchesAccepted(String typed, List<String> accepted) {
   if (answer.isEmpty) return false;
   return accepted.any((a) => normalizeTyped(a) == answer);
 }
-
-// ── Shuffling ───────────────────────────────────────────────────────────────
 
 /// The order to show [count] items in: a shuffle of 0..count-1, or the JSON
 /// order when shuffling is off. Item `order[i]` is shown in position i.
@@ -49,9 +45,6 @@ bool isRightSentence(BuildSentenceData q, List<int> picked) {
   return true;
 }
 
-// ── Outcomes and score ──────────────────────────────────────────────────────
-
-/// How one question ended.
 enum QuestionOutcome {
   right,
   wrong,
@@ -68,15 +61,12 @@ enum QuestionOutcome {
 class QuizScore {
   const QuizScore({required this.correct, required this.total});
 
-  /// Right answers among the scored questions.
   final int correct;
 
-  /// Scored questions in the quiz.
   final int total;
 
   double get ratio => total == 0 ? 0 : correct / total;
 
-  /// Whole percent, for "Accuracy".
   int get percent => (ratio * 100).round();
 
   bool passes(double passMark) => total > 0 && ratio >= passMark - 1e-9;
@@ -108,9 +98,6 @@ String? correctAnswerText(QuizQuestion q) => switch (q) {
       OpenAnswerData() => null,
     };
 
-// ── Quiz review (S05) ───────────────────────────────────────────────────────
-
-/// How one question was answered, kept for Quiz review.
 class AnsweredQuestion {
   const AnsweredQuestion({
     required this.question,

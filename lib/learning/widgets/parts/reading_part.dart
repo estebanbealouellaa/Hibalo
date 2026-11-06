@@ -6,9 +6,7 @@ import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
 import 'part_common.dart';
 
-/// P08 · Reading: one full-width row per sentence. Tap a row to show or hide
-/// its Filipino (a shown row gets a light tint); the switch does all rows.
-/// The sentences scroll, while the hint and tip stay visible. No audio.
+/// P08 Reading: tap a row (or the switch) to show its Filipino; the sentences scroll, the hint and tip stay. No audio.
 class ReadingPart extends StatefulWidget {
   const ReadingPart({super.key, required this.data});
 
@@ -39,9 +37,7 @@ class _ReadingPartState extends State<ReadingPart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Figma P08: 10 between blocks. The card (radius 20) is as tall as
-          // its sentences, up to the space left; longer readings scroll
-          // inside it with the fade.
+          // Figma P08: the card grows with its sentences up to the space left, then scrolls with the fade.
           PartHeader(icon: widget.data.icon, title: widget.data.title),
           const SizedBox(height: 10),
           ShowAllSwitch(label: t.showAllFilipino, value: _showAll, onChanged: _setAll),

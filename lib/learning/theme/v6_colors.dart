@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// V6 colours, copied from the Figma variables (file SpdWN5Jha…, page
-/// "Version 6", collection "V6/Color"). The names follow the Figma names,
-/// so "V6/Color/Accent/Lagoon Text" is [V6Colors.lagoonText].
-///
-/// Used by the learning screens only. The rest of the app keeps
-/// lib/theme/app_colors.dart until it moves to V6.
+/// V6 colours from the Figma variables (page "Version 6"); names follow Figma.
 abstract final class V6Colors {
   // Primary (violet)
   static const primary = Color(0xFF6837CD); // V6/Color/Primary

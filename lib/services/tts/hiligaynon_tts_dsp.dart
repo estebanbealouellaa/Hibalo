@@ -1,13 +1,10 @@
-// Audio post-processing for the Hiligaynon voice (v4). Same math as
-// trim_edges() and even_volume() in C:\Hibalo-TTS-Mobile\generate_tts_v4.py.
-// Checked against numpy in test/tts/v4_reference.json.
+// Audio post-processing for the v4 voice: same math as trim_edges() / even_volume() in generate_tts_v4.py (checked in test/tts).
 
 import 'dart:math' as math;
 import 'dart:typed_data';
 
 const int kSampleRate = 16000;
 
-/// 10 ms frames.
 const int _frame = kSampleRate ~/ 100;
 
 /// A frame louder than this (RMS) counts as speech.
@@ -137,7 +134,6 @@ Float32List decodeFloat16(ByteData bytes) {
   return bits.buffer.asFloat32List();
 }
 
-/// 16-bit mono PCM WAV bytes.
 Uint8List encodeWav(Float32List audio, {int sampleRate = kSampleRate}) {
   final dataLen = audio.length * 2;
   final b = ByteData(44 + dataLen);
