@@ -37,10 +37,6 @@ class _DashTheme {
   static const Color amber = V6Colors.warning;
   static const Color rose = V6Colors.coral;
   static const Color teal = V6Colors.lagoon;
-
-  // card gradient overlays
-  Color get cardOverlay =>
-      isDark ? const Color(0x0DFFFFFF) : const Color(0x06000000);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -95,10 +95,6 @@ class HiligaynonTtsEngine {
     }
   }
 
-  /// Rough length of the speech for [text], in seconds (for buffering).
-  static double estimateSeconds(String text) =>
-      (text.length + 2) * 0.065 / speed;
-
   /// Loads the vocab, the fixed noise and the model session (once).
   Future<void> load() => _loading ??= _load().catchError((Object e) {
     _loading = null; // allow a retry

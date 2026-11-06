@@ -25,9 +25,8 @@ class TranslatorProvider extends ChangeNotifier {
   int get speechResults => _speechResults;
   int _speechResults = 0;
 
-  TranslatorProvider() {
-    _initSpeech();
-  }
+  // Speech-to-text (and the microphone permission) starts on the first tap
+  // on Speak, in startListening, not when the app opens.
 
   // ─────────────────────────────────────────────
   // INIT SPEECH

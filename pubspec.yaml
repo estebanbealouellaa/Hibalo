@@ -11,7 +11,6 @@ dependencies:
     sdk: flutter
   flutter_tts: ^4.0.2
   # ── UI ─────────────────────────────────────
-  cupertino_icons: ^1.0.8
   provider: ^6.1.2
   # ── Speech Recognition ─────────────────────
   speech_to_text: ^7.0.0
@@ -32,16 +31,15 @@ dependencies:
   # ── URL Launcher ───────────────────────────
   url_launcher: ^6.3.0              # ← ADDED for Help & Support email button
   # ── NLP ────────────────────────────────────
-  string_similarity: ^2.1.1         # ← ADDED for fuzzy text matching in NLPService
   flutter_onnxruntime: ^1.9.0
   audioplayers: ^6.8.1
-  path_provider: ^2.1.6
   flutter_pcm_sound: ^3.3.3
   unorm_dart: ^0.3.0                # ← Unicode NFD/NFC for the offline translator
   android_intent_plus: ^6.1.0       # ← Opens the phone's voice install screen
   flutter_svg: ^2.3.2
   record: ^7.1.2
 dev_dependencies:
+  path_provider: ^2.1.6             # integration_test only
   flutter_test:
     sdk: flutter
   integration_test:
@@ -52,18 +50,13 @@ dev_dependencies:
 # ── APP ICON CONFIG ──────────────────────────
 flutter_launcher_icons:
   android: true
-  ios: true
+  ios: false
   image_path: "assets/logo.png"
 flutter:
   uses-material-design: true
   generate: true                    # gen-l10n, see l10n.yaml
   # ── ASSETS ─────────────────────────────────
   assets:
-    - assets/logo.png
-    - assets/Picture.png
-    - assets/Book.png
-    - assets/Voice.png
-    - assets/Translate.png
     - assets/Account.png
     # Hiligaynon voice v4 (MMS-TTS, seed 7), from
     # C:/Hibalo-TTS-Mobile/models/hil_0619_v4_onnx_r. The .onnx file is

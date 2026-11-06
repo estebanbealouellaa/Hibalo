@@ -10,8 +10,6 @@ class AuthProvider extends ChangeNotifier {
 
   User? get currentUser => _auth.currentUser;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
@@ -33,7 +31,6 @@ class AuthProvider extends ChangeNotifier {
     required String password,
   }) async {
     try {
-      _isLoading = true;
       _errorMessage = null;
       _errorCode = null;
       notifyListeners();
@@ -60,7 +57,6 @@ class AuthProvider extends ChangeNotifier {
       _errorCode = e.code;
       return false;
     } finally {
-      _isLoading = false;
       notifyListeners();
     }
   }
@@ -70,7 +66,6 @@ class AuthProvider extends ChangeNotifier {
   // ─────────────────────────────────────────────────
   Future<bool> signIn({required String email, required String password}) async {
     try {
-      _isLoading = true;
       _errorMessage = null;
       _errorCode = null;
       notifyListeners();
@@ -92,7 +87,6 @@ class AuthProvider extends ChangeNotifier {
       _errorCode = e.code;
       return false;
     } finally {
-      _isLoading = false;
       notifyListeners();
     }
   }

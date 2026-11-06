@@ -41,6 +41,3 @@ List<TextSpan> markupSpans(String text, TextStyle style, Color exampleColor) {
   ];
 }
 
-/// The text without the asterisks (for screen readers and tests).
-String plainMarkup(String text) =>
-    text.split('*').length.isEven ? text : text.replaceAll('*', '');

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'logic/quiz_logic.dart';
 import 'models/catalog.dart';
-import 'screens/learn_screen.dart';
 import 'screens/lesson_complete_screen.dart';
 import 'screens/lesson_detail_screen.dart';
 import 'screens/lesson_player_screen.dart';
@@ -20,16 +19,6 @@ abstract final class LearningRoutes {
 
   /// Shows the Learn tab; set by the app's tab shell (HomeScreen).
   static VoidCallback? showLearnTab;
-
-  /// S01 Learn.
-  static Future<void> openLearn(BuildContext context) {
-    return Navigator.of(context).push(
-      MaterialPageRoute(
-        settings: const RouteSettings(name: learnRoute),
-        builder: (_) => const LearnScreen(),
-      ),
-    );
-  }
 
   /// S02 Lesson Detail.
   static Future<void> openLessonDetail(BuildContext context, Lesson lesson) {

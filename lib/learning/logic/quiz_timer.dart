@@ -19,7 +19,6 @@ class QuizTimer extends ChangeNotifier {
   int get secondsLeft => _left;
 
   bool get isPaused => _pauses > 0;
-  bool get isRunning => _ticker != null && !isPaused && !_stopped;
 
   /// "00:30" style, for the timer chip.
   String get label {

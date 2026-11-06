@@ -23,7 +23,7 @@ import 'screens/home_screen.dart';
 import 'screens/admin_dashboard_screen.dart'; // ← ADDED
 
 // THEME
-import 'theme/app_theme.dart';
+import 'theme/v6_app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,7 +83,7 @@ class HibaloApp extends StatelessWidget {
         title: 'Hibalo',
         debugShowCheckedModeBanner: false,
 
-        theme: AppTheme.light(),
+        theme: buildAppTheme(),
 
         locale: AppLanguage.instance.locale,
         localizationsDelegates: AppLanguage.delegates,

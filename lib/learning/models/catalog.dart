@@ -108,8 +108,6 @@ class LearningSettings {
   final List<String> uiLanguages;
   final String defaultUiLanguage;
 
-  bool isTimed(String questionType) => timedTypes.contains(questionType);
-
   /// The result tier for a score between 0 and 1.
   ResultTier tierFor(double score) =>
       resultTiers.firstWhere((t) => score >= t.minScore,
