@@ -7,7 +7,7 @@
     "source": "Teammate's Self-Paced Learning Module and Question Bank (Beginner), with review fixes applied",
     "fieldGuide": {
       "items": "Words or phrases shown on the P04 Learn card. 'check' is 'ok' or 'unverified' ('unverified' = could not be confirmed in a published reference). There is no native-speaker check.",
-      "audio": "Native recordings only, ONE short clip per word or phrase (items[].audio) and ONE per letter (letters[].audio: say the letter, then its example word). No audio for example sentences, dialogue lines, reading lines, terms or pattern examples: they are text only. Slow audio = the same clip at 0.75x.",
+      "audio": "Native recordings only, ONE short clip per word or phrase (items[].audio) and ONE per letter (letters[].audio: the example word only, not the letter name). No audio for example sentences, dialogue lines, reading lines, terms or pattern examples: they are text only. Slow audio = the same clip at 0.75x.",
       "image": "Path inside assets/, or null for phrases without a picture.",
       "scored": "false = not counted in the pass mark (speaking, open_answer).",
       "answer": "Index of the correct option (starts at 0). For build_sentence, the tiles in correct order.",
@@ -154,7 +154,7 @@
       "https://ia601206.us.archive.org/12/items/ERIC_ED402758/ERIC_ED402758_text.pdf (Hiligaynon language packet, ERIC ED402758)",
       "https://hiligaynon.pinoydictionary.com/"
     ],
-    "audioPolicy": "Native recordings only, ONE short clip per word or phrase (items[].audio) and ONE per letter (letters[].audio: say the letter, then its example word). No audio for example sentences, dialogue lines, reading lines, terms or pattern examples: they are text only. Slow audio = the same clip at 0.75x."
+    "audioPolicy": "Native recordings only, ONE short clip per word or phrase (items[].audio) and ONE per letter (letters[].audio: the example word only, not the letter name). No audio for example sentences, dialogue lines, reading lines, terms or pattern examples: they are text only. Slow audio = the same clip at 0.75x."
   },
   "settings": {
     "passMark": 0.8,
@@ -1189,7 +1189,7 @@
               "type": "key_idea",
               "title": "Asking “How Are You?”",
               "icon": "chat_bubble",
-              "text": "*Kamusta ka?* comes from Spanish “¿cómo está?”, just like Filipino *Kumusta*. Answer with *Maayo man ako*, then ask back with *Ikaw man?* The little word *man* works like *naman*.",
+              "text": "*Kamusta ka?* comes from Spanish “¿cómo está?”, just like Filipino *Kumusta*. Answer with *Maayo man ako*, then ask back with *Kag ikaw man?* The little word *man* works like *naman*.",
               "terms": [
                 {
                   "hil": "Kamusta ka?",
@@ -1202,7 +1202,7 @@
                   "fil": "Mabuti naman ako."
                 },
                 {
-                  "hil": "Ikaw man?",
+                  "hil": "Kag ikaw man?",
                   "note": "asking back",
                   "fil": "Ikaw naman?"
                 }
@@ -1451,7 +1451,7 @@
               "audio": "audio/b02/b02_maayo_man_ako.m4a",
               "image": null,
               "example": {
-                "hil": "Maayo man ako, salamat. Ikaw man?",
+                "hil": "Maayo man ako, salamat. Kag ikaw man?",
                 "fil": "Mabuti naman ako, salamat. Ikaw naman?"
               },
               "check": "ok"
@@ -2269,7 +2269,7 @@
               "text": "*Pila* means “how many”. For age, Ilonggos often use Spanish-based numbers, like *baynte* (20) and *trenta* (30).",
               "terms": [
                 {
-                  "hil": "Pila ka tuig ka na?",
+                  "hil": "Pila na ang edad mo?",
                   "note": "asking age",
                   "fil": "Ilang taon ka na?"
                 },
@@ -2308,15 +2308,15 @@
               "type": "key_idea",
               "title": "Keep the Talk Going",
               "icon": "chat_bubble",
-              "text": "End your answer with *Ikaw man?* (Ikaw naman?) so the other person can introduce themselves too.",
+              "text": "End your answer with *Kag ikaw man?* (Ikaw naman?) so the other person can introduce themselves too.",
               "terms": [
                 {
-                  "hil": "Ikaw man?",
+                  "hil": "Kag ikaw man?",
                   "note": "asking back",
                   "fil": "Ikaw naman?"
                 },
                 {
-                  "hil": "higala",
+                  "hil": "abian",
                   "note": "friend",
                   "fil": "kaibigan"
                 }
@@ -2352,7 +2352,7 @@
                 },
                 {
                   "speaker": "Ana",
-                  "hil": "Taga-Sto. Tomas ako. Ikaw man?",
+                  "hil": "Taga-Sto. Tomas ako. Kag ikaw man?",
                   "fil": "Taga-Sto. Tomas ako. Ikaw naman?"
                 },
                 {
@@ -2362,7 +2362,7 @@
                 },
                 {
                   "speaker": "Ana",
-                  "hil": "Maayo! Higala na kita.",
+                  "hil": "Maayo! Abian na kita.",
                   "fil": "Mabuti! Magkaibigan na tayo."
                 }
               ],
@@ -2392,11 +2392,11 @@
                   "fil": "Estudyante ako. Nag-aaral ako rito sa Sto. Tomas."
                 },
                 {
-                  "hil": "Si Ana ang akon higala.",
+                  "hil": "Si Ana ang akon abian.",
                   "fil": "Si Ana ang aking kaibigan."
                 },
                 {
-                  "hil": "Ikaw man? Ano ang imo ngalan?",
+                  "hil": "Kag ikaw man? Ano ang imo ngalan?",
                   "fil": "Ikaw naman? Ano ang pangalan mo?"
                 }
               ],
@@ -2472,9 +2472,9 @@
             },
             {
               "id": "b04_pila_ka_tuig",
-              "hil": "Pila ka tuig ka na?",
+              "hil": "Pila na ang edad mo?",
               "fil": "Ilang taon ka na?",
-              "audio": "audio/b04/b04_pila_ka_tuig.m4a",
+              "audio": "audio/b04/b04_pila_na_ang_edad_mo.m4a",
               "image": null,
               "example": null,
               "check": "ok"
@@ -2511,24 +2511,24 @@
             },
             {
               "id": "b04_higala",
-              "hil": "higala",
+              "hil": "abian",
               "fil": "kaibigan",
-              "audio": "audio/b04/b04_higala.m4a",
+              "audio": "audio/b04/b04_abian.m4a",
               "image": "images/words/word-higala.webp",
               "example": {
-                "hil": "Siya ang akon higala.",
+                "hil": "Siya ang akon abian.",
                 "fil": "Siya ang kaibigan ko."
               },
               "check": "ok"
             },
             {
               "id": "b04_ikaw_man",
-              "hil": "Ikaw man?",
+              "hil": "Kag ikaw man?",
               "fil": "Ikaw naman?",
-              "audio": "audio/b04/b04_ikaw_man.m4a",
+              "audio": "audio/b04/b04_kag_ikaw_man.m4a",
               "image": null,
               "example": {
-                "hil": "Estudyante ako. Ikaw man?",
+                "hil": "Estudyante ako. Kag ikaw man?",
                 "fil": "Estudyante ako. Ikaw naman?"
               },
               "check": "ok"
@@ -2554,7 +2554,7 @@
                     "Taga-saan ka?"
                   ],
                   [
-                    "higala",
+                    "abian",
                     "kaibigan"
                   ],
                   [
@@ -2569,12 +2569,12 @@
                 "type": "multiple_choice",
                 "source": "B3-2",
                 "scored": true,
-                "prompt": "In \"Pila ka tuig ka na?\", what is the FIRST \"ka\"?",
+                "prompt": "In \"Pila na ang edad mo?\", what does \"Pila\" mean?",
                 "options": [
-                  "The word that links a number to a noun",
-                  "The word for \"you\"",
-                  "A question word",
-                  "A word for the past"
+                  "How many",
+                  "Where",
+                  "Who",
+                  "When"
                 ],
                 "answer": 0,
                 "answerAudio": null
@@ -2638,7 +2638,7 @@
                 "source": "new",
                 "scored": true,
                 "prompt": "What does the speaker say?",
-                "audio": "audio/b04/b04_pila_ka_tuig.m4a",
+                "audio": "audio/b04/b04_pila_na_ang_edad_mo.m4a",
                 "optionKind": "text",
                 "options": [
                   "Taga-saan ka?",
@@ -2709,7 +2709,7 @@
                 "source": "new",
                 "scored": false,
                 "prompt": "Introduce yourself in Hiligaynon",
-                "modelAnswer": "Maayong aga! Ako si Ana. Taga-Batangas ako. Estudyante ako. Ikaw man?",
+                "modelAnswer": "Maayong aga! Ako si Ana. Taga-Batangas ako. Estudyante ako. Kag ikaw man?",
                 "hint": "Write one or two sentences. Any answer is accepted.",
                 "maxChars": 200
               }
@@ -3968,7 +3968,7 @@
               "text": "*Lolo*, *lola*, *tiyo* and *tiya* are the same as Filipino. Cousins, nephews and nieces use different words.",
               "terms": [
                 {
-                  "hil": "ig-agaw",
+                  "hil": "pakaisa",
                   "note": "cousin",
                   "fil": "pinsan"
                 },
@@ -4051,12 +4051,12 @@
               "type": "quick_check",
               "prompt": "Which word means “pinsan”?",
               "options": [
-                "ig-agaw",
+                "pakaisa",
                 "hinablos",
                 "utod"
               ],
               "answer": 0,
-              "explain": "ig-agaw = pinsan."
+              "explain": "pakaisa = pinsan."
             },
             {
               "id": "b07_p1",
@@ -4129,14 +4129,14 @@
               "title": "Filipino ⇄ Hiligaynon",
               "icon": "swap_horiz",
               "bridge": [
-                "*kapatid* = *utod*; *pinsan* = *ig-agaw*; *pamangkin* = *hinablos*.",
+                "*kapatid* = *utod*; *pinsan* = *pakaisa*; *pamangkin* = *hinablos*.",
                 "*Ate* and *Kuya* become *Manang* and *Manong* (or *Nang* and *Nong*).",
                 "Like Lesson 3: *aton nga pamilya* includes the listener; *amon nga pamilya* does not."
               ],
               "mistakes": [
                 {
                   "wrong": "pinsan",
-                  "right": "ig-agaw",
+                  "right": "pakaisa",
                   "why": "pinsan is Filipino."
                 },
                 {
@@ -4223,12 +4223,12 @@
             },
             {
               "id": "b07_ig_agaw",
-              "hil": "ig-agaw",
+              "hil": "pakaisa",
               "fil": "pinsan",
-              "audio": "audio/b07/b07_ig_agaw.m4a",
+              "audio": "audio/b07/b07_pakaisa.m4a",
               "image": "images/words/word-ig-agaw.webp",
               "example": {
-                "hil": "Si Lito ang akon ig-agaw.",
+                "hil": "Si Lito ang akon pakaisa.",
                 "fil": "Si Lito ang aking pinsan."
               },
               "check": "ok"
@@ -4337,10 +4337,9 @@
                 "direction": "fil_to_hil",
                 "text": "pinsan",
                 "accepted": [
-                  "ig-agaw",
-                  "igagaw"
+                  "pakaisa"
                 ],
-                "answerAudio": "audio/b07/b07_ig_agaw.m4a"
+                "answerAudio": "audio/b07/b07_pakaisa.m4a"
               },
               {
                 "id": "b07_q5",
@@ -4398,7 +4397,7 @@
                     "tatay"
                   ],
                   [
-                    "ig-agaw",
+                    "pakaisa",
                     "pinsan"
                   ],
                   [
@@ -4479,7 +4478,7 @@
                   "fil": "palengke"
                 },
                 {
-                  "hil": "tindahan",
+                  "hil": "tyangge",
                   "note": "store",
                   "fil": "tindahan"
                 },
@@ -4776,12 +4775,12 @@
             },
             {
               "id": "b08_tindahan",
-              "hil": "tindahan",
+              "hil": "tyangge",
               "fil": "tindahan",
-              "audio": "audio/b08/b08_tindahan.m4a",
+              "audio": "audio/b08/b08_tyangge.m4a",
               "image": "images/words/word-tindahan.webp",
               "example": {
-                "hil": "Ara ang tindahan sa tupad sang eskwelahan.",
+                "hil": "Ara ang tyangge sa tupad sang eskwelahan.",
                 "fil": "Nasa tabi ng paaralan ang tindahan."
               },
               "check": "ok"
@@ -5064,7 +5063,7 @@
               "type": "key_idea",
               "title": "Meals of the Day",
               "icon": "restaurant",
-              "text": "Each meal has its own word. *Paniudto* comes from *udto* (noon) and *panihapon* from *hapon* (afternoon).",
+              "text": "Each meal has its own word: breakfast is *pamahaw*, lunch is *panyaga*, and dinner is *panihapon*, which comes from *hapon* (afternoon).",
               "terms": [
                 {
                   "hil": "pamahaw",
@@ -5072,7 +5071,7 @@
                   "fil": "almusal"
                 },
                 {
-                  "hil": "paniudto",
+                  "hil": "panyaga",
                   "note": "lunch",
                   "fil": "tanghalian"
                 },
@@ -5328,7 +5327,7 @@
               "icon": "rice_bowl",
               "lines": [
                 {
-                  "hil": "Paniudto na.",
+                  "hil": "Panyaga na.",
                   "fil": "Tanghalian na."
                 },
                 {
@@ -5403,9 +5402,9 @@
             },
             {
               "id": "b09_paniudto",
-              "hil": "paniudto",
+              "hil": "panyaga",
               "fil": "tanghalian",
-              "audio": "audio/b09/b09_paniudto.m4a",
+              "audio": "audio/b09/b09_panyaga.m4a",
               "image": "images/words/word-paniudto.webp",
               "example": null,
               "check": "ok"
@@ -5616,7 +5615,7 @@
                     "almusal"
                   ],
                   [
-                    "paniudto",
+                    "panyaga",
                     "tanghalian"
                   ],
                   [
@@ -5902,7 +5901,7 @@
                   "fil": "Bumili siya ng isda at gulay."
                 },
                 {
-                  "hil": "Subong, nagaluto siya sang paniudto.",
+                  "hil": "Subong, nagaluto siya sang panyaga.",
                   "fil": "Ngayon, nagluluto siya ng tanghalian."
                 },
                 {
@@ -6497,7 +6496,7 @@
                   "fil": "Bakit ka tumatawa?"
                 },
                 {
-                  "hil": "Pila ka tuig ka na?",
+                  "hil": "Pila na ang edad mo?",
                   "fil": "Ilang taon ka na?"
                 }
               ],
@@ -7434,7 +7433,7 @@
                   "fil": "Magandang umaga!"
                 },
                 {
-                  "hil": "Maayo man. Ikaw man?",
+                  "hil": "Maayo man. Kag ikaw man?",
                   "note": "2 · answer and ask back",
                   "fil": "Mabuti naman. Ikaw naman?"
                 },

@@ -164,7 +164,6 @@ void main() {
   });
 
   test('Q08 plays the same clip on the Wrong sheet', () {
-    // Checked on the raw JSON, because the clips aren't in the app yet.
     final raw = jsonDecode(File(LessonRepository.lessonsAsset).readAsStringSync());
     for (final lesson in raw['levels'][0]['lessons'] as List) {
       for (final q in (lesson['quiz']?['questions'] as List?) ?? const []) {
@@ -215,16 +214,11 @@ void main() {
     final fallback = await rootBundle.load(catalog.settings.missingPicture);
     expect(fallback.lengthInBytes, greaterThan(0));
 
-    // Not an error: these files aren't made yet. Printed for the record.
-    final missing = repo.missingAssets;
-    final byFolder = <String, int>{};
-    for (final ref in missing) {
-      final folder = ref.jsonPath.substring(0, ref.jsonPath.lastIndexOf('/'));
-      byFolder[folder] = (byFolder[folder] ?? 0) + 1;
-    }
-    // ignore: avoid_print
-    print('Assets found: ${repo.assetRefs.length - missing.length}, '
-        'missing (fallback / no audio button): ${missing.length} $byFolder');
+    // Every picture and all 133 native-speaker clips are in the app now.
+    expect(repo.missingAssets.map((r) => '${r.where}: ${r.jsonPath}'), isEmpty);
+    final audio = repo.assetRefs.where((r) => r.jsonPath.startsWith('audio/')).toList();
+    expect(audio.map((r) => r.jsonPath).toSet(), hasLength(133));
+    expect(audio.every((r) => r.found), isTrue);
   });
 
   group('the loader rejects broken JSON', () {

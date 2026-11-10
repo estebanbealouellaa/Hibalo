@@ -1,7 +1,7 @@
 name: hibalo_app
 description: "Hibalo - Hiligaynon and Filipino Realtime Translator"
 publish_to: 'none'
-version: 1.1.0+3
+version: 1.1.1+4
 environment:
   sdk: ^3.11.5
 dependencies:
@@ -53,7 +53,7 @@ flutter:
     - assets/tts/models/
     - assets/translation/models/
     - assets/translation/data/
-    # Only existing folders (a missing one stops the build): add assets/audio/bNN/ when recorded.
+    # Only existing folders are listed: a missing one stops the build.
     - assets/lessons/
     - assets/images/lessons/
     - assets/images/mascots/
@@ -62,6 +62,19 @@ flutter:
     - assets/images/words/
     - assets/images/culture/
     - assets/images/situations/
+    - assets/audio/b01/
+    - assets/audio/b02/
+    - assets/audio/b03/
+    - assets/audio/b04/
+    - assets/audio/b05/
+    - assets/audio/b06/
+    - assets/audio/b07/
+    - assets/audio/b08/
+    - assets/audio/b09/
+    - assets/audio/b10/
+    - assets/audio/b11/
+    - assets/audio/b12/
+    - assets/audio/b13/
 
   # V6 font for the learning screens (SIL Open Font License, see OFL.txt).
   fonts:

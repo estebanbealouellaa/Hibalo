@@ -495,7 +495,7 @@ class Letter {
   final String name;
   final String soundHint;
 
-  /// One clip: the letter, then its example word. Kept even if the file
+  /// One clip: the example word only (not the letter name). Kept even if the file
   /// isn't in the app yet.
   final String? audio;
   final HilFil example;
