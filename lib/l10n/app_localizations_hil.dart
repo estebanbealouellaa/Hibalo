@@ -1570,4 +1570,44 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get settingsClearHistory => 'Panason ang history sang translation';
+
+  @override
+  String get rolePlayInstruction => 'Pilia ang imo sabat.';
+
+  @override
+  String rolePlayNotQuite(String hint) {
+    return 'Indi pa husto: $hint. Tilawi ang iban nga sabat.';
+  }
+
+  @override
+  String get rolePlayFast => 'Madasig maghambal';
+
+  @override
+  String get verbFormsInstruction =>
+      'I-tap ang gamot nga tinaga para makita kon paano nagabag-o ang porma sini.';
+
+  @override
+  String get verbFormsWhen => 'San-o';
+
+  @override
+  String get verbFormsForm => 'Porma';
+
+  @override
+  String get verbFormsDoer => 'Sin-o ang nagahimo';
+
+  @override
+  String get verbFormsObject => 'Ano ang ginahimuan';
+
+  @override
+  String get playConversation => 'I-play ang istoryahanay';
+
+  @override
+  String get showText => 'Ipakita ang teksto';
+
+  @override
+  String get listenFirstHint =>
+      'Pamatii anay ang istoryahanay, dayon basaha upod.';
+
+  @override
+  String get audioComingSoon => 'Madali na lang ang audio';
 }

@@ -2883,6 +2883,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear translation history'**
   String get settingsClearHistory;
+
+  /// P11 instruction under the setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your reply.'**
+  String get rolePlayInstruction;
+
+  /// P11 after a wrong reply. The hint comes from the lesson file and stays in English.
+  ///
+  /// In en, this message translates to:
+  /// **'Not quite: {hint}. Try another reply.'**
+  String rolePlayNotQuite(String hint);
+
+  /// P11 small label on a bubble where the speaker talks fast.
+  ///
+  /// In en, this message translates to:
+  /// **'Talking fast'**
+  String get rolePlayFast;
+
+  /// P12 instruction above the root chips.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a root word to see how its forms change.'**
+  String get verbFormsInstruction;
+
+  /// P12 table header of the time column.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get verbFormsWhen;
+
+  /// P12 table header when a root has only one row of forms.
+  ///
+  /// In en, this message translates to:
+  /// **'Form'**
+  String get verbFormsForm;
+
+  /// P12 table header: forms where the doer is in focus.
+  ///
+  /// In en, this message translates to:
+  /// **'Who does it'**
+  String get verbFormsDoer;
+
+  /// P12 table header: forms where the thing is in focus.
+  ///
+  /// In en, this message translates to:
+  /// **'What it happens to'**
+  String get verbFormsObject;
+
+  /// Listening dialogue: plays every line's clip in order.
+  ///
+  /// In en, this message translates to:
+  /// **'Play conversation'**
+  String get playConversation;
+
+  /// Listening dialogue: shows the lines without playing the audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Show text'**
+  String get showText;
+
+  /// Listening dialogue: hint while the text is hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to the conversation first, then read along.'**
+  String get listenFirstHint;
+
+  /// Small note where a clip isn't recorded yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio coming soon'**
+  String get audioComingSoon;
 }
 
 class _AppLocalizationsDelegate

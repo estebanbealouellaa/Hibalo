@@ -89,6 +89,8 @@ void main() {
     expect(s.avatars.avatarFor('Ana'), 'assets/images/avatars/avatar-ana.svg');
     expect(s.avatars.avatarFor('Manang Rosa'),
         'assets/images/avatars/avatar-manang.svg');
+    expect(s.avatars.avatarFor('You'), 'assets/images/avatars/avatar-ana.svg',
+        reason: '"You" is the learner, like Ana');
     expect(s.avatars.avatarFor('Seller'),
         'assets/images/avatars/avatar-neighbor.svg');
     expect(s.uiLanguages, ['English', 'Filipino', 'Hiligaynon']);

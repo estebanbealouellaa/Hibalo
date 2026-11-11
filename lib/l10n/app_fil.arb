@@ -464,5 +464,17 @@
   "adminBreakdown": "DETALYE",
   "adminActiveCount": "{count} aktibo",
   "adminEntry": "Admin",
-  "settingsClearHistory": "Burahin ang history ng salin"
+  "settingsClearHistory": "Burahin ang history ng salin",
+  "rolePlayInstruction": "Piliin ang iyong sagot.",
+  "rolePlayNotQuite": "Hindi pa tama: {hint}. Subukan ang ibang sagot.",
+  "rolePlayFast": "Mabilis magsalita",
+  "verbFormsInstruction": "I-tap ang salitang-ugat para makita kung paano nagbabago ang anyo nito.",
+  "verbFormsWhen": "Kailan",
+  "verbFormsForm": "Anyo",
+  "verbFormsDoer": "Sino ang gumagawa",
+  "verbFormsObject": "Ano ang ginagawan",
+  "playConversation": "I-play ang usapan",
+  "showText": "Ipakita ang teksto",
+  "listenFirstHint": "Pakinggan muna ang usapan, saka sabayan ang pagbasa.",
+  "audioComingSoon": "Malapit na ang audio"
 }

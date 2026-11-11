@@ -366,6 +366,9 @@ class DialoguePartData extends LessonPart {
   /// True: hide the text until the audio has played once (or "Show text"). Every line has a clip in the JSON.
   final bool listening;
 
+  /// The JSON names a clip on at least one line (recorded or not).
+  bool get hasClips => lines.any((l) => l.hasClip);
+
   /// The line clips in order, or empty when any of them isn't in the app yet (then the text is shown).
   List<String> get clips =>
       lines.every((l) => l.audio != null) ? [for (final l in lines) l.audio!] : const [];

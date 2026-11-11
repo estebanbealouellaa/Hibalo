@@ -2206,5 +2206,29 @@
   "settingsClearHistory": "Clear translation history",
   "@settingsClearHistory": {
     "description": "History / Saved."
-  }
+  },
+  "rolePlayInstruction": "Choose your reply.",
+  "@rolePlayInstruction": {"description": "P11 instruction under the setting."},
+  "rolePlayNotQuite": "Not quite: {hint}. Try another reply.",
+  "@rolePlayNotQuite": {"description": "P11 after a wrong reply. The hint comes from the lesson file and stays in English.", "placeholders": {"hint": {"type": "String"}}},
+  "rolePlayFast": "Talking fast",
+  "@rolePlayFast": {"description": "P11 small label on a bubble where the speaker talks fast."},
+  "verbFormsInstruction": "Tap a root word to see how its forms change.",
+  "@verbFormsInstruction": {"description": "P12 instruction above the root chips."},
+  "verbFormsWhen": "When",
+  "@verbFormsWhen": {"description": "P12 table header of the time column."},
+  "verbFormsForm": "Form",
+  "@verbFormsForm": {"description": "P12 table header when a root has only one row of forms."},
+  "verbFormsDoer": "Who does it",
+  "@verbFormsDoer": {"description": "P12 table header: forms where the doer is in focus."},
+  "verbFormsObject": "What it happens to",
+  "@verbFormsObject": {"description": "P12 table header: forms where the thing is in focus."},
+  "playConversation": "Play conversation",
+  "@playConversation": {"description": "Listening dialogue: plays every line's clip in order."},
+  "showText": "Show text",
+  "@showText": {"description": "Listening dialogue: shows the lines without playing the audio."},
+  "listenFirstHint": "Listen to the conversation first, then read along.",
+  "@listenFirstHint": {"description": "Listening dialogue: hint while the text is hidden."},
+  "audioComingSoon": "Audio coming soon",
+  "@audioComingSoon": {"description": "Small note where a clip isn't recorded yet."}
 }

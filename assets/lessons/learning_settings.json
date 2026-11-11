@@ -253,9 +253,10 @@
     },
     "avatars": {
       "Ana": "avatar-ana",
+      "You": "avatar-ana",
       "startsWith:Manang": "avatar-manang",
       "default": "avatar-neighbor",
-      "note": "SVG files in assets/images/avatars/. Ana is on the right; every other speaker is on the left."
+      "note": "SVG files in assets/images/avatars/. Ana (and \"You\", the learner) is on the right; every other speaker is on the left."
     },
     "lessonButtons": {
       "lastPartWithQuiz": "Finish & practice",

@@ -1556,4 +1556,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsClearHistory => 'Clear translation history';
+
+  @override
+  String get rolePlayInstruction => 'Choose your reply.';
+
+  @override
+  String rolePlayNotQuite(String hint) {
+    return 'Not quite: $hint. Try another reply.';
+  }
+
+  @override
+  String get rolePlayFast => 'Talking fast';
+
+  @override
+  String get verbFormsInstruction =>
+      'Tap a root word to see how its forms change.';
+
+  @override
+  String get verbFormsWhen => 'When';
+
+  @override
+  String get verbFormsForm => 'Form';
+
+  @override
+  String get verbFormsDoer => 'Who does it';
+
+  @override
+  String get verbFormsObject => 'What it happens to';
+
+  @override
+  String get playConversation => 'Play conversation';
+
+  @override
+  String get showText => 'Show text';
+
+  @override
+  String get listenFirstHint =>
+      'Listen to the conversation first, then read along.';
+
+  @override
+  String get audioComingSoon => 'Audio coming soon';
 }

@@ -4,6 +4,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../models/parts.dart';
 import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
+import '../markup_text.dart';
 import 'part_common.dart';
 
 /// P03 Pattern: slot blocks joined by "+", then "= Filipino"; the link word is violet with a glow. No audio.
@@ -30,6 +31,11 @@ class PatternPart extends StatelessWidget {
             children: [
               // Shrinks to fit when four long slots don't fit the width.
               FittedBox(fit: BoxFit.scaleDown, child: _slots()),
+              if (data.sentence case final sentence?) ...[
+                const SizedBox(height: 12),
+                // The whole sentence, with *markup* (italic violet).
+                MarkupText(sentence, textAlign: TextAlign.center, style: V6Text.bodyLargeSemiBold),
+              ],
               const SizedBox(height: 12),
               Text(
                 '= ${data.fil}',

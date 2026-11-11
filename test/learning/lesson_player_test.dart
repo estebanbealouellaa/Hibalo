@@ -310,7 +310,7 @@ void main() {
     }
   });
 
-  testWidgets('word card: audio buttons show without a recording', (tester) async {
+  testWidgets('word card: both audio buttons show for a recorded word', (tester) async {
     await open(tester, 'b02', startPart: 1);
     expect(find.byIcon(Icons.volume_up_rounded), findsOneWidget);
     expect(find.byIcon(Icons.hourglass_top_rounded), findsOneWidget);
@@ -340,7 +340,7 @@ void main() {
   });
 
   testWidgets('every part of every lesson draws on a small phone', (tester) async {
-    for (final l in catalog.levels.first.lessons) {
+    for (final l in catalog.allLessons) {
       for (var i = 0; i < l.partsCount; i++) {
         await open(tester, l.id, startPart: i);
         expect(tester.takeException(), isNull, reason: '${l.id} part ${i + 1}');

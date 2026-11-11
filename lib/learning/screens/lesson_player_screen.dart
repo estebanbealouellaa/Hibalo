@@ -22,11 +22,13 @@ import '../widgets/parts/letters_part.dart';
 import '../widgets/parts/pattern_part.dart';
 import '../widgets/parts/quick_check_part.dart';
 import '../widgets/parts/reading_part.dart';
+import '../widgets/parts/role_play_part.dart';
 import '../widgets/parts/table_part.dart';
+import '../widgets/parts/verb_forms_part.dart';
 import '../widgets/parts/words_part.dart';
 import '../widgets/segmented_progress.dart';
 
-/// Lesson part player (P01–P10); a Back/Next step is a card (P04), a letter (P05) or a whole part.
+/// Lesson part player (P01–P12); a Back/Next step is a card (P04), a letter (P05) or a whole part.
 class LessonPlayerScreen extends StatefulWidget {
   const LessonPlayerScreen({
     super.key,
@@ -61,6 +63,12 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   /// is open so going back shows the answer instead of a second try.
   final Map<String, int> _answers = {};
 
+  /// Role-play turns answered (part id → count), kept so going back shows the chat.
+  final Map<String, int> _rolePlayAnswered = {};
+
+  /// Role-plays whose chat is finished (Next is enabled).
+  final Set<String> _rolePlayDone = {};
+
   /// Shuffled option order per quick check, made once per visit.
   final Map<String, List<int>> _orders = {};
   final Random _random = Random();
@@ -85,10 +93,15 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   bool get _isLastPart => _part == _lesson.partsCount - 1;
   bool get _isLastStep => _step >= _current.stepCount - 1;
 
-  /// Next is disabled on a quick check until it is answered.
+  /// Next is disabled on a quick check until it is answered, and on a role-play until its chat is done.
   bool get _canGoNext {
     final part = _current;
-    return !_busy && (part is! QuickCheckPartData || _answers.containsKey(part.id));
+    if (_busy) return false;
+    return switch (part) {
+      QuickCheckPartData() => _answers.containsKey(part.id),
+      RolePlayPartData() => _rolePlayDone.contains(part.id),
+      _ => true,
+    };
   }
 
   void _enterStep() {
@@ -247,7 +260,7 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   }
 
   static double _captionGap(LessonPart part) => switch (part) {
-        LettersPartData() || DialoguePartData() => 12,
+        LettersPartData() || DialoguePartData() || RolePlayPartData() => 12,
         ReadingPartData() || CultureNotePartData() => 10,
         _ => 14,
       };
@@ -275,9 +288,18 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
       ReadingPartData p => ReadingPart(data: p),
       BridgeMistakesPartData p => BridgeMistakesPart(data: p),
       CultureNotePartData p => CultureNotePart(data: p, fallbackPicture: settings.missingPicture),
-      // Stage 1 stand-ins until RolePlayPart / VerbFormsPart exist.
-      RolePlayPartData p => Text(p.title, style: V6Text.titleLarge),
-      VerbFormsPartData p => Text(p.title, style: V6Text.titleLarge),
+      RolePlayPartData p => RolePlayPart(
+          data: p,
+          avatars: settings.avatars,
+          answered: _rolePlayAnswered[p.id] ?? 0,
+          shuffle: settings.shuffleOptions,
+          random: _random,
+          onAnswered: (n) => _rolePlayAnswered[p.id] = n,
+          onDone: () {
+            if (mounted) setState(() => _rolePlayDone.add(p.id));
+          },
+        ),
+      VerbFormsPartData p => VerbFormsPart(data: p),
     };
   }
 

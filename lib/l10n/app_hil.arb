@@ -464,5 +464,17 @@
   "adminBreakdown": "DETALYE",
   "adminActiveCount": "{count} aktibo",
   "adminEntry": "Admin",
-  "settingsClearHistory": "Panason ang history sang translation"
+  "settingsClearHistory": "Panason ang history sang translation",
+  "rolePlayInstruction": "Pilia ang imo sabat.",
+  "rolePlayNotQuite": "Indi pa husto: {hint}. Tilawi ang iban nga sabat.",
+  "rolePlayFast": "Madasig maghambal",
+  "verbFormsInstruction": "I-tap ang gamot nga tinaga para makita kon paano nagabag-o ang porma sini.",
+  "verbFormsWhen": "San-o",
+  "verbFormsForm": "Porma",
+  "verbFormsDoer": "Sin-o ang nagahimo",
+  "verbFormsObject": "Ano ang ginahimuan",
+  "playConversation": "I-play ang istoryahanay",
+  "showText": "Ipakita ang teksto",
+  "listenFirstHint": "Pamatii anay ang istoryahanay, dayon basaha upod.",
+  "audioComingSoon": "Madali na lang ang audio"
 }

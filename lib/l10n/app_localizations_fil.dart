@@ -1569,4 +1569,44 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get settingsClearHistory => 'Burahin ang history ng salin';
+
+  @override
+  String get rolePlayInstruction => 'Piliin ang iyong sagot.';
+
+  @override
+  String rolePlayNotQuite(String hint) {
+    return 'Hindi pa tama: $hint. Subukan ang ibang sagot.';
+  }
+
+  @override
+  String get rolePlayFast => 'Mabilis magsalita';
+
+  @override
+  String get verbFormsInstruction =>
+      'I-tap ang salitang-ugat para makita kung paano nagbabago ang anyo nito.';
+
+  @override
+  String get verbFormsWhen => 'Kailan';
+
+  @override
+  String get verbFormsForm => 'Anyo';
+
+  @override
+  String get verbFormsDoer => 'Sino ang gumagawa';
+
+  @override
+  String get verbFormsObject => 'Ano ang ginagawan';
+
+  @override
+  String get playConversation => 'I-play ang usapan';
+
+  @override
+  String get showText => 'Ipakita ang teksto';
+
+  @override
+  String get listenFirstHint =>
+      'Pakinggan muna ang usapan, saka sabayan ang pagbasa.';
+
+  @override
+  String get audioComingSoon => 'Malapit na ang audio';
 }
