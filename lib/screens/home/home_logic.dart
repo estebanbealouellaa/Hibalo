@@ -73,8 +73,9 @@ ContinuePick pickContinue(LessonCatalog catalog, LearningRules rules) {
 
 /// One word from the lessons for each day: the same all day, a different
 /// one the next day (the phone's date; every lesson's items in course order).
+/// Only words whose clip is in the app, so Listen always plays.
 LessonItem? phraseOfTheDay(LessonCatalog catalog, DateTime now) {
-  final items = [for (final l in catalog.allLessons) ...l.items];
+  final items = [for (final l in catalog.allLessons) ...l.items.where((i) => i.audio != null)];
   if (items.isEmpty) return null;
   // Days since 1 Jan 1970 on the phone's calendar (noon avoids DST edges).
   final day = DateTime.utc(now.year, now.month, now.day, 12).millisecondsSinceEpoch ~/ Duration.millisecondsPerDay;

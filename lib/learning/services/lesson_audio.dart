@@ -13,7 +13,7 @@ class LessonAudio {
   AudioPlayer? _player;
   Set<String>? _bundled;
 
-  /// Plays [assetPath] ("assets/audio/…"). The audio buttons always show, so
+  /// Plays [assetPath] ("assets/audio/…"). Buttons are hidden for missing clips; still,
   /// a clip that isn't in the app yet (or null) just plays nothing (§1.4).
   Future<void> play(String? assetPath, {bool slow = false}) async {
     if (assetPath == null) return;

@@ -160,7 +160,7 @@ abstract class AppLocalizations {
   /// **'Lessons coming soon'**
   String get learnComingSoon;
 
-  /// S01 when lessons.json fails to load.
+  /// S01 when the lesson files fail to load.
   ///
   /// In en, this message translates to:
   /// **'The lessons couldn\'t be loaded.'**

@@ -289,8 +289,7 @@ class ShowAllSwitch extends StatelessWidget {
   }
 }
 
-/// A round audio button. Always shown: if the clip isn't in the app yet,
-/// tapping it plays nothing (§1.4).
+/// A round audio button. Hidden when [clip] is null (none in the JSON, or not recorded yet).
 class AudioButton extends StatelessWidget {
   const AudioButton({
     super.key,
@@ -303,7 +302,7 @@ class AudioButton extends StatelessWidget {
     this.foreground = V6Colors.onPrimary,
   });
 
-  /// The clip's asset path (may not exist yet), or null.
+  /// The clip's asset path, or null (then nothing is shown).
   final String? clip;
   final String label;
   final bool slow;
@@ -316,6 +315,7 @@ class AudioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (clip == null) return const SizedBox.shrink();
     // At least 48 × 48 to tap, even when the circle is smaller (§1.12).
     final tap = size < 48 ? 48.0 : size;
     return Semantics(

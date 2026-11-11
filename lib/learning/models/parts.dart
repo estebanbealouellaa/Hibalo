@@ -14,10 +14,12 @@ const Map<String, String> kPartTemplates = {
   'P08': 'reading',
   'P09': 'bridge_mistakes',
   'P10': 'culture_note',
+  'P11': 'role_play',
+  'P12': 'verb_forms',
 };
 
-/// One part of a lesson. There is one subclass per template ID, and the part
-/// player picks the widget with an exhaustive `switch` on the subclass.
+/// One part of a lesson. There is one subclass per template ID (P01 → KeyIdeaPart, … P12 → VerbFormsPart),
+/// and the part player picks the widget with an exhaustive `switch` on the subclass.
 sealed class LessonPart {
   LessonPart(this.id, this.template);
 
@@ -50,8 +52,9 @@ sealed class LessonPart {
           id,
           title: p.str('title'),
           icon: p.str('icon'),
-          text: p.str('text'),
+          text: p.strOrNull('text'),
           terms: [for (final t in p.objectsOrEmpty('terms')) Term.fromJson(t)],
+          tip: p.strOrNull('tip'),
         ),
       'P02' => TablePartData.fromJson(id, p),
       'P03' => PatternPartData.fromJson(id, p),
@@ -67,14 +70,7 @@ sealed class LessonPart {
           ? p.fail('a letters part needs the lesson\'s letters list')
           : LettersPartData(id, title: p.str('title'), letters: letters),
       'P06' => QuickCheckPartData.fromJson(id, p),
-      'P07' => DialoguePartData(
-          id,
-          title: p.str('title'),
-          icon: p.str('icon'),
-          setting: p.str('setting'),
-          lines: [for (final l in p.objects('lines')) DialogueLine.fromJson(l)],
-          tip: p.strOrNull('tip'),
-        ),
+      'P07' => DialoguePartData.fromJson(id, p, assets),
       'P08' => ReadingPartData(
           id,
           title: p.str('title'),
@@ -95,6 +91,8 @@ sealed class LessonPart {
           text: p.str('text'),
           image: assets.resolve(p.strOrNull('image'), '${p.path} > image'),
         ),
+      'P11' => RolePlayPartData.fromJson(id, p),
+      'P12' => VerbFormsPartData.fromJson(id, p),
       _ => p.fail('unknown part template "$template"'),
     };
   }
@@ -107,6 +105,7 @@ class KeyIdeaPartData extends LessonPart {
     required this.icon,
     required this.text,
     required this.terms,
+    this.tip,
   }) : super(id, 'P01');
 
   final String title;
@@ -114,14 +113,17 @@ class KeyIdeaPartData extends LessonPart {
   /// A Material Symbols Rounded name, e.g. "public".
   final String icon;
 
-  /// May contain *markup*.
-  final String text;
+  /// May contain *markup*. Null hides it (some Intermediate parts).
+  final String? text;
 
   final List<Term> terms;
+
+  /// Tip card under the terms (a few Intermediate parts), or null.
+  final String? tip;
 }
 
 class Term {
-  const Term({required this.hil, this.note, this.fil});
+  const Term({required this.hil, this.note, this.fil, this.example});
 
   final String hil;
 
@@ -131,8 +133,27 @@ class Term {
   /// FILIPINO row, hidden when null.
   final String? fil;
 
-  factory Term.fromJson(JsonReader r) =>
-      Term(hil: r.str('hil'), note: r.strOrNull('note'), fil: r.strOrNull('fil'));
+  /// Example under the term (Intermediate), or null.
+  final HilOptionalFil? example;
+
+  factory Term.fromJson(JsonReader r) => Term(
+        hil: r.str('hil'),
+        note: r.strOrNull('note'),
+        fil: r.strOrNull('fil'),
+        example: r.objectOrNull('example') == null
+            ? null
+            : HilOptionalFil.fromJson(r.object('example')),
+      );
+}
+
+/// Hiligaynon text whose Filipino line may be missing (`fil: null` = show no Filipino line).
+class HilOptionalFil {
+  const HilOptionalFil(this.hil, this.fil);
+
+  final String hil;
+  final String? fil;
+
+  factory HilOptionalFil.fromJson(JsonReader r) => HilOptionalFil(r.str('hil'), r.strOrNull('fil'));
 }
 
 class TablePartData extends LessonPart {
@@ -148,7 +169,9 @@ class TablePartData extends LessonPart {
 
   final String title;
   final String icon;
-  final String text;
+
+  /// Null hides it (some Intermediate parts).
+  final String? text;
 
   /// 2 to 4 column names. "" is an empty header cell.
   final List<String> columns;
@@ -182,7 +205,7 @@ class TablePartData extends LessonPart {
       id,
       title: p.str('title'),
       icon: p.str('icon'),
-      text: p.str('text'),
+      text: p.strOrNull('text'),
       columns: columns,
       rows: rows,
       hilColumns: hilColumns,
@@ -197,16 +220,22 @@ class PatternPartData extends LessonPart {
     required this.icon,
     required this.text,
     required this.slots,
+    this.sentence,
     required this.fil,
     required this.examples,
   }) : super(id, 'P03');
 
   final String title;
   final String icon;
-  final String text;
+
+  /// Null hides it (some Intermediate parts).
+  final String? text;
 
   /// 3 or 4 slots; at most one has highlight = true (the link word).
   final List<PatternSlot> slots;
+
+  /// The full sentence the slots build, shown under them (Intermediate), or null.
+  final String? sentence;
 
   /// The Filipino meaning shown as "= fil".
   final String fil;
@@ -224,8 +253,9 @@ class PatternPartData extends LessonPart {
       id,
       title: p.str('title'),
       icon: p.str('icon'),
-      text: p.str('text'),
+      text: p.strOrNull('text'),
       slots: slots,
+      sentence: p.strOrNull('sentence'),
       fil: p.str('fil'),
       examples: [for (final e in p.objectsOrEmpty('examples')) HilFil.fromJson(e)],
     );
@@ -320,27 +350,71 @@ class DialoguePartData extends LessonPart {
     required this.setting,
     required this.lines,
     required this.tip,
+    this.listening = false,
   }) : super(id, 'P07');
 
   final String title;
   final String icon;
 
-  final String setting;
+  /// Null hides it (some Intermediate dialogues).
+  final String? setting;
   final List<DialogueLine> lines;
 
   /// Null hides the tip card.
   final String? tip;
+
+  /// True: hide the text until the audio has played once (or "Show text"). Every line has a clip in the JSON.
+  final bool listening;
+
+  /// The line clips in order, or empty when any of them isn't in the app yet (then the text is shown).
+  List<String> get clips =>
+      lines.every((l) => l.audio != null) ? [for (final l in lines) l.audio!] : const [];
+
+  factory DialoguePartData.fromJson(String id, JsonReader p, AssetResolver assets) {
+    final lines = [
+      for (final (i, l) in p.objects('lines').indexed)
+        DialogueLine.fromJson(l, assets, '${p.path} > lines[$i]'),
+    ];
+    final listening = p.boolean('listening', fallback: false);
+    if (listening && lines.any((l) => !l.hasClip)) p.fail('listening: every line needs audio');
+    return DialoguePartData(
+      id,
+      title: p.str('title'),
+      icon: p.str('icon'),
+      setting: p.strOrNull('setting'),
+      lines: lines,
+      tip: p.strOrNull('tip'),
+      listening: listening,
+    );
+  }
 }
 
 class DialogueLine {
-  const DialogueLine({required this.speaker, required this.hil, required this.fil});
+  const DialogueLine({
+    required this.speaker,
+    required this.hil,
+    required this.fil,
+    this.audio,
+    this.hasClip = false,
+  });
 
   final String speaker;
   final String hil;
   final String fil;
 
-  factory DialogueLine.fromJson(JsonReader r) =>
-      DialogueLine(speaker: r.str('speaker'), hil: r.str('hil'), fil: r.str('fil'));
+  /// This line's clip (dialogues used for listening), or null when there is none or it isn't recorded yet.
+  final String? audio;
+
+  /// The JSON names a clip for this line (recorded or not).
+  final bool hasClip;
+
+  factory DialogueLine.fromJson(JsonReader r, AssetResolver assets, String where) => DialogueLine(
+        speaker: r.str('speaker'),
+        hil: r.str('hil'),
+        fil: r.str('fil'),
+        audio: assets.resolveAudio(r.strOrNull('audio'), '$where > audio'),
+        hasClip: r.strOrNull('audio') != null,
+      );
 }
 
 class ReadingPartData extends LessonPart {
@@ -380,10 +454,11 @@ class Mistake {
 
   final String wrong;
   final String right;
-  final String why;
+  /// Null hides the reason line (some Intermediate mistakes).
+  final String? why;
 
   factory Mistake.fromJson(JsonReader r) =>
-      Mistake(wrong: r.str('wrong'), right: r.str('right'), why: r.str('why'));
+      Mistake(wrong: r.str('wrong'), right: r.str('right'), why: r.strOrNull('why'));
 }
 
 class CultureNotePartData extends LessonPart {
@@ -399,4 +474,190 @@ class CultureNotePartData extends LessonPart {
 
   /// Asset path, or null if missing (→ firefly_reading).
   final String? image;
+}
+
+/// P11: a chat where the learner picks each reply. Text only, no audio.
+class RolePlayPartData extends LessonPart {
+  RolePlayPartData(
+    String id, {
+    required this.title,
+    required this.icon,
+    required this.setting,
+    required this.turns,
+    required this.tip,
+  }) : super(id, 'P11');
+
+  final String title;
+  final String icon;
+  final String setting;
+
+  /// The other speaker's lines in order. Only the last turn may have no choices (the closing line).
+  final List<RolePlayTurn> turns;
+
+  /// Null hides the tip card.
+  final String? tip;
+
+  factory RolePlayPartData.fromJson(String id, JsonReader p) {
+    final turns = [for (final t in p.objects('turns')) RolePlayTurn.fromJson(t)];
+    if (turns.isEmpty) p.fail('a role-play needs at least one turn');
+    for (var i = 0; i < turns.length - 1; i++) {
+      if (turns[i].choices.isEmpty) p.fail('turns[$i] has no choices, but only the last turn may close');
+    }
+    return RolePlayPartData(
+      id,
+      title: p.str('title'),
+      icon: p.str('icon'),
+      setting: p.str('setting'),
+      turns: turns,
+      tip: p.strOrNull('tip'),
+    );
+  }
+}
+
+class RolePlayTurn {
+  const RolePlayTurn({
+    required this.speaker,
+    required this.hil,
+    required this.fil,
+    required this.cue,
+    required this.fast,
+    required this.choices,
+  });
+
+  final String speaker;
+  final String hil;
+
+  /// Null = show no Filipino line.
+  final String? fil;
+
+  /// Short instruction shown above the choices, or null.
+  final String? cue;
+
+  /// Show a small "talking fast" label on this bubble.
+  final bool fast;
+
+  /// In JSON order (shuffle before showing). Exactly one is correct (it may be the only one,
+  /// a reply to tap and say); empty = the closing line.
+  final List<RolePlayChoice> choices;
+
+  RolePlayChoice? get correctChoice => choices.where((c) => c.correct).firstOrNull;
+
+  factory RolePlayTurn.fromJson(JsonReader r) {
+    final choices = [for (final c in r.objectsOrEmpty('choices')) RolePlayChoice.fromJson(c)];
+    if (choices.isNotEmpty) {
+      final correct = choices.where((c) => c.correct).length;
+      if (correct != 1) r.fail('needs exactly 1 correct choice, not $correct');
+      if (choices.map((c) => c.hil).toSet().length != choices.length) r.fail('choices repeat');
+      for (final c in choices) {
+        if (!c.correct && c.hint == null) r.fail('wrong choice "${c.hil}" has no hint');
+      }
+    }
+    return RolePlayTurn(
+      speaker: r.str('speaker'),
+      hil: r.str('hil'),
+      fil: r.strOrNull('fil'),
+      cue: r.strOrNull('cue'),
+      fast: r.boolean('fast', fallback: false),
+      choices: choices,
+    );
+  }
+}
+
+class RolePlayChoice {
+  const RolePlayChoice({required this.hil, required this.fil, required this.correct, required this.hint});
+
+  final String hil;
+
+  /// Null = show no Filipino line.
+  final String? fil;
+  final bool correct;
+
+  /// Shown after "Not quite" for a wrong choice; null on the correct one.
+  final String? hint;
+
+  factory RolePlayChoice.fromJson(JsonReader r) => RolePlayChoice(
+        hil: r.str('hil'),
+        fil: r.strOrNull('fil'),
+        correct: r.boolean('correct'),
+        hint: r.strOrNull('hint'),
+      );
+}
+
+/// P12: how a verb root changes; one root at a time, picked with chips.
+class VerbFormsPartData extends LessonPart {
+  VerbFormsPartData(
+    String id, {
+    required this.title,
+    required this.icon,
+    required this.text,
+    required this.columns,
+    required this.roots,
+    required this.note,
+  }) : super(id, 'P12');
+
+  final String title;
+  final String icon;
+
+  /// May contain *markup*.
+  final String text;
+
+  /// The 3 time labels (e.g. Done / Ongoing / every day / Not yet), one per form.
+  final List<String> columns;
+
+  final List<VerbRoot> roots;
+
+  /// Shown in a tip card, with *markup*; null hides it.
+  final String? note;
+
+  factory VerbFormsPartData.fromJson(String id, JsonReader p) {
+    final columns = p.strings('columns');
+    if (columns.length != 3) p.fail('verb forms need 3 columns, not ${columns.length}');
+    final roots = [for (final r in p.objects('roots')) VerbRoot.fromJson(r)];
+    if (roots.isEmpty) p.fail('verb forms need at least one root');
+    if (roots.map((r) => r.root).toSet().length != roots.length) p.fail('roots repeat');
+    return VerbFormsPartData(
+      id,
+      title: p.str('title'),
+      icon: p.str('icon'),
+      text: p.str('text'),
+      columns: columns,
+      roots: roots,
+      note: p.strOrNull('note'),
+    );
+  }
+}
+
+class VerbRoot {
+  const VerbRoot({
+    required this.root,
+    required this.fil,
+    required this.forms,
+    required this.doerForms,
+    required this.example,
+  });
+
+  final String root;
+  final String fil;
+
+  /// One form per column. With [doerForms] these are the "What it happens to" forms.
+  final List<String> forms;
+
+  /// "Who does it" forms (one per column), or null for a single row of forms.
+  final List<String>? doerForms;
+
+  final HilFil example;
+
+  factory VerbRoot.fromJson(JsonReader r) {
+    final forms = r.strings('forms');
+    if (forms.length != 3) r.fail('forms needs 3 entries, not ${forms.length}');
+    final doer = r.has('doerForms') ? r.strings('doerForms') : null;
+    if (doer != null && doer.length != 3) r.fail('doerForms needs 3 entries, not ${doer.length}');
+    return VerbRoot(
+      root: r.str('root'),
+      fil: r.str('fil'),
+      forms: forms,
+      doerForms: doer,
+      example: HilFil.fromJson(r.object('example')),
+    );
+  }
 }

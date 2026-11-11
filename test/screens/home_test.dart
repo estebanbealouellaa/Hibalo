@@ -240,9 +240,17 @@ void main() {
       expect((p.kind, p.lesson.id), (ContinueKind.quizPending, 'b02'));
     });
 
-    test('all done', () {
+    test('Beginner done: Intermediate Lesson 1 is next', () {
       final p = pick({for (final l in beginner()) l.id: passed(l)});
+      expect(p.kind, ContinueKind.notStarted);
+      expect(p.lesson.id, 'i01');
+      expect(p.level?.id, 'intermediate');
+    });
+
+    test('all done', () {
+      final p = pick({for (final l in catalog.allLessons) l.id: passed(l)});
       expect(p.kind, ContinueKind.allDone);
+      expect(p.lesson.id, 'i12');
     });
   });
 
@@ -303,12 +311,12 @@ void main() {
       expect((player.lessonId, player.startPart), ('b02', 4));
     });
 
-    testWidgets('all done: Beginner complete!', (tester) async {
+    testWidgets('all done: Intermediate complete!', (tester) async {
       await home(tester, {
-        for (final l in beginner())
+        for (final l in catalog.allLessons)
           l.id: LessonProgress(partsDone: l.partsCount, completed: true, passed: true, bestScore: 8),
       });
-      expect(find.text('Beginner complete!'), findsOneWidget);
+      expect(find.text('Intermediate complete!'), findsOneWidget);
       expect(find.text('Review lessons'), findsOneWidget);
     });
 
@@ -328,7 +336,17 @@ void main() {
       expect(night.id, morning.id);
       expect(tomorrow.id, isNot(morning.id));
       final items = {for (final l in catalog.allLessons) ...l.items.map((i) => i.id)};
-      expect(items, contains(morning.id), reason: 'a lessons.json item');
+      expect(items, contains(morning.id), reason: 'a lesson item');
+    });
+
+    test('only words whose clip is in the app', () {
+      // Intermediate clips aren't recorded yet, so every day is a Beginner word with a clip.
+      final beginnerIds = {for (final l in beginner()) ...l.items.map((i) => i.id)};
+      for (var d = 0; d < 200; d++) {
+        final item = phraseOfTheDay(catalog, DateTime(2026, 11, 1).add(Duration(days: d)))!;
+        expect(item.audio, isNotNull, reason: item.id);
+        expect(beginnerIds, contains(item.id));
+      }
     });
 
     testWidgets('the card shows Hiligaynon, Filipino and the example', (tester) async {

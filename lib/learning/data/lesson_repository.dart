@@ -5,14 +5,15 @@ import 'package:flutter/services.dart';
 import '../models/catalog.dart';
 import 'json_reader.dart';
 
-/// Loads the bundled lessons.json once (works offline) and checks picture/audio paths against the AssetManifest.
+/// Loads the bundled lesson files once (works offline) and checks picture/audio paths against the AssetManifest.
+/// learning_settings.json holds the settings, templates and the level list; each level's lessons are in their own file.
 class LessonRepository {
   LessonRepository._(this.catalog, this.assetRefs);
 
-  static const String lessonsAsset = 'assets/lessons/lessons.json';
+  static const String settingsAsset = 'assets/lessons/learning_settings.json';
 
   /// The schema version this code was written for.
-  static const int supportedSchema = 7;
+  static const int supportedSchema = 8;
 
   final LessonCatalog catalog;
 
@@ -35,25 +36,53 @@ class LessonRepository {
 
   static Future<LessonRepository> load(AssetBundle bundle) async {
     final manifest = await AssetManifest.loadFromAssetBundle(bundle);
-    final text = await bundle.loadString(lessonsAsset);
-    return parse(text, manifest.listAssets().toSet());
+    final settingsText = await bundle.loadString(settingsAsset);
+    final levelTexts = <String, String>{
+      for (final file in levelFiles(settingsText))
+        file: await bundle.loadString('assets/$file'),
+    };
+    return parse(settingsText, levelTexts, manifest.listAssets().toSet());
   }
 
-  /// Parses the JSON text. [availableAssets] is the set of bundled asset
-  /// paths; tests can pass their own.
-  static LessonRepository parse(String jsonText, Set<String> availableAssets) {
-    final decoded = jsonDecode(jsonText);
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException('lessons.json: the top level should be an object');
-    }
+  /// The level files named in learning_settings.json (`levels[].file`, paths inside assets/).
+  static List<String> levelFiles(String settingsText) {
+    final decoded = jsonDecode(settingsText);
+    final levels = decoded is Map<String, dynamic> ? decoded['levels'] : null;
+    if (levels is! List) return const [];
+    return [
+      for (final level in levels)
+        if (level is Map<String, dynamic> && level['file'] is String) level['file'] as String,
+    ];
+  }
+
+  /// Parses the settings file and the level files ([levelTexts]: file path → text).
+  /// [availableAssets] is the set of bundled asset paths; tests can pass their own.
+  static LessonRepository parse(
+    String settingsText,
+    Map<String, String> levelTexts,
+    Set<String> availableAssets,
+  ) {
+    final settings = _decode(settingsText, 'learning_settings.json');
+    final levels = {
+      for (final entry in levelTexts.entries)
+        entry.key: _decode(entry.value, entry.key.split('/').last),
+    };
     final assets = AssetResolver(availableAssets);
-    final catalog = LessonCatalog.fromJson(JsonReader(decoded, 'lessons.json'), assets);
+    final catalog = LessonCatalog.fromJson(settings, levels, assets);
     if (catalog.schemaVersion != supportedSchema) {
-      throw FormatException('lessons.json: schema ${catalog.schemaVersion}, '
+      throw FormatException('learning_settings.json: schema ${catalog.schemaVersion}, '
           'this app reads schema $supportedSchema');
     }
     _checkUnlocks(catalog);
     return LessonRepository._(catalog, List.unmodifiable(assets.refs));
+  }
+
+  static JsonReader _decode(String text, String name) {
+    final decoded = jsonDecode(text);
+    if (decoded is! Map<String, dynamic>) {
+      throw FormatException('$name: the top level should be an object');
+    }
+    return JsonReader(decoded, name);
   }
 
   /// Every unlock rule must point at an earlier lesson in the same level,
@@ -64,7 +93,7 @@ class LessonRepository {
       final earlier = <String, Lesson>{};
       for (final lesson in level.lessons) {
         if (!ids.add(lesson.id)) {
-          throw FormatException('lessons.json: lesson id ${lesson.id} is used twice');
+          throw FormatException('lesson id ${lesson.id} is used twice');
         }
         final after = lesson.unlock.after;
         if (after != null) {

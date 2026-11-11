@@ -119,7 +119,7 @@ void main() {
       expect(find.text("No lessons found for 'isda'"), findsOneWidget);
     });
 
-    testWidgets('after all of Beginner, Intermediate opens (no lessons yet)', (tester) async {
+    testWidgets('after all of Beginner, Intermediate opens with Lesson 1 open', (tester) async {
       final lessons = catalog.levels.first.lessons;
       await show(tester, const LearnScreen(), lessons: {
         for (final l in lessons) l.id: l.hasQuiz ? passed(8) : done,
@@ -128,7 +128,21 @@ void main() {
       expect(find.textContaining('to unlock'), findsNothing, reason: 'no hint line');
       await tester.tap(find.text('Intermediate'));
       await tester.pumpAndSettle();
+      expect(find.text('Feelings, Health & Weather'), findsOneWidget);
+      expect(find.text('15 parts • 16 min'), findsOneWidget);
+    });
+
+    testWidgets('after all of Intermediate, Advanced stays locked: lessons coming soon', (tester) async {
+      await show(tester, const LearnScreen(), lessons: {
+        for (final l in catalog.allLessons) l.id: l.hasQuiz ? passed(8) : done,
+      });
+      await tester.ensureVisible(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Advanced'));
+      await tester.pump();
       expect(find.text('Lessons coming soon'), findsOneWidget);
+      // The tab didn't switch.
+      expect(find.text('Letters & Sounds'), findsOneWidget);
     });
 
     testWidgets('a current row opens Lesson Detail', (tester) async {

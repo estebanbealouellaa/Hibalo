@@ -1,4 +1,4 @@
-/// Reads lessons.json; every error names its place in the JSON (e.g. "b02 > parts[3] > options").
+/// Reads the lesson JSON files; every error names its place in the JSON (e.g. "b02 > parts[3] > options").
 class JsonReader {
   JsonReader(this.map, this.path);
 
@@ -106,14 +106,14 @@ class AssetRef {
   /// The path as written in the JSON (without "assets/").
   final String jsonPath;
 
-  /// What the model holds: the asset path, or null for a missing picture.
-  /// Audio keeps its path even when the clip is missing (see resolveAudio).
+  /// What the model holds: the asset path, or null when the file is missing.
   final String? assetPath;
 
   final bool found;
 }
 
-/// Adds "assets/" to JSON paths; a missing picture becomes null (firefly_reading is shown).
+/// Adds "assets/" to JSON paths. A missing picture becomes null (firefly_reading is shown);
+/// a missing clip becomes null too, so its audio button is hidden until it is recorded.
 class AssetResolver {
   AssetResolver(this.available);
 
@@ -129,11 +129,6 @@ class AssetResolver {
     return found ? full : null;
   }
 
-  /// Audio keeps its path even before the clip exists: the button shows and plays nothing until it is recorded.
-  String? resolveAudio(String? jsonPath, String where) {
-    if (jsonPath == null || jsonPath.isEmpty) return null;
-    final full = 'assets/$jsonPath';
-    refs.add(AssetRef(where, jsonPath, full, found: available.contains(full)));
-    return full;
-  }
+  /// Same as [resolve]: a clip that isn't in the app yet is null, like `answerAudio: null`.
+  String? resolveAudio(String? jsonPath, String where) => resolve(jsonPath, where);
 }

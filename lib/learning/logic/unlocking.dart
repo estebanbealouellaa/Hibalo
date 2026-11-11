@@ -39,7 +39,9 @@ class LearningRules {
   bool isLevelFinished(Level level) =>
       level.lessons.isNotEmpty && level.lessons.every(isLessonDone);
 
+  /// A level with no lessons yet (Advanced) stays locked, even after the level before it is finished.
   bool isLevelUnlocked(Level level) {
+    if (level.lessons.isEmpty) return false;
     final after = level.unlockAfterLevel;
     if (after == null) return true;
     final before = catalog.levels.where((l) => l.id == after).firstOrNull;

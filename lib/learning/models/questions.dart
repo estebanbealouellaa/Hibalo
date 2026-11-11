@@ -1,5 +1,5 @@
 import '../data/json_reader.dart';
-import 'parts.dart' show checkOptions;
+import 'parts.dart';
 
 /// Quiz question templates: template ID → `type` in the JSON.
 /// Each ID has exactly one widget (Q01 → MultipleChoiceQuestion, …).
@@ -14,6 +14,7 @@ const Map<String, String> kQuestionTemplates = {
   'Q08': 'dictation',
   'Q09': 'speaking',
   'Q10': 'open_answer',
+  'Q11': 'read_answer',
 };
 
 /// One quiz question. There is one subclass per template ID, and the quiz
@@ -38,10 +39,11 @@ sealed class QuizQuestion {
   final bool scored;
 
   /// Clip played on the Wrong / Time's up sheet, or null when the JSON has
-  /// none (no audio button). Kept even if the file isn't in the app yet.
+  /// none or it isn't recorded yet (no audio button).
   final String? answerAudio;
 
-  factory QuizQuestion.fromJson(JsonReader r, AssetResolver assets) {
+  /// [parts]: the lesson's parts by id, for Q11's `passagePart`.
+  factory QuizQuestion.fromJson(JsonReader r, AssetResolver assets, Map<String, LessonPart> parts) {
     final id = r.str('id');
     final q = JsonReader(r.map, '${r.path} ($id)');
     final template = q.str('template');
@@ -58,7 +60,7 @@ sealed class QuizQuestion {
       q.fail('"scored" should be $shouldBeScored for $type');
     }
     String? asset(String key) => assets.resolve(q.strOrNull(key), '${q.path} > $key');
-    // Audio paths are kept even before the clip exists (the buttons show).
+    // A clip that isn't in the app yet is null.
     String? audio(String key) => assets.resolveAudio(q.strOrNull(key), '${q.path} > $key');
     final answerAudio = audio('answerAudio');
 
@@ -86,7 +88,7 @@ sealed class QuizQuestion {
         return FillBlankData(id,
             answerAudio: answerAudio,
             sentence: sentence,
-            meaning: q.str('meaning'),
+            meaning: q.strOrNull('meaning'),
             options: options,
             answer: answer);
       case 'Q04':
@@ -142,7 +144,38 @@ sealed class QuizQuestion {
             prompt: q.str('prompt'),
             hint: q.str('hint'),
             maxChars: maxChars,
-            modelAnswer: q.str('modelAnswer'));
+            modelAnswer: q.str('modelAnswer'),
+            audio: audio('audio'),
+            transcript: q.strOrNull('transcript'));
+      case 'Q11':
+        final (options, answer) = _options(q);
+        final mode = q.str('mode');
+        final partId = q.str('passagePart');
+        final passage = switch (parts[partId]) {
+          ReadingPartData(:final lines) => [for (final l in lines) PassageLine(null, l.hil, null)],
+          DialoguePartData(:final lines) => [for (final l in lines) PassageLine(l.speaker, l.hil, l.audio)],
+          null => q.fail('passagePart "$partId" is not a part of this lesson'),
+          _ => q.fail('passagePart "$partId" should be a reading or a dialogue'),
+        };
+        final listen = switch (mode) {
+          'read' => false,
+          'listen' => true,
+          _ => q.fail('unknown mode "$mode"'),
+        };
+        if (listen) {
+          // Every line needs a clip in the JSON (it may not be recorded yet).
+          final part = parts[partId];
+          if (part is! DialoguePartData) q.fail('listen mode needs a dialogue with audio');
+          if (part.lines.any((l) => !l.hasClip)) q.fail('listen mode: passage "$partId" has lines without audio');
+        }
+        return ReadAnswerData(id,
+            answerAudio: answerAudio,
+            mode: listen ? ReadAnswerMode.listen : ReadAnswerMode.read,
+            passagePart: partId,
+            passage: passage,
+            question: q.str('question'),
+            options: options,
+            answer: answer);
     }
     q.fail('unknown question template "$template"');
   }
@@ -232,7 +265,7 @@ class ListeningData extends QuizQuestion with ChoiceQuestion {
 
   final String prompt;
 
-  /// The clip to listen to (kept even if the file isn't in the app yet).
+  /// The clip to listen to, or null if it isn't recorded yet.
   final String? audio;
 
   /// "text" (the only kind used so far).
@@ -256,8 +289,8 @@ class FillBlankData extends QuizQuestion with ChoiceQuestion {
   /// Contains "___" where the chosen word goes.
   final String sentence;
 
-  /// The Filipino meaning shown under the sentence.
-  final String meaning;
+  /// The Filipino meaning shown under the sentence; null hides it.
+  final String? meaning;
   @override
   final List<String> options;
   @override
@@ -359,7 +392,7 @@ class DictationData extends QuizQuestion with TypedQuestion {
 
   final String prompt;
 
-  /// The clip to write down (kept even if the file isn't in the app yet).
+  /// The clip to write down, or null if it isn't recorded yet.
   final String? audio;
   @override
   final List<String> accepted;
@@ -384,7 +417,7 @@ class SpeakingData extends QuizQuestion {
 
   final String meaning;
 
-  /// The "Native speaker" clip (kept even if the file isn't in the app yet).
+  /// The "Native speaker" clip, or null if it isn't recorded yet.
   final String? audio;
 }
 
@@ -395,6 +428,8 @@ class OpenAnswerData extends QuizQuestion {
     required this.hint,
     required this.maxChars,
     required this.modelAnswer,
+    this.audio,
+    this.transcript,
   }) : super(id, 'Q10', type: 'open_answer', scored: false, answerAudio: null);
 
   final String prompt;
@@ -403,4 +438,60 @@ class OpenAnswerData extends QuizQuestion {
 
   /// Shown on the Sample answer sheet (F04).
   final String modelAnswer;
+
+  /// Clip played above the answer box, or null (none, or not recorded yet).
+  final String? audio;
+
+  /// The clip's words, shown on the Sample answer sheet; null when there is no clip.
+  final String? transcript;
+}
+
+enum ReadAnswerMode {
+  /// The passage text is shown above the question.
+  read,
+
+  /// A play button plays the passage's line clips in order.
+  listen,
+}
+
+/// One line of a Q11 passage. [speaker] is null for reading lines.
+class PassageLine {
+  const PassageLine(this.speaker, this.hil, this.audio);
+
+  final String? speaker;
+  final String hil;
+
+  /// The line's clip, or null (reading lines, or not recorded yet).
+  final String? audio;
+}
+
+class ReadAnswerData extends QuizQuestion with ChoiceQuestion {
+  ReadAnswerData(
+    String id, {
+    required super.answerAudio,
+    required this.mode,
+    required this.passagePart,
+    required this.passage,
+    required this.question,
+    required this.options,
+    required this.answer,
+  }) : super(id, 'Q11', type: 'read_answer', scored: true);
+
+  final ReadAnswerMode mode;
+
+  /// Id of the reading or dialogue part in the same lesson.
+  final String passagePart;
+
+  /// That part's lines (Hiligaynon only).
+  final List<PassageLine> passage;
+
+  final String question;
+  @override
+  final List<String> options;
+  @override
+  final int answer;
+
+  /// The line clips in order, or empty when any of them isn't in the app yet.
+  List<String> get clips =>
+      passage.every((l) => l.audio != null) ? [for (final l in passage) l.audio!] : const [];
 }

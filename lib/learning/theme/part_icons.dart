@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// lessons.json icon names are Material Symbols Rounded names; each maps to `Icons.<name>_rounded` (unknown = lightbulb).
+/// Lesson JSON icon names are Material Symbols Rounded names; each maps to `Icons.<name>_rounded` (unknown = lightbulb).
 const Map<String, IconData> kPartIcons = {
   '123': Icons.onetwothree_rounded,
   'abc': Icons.abc_rounded,

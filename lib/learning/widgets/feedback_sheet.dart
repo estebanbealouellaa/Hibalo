@@ -205,8 +205,7 @@ class FeedbackSheet extends StatelessWidget {
                               style: V6Text.hilWordExtraBold,
                             ),
                           ),
-                          // Shown when the JSON has answerAudio, even before
-                          // the clip is recorded (it then plays nothing).
+                          // Shown only when the answer clip is in the app.
                           if (answerAudio != null) ...[
                             const SizedBox(width: 8),
                             AudioButton(

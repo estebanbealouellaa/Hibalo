@@ -265,8 +265,7 @@ class _LetterCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                // The only speaker button: it plays the example word.
-                // Always shown; plays nothing until the clip is recorded.
+                // The only speaker button: it plays the example word (hidden until recorded).
                 AudioButton(
                   clip: letter.audio,
                   label: t.playAudio,

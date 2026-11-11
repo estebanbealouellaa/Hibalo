@@ -19,8 +19,8 @@ class KeyIdeaPart extends StatelessWidget {
       children: [
         PartHeader(icon: data.icon, title: data.title),
         const SizedBox(height: 14),
-        PartText(data.text),
-        if (data.terms.isNotEmpty) const SizedBox(height: 14),
+        if (data.text case final text?) PartText(text),
+        if (data.terms.isNotEmpty && data.text != null) const SizedBox(height: 14),
         for (var i = 0; i < data.terms.length; i++) ...[
           if (i > 0) const SizedBox(height: 10),
           _TermCard(data.terms[i]),

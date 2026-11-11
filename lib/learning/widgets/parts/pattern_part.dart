@@ -20,8 +20,10 @@ class PatternPart extends StatelessWidget {
         // Figma "P03 · Part · Pattern": 14 between blocks, cards radius 20.
         PartHeader(icon: data.icon, title: data.title),
         const SizedBox(height: 14),
-        PartText(data.text),
-        const SizedBox(height: 14),
+        if (data.text case final text?) ...[
+          PartText(text),
+          const SizedBox(height: 14),
+        ],
         PartCard(
           radius: 20,
           child: Column(

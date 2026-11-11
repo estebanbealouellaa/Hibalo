@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/v6_colors.dart';
 
-/// lessons.json text where *asterisked* words are examples, shown italic violet (or [exampleColor]).
+/// Lesson JSON text where *asterisked* words are examples, shown italic violet (or [exampleColor]).
 class MarkupText extends StatelessWidget {
   const MarkupText(
     this.text, {

@@ -349,6 +349,13 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
       DictationData d => DictationQuestion(data: d, phase: _phase, onChanged: _onAnswer),
       SpeakingData d => SpeakingQuestion(data: d, recorder: _recorder, onChanged: _onAnswer),
       OpenAnswerData d => OpenAnswerQuestion(data: d, phase: _phase, onChanged: _onAnswer),
+      // Stage 1 stand-in until ReadAnswerQuestion exists: the question as a plain multiple choice.
+      ReadAnswerData d => MultipleChoiceQuestion(
+          data: MultipleChoiceData(d.id,
+              answerAudio: d.answerAudio, prompt: d.question, options: d.options, answer: d.answer),
+          order: order,
+          phase: _phase,
+          onChanged: _onAnswer),
     };
   }
 

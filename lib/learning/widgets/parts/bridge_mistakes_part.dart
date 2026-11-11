@@ -153,8 +153,10 @@ class _MistakeRow extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 6),
-          Text(mistake.why, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+          if (mistake.why case final why?) ...[
+            const SizedBox(height: 6),
+            Text(why, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+          ],
         ],
       ),
     );

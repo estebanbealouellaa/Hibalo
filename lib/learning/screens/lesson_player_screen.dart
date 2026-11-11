@@ -275,6 +275,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
       ReadingPartData p => ReadingPart(data: p),
       BridgeMistakesPartData p => BridgeMistakesPart(data: p),
       CultureNotePartData p => CultureNotePart(data: p, fallbackPicture: settings.missingPicture),
+      // Stage 1 stand-ins until RolePlayPart / VerbFormsPart exist.
+      RolePlayPartData p => Text(p.title, style: V6Text.titleLarge),
+      VerbFormsPartData p => Text(p.title, style: V6Text.titleLarge),
     };
   }
 

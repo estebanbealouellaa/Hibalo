@@ -2,8 +2,11 @@ import '../data/json_reader.dart';
 import 'parts.dart';
 import 'questions.dart';
 
-/// Everything in assets/lessons/lessons.json: the app settings and the levels
-/// with their lessons. Loaded once by LessonRepository.
+/// The most parts a lesson may have (one bar segment each).
+const int kMaxParts = 20;
+
+/// Everything in assets/lessons/: the app settings (learning_settings.json)
+/// and the levels with their lessons (one file per level). Loaded once by LessonRepository.
 class LessonCatalog {
   LessonCatalog({
     required this.schemaVersion,
@@ -38,13 +41,30 @@ class LessonCatalog {
     return i + 1 < level.lessons.length ? level.lessons[i + 1] : null;
   }
 
-  factory LessonCatalog.fromJson(JsonReader r, AssetResolver assets) {
+  /// [r] is learning_settings.json; [levelFiles] maps each `levels[].file` to its parsed file.
+  /// A level with `"file": null` has no lessons yet.
+  factory LessonCatalog.fromJson(
+      JsonReader r, Map<String, JsonReader> levelFiles, AssetResolver assets) {
     final meta = r.object('_meta');
     final settings = LearningSettings.fromJson(r.object('settings'), assets);
-    final levels = [
-      for (final level in r.objects('levels'))
-        Level.fromJson(level, settings, assets),
-    ];
+    final levels = <Level>[];
+    for (final entry in r.objects('levels')) {
+      final id = entry.str('id');
+      final title = entry.str('title');
+      final unlockAfter = entry.objectOrNull('unlock')?.strOrNull('afterLevel');
+      final file = entry.strOrNull('file');
+      if (file == null) {
+        levels.add(Level(id: id, title: title, unlockAfterLevel: unlockAfter, lessons: const []));
+        continue;
+      }
+      final level = Level.fromJson(
+          levelFiles[file] ?? entry.fail('level file "$file" was not loaded'), settings, assets);
+      if (level.id != id || level.title != title || level.unlockAfterLevel != unlockAfter) {
+        entry.fail('$file says ${level.id} / ${level.title} / after ${level.unlockAfterLevel}, '
+            'the level list says $id / $title / after $unlockAfter');
+      }
+      levels.add(level);
+    }
     return LessonCatalog(
       schemaVersion: meta.integer('schemaVersion'),
       settings: settings,
@@ -266,6 +286,16 @@ class Level {
       for (final l in r.objects('lessons'))
         Lesson.fromJson(l, settings, assets),
     ]..sort((a, b) => a.order.compareTo(b.order));
+
+    // `units` (Intermediate): each listed lesson must carry that same unit.
+    for (final u in r.objectsOrEmpty('units')) {
+      final unit = LessonUnit.fromJson(u);
+      for (final id in u.strings('lessons')) {
+        final lesson = lessons.where((l) => l.id == id).firstOrNull ??
+            u.fail('lesson "$id" is not in this level');
+        if (lesson.unit != unit) u.fail('$id has unit ${lesson.unit}, expected $unit');
+      }
+    }
     return Level(
       id: r.str('id'),
       title: r.str('title'),
@@ -273,6 +303,26 @@ class Level {
       lessons: lessons,
     );
   }
+}
+
+/// A group of lessons inside a level (Intermediate): the Learn list shows "Unit N · title" above its first lesson.
+class LessonUnit {
+  const LessonUnit(this.number, this.title);
+
+  final int number;
+  final String title;
+
+  factory LessonUnit.fromJson(JsonReader r) => LessonUnit(r.integer('number'), r.str('title'));
+
+  @override
+  bool operator ==(Object other) =>
+      other is LessonUnit && other.number == number && other.title == title;
+
+  @override
+  int get hashCode => Object.hash(number, title);
+
+  @override
+  String toString() => '$number · $title';
 }
 
 /// `kind` in the JSON: Lesson 1 is "letters" (no quiz), the rest are "words".
@@ -311,6 +361,7 @@ class Lesson {
     required this.id,
     required this.order,
     required this.kind,
+    this.unit,
     required this.title,
     required this.objectives,
     required this.estMinutes,
@@ -329,6 +380,9 @@ class Lesson {
   /// 1, 2, 3… (the number shown in the lesson row).
   final int order;
   final LessonKind kind;
+
+  /// Intermediate only; null for Beginner.
+  final LessonUnit? unit;
   final String title;
 
   final List<String> objectives;
@@ -392,16 +446,23 @@ class Lesson {
     if (partsCount != parts.length) {
       r.fail('partsCount is $partsCount but there are ${parts.length} parts');
     }
-    if (parts.length > 14) r.fail('more than 14 parts (the bar holds 14)');
+    if (parts.length > kMaxParts) r.fail('more than $kMaxParts parts (the bar holds $kMaxParts)');
+
+    final partsById = <String, LessonPart>{};
+    for (final part in parts) {
+      if (partsById.containsKey(part.id)) r.fail('part id "${part.id}" is used twice');
+      partsById[part.id] = part;
+    }
 
     final quizJson = r.objectOrNull('quiz');
-    final quiz = quizJson == null ? null : Quiz.fromJson(quizJson, assets);
+    final quiz = quizJson == null ? null : Quiz.fromJson(quizJson, assets, partsById);
     if (kind == LessonKind.words && quiz == null) r.fail('a words lesson needs a quiz');
 
     return Lesson(
       id: id,
       order: r.integer('order'),
       kind: kind,
+      unit: r.objectOrNull('unit') == null ? null : LessonUnit.fromJson(r.object('unit')),
       title: r.str('title'),
       objectives: r.strings('objectives'),
       estMinutes: r.integer('estMinutes'),
@@ -449,8 +510,7 @@ class LessonItem {
   final String? alt;
   final String? note;
 
-  /// The clip's asset path (kept even if the file isn't in the app yet:
-  /// the button shows and plays nothing), or null if the JSON has none.
+  /// The clip's asset path, or null if the JSON has none or it isn't recorded yet (no audio button).
   final String? audio;
 
   /// Picture asset path, or null if missing (→ firefly_reading).
@@ -495,8 +555,7 @@ class Letter {
   final String name;
   final String soundHint;
 
-  /// One clip: the example word only (not the letter name). Kept even if the file
-  /// isn't in the app yet.
+  /// One clip: the example word only (not the letter name). Null if it isn't in the app.
   final String? audio;
   final HilFil example;
 
@@ -521,9 +580,10 @@ class Quiz {
   List<QuizQuestion> get scoredQuestions =>
       [for (final q in questions) if (q.scored) q];
 
-  factory Quiz.fromJson(JsonReader r, AssetResolver assets) {
+  /// [parts]: the lesson's parts by id, for Q11's `passagePart`.
+  factory Quiz.fromJson(JsonReader r, AssetResolver assets, Map<String, LessonPart> parts) {
     final questions = [
-      for (final q in r.objects('questions')) QuizQuestion.fromJson(q, assets),
+      for (final q in r.objects('questions')) QuizQuestion.fromJson(q, assets, parts),
     ];
     if (questions.isEmpty) r.fail('the quiz has no questions');
     return Quiz(id: r.str('id'), questions: questions);

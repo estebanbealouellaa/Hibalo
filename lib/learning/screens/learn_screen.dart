@@ -15,7 +15,7 @@ import '../widgets/lesson_row.dart';
 import 'learn_debug_menu.dart';
 
 /// S01 · Learn: search, level tabs and the lesson list of the chosen level.
-/// Everything comes from lessons.json and the saved progress.
+/// Everything comes from the lesson files (assets/lessons/) and the saved progress.
 class LearnScreen extends StatefulWidget {
   const LearnScreen({super.key});
 
@@ -226,9 +226,13 @@ class _LearnScreenState extends State<LearnScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
     if (!rules.isLevelUnlocked(level)) {
       final previous = rules.blockingLevel(level);
+      final previousDone = previous == null || rules.isLevelFinished(previous);
       showLearningSnackBar(
         context,
-        t.learnLevelLocked(previous?.title ?? '', level.title),
+        // Nothing left to finish: the level just has no lessons yet.
+        level.lessons.isEmpty && previousDone
+            ? t.learnComingSoon
+            : t.learnLevelLocked(previous?.title ?? '', level.title),
       );
       return;
     }

@@ -88,7 +88,9 @@ String? _email() {
       return (levels[i], i);
     }
   }
-  return levels.isEmpty ? null : (levels.last, levels.length - 1);
+  // All done: the last level that has lessons.
+  final i = levels.lastIndexWhere((l) => l.lessons.isNotEmpty);
+  return i < 0 ? null : (levels[i], i);
 }
 
 /// Me (Figma 607:5271): the profile card and the Account rows.

@@ -30,6 +30,8 @@ class QuestionTypeChip extends StatelessWidget {
       DictationData() => (t.qtDictation, Icons.volume_up_rounded, V6Colors.lagoonContainer, V6Colors.lagoonText),
       SpeakingData() => (t.qtSpeaking, Icons.mic_rounded, V6Colors.coralContainer, V6Colors.coralText),
       OpenAnswerData() => (t.qtOpenAnswer, Icons.content_paste_rounded, V6Colors.glowTonal, V6Colors.glowText),
+      // Stage 1 stand-in; Q11's own chips come with its widget.
+      ReadAnswerData() => (t.qtChoose, Icons.check_circle_rounded, V6Colors.citrusContainer, V6Colors.citrusText),
     };
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 6, 12, 6),
@@ -257,8 +259,8 @@ class QuizTextField extends StatelessWidget {
   }
 }
 
-/// The 88 px play button and the 48 px slow button side by side. Always
-/// shown; a clip that isn't recorded yet plays nothing (§1.4).
+/// The 88 px play button and the 48 px slow button side by side. Nothing is
+/// shown when [clip] is null (not recorded yet).
 class BigAudioButtons extends StatelessWidget {
   const BigAudioButtons({super.key, required this.clip});
 
@@ -266,6 +268,7 @@ class BigAudioButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (clip == null) return const SizedBox.shrink();
     final t = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),

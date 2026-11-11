@@ -104,7 +104,26 @@ void main() {
       final all = {for (final l in lessons) l.id: l.hasQuiz ? passed : done};
       final r = rules(all);
       expect(r.isLevelUnlocked(level('intermediate')), isTrue);
-      // Intermediate has no lessons yet, so it can't be finished.
+      expect(r.isLevelUnlocked(level('advanced')), isFalse);
+    });
+
+    test('Intermediate: Lesson 1 opens with the level, the rest need the quiz before', () {
+      final inter = level('intermediate').lessons;
+      final beginnerDone = {for (final l in lessons) l.id: l.hasQuiz ? passed : done};
+      var r = rules(beginnerDone);
+      expect(r.rowState(inter[0]), LessonRowState.current);
+      expect(r.rowState(inter[1]), LessonRowState.locked);
+
+      r = rules({...beginnerDone, inter[0].id: done});
+      expect(r.rowState(inter[0]), LessonRowState.quizPending);
+      expect(r.rowState(inter[1]), LessonRowState.locked);
+
+      r = rules({...beginnerDone, inter[0].id: passed});
+      expect(r.rowState(inter[1]), LessonRowState.current);
+
+      // Every Intermediate quiz passed: Advanced has no lessons yet, so it stays locked.
+      r = rules({...beginnerDone, for (final l in inter) l.id: passed});
+      expect(r.isLevelFinished(level('intermediate')), isTrue);
       expect(r.isLevelUnlocked(level('advanced')), isFalse);
     });
   });

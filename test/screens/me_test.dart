@@ -99,6 +99,18 @@ void main() {
       expect(find.text('English'), findsOneWidget, reason: 'the Language row shows the current language');
     });
 
+    test('level chip: Intermediate after Beginner, and still Intermediate when all is done', () {
+      LessonProgress pass(Lesson l) =>
+          LessonProgress(partsDone: l.partsCount, completed: true, passed: l.hasQuiz, bestScore: 8);
+      final beginner = catalog.levels.first.lessons;
+      var progress = LearningProgress.ready(
+          catalog, ProgressSnapshot(lessons: {for (final l in beginner) l.id: pass(l)}));
+      expect(currentLevel(progress)?.$1.id, 'intermediate');
+      progress = LearningProgress.ready(
+          catalog, ProgressSnapshot(lessons: {for (final l in catalog.allLessons) l.id: pass(l)}));
+      expect(currentLevel(progress)?.$1.id, 'intermediate', reason: 'Advanced has no lessons');
+    });
+
     testWidgets('Log out asks first; Stay keeps you, Log out logs out', (tester) async {
       var logouts = 0;
       await pump(tester, ProfileScreen(userName: 'ana', photoUrl: null, email: '', onLogout: () => logouts++));

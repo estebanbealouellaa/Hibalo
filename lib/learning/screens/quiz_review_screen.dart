@@ -143,6 +143,7 @@ class ReviewRow extends StatelessWidget {
     String typed(String type, String text) => t.reviewTyped(type, text);
     return switch (q) {
       MultipleChoiceData q => q.prompt,
+      ReadAnswerData q => q.question,
       ListeningData q => typed(t.rvListening, q.prompt),
       FillBlankData q => typed(t.rvFillBlank, q.sentence),
       TypeAnswerData q => typed(t.rvType, q.text),

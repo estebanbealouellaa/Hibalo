@@ -63,7 +63,7 @@
   },
   "learnLoadError": "The lessons couldn't be loaded.",
   "@learnLoadError": {
-    "description": "S01 when lessons.json fails to load."
+    "description": "S01 when the lesson files fail to load."
   },
   "tryAgain": "Try again",
   "@tryAgain": {

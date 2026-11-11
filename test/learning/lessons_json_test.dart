@@ -1,15 +1,19 @@
-// Loads lessons.json like the app and checks template IDs, item ids, answer indexes and asset paths.
+// Loads the lesson files like the app and checks template IDs, item ids, answer indexes and asset paths.
 
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hibalo_app/learning/data/json_reader.dart';
 import 'package:hibalo_app/learning/data/lesson_repository.dart';
 import 'package:hibalo_app/learning/models/catalog.dart';
 import 'package:hibalo_app/learning/models/parts.dart';
 import 'package:hibalo_app/learning/models/questions.dart';
 import 'package:hibalo_app/learning/theme/part_icons.dart';
+
+const _beginnerFile = 'lessons/beginner_lessons.json';
+const _intermediateFile = 'lessons/intermediate_lessons.json';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -17,21 +21,54 @@ void main() {
   late LessonRepository repo;
   late LessonCatalog catalog;
   late List<Lesson> beginner;
+  late List<Lesson> intermediate;
+  late List<Lesson> all;
 
   setUpAll(() async {
     repo = await LessonRepository.load(rootBundle);
     catalog = repo.catalog;
     beginner = catalog.levels.firstWhere((l) => l.id == 'beginner').lessons;
+    intermediate = catalog.levels.firstWhere((l) => l.id == 'intermediate').lessons;
+    all = catalog.allLessons;
   });
 
   test('loads all 13 Beginner lessons in order', () {
-    expect(catalog.schemaVersion, 7);
+    expect(catalog.schemaVersion, 8);
     expect(catalog.levels.map((l) => l.id),
         ['beginner', 'intermediate', 'advanced']);
     expect(beginner, hasLength(13));
     expect(beginner.map((l) => l.order), List.generate(13, (i) => i + 1));
     expect(beginner.map((l) => l.id),
         List.generate(13, (i) => 'b${(i + 1).toString().padLeft(2, '0')}'));
+    expect(beginner.map((l) => l.unit), everyElement(isNull));
+  });
+
+  test('loads all 12 Intermediate lessons in order, in 4 units of 3', () {
+    expect(intermediate, hasLength(12));
+    expect(intermediate.map((l) => l.order), List.generate(12, (i) => i + 1));
+    expect(intermediate.map((l) => l.id),
+        List.generate(12, (i) => 'i${(i + 1).toString().padLeft(2, '0')}'));
+    expect(intermediate.map((l) => l.unit?.number),
+        [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4]);
+    expect(intermediate.map((l) => l.unit!.title).toSet(),
+        {'Everyday life', 'Building sentences', 'Real life', 'Putting it together'});
+    final level = catalog.levels[1];
+    expect(level.unlockAfterLevel, 'beginner');
+    // i01 opens with the level; every later lesson needs the quiz before it.
+    expect(intermediate.first.unlock.after, isNull);
+    for (var i = 1; i < intermediate.length; i++) {
+      expect(intermediate[i].unlock.after, intermediate[i - 1].id);
+      expect(intermediate[i].unlock.needs, UnlockNeed.passQuiz);
+    }
+    // Pictures aren't made yet.
+    expect(intermediate.map((l) => l.icon), everyElement(isNull));
+    expect(intermediate.map((l) => l.coverImage), everyElement(isNull));
+  });
+
+  test('Advanced has no lessons yet', () {
+    final advanced = catalog.levels.last;
+    expect(advanced.lessons, isEmpty);
+    expect(advanced.unlockAfterLevel, 'intermediate');
   });
 
   test('settings match the guide', () {
@@ -64,15 +101,15 @@ void main() {
     expect(l1.letters, hasLength(19));
     final letters = l1.parts.whereType<LettersPartData>().single;
     expect(letters.stepCount, 19);
-    for (final lesson in beginner.skip(1)) {
+    for (final lesson in all.where((l) => l != l1)) {
       expect(lesson.hasQuiz, isTrue, reason: lesson.id);
     }
   });
 
   test('every part has a known template that matches its class', () {
-    for (final lesson in beginner) {
+    for (final lesson in all) {
       expect(lesson.parts, hasLength(lesson.partsCount), reason: lesson.id);
-      expect(lesson.partsCount, inInclusiveRange(8, 14), reason: lesson.id);
+      expect(lesson.partsCount, inInclusiveRange(8, kMaxParts), reason: lesson.id);
       for (final part in lesson.parts) {
         final expected = switch (part) {
           KeyIdeaPartData() => 'P01',
@@ -85,17 +122,23 @@ void main() {
           ReadingPartData() => 'P08',
           BridgeMistakesPartData() => 'P09',
           CultureNotePartData() => 'P10',
+          RolePlayPartData() => 'P11',
+          VerbFormsPartData() => 'P12',
         };
         expect(part.template, expected, reason: '${lesson.id} ${part.id}');
+        expect(kPartTemplates[part.template], isNotNull);
       }
-      // The guide: every lesson has at least one reading.
+    }
+    for (final lesson in beginner) {
+      // The guide: every Beginner lesson has 8–14 parts and at least one reading.
+      expect(lesson.partsCount, lessThanOrEqualTo(14), reason: lesson.id);
       expect(lesson.parts.whereType<ReadingPartData>(), isNotEmpty,
           reason: lesson.id);
     }
   });
 
   test('every question has a known template that matches its class', () {
-    for (final lesson in beginner.where((l) => l.hasQuiz)) {
+    for (final lesson in all.where((l) => l.hasQuiz)) {
       for (final q in lesson.quiz!.questions) {
         final expected = switch (q) {
           MultipleChoiceData() => 'Q01',
@@ -108,6 +151,7 @@ void main() {
           DictationData() => 'Q08',
           SpeakingData() => 'Q09',
           OpenAnswerData() => 'Q10',
+          ReadAnswerData() => 'Q11',
         };
         expect(q.template, expected, reason: '${lesson.id} ${q.id}');
         expect(kQuestionTemplates[q.template], q.type);
@@ -118,7 +162,7 @@ void main() {
   });
 
   test('every itemId points at an item, and every item is used', () {
-    for (final lesson in beginner) {
+    for (final lesson in all) {
       final shown = <String>{};
       for (final part in lesson.parts.whereType<WordsPartData>()) {
         expect(part.items, isNotEmpty, reason: '${lesson.id} ${part.id}');
@@ -133,7 +177,7 @@ void main() {
 
   test('every answer index and answer word is valid', () {
     var checked = 0;
-    for (final lesson in beginner) {
+    for (final lesson in all) {
       for (final part in lesson.parts.whereType<QuickCheckPartData>()) {
         expect(part.answer, inInclusiveRange(0, part.options.length - 1),
             reason: part.id);
@@ -144,6 +188,7 @@ void main() {
           case ChoiceQuestion c:
             expect(c.answer, inInclusiveRange(0, c.options.length - 1),
                 reason: q.id);
+            expect(c.options.toSet(), hasLength(c.options.length), reason: q.id);
           case BuildSentenceData():
             final tiles = [...q.tiles];
             for (final word in q.answer) {
@@ -160,15 +205,75 @@ void main() {
         checked++;
       }
     }
-    expect(checked, greaterThan(100));
+    expect(checked, greaterThan(250));
+  });
+
+  test('every Q11 passage is a reading or dialogue of the same lesson', () {
+    var count = 0;
+    for (final lesson in intermediate) {
+      for (final q in lesson.quiz!.questions.whereType<ReadAnswerData>()) {
+        final part = lesson.parts.where((p) => p.id == q.passagePart).single;
+        expect(part, anyOf(isA<ReadingPartData>(), isA<DialoguePartData>()), reason: q.id);
+        final lines = switch (part) {
+          ReadingPartData p => p.lines.map((l) => l.hil).toList(),
+          DialoguePartData p => p.lines.map((l) => l.hil).toList(),
+          _ => const <String>[],
+        };
+        expect(q.passage.map((l) => l.hil), lines, reason: q.id);
+        if (q.mode == ReadAnswerMode.listen) {
+          expect(part, isA<DialoguePartData>(), reason: q.id);
+          expect((part as DialoguePartData).lines.every((l) => l.hasClip), isTrue, reason: q.id);
+        }
+        count++;
+      }
+    }
+    expect(count, 17);
+  });
+
+  test('role-plays and verb forms are complete', () {
+    final rolePlays = [for (final l in intermediate) ...l.parts.whereType<RolePlayPartData>()];
+    expect(rolePlays, hasLength(10));
+    for (final p in rolePlays) {
+      for (final (i, turn) in p.turns.indexed) {
+        if (i < p.turns.length - 1) expect(turn.choices, isNotEmpty, reason: '${p.id} turn $i');
+        if (turn.choices.isNotEmpty) {
+          expect(turn.choices.where((c) => c.correct), hasLength(1), reason: '${p.id} turn $i');
+          expect(turn.choices.where((c) => !c.correct && c.hint == null), isEmpty);
+        }
+      }
+    }
+    final verbs = [for (final l in intermediate) ...l.parts.whereType<VerbFormsPartData>()];
+    expect(verbs.map((p) => p.id), ['i03_p04', 'i04_p07']);
+    for (final p in verbs) {
+      expect(p.columns, hasLength(3));
+      for (final root in p.roots) {
+        expect(root.forms, hasLength(3));
+        if (root.doerForms != null) expect(root.doerForms, hasLength(3));
+      }
+    }
+    // i04's table has both rows, i03's only one.
+    expect(verbs[0].roots.every((r) => r.doerForms == null), isTrue);
+    expect(verbs[1].roots.every((r) => r.doerForms != null), isTrue);
+  });
+
+  test('the listening dialogues name a clip on every line', () {
+    final listening = [
+      for (final l in intermediate) ...l.parts.whereType<DialoguePartData>().where((p) => p.listening),
+    ];
+    expect(listening.map((p) => p.id), ['i10_p05', 'i10_p09']);
+    for (final p in listening) {
+      expect(p.lines.every((l) => l.hasClip), isTrue, reason: p.id);
+    }
   });
 
   test('Q08 plays the same clip on the Wrong sheet', () {
-    final raw = jsonDecode(File(LessonRepository.lessonsAsset).readAsStringSync());
-    for (final lesson in raw['levels'][0]['lessons'] as List) {
-      for (final q in (lesson['quiz']?['questions'] as List?) ?? const []) {
-        if (q['template'] == 'Q08') {
-          expect(q['answerAudio'], q['audio'], reason: q['id'] as String);
+    for (final file in [_beginnerFile, _intermediateFile]) {
+      final raw = jsonDecode(File('assets/$file').readAsStringSync());
+      for (final lesson in raw['lessons'] as List) {
+        for (final q in (lesson['quiz']?['questions'] as List?) ?? const []) {
+          if (q['template'] == 'Q08') {
+            expect(q['answerAudio'], q['audio'], reason: q['id'] as String);
+          }
         }
       }
     }
@@ -176,7 +281,7 @@ void main() {
 
   test('every part icon name has a Flutter icon', () {
     final names = <String>{};
-    for (final lesson in beginner) {
+    for (final lesson in all) {
       for (final part in lesson.parts) {
         final icon = switch (part) {
           KeyIdeaPartData(:final icon) ||
@@ -184,7 +289,9 @@ void main() {
           PatternPartData(:final icon) ||
           DialoguePartData(:final icon) ||
           ReadingPartData(:final icon) ||
-          BridgeMistakesPartData(:final icon) =>
+          BridgeMistakesPartData(:final icon) ||
+          RolePlayPartData(:final icon) ||
+          VerbFormsPartData(:final icon) =>
             icon,
           _ => null,
         };
@@ -201,6 +308,7 @@ void main() {
       // A file in the repo must be registered in pubspec.yaml, so the app
       // finds it. A file not in the repo must count as missing.
       expect(ref.found, onDisk, reason: '${ref.where}: ${ref.jsonPath}');
+      expect(ref.assetPath, ref.found ? 'assets/${ref.jsonPath}' : isNull);
       if (ref.found) {
         final data = await rootBundle.load(ref.assetPath!);
         expect(data.lengthInBytes, greaterThan(0), reason: ref.assetPath);
@@ -214,36 +322,79 @@ void main() {
     final fallback = await rootBundle.load(catalog.settings.missingPicture);
     expect(fallback.lengthInBytes, greaterThan(0));
 
-    // Every picture and all 133 native-speaker clips are in the app now.
-    expect(repo.missingAssets.map((r) => '${r.where}: ${r.jsonPath}'), isEmpty);
-    final audio = repo.assetRefs.where((r) => r.jsonPath.startsWith('audio/')).toList();
+    bool isIntermediate(AssetRef r) => RegExp(r'^i\d\d\b').hasMatch(r.where);
+
+    // Beginner (and settings): every picture and all 133 native-speaker clips are in the app.
+    final rest = repo.assetRefs.where((r) => !isIntermediate(r)).toList();
+    expect(rest.where((r) => !r.found).map((r) => '${r.where}: ${r.jsonPath}'), isEmpty);
+    final audio = rest.where((r) => r.jsonPath.startsWith('audio/')).toList();
     expect(audio.map((r) => r.jsonPath).toSet(), hasLength(133));
-    expect(audio.every((r) => r.found), isTrue);
+
+    // Intermediate: clips aren't recorded yet. Report them, don't fail.
+    final inter = repo.assetRefs.where(isIntermediate).toList();
+    final missing = {for (final r in inter) if (!r.found) r.jsonPath}.toList()..sort();
+    final found = {for (final r in inter) if (r.found) r.jsonPath};
+    // ignore: avoid_print
+    print('Intermediate clips: ${found.length} in the app, ${missing.length} missing'
+        '${missing.isEmpty ? '' : ':\n  ${missing.join('\n  ')}'}');
+    expect(inter.every((r) => r.jsonPath.startsWith('audio/i')), isTrue,
+        reason: 'Intermediate has no pictures yet, only clips');
+    expect(found.length + missing.length, 132);
   });
 
   group('the loader rejects broken JSON', () {
+    late String settingsText;
     late Map<String, dynamic> good;
+    late Map<String, dynamic> goodInter;
     late Set<String> assets;
 
     setUpAll(() async {
-      good = jsonDecode(await rootBundle.loadString(LessonRepository.lessonsAsset))
+      settingsText = await rootBundle.loadString(LessonRepository.settingsAsset);
+      good = jsonDecode(await rootBundle.loadString('assets/$_beginnerFile'))
+          as Map<String, dynamic>;
+      goodInter = jsonDecode(await rootBundle.loadString('assets/$_intermediateFile'))
           as Map<String, dynamic>;
       assets = (await AssetManifest.loadFromAssetBundle(rootBundle))
           .listAssets()
           .toSet();
     });
 
-    /// Copies the good JSON, lets [change] break it, and returns the error.
-    String errorFor(void Function(Map<String, dynamic> lesson2) change) {
-      final copy = jsonDecode(jsonEncode(good)) as Map<String, dynamic>;
-      change(copy['levels'][0]['lessons'][1] as Map<String, dynamic>);
+    Map<String, dynamic> copyOf(Map<String, dynamic> json) =>
+        jsonDecode(jsonEncode(json)) as Map<String, dynamic>;
+
+    String errorOf(Map<String, dynamic> beginnerJson, Map<String, dynamic> interJson) {
       try {
-        LessonRepository.parse(jsonEncode(copy), assets);
+        LessonRepository.parse(settingsText, {
+          _beginnerFile: jsonEncode(beginnerJson),
+          _intermediateFile: jsonEncode(interJson),
+        }, assets);
       } on FormatException catch (e) {
         return e.message;
       }
       fail('no error was thrown');
     }
+
+    /// Copies the good JSON, lets [change] break Beginner Lesson 2, and returns the error.
+    String errorFor(void Function(Map<String, dynamic> lesson2) change) {
+      final copy = copyOf(good);
+      change(copy['lessons'][1] as Map<String, dynamic>);
+      return errorOf(copy, goodInter);
+    }
+
+    /// Same for an Intermediate lesson (0-based [index]).
+    String errorForInter(int index, void Function(Map<String, dynamic> lesson) change) {
+      final copy = copyOf(goodInter);
+      change(copy['lessons'][index] as Map<String, dynamic>);
+      return errorOf(good, copy);
+    }
+
+    test('the good files load', () {
+      final repo = LessonRepository.parse(settingsText, {
+        _beginnerFile: jsonEncode(good),
+        _intermediateFile: jsonEncode(goodInter),
+      }, assets);
+      expect(repo.catalog.allLessons, hasLength(25));
+    });
 
     test('unknown template', () {
       expect(errorFor((l) => l['parts'][0]['template'] = 'P99'),
@@ -270,13 +421,78 @@ void main() {
           contains('partsCount is 3'));
     });
 
+    test('more than 20 parts', () {
+      expect(
+          errorForInter(0, (l) {
+            final parts = l['parts'] as List;
+            final extra = [
+              for (var i = 0; i < 6; i++)
+                {...parts[0] as Map<String, dynamic>, 'id': 'extra_$i'},
+            ];
+            parts.addAll(extra);
+            l['partsCount'] = parts.length;
+          }),
+          contains('more than 20 parts'));
+    });
+
     test('build answer word that is not a tile', () {
-      final q = (good['levels'][0]['lessons'][1]['quiz']['questions'] as List)
+      final q = (good['lessons'][1]['quiz']['questions'] as List)
           .indexWhere((q) => q['template'] == 'Q05');
       expect(
           errorFor((l) =>
               (l['quiz']['questions'][q]['answer'] as List).add('Extra')),
           contains('answer word "Extra" is not a tile'));
+    });
+
+    test('Q11 passage that is not in the lesson', () {
+      expect(errorForInter(0, (l) => l['quiz']['questions'][8]['passagePart'] = 'i02_p11'),
+          contains('passagePart "i02_p11" is not a part of this lesson'));
+    });
+
+    test('Q11 passage that is not a reading or dialogue', () {
+      expect(errorForInter(0, (l) => l['quiz']['questions'][8]['passagePart'] = 'i01_p02'),
+          contains('should be a reading or a dialogue'));
+    });
+
+    test('Q11 listen mode on a reading', () {
+      expect(errorForInter(0, (l) => l['quiz']['questions'][8]['mode'] = 'listen'),
+          contains('listen mode needs a dialogue'));
+    });
+
+    test('role-play turn with two correct choices', () {
+      expect(
+          errorForInter(0, (l) {
+            for (final c in l['parts'][12]['turns'][0]['choices'] as List) {
+              c['correct'] = true;
+            }
+          }),
+          contains('needs exactly 1 correct choice'));
+    });
+
+    test('role-play turn without choices before the end', () {
+      expect(errorForInter(0, (l) => l['parts'][12]['turns'][0]['choices'] = <Object>[]),
+          contains('only the last turn may close'));
+    });
+
+    test('verb forms with a missing form', () {
+      expect(errorForInter(2, (l) => (l['parts'][3]['roots'][0]['forms'] as List).removeLast()),
+          contains('forms needs 3 entries'));
+    });
+
+    test('listening dialogue line without a clip', () {
+      final i = (goodInter['lessons'][9]['parts'] as List).indexWhere((p) => p['listening'] == true);
+      expect(errorForInter(9, (l) => (l['parts'][i]['lines'][0] as Map).remove('audio')),
+          contains('listening: every line needs audio'));
+    });
+
+    test('unit that disagrees with the level\'s unit list', () {
+      expect(errorForInter(0, (l) => l['unit'] = {'number': 2, 'title': 'Building sentences'}),
+          contains('i01 has unit 2 · Building sentences'));
+    });
+
+    test('level file that is not the level the list names', () {
+      final copy = copyOf(goodInter)..['title'] = 'Middle';
+      expect(errorOf(good, copy), contains('the level list says intermediate / Intermediate'));
     });
   });
 }

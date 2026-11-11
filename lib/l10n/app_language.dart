@@ -14,7 +14,7 @@ class AppLanguage extends ChangeNotifier {
 
   static String prefsKeyFor(String uid) => 'app_language_$uid';
 
-  /// Language name (as in lessons.json) → locale.
+  /// Language name (as in learning_settings.json) → locale.
   static const Map<String, Locale> locales = {
     'English': Locale('en'),
     'Filipino': Locale('fil'),

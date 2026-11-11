@@ -1,0 +1,815 @@
+{
+  "_meta": {
+    "app": "Hibalo",
+    "module": "Learning Module – Beginner + Intermediate",
+    "schemaVersion": 8,
+    "contentStatus": "AI-drafted by the team with Claude. NOT checked by a native speaker. Key words were spot-checked against public references (see 'references'). Items marked check: 'unverified' could not be confirmed. No native-speaker check is planned.",
+    "source": "Teammate's Self-Paced Learning Module and Question Bank (Beginner), with review fixes applied",
+    "fieldGuide": {
+      "items": "Words or phrases shown on the P04 Learn card. 'check' is 'ok' or 'unverified' ('unverified' = could not be confirmed in a published reference). There is no native-speaker check.",
+      "audio": "Native recordings only, ONE short clip per word or phrase (items[].audio) and ONE per letter (letters[].audio: the example word only, not the letter name). No audio for example sentences, dialogue lines, reading lines, terms or pattern examples: they are text only. Slow audio = the same clip at 0.75x.",
+      "image": "Path inside assets/, or null for phrases without a picture.",
+      "scored": "false = not counted in the pass mark (speaking, open_answer).",
+      "answer": "Index of the correct option (starts at 0). For build_sentence, the tiles in correct order.",
+      "accepted": "All accepted typed answers. The app ignores capital letters, spaces at the ends and . , ! ? before comparing.",
+      "letters": "Only in lessons with kind='letters' (Letters & Sounds screen). One card per letter.",
+      "objectives": "The 'In this lesson' list on Lesson Detail.",
+      "icon / coverImage": "Lesson row icon and Lesson Detail banner. Names match the Figma 'IMG /' layers.",
+      "answerAudio": "Played on the 'Not quite' sheet. null = hide the audio button.",
+      "direction": "type_answer only: 'fil_to_hil' (shown as 'Type this in Hiligaynon') or 'hil_to_fil'.",
+      "wordBank": "dictation only, optional tiles under the answer field.",
+      "hint / maxChars": "open_answer only. modelAnswer is shown on the 'Sample answer' sheet after Submit.",
+      "parts": "A lesson is a list of parts shown in order. The segmented progress bar has one segment per part. After the last part: Lesson complete, then the quiz.",
+      "*text*": "Words between asterisks are Hiligaynon (or Filipino) examples. Show them in italic violet.",
+      "quick_check": "Practice only, not scored. Right answer gives settings.xp.quickCheck XP. Shows 'explain' after answering.",
+      "dialogue / reading lines": "Text only (no audio). Tap a line to show or hide the Filipino meaning.",
+      "template": "Every part and question has a template ID (P01-P10, Q01-Q10). Look it up in 'templates' to find the Figma frame and the Flutter widget.",
+      "icon (parts)": "Material Symbols Rounded icon name (same family as the V6 icon sheet).",
+      "highlight": "Pattern slots only: true on the one link word (ka, sang, sa, ang, ni, nga).",
+      "hilColumns": "Tables only: which columns hold Hiligaynon. Those cells are italic violet; the rest are plain.",
+      "terms[].note": "A short English note shown under the word with the label NOTE (not WHEN).",
+      "alt": "Another way to say the word in Hiligaynon (shown as 'Also said: …'). Never the Filipino meaning.",
+      "unit": "Intermediate only. {number, title}. The Learn list shows a header 'Unit N · title' before the first lesson of each unit.",
+      "dialogue lines[].audio": "Only on dialogues used for listening. One clip per line.",
+      "listening (dialogue)": "true = hide the Hiligaynon text until the learner has played the audio once (or taps 'Show text').",
+      "terms[].example": "Optional example under a term: {hil, fil}. fil may be null.",
+      "pattern.sentence": "The full sentence the slots build (shown under the slots, above 'fil').",
+      "open_answer.audio / transcript": "Optional. Play button above the answer box; transcript is shown on the Sample answer sheet.",
+      "icon / coverImage null": "Pictures not made yet: show the placeholder thumbnail (Figma) and the firefly banner.",
+      "image null (culture_note)": "Show firefly_reading until the picture exists."
+    },
+    "questionTypes": {
+      "multiple_choice": [
+        "prompt",
+        "options",
+        "answer"
+      ],
+      "listening": [
+        "prompt",
+        "audio",
+        "optionKind",
+        "options",
+        "answer"
+      ],
+      "fill_blank": [
+        "sentence",
+        "meaning",
+        "options",
+        "answer"
+      ],
+      "type_answer": [
+        "direction",
+        "text",
+        "accepted"
+      ],
+      "build_sentence": [
+        "prompt",
+        "tiles",
+        "answer"
+      ],
+      "real_situation": [
+        "situation",
+        "image",
+        "options",
+        "answer"
+      ],
+      "match_pairs": [
+        "prompt",
+        "pairs"
+      ],
+      "dictation": [
+        "prompt",
+        "audio",
+        "accepted"
+      ],
+      "speaking": [
+        "prompt",
+        "text",
+        "meaning",
+        "audio"
+      ],
+      "open_answer": [
+        "prompt",
+        "hint",
+        "maxChars",
+        "modelAnswer"
+      ],
+      "read_answer": [
+        "mode: 'read' | 'listen'",
+        "passagePart (id of a reading or dialogue part in the same lesson)",
+        "question",
+        "options",
+        "answer"
+      ]
+    },
+    "partTypes": {
+      "key_idea": [
+        "title",
+        "icon",
+        "text",
+        "terms (optional: hil, note, fil)"
+      ],
+      "words": [
+        "title",
+        "itemIds (learn cards, in order)"
+      ],
+      "letters": [
+        "title (shows the letters list, Lesson 1 only)"
+      ],
+      "quick_check": [
+        "prompt",
+        "options",
+        "answer",
+        "explain"
+      ],
+      "dialogue": [
+        "title",
+        "icon",
+        "setting",
+        "lines (speaker, hil, fil)",
+        "tip (optional)"
+      ],
+      "reading": [
+        "title",
+        "icon",
+        "lines (hil, fil)",
+        "tip (optional)"
+      ],
+      "bridge_mistakes": [
+        "title",
+        "icon",
+        "bridge (list)",
+        "mistakes (wrong, right, why)"
+      ],
+      "culture_note": [
+        "title",
+        "text",
+        "image"
+      ],
+      "table": [
+        "title",
+        "icon",
+        "text",
+        "columns",
+        "rows"
+      ],
+      "pattern": [
+        "title",
+        "icon",
+        "text",
+        "slots (label, hil)",
+        "fil",
+        "examples (hil, fil)"
+      ],
+      "role_play": [
+        "title",
+        "icon",
+        "setting",
+        "turns[]: speaker, hil, fil, cue (optional), fast (optional), choices[]: hil, fil (null = hide), correct, hint",
+        "tip"
+      ],
+      "verb_forms": [
+        "title",
+        "icon",
+        "text",
+        "columns[] (3 headings)",
+        "roots[]: root, fil, forms[3], doerForms[3] (optional), example{hil,fil}",
+        "note"
+      ]
+    },
+    "references": [
+      "https://omniglot.com/language/phrases/hiligaynon.htm",
+      "https://iloilodirectory.com/how-to-have-a-full-conversation-in-hiligaynon-a-beginners-guide/",
+      "https://en.wikipedia.org/wiki/Hiligaynon_language",
+      "https://ia601206.us.archive.org/12/items/ERIC_ED402758/ERIC_ED402758_text.pdf (Hiligaynon language packet, ERIC ED402758)",
+      "https://hiligaynon.pinoydictionary.com/"
+    ],
+    "audioPolicy": "Native recordings only, ONE short clip per word or phrase (items[].audio) and ONE per letter (letters[].audio: the example word only, not the letter name). No audio for example sentences, dialogue lines, reading lines, terms or pattern examples: they are text only. Slow audio = the same clip at 0.75x."
+  },
+  "settings": {
+    "passMark": 0.8,
+    "xp": {
+      "perCorrect": 10,
+      "lessonComplete": 20,
+      "quickCheck": 5
+    },
+    "timer": {
+      "seconds": 30,
+      "timedTypes": [
+        "multiple_choice",
+        "listening",
+        "fill_blank",
+        "build_sentence",
+        "real_situation",
+        "match_pairs"
+      ],
+      "onTimeout": "counts as wrong"
+    },
+    "resultTiers": [
+      {
+        "minScore": 1.0,
+        "title": "Perpekto!",
+        "passed": true
+      },
+      {
+        "minScore": 0.8,
+        "title": "Maayo gid!",
+        "passed": true
+      },
+      {
+        "minScore": 0.0,
+        "title": "Keep practicing",
+        "passed": false
+      }
+    ],
+    "unlockRule": "needs='complete': unlocks when the lesson in 'after' is finished. needs='passQuiz': unlocks when that lesson's quiz is passed. Intermediate/Advanced unlock after the level before is finished.",
+    "scoring": "Score = correct scored questions / scored questions. 'scored': false questions (speaking, open_answer) are practice only and are shown as 'Practice' in Quiz review.",
+    "shuffle": {
+      "options": true,
+      "buildTiles": true,
+      "matchRightColumn": true,
+      "note": "Shuffle at runtime. 'answer' is the index in the JSON order; track where it lands after shuffling."
+    },
+    "images": {
+      "missingPicture": "firefly_reading",
+      "lessonBanner": {
+        "width": 335,
+        "height": 197,
+        "fit": "cover"
+      },
+      "lessonIcon": {
+        "width": 52,
+        "height": 52
+      },
+      "wordPicture": {
+        "width": 295,
+        "height": 140
+      },
+      "situationPicture": {
+        "width": 64,
+        "height": 64
+      }
+    },
+    "avatars": {
+      "Ana": "avatar-ana",
+      "startsWith:Manang": "avatar-manang",
+      "default": "avatar-neighbor",
+      "note": "SVG files in assets/images/avatars/. Ana is on the right; every other speaker is on the left."
+    },
+    "lessonButtons": {
+      "lastPartWithQuiz": "Finish & practice",
+      "lastPartNoQuiz": "Finish lesson"
+    },
+    "uiLanguages": {
+      "options": [
+        "English",
+        "Filipino",
+        "Hiligaynon"
+      ],
+      "default": "English",
+      "note": "Only the app's own words (menus, buttons, labels, messages) follow this setting. Lesson content in lessons.json does not change: Hiligaynon stays Hiligaynon, meanings stay Filipino, and lesson explanations stay as written."
+    }
+  },
+  "templates": {
+    "S01": {
+      "kind": "screen",
+      "name": "Learn (lesson list)",
+      "figmaFrame": "Learn",
+      "flutterWidget": "LearnScreen",
+      "fields": [
+        "levels[].lessons[]: title, partsCount, estMinutes, icon, unlock"
+      ],
+      "variants": [
+        "Row: Completed",
+        "Row: Current",
+        "Row: Quiz pending",
+        "Row: Locked",
+        "Level tab: Locked"
+      ]
+    },
+    "S02": {
+      "kind": "screen",
+      "name": "Lesson Detail",
+      "figmaFrame": "Lesson Detail",
+      "flutterWidget": "LessonDetailScreen",
+      "fields": [
+        "title",
+        "coverImage (335 × 197, cover)",
+        "objectives",
+        "partsCount",
+        "estMinutes"
+      ],
+      "variants": [
+        "Not started: Start lesson",
+        "In progress: Continue lesson + progress card",
+        "Completed: chip \"Completed · Quiz X/Y\", Review lesson + Retake the quiz, no progress card",
+        "Letters version"
+      ]
+    },
+    "S03": {
+      "kind": "screen",
+      "name": "Lesson complete",
+      "figmaFrame": "Lesson complete",
+      "flutterWidget": "LessonCompleteScreen",
+      "fields": [
+        "settings.xp.lessonComplete",
+        "count of items (New words)"
+      ],
+      "variants": [
+        "Letters version: Lesson complete · Letters"
+      ]
+    },
+    "S04": {
+      "kind": "screen",
+      "name": "Quiz result",
+      "figmaFrame": "Quiz result · Perpekto / Maayo gid / Keep practicing",
+      "flutterWidget": "QuizResultScreen",
+      "fields": [
+        "settings.resultTiers",
+        "settings.xp.perCorrect",
+        "unlock of the next lesson"
+      ],
+      "variants": [
+        "Perpekto",
+        "Maayo gid",
+        "Keep practicing"
+      ]
+    },
+    "S05": {
+      "kind": "screen",
+      "name": "Quiz review",
+      "figmaFrame": "Quiz review / Quiz review · Passed",
+      "flutterWidget": "QuizReviewScreen",
+      "fields": [
+        "quiz.questions in order",
+        "scored"
+      ],
+      "variants": [
+        "Failed: Try again",
+        "Passed: Continue"
+      ]
+    },
+    "S06": {
+      "kind": "screen",
+      "name": "Leave pop-up",
+      "figmaFrame": "Leave lesson / Leave quiz",
+      "flutterWidget": "LeaveDialog",
+      "fields": [],
+      "variants": [
+        "Lesson",
+        "Quiz"
+      ]
+    },
+    "P01": {
+      "kind": "part",
+      "name": "Key idea",
+      "figmaFrame": "Part · Key idea",
+      "flutterWidget": "KeyIdeaPart",
+      "fields": [
+        "title",
+        "icon (Material Symbols Rounded name)",
+        "text",
+        "terms[]: hil, note, fil (optional)"
+      ],
+      "partType": "key_idea"
+    },
+    "P02": {
+      "kind": "part",
+      "name": "Table",
+      "figmaFrame": "Part · Table",
+      "flutterWidget": "TablePart",
+      "fields": [
+        "title",
+        "icon",
+        "text",
+        "columns[]",
+        "rows[][]",
+        "hilColumns[] (indexes of Hiligaynon columns: italic violet)"
+      ],
+      "variants": [
+        "2 to 4 columns"
+      ],
+      "partType": "table"
+    },
+    "P03": {
+      "kind": "part",
+      "name": "Pattern",
+      "figmaFrame": "Part · Pattern",
+      "flutterWidget": "PatternPart",
+      "fields": [
+        "title",
+        "icon",
+        "text",
+        "slots[]: label, hil, highlight (one slot: the link word)",
+        "fil",
+        "examples[]: hil, fil"
+      ],
+      "partType": "pattern",
+      "variants": [
+        "3 or 4 slots; the highlighted slot is violet with a glow, the others alternate citrus and lagoon"
+      ]
+    },
+    "P04": {
+      "kind": "part",
+      "name": "Words (learn cards)",
+      "figmaFrame": "Part · Words = Learn card",
+      "flutterWidget": "WordsPart",
+      "fields": [
+        "title",
+        "itemIds[] -> items[]: hil, fil, alt, audio, image, example"
+      ],
+      "variants": [
+        "Default",
+        "No image: image is null → firefly_reading (Example box still shows if example exists)",
+        "No example: example is null → hide the Example box",
+        "Number: alt → \"Also said: …\""
+      ],
+      "partType": "words"
+    },
+    "P05": {
+      "kind": "part",
+      "name": "Letters & sounds",
+      "figmaFrame": "Lesson Content (Letters & sounds)",
+      "flutterWidget": "LettersPart",
+      "fields": [
+        "letters[]: letter, name, soundHint, audio, example"
+      ],
+      "variants": [
+        "Chip: Current",
+        "Chip: Seen",
+        "Chip: Not seen"
+      ],
+      "partType": "letters"
+    },
+    "P06": {
+      "kind": "part",
+      "name": "Quick check",
+      "figmaFrame": "Part · Quick check",
+      "flutterWidget": "QuickCheckPart",
+      "fields": [
+        "prompt",
+        "options",
+        "answer",
+        "explain"
+      ],
+      "variants": [
+        "Uses Feedback sheet F01/F02, no timer, +settings.xp.quickCheck"
+      ],
+      "partType": "quick_check"
+    },
+    "P07": {
+      "kind": "part",
+      "name": "Dialogue",
+      "figmaFrame": "Part · Dialogue",
+      "flutterWidget": "DialoguePart",
+      "fields": [
+        "title",
+        "icon",
+        "setting",
+        "lines[]: speaker, hil, fil",
+        "tip",
+        "avatar from settings.avatars"
+      ],
+      "variants": [
+        "Line: Filipino hidden",
+        "Line: Filipino shown"
+      ],
+      "partType": "dialogue"
+    },
+    "P08": {
+      "kind": "part",
+      "name": "Reading",
+      "figmaFrame": "Part · Reading",
+      "flutterWidget": "ReadingPart",
+      "fields": [
+        "title",
+        "icon",
+        "lines[]: hil, fil",
+        "tip"
+      ],
+      "variants": [
+        "Line: Filipino hidden",
+        "Line: Filipino shown"
+      ],
+      "partType": "reading"
+    },
+    "P09": {
+      "kind": "part",
+      "name": "Filipino bridge & mistakes",
+      "figmaFrame": "Part · Filipino bridge & mistakes",
+      "flutterWidget": "BridgeMistakesPart",
+      "fields": [
+        "title",
+        "icon",
+        "bridge[]",
+        "mistakes[]: wrong, right, why"
+      ],
+      "partType": "bridge_mistakes"
+    },
+    "P10": {
+      "kind": "part",
+      "name": "Culture note",
+      "figmaFrame": "Culture note",
+      "flutterWidget": "CultureNotePart",
+      "fields": [
+        "title",
+        "text",
+        "image"
+      ],
+      "partType": "culture_note"
+    },
+    "P11": {
+      "kind": "part",
+      "name": "Role-play",
+      "figmaFrame": "P11 · Part · Role-play · Choose / Right choice / Not quite / Done",
+      "flutterWidget": "RolePlayPart",
+      "partType": "role_play",
+      "fields": [
+        "title",
+        "icon",
+        "setting",
+        "turns[]: speaker, hil, fil, cue (optional), fast (optional), choices[]: hil, fil (null = hide), correct, hint",
+        "tip"
+      ],
+      "variants": [
+        "Choose: show the speaker's bubble and the choices; Next disabled",
+        "Right choice: add the learner's reply bubble (Ana avatar, right side), then the next turn",
+        "Not quite: show the hint, the learner tries again (no XP lost)",
+        "Done: whole chat + tip; Next enabled"
+      ],
+      "notes": "Text only, no audio. A turn with no choices is the closing line. 'cue' is a short instruction shown above the choices. 'fast': show a small 'talking fast' label on that bubble. Instruction line under the setting: 'Choose your reply.'"
+    },
+    "P12": {
+      "kind": "part",
+      "name": "Verb forms",
+      "figmaFrame": "P12 · Part · Verb forms · kaon / inom",
+      "flutterWidget": "VerbFormsPart",
+      "partType": "verb_forms",
+      "fields": [
+        "title",
+        "icon",
+        "text",
+        "columns[] (3 headings)",
+        "roots[]: root, fil, forms[3], doerForms[3] (optional), example{hil,fil}",
+        "note"
+      ],
+      "variants": [
+        "One root at a time; root chips switch the table",
+        "doerForms present: show a second row 'Who does it' above 'What it happens to'"
+      ]
+    },
+    "Q01": {
+      "kind": "question",
+      "name": "Multiple choice",
+      "figmaFrame": "Quiz · Multiple choice",
+      "flutterWidget": "MultipleChoiceQuestion",
+      "fields": [
+        "prompt",
+        "options",
+        "answer",
+        "answerAudio"
+      ],
+      "variants": [
+        "timed"
+      ],
+      "questionType": "multiple_choice"
+    },
+    "Q02": {
+      "kind": "question",
+      "name": "Listening",
+      "figmaFrame": "Quiz · Listening",
+      "flutterWidget": "ListeningQuestion",
+      "fields": [
+        "prompt",
+        "audio",
+        "optionKind",
+        "options",
+        "answer",
+        "answerAudio"
+      ],
+      "variants": [
+        "timed"
+      ],
+      "questionType": "listening"
+    },
+    "Q03": {
+      "kind": "question",
+      "name": "Fill in the blank",
+      "figmaFrame": "Quiz · Fill in the blank",
+      "flutterWidget": "FillBlankQuestion",
+      "fields": [
+        "sentence",
+        "meaning",
+        "options",
+        "answer",
+        "answerAudio"
+      ],
+      "variants": [
+        "timed"
+      ],
+      "questionType": "fill_blank"
+    },
+    "Q04": {
+      "kind": "question",
+      "name": "Type the answer",
+      "figmaFrame": "Quiz · Type the answer",
+      "flutterWidget": "TypeAnswerQuestion",
+      "fields": [
+        "direction",
+        "text",
+        "accepted",
+        "answerAudio"
+      ],
+      "variants": [
+        "no timer"
+      ],
+      "questionType": "type_answer"
+    },
+    "Q05": {
+      "kind": "question",
+      "name": "Build the sentence",
+      "figmaFrame": "Quiz · Build the sentence",
+      "flutterWidget": "BuildSentenceQuestion",
+      "fields": [
+        "prompt",
+        "tiles",
+        "answer",
+        "answerAudio"
+      ],
+      "variants": [
+        "timed"
+      ],
+      "questionType": "build_sentence"
+    },
+    "Q06": {
+      "kind": "question",
+      "name": "Real situation",
+      "figmaFrame": "Quiz · Real situation",
+      "flutterWidget": "RealSituationQuestion",
+      "fields": [
+        "situation",
+        "image",
+        "options",
+        "answer",
+        "answerAudio"
+      ],
+      "variants": [
+        "timed",
+        "No image -> firefly_reading"
+      ],
+      "questionType": "real_situation"
+    },
+    "Q07": {
+      "kind": "question",
+      "name": "Match pairs",
+      "figmaFrame": "Quiz · Match pairs",
+      "flutterWidget": "MatchPairsQuestion",
+      "fields": [
+        "prompt",
+        "pairs"
+      ],
+      "variants": [
+        "timed"
+      ],
+      "questionType": "match_pairs"
+    },
+    "Q08": {
+      "kind": "question",
+      "name": "Dictation",
+      "figmaFrame": "Quiz · Dictation",
+      "flutterWidget": "DictationQuestion",
+      "fields": [
+        "prompt",
+        "audio",
+        "accepted",
+        "wordBank",
+        "answerAudio (same clip as audio)"
+      ],
+      "variants": [
+        "no timer"
+      ],
+      "questionType": "dictation"
+    },
+    "Q09": {
+      "kind": "question",
+      "name": "Speaking",
+      "figmaFrame": "Quiz · Speaking",
+      "flutterWidget": "SpeakingQuestion",
+      "fields": [
+        "prompt",
+        "text",
+        "meaning",
+        "audio"
+      ],
+      "variants": [
+        "no timer",
+        "not scored"
+      ],
+      "questionType": "speaking"
+    },
+    "Q10": {
+      "kind": "question",
+      "name": "Open answer",
+      "figmaFrame": "Quiz · Open answer",
+      "flutterWidget": "OpenAnswerQuestion",
+      "fields": [
+        "prompt",
+        "hint",
+        "maxChars",
+        "modelAnswer"
+      ],
+      "variants": [
+        "no timer",
+        "not scored"
+      ],
+      "questionType": "open_answer"
+    },
+    "Q11": {
+      "kind": "question",
+      "name": "Read & answer",
+      "figmaFrame": "Q11 · Quiz · Read & answer (+ Listening variants)",
+      "flutterWidget": "ReadAnswerQuestion",
+      "questionType": "read_answer",
+      "fields": [
+        "mode: 'read' | 'listen'",
+        "passagePart (id of a reading or dialogue part in the same lesson)",
+        "question",
+        "options",
+        "answer"
+      ],
+      "variants": [
+        "read: show the passage lines (Hiligaynon only) above the question",
+        "listen: show a play button that plays the passage's line clips in order; no text until answered"
+      ],
+      "notes": "No timer: reading or listening to the passage takes time."
+    },
+    "F01": {
+      "kind": "feedback",
+      "name": "Correct",
+      "figmaFrame": "Feedback · Correct",
+      "flutterWidget": "FeedbackSheet(type: correct)",
+      "fields": [
+        "+XP"
+      ]
+    },
+    "F02": {
+      "kind": "feedback",
+      "name": "Wrong",
+      "figmaFrame": "Feedback · Wrong",
+      "flutterWidget": "FeedbackSheet(type: wrong)",
+      "fields": [
+        "correct answer",
+        "answerAudio"
+      ]
+    },
+    "F03": {
+      "kind": "feedback",
+      "name": "Time's up",
+      "figmaFrame": "Feedback · Time's up",
+      "flutterWidget": "FeedbackSheet(type: timeout)",
+      "fields": [
+        "correct answer",
+        "answerAudio"
+      ],
+      "variants": [
+        "counts as wrong"
+      ]
+    },
+    "F04": {
+      "kind": "feedback",
+      "name": "Sample answer",
+      "figmaFrame": "Feedback · Sample answer",
+      "flutterWidget": "FeedbackSheet(type: info)",
+      "fields": [
+        "modelAnswer"
+      ],
+      "variants": [
+        "open_answer only"
+      ]
+    }
+  },
+  "levels": [
+    {
+      "id": "beginner",
+      "title": "Beginner",
+      "unlock": null,
+      "file": "lessons/beginner_lessons.json"
+    },
+    {
+      "id": "intermediate",
+      "title": "Intermediate",
+      "unlock": {
+        "afterLevel": "beginner"
+      },
+      "file": "lessons/intermediate_lessons.json"
+    },
+    {
+      "id": "advanced",
+      "title": "Advanced",
+      "unlock": {
+        "afterLevel": "intermediate"
+      },
+      "file": null
+    }
+  ]
+}

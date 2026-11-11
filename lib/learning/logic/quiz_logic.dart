@@ -90,6 +90,7 @@ String? correctAnswerText(QuizQuestion q) => switch (q) {
       ListeningData q => q.correctOption,
       FillBlankData q => q.correctOption,
       RealSituationData q => q.correctOption,
+      ReadAnswerData q => q.correctOption,
       TypeAnswerData q => q.accepted.first,
       DictationData q => q.accepted.first,
       BuildSentenceData q => q.answer.join(' '),

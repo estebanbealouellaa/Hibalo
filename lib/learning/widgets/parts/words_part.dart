@@ -111,24 +111,25 @@ class _LearnCard extends StatelessWidget {
               style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
             ),
           ],
-          // Both buttons play the same clip (slow = 0.75×). Always shown;
-          // a clip that isn't recorded yet plays nothing.
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AudioButton(clip: item.audio, label: t.playAudio),
-              const SizedBox(width: 16),
-              AudioButton(
-                clip: item.audio,
-                label: t.playSlow,
-                slow: true,
-                size: 48,
-                background: V6Colors.primaryContainer,
-                foreground: V6Colors.primary,
-              ),
-            ],
-          ),
+          // Both buttons play the same clip (slow = 0.75×); hidden until it is recorded.
+          if (item.audio != null) ...[
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AudioButton(clip: item.audio, label: t.playAudio),
+                const SizedBox(width: 16),
+                AudioButton(
+                  clip: item.audio,
+                  label: t.playSlow,
+                  slow: true,
+                  size: 48,
+                  background: V6Colors.primaryContainer,
+                  foreground: V6Colors.primary,
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );

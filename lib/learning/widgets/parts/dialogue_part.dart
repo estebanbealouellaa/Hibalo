@@ -44,8 +44,10 @@ class _DialoguePartState extends State<DialoguePart> {
         // Figma P07: 12 between blocks, 10 between chat lines.
         PartHeader(icon: data.icon, title: data.title),
         const SizedBox(height: 12),
-        Text(data.setting, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
-        const SizedBox(height: 12),
+        if (data.setting case final setting?) ...[
+          Text(setting, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+          const SizedBox(height: 12),
+        ],
         ShowAllSwitch(label: t.showAllFilipino, value: _showAll, onChanged: _setAll),
         const SizedBox(height: 12),
         Text(t.dialogueHint, style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),

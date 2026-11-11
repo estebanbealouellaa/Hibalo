@@ -52,8 +52,10 @@ class TablePart extends StatelessWidget {
       children: [
         PartHeader(icon: data.icon, title: data.title),
         const SizedBox(height: 14),
-        PartText(data.text),
-        const SizedBox(height: 14),
+        if (data.text case final text?) ...[
+          PartText(text),
+          const SizedBox(height: 14),
+        ],
         Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
