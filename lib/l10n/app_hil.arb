@@ -475,7 +475,7 @@
   "verbFormsObject": "Ano ang ginahimuan",
   "playConversation": "I-play ang istoryahanay",
   "showText": "Ipakita ang teksto",
-  "listenFirstHint": "Pamatii anay ang istoryahanay, dayon basaha upod.",
+  "listenFirstHint": "Pamati anay, dayon tan-awa ang teksto.",
   "audioComingSoon": "Madali na lang ang audio",
   "qtReading": "Pagbasa",
   "q11ReadStory": "Basaha ang istorya",
@@ -486,5 +486,9 @@
   "q11ListenHint": "Pamati, dayon pilia ang husto nga sabat.",
   "showTranscript": "Ipakita ang transcript",
   "hideTranscript": "Tagua ang transcript",
-  "transcriptLabel": "Transcript"
+  "transcriptLabel": "Transcript",
+  "playAgain": "I-play liwat",
+  "hideText": "Tagua ang teksto",
+  "listeningTapHint": "I-tap ang linya para makita ang Filipino.",
+  "q10ListenLabel": "Pamatii ang recording"
 }

@@ -81,8 +81,15 @@ class ChatLine extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(speaker, style: V6Text.captionSemiBold.copyWith(color: V6Colors.textSecondary)),
-                  if (nameTrailing != null) ...[const SizedBox(width: 6), nameTrailing!],
+                  Flexible(
+                    child: Text(
+                      speaker,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: V6Text.captionSemiBold.copyWith(color: V6Colors.textSecondary),
+                    ),
+                  ),
+                  if (nameTrailing != null) ...[const SizedBox(width: 8), nameTrailing!],
                 ],
               ),
               const SizedBox(height: 4),

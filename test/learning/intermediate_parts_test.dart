@@ -14,6 +14,7 @@ import 'package:hibalo_app/learning/screens/lesson_player_screen.dart';
 import 'package:hibalo_app/learning/state/learning_progress.dart';
 import 'package:hibalo_app/learning/models/progress.dart';
 import 'package:hibalo_app/learning/theme/v6_colors.dart';
+import 'package:hibalo_app/learning/widgets/parts/dialogue_part.dart';
 import 'package:hibalo_app/learning/widgets/parts/role_play_part.dart';
 import 'package:hibalo_app/learning/widgets/parts/verb_forms_part.dart';
 import 'package:provider/provider.dart';
@@ -218,6 +219,54 @@ void main() {
   });
 
   group('dialogue with clips', () {
+    testWidgets('listening mode with clips: placeholders, Show text / Hide text, no switch (Figma)', (tester) async {
+      // The Intermediate clips aren't recorded yet, so this uses two real Beginner clips.
+      final part = DialoguePartData(
+        'test_listening',
+        title: 'Test',
+        icon: 'chat_bubble',
+        setting: 'Ana meets Manang Rosa.',
+        lines: const [
+          DialogueLine(speaker: 'Ana', hil: 'Maayong aga!', fil: 'Magandang umaga!',
+              audio: 'assets/audio/b02/b02_maayong_aga.m4a', hasClip: true),
+          DialogueLine(speaker: 'Manang Rosa', hil: 'Kamusta ka?', fil: 'Kumusta ka?',
+              audio: 'assets/audio/b02/b02_kamusta_ka.m4a', hasClip: true),
+        ],
+        tip: null,
+        listening: true,
+      );
+      tester.view.physicalSize = const Size(360, 760);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(MaterialApp(
+        localizationsDelegates: AppLanguage.delegates,
+        supportedLocales: AppLanguage.supportedLocales,
+        home: Scaffold(body: DialoguePart(data: part, avatars: catalog.settings.avatars)),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Play conversation'), findsOneWidget);
+      expect(find.byIcon(Icons.play_arrow_rounded), findsOneWidget);
+      expect(find.text('Show text'), findsOneWidget);
+      expect(find.text('Listen first, then check the text.'), findsOneWidget);
+      expect(find.text('Maayong aga!'), findsNothing, reason: 'placeholders until played');
+      expect(find.text('Ana'), findsOneWidget, reason: 'speaker names stay');
+      expect(find.byType(Switch), findsNothing);
+
+      await tester.tap(find.text('Show text'));
+      await tester.pumpAndSettle();
+      expect(find.text('Maayong aga!'), findsOneWidget);
+      expect(find.text('Hide text'), findsOneWidget);
+      expect(find.text('Tap a line to see the Filipino.'), findsOneWidget);
+      await tester.tap(find.text('Maayong aga!'));
+      await tester.pumpAndSettle();
+      expect(find.text('Magandang umaga!'), findsOneWidget);
+
+      await tester.tap(find.text('Hide text'));
+      await tester.pumpAndSettle();
+      expect(find.text('Maayong aga!'), findsNothing);
+    });
+
     testWidgets('listening dialogue with no clips yet: text shown, Audio coming soon', (tester) async {
       final part = catalog.lessonById('i10')!.parts[partIndex('i10', 'i10_p05')] as DialoguePartData;
       expect(part.listening, isTrue);

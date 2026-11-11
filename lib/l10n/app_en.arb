@@ -2227,7 +2227,7 @@
   "@playConversation": {"description": "Listening dialogue: plays every line's clip in order."},
   "showText": "Show text",
   "@showText": {"description": "Listening dialogue: shows the lines without playing the audio."},
-  "listenFirstHint": "Listen to the conversation first, then read along.",
+  "listenFirstHint": "Listen first, then check the text.",
   "@listenFirstHint": {"description": "Listening dialogue: hint while the text is hidden."},
   "audioComingSoon": "Audio coming soon",
   "@audioComingSoon": {"description": "Small note where a clip isn't recorded yet."},
@@ -2250,5 +2250,13 @@
   "hideTranscript": "Hide transcript",
   "@hideTranscript": {"description": "Q11 listen mode: hides the conversation text again."},
   "transcriptLabel": "Transcript",
-  "@transcriptLabel": {"description": "F04 Sample answer: label above what the clip says."}
+  "@transcriptLabel": {"description": "F04 Sample answer: label above what the clip says."},
+  "playAgain": "Play again",
+  "@playAgain": {"description": "Listening dialogue: the play button after the conversation has played once."},
+  "hideText": "Hide text",
+  "@hideText": {"description": "Listening dialogue: hides the lines again."},
+  "listeningTapHint": "Tap a line to see the Filipino.",
+  "@listeningTapHint": {"description": "Listening dialogue: hint once the text is shown."},
+  "q10ListenLabel": "Listen to the recording",
+  "@q10ListenLabel": {"description": "Q10 with a clip: caption under the play button."}
 }

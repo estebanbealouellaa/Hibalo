@@ -64,13 +64,12 @@ class _TermCard extends StatelessWidget {
           ),
           if (term.note != null) _row(t.noteLabel, term.note!, bold: false),
           if (term.fil != null) _row(t.filipinoLabel, term.fil!, bold: true),
+          // Figma "Term with example": 8 + 6 below the rows, 2 between lines, no divider.
           if (term.example case final example?) ...[
-            const SizedBox(height: 10),
-            const Divider(height: 1, thickness: 1, color: V6Colors.borderDivider),
-            const SizedBox(height: 10),
-            Text(t.exampleLabel, style: V6Text.labelMediumBold.copyWith(color: V6Colors.textSecondary)),
-            const SizedBox(height: 4),
-            Text(example.hil, style: V6Text.bodyLargeSemiBoldItalic.copyWith(color: V6Colors.primary)),
+            const SizedBox(height: 14),
+            Text(t.exampleLabel, style: V6Text.labelMedium.copyWith(color: V6Colors.textSecondary)),
+            const SizedBox(height: 2),
+            Text(example.hil, style: V6Text.bodyMediumSemiBoldItalic.copyWith(color: V6Colors.primary)),
             if (example.fil != null) ...[
               const SizedBox(height: 2),
               Text(example.fil!, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),

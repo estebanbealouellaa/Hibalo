@@ -1604,8 +1604,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get showText => 'Ipakita ang teksto';
 
   @override
-  String get listenFirstHint =>
-      'Pakinggan muna ang usapan, saka sabayan ang pagbasa.';
+  String get listenFirstHint => 'Makinig muna, saka tingnan ang teksto.';
 
   @override
   String get audioComingSoon => 'Malapit na ang audio';
@@ -1641,4 +1640,16 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get transcriptLabel => 'Transcript';
+
+  @override
+  String get playAgain => 'I-play ulit';
+
+  @override
+  String get hideText => 'Itago ang teksto';
+
+  @override
+  String get listeningTapHint => 'I-tap ang linya para makita ang Filipino.';
+
+  @override
+  String get q10ListenLabel => 'Pakinggan ang recording';
 }

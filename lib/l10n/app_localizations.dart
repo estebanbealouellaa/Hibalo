@@ -2947,7 +2947,7 @@ abstract class AppLocalizations {
   /// Listening dialogue: hint while the text is hidden.
   ///
   /// In en, this message translates to:
-  /// **'Listen to the conversation first, then read along.'**
+  /// **'Listen first, then check the text.'**
   String get listenFirstHint;
 
   /// Small note where a clip isn't recorded yet.
@@ -3015,6 +3015,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Transcript'**
   String get transcriptLabel;
+
+  /// Listening dialogue: the play button after the conversation has played once.
+  ///
+  /// In en, this message translates to:
+  /// **'Play again'**
+  String get playAgain;
+
+  /// Listening dialogue: hides the lines again.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide text'**
+  String get hideText;
+
+  /// Listening dialogue: hint once the text is shown.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a line to see the Filipino.'**
+  String get listeningTapHint;
+
+  /// Q10 with a clip: caption under the play button.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to the recording'**
+  String get q10ListenLabel;
 }
 
 class _AppLocalizationsDelegate

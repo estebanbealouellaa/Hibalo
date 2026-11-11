@@ -10,8 +10,9 @@ import 'chat_line.dart';
 import 'part_common.dart';
 
 /// P07 Dialogue: the learner (Ana / You) on the right in violet, others on the left; tap a bubble (or the switch) for the Filipino.
-/// Dialogues with line clips get "Play conversation"; a `listening` one hides its text until the audio has played once
-/// (or "Show text"). While the clips aren't recorded, the text shows with "Audio coming soon".
+/// Dialogues with line clips get "Play conversation"; a `listening` one (Figma "P07 · Listening mode" + "After playing")
+/// shows grey placeholder bubbles until the audio has played once or "Show text" is tapped, and has no Show all switch.
+/// While the clips aren't recorded, the text shows with "Audio coming soon".
 class DialoguePart extends StatefulWidget {
   const DialoguePart({super.key, required this.data, required this.avatars});
 
@@ -26,10 +27,16 @@ class _DialoguePartState extends State<DialoguePart> {
   final Set<int> _shown = {};
   bool _showAll = false;
 
-  /// Listening mode: the text stays hidden until this is true.
+  /// Listening mode: the text stays hidden until this is true ("Show text" / "Hide text" toggles it).
   bool _revealed = false;
 
-  bool get _hidden => widget.data.listening && widget.data.clips.isNotEmpty && !_revealed;
+  /// The conversation has played to the end once ("Play again").
+  bool _played = false;
+
+  /// Listening mode with its clips in the app.
+  bool get _listening => widget.data.listening && widget.data.clips.isNotEmpty;
+
+  bool get _hidden => _listening && !_revealed;
 
   void _setAll(bool on) {
     setState(() {
@@ -45,7 +52,12 @@ class _DialoguePartState extends State<DialoguePart> {
 
   Future<void> _play({bool slow = false}) async {
     final finished = await LessonAudio.instance.playAll(widget.data.clips, slow: slow);
-    if (finished && mounted) setState(() => _revealed = true);
+    if (finished && mounted) {
+      setState(() {
+        _played = true;
+        _revealed = true;
+      });
+    }
   }
 
   @override
@@ -65,48 +77,65 @@ class _DialoguePartState extends State<DialoguePart> {
           if (data.clips.isEmpty)
             Text(t.audioComingSoon, style: V6Text.caption.copyWith(color: V6Colors.textSecondary))
           else
-            _ListenBar(onPlay: () => _play(), onPlaySlow: () => _play(slow: true)),
+            _ListenBar(
+              label: _played ? t.playAgain : t.playConversation,
+              onPlay: () => _play(),
+              onPlaySlow: () => _play(slow: true),
+            ),
           const SizedBox(height: 12),
         ],
-        if (_hidden) ...[
-          Text(t.listenFirstHint, style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
-          const SizedBox(height: 4),
+        if (_listening) ...[
+          // Figma "Link · Show text": a text button, 48 high.
           Align(
             alignment: Alignment.centerLeft,
-            child: TextButton.icon(
-              onPressed: () => setState(() => _revealed = true),
-              icon: const Icon(Icons.visibility_rounded),
-              label: Text(t.showText),
+            child: TextButton(
+              onPressed: () => setState(() => _revealed = !_revealed),
+              style: TextButton.styleFrom(
+                foregroundColor: V6Colors.primary,
+                textStyle: V6Text.button,
+                minimumSize: const Size(0, 48),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+              ),
+              child: Text(_revealed ? t.hideText : t.showText),
             ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            _hidden ? t.listenFirstHint : t.listeningTapHint,
+            style: V6Text.caption.copyWith(color: V6Colors.textSecondary),
           ),
         ] else ...[
           ShowAllSwitch(label: t.showAllFilipino, value: _showAll, onChanged: _setAll),
           const SizedBox(height: 12),
           Text(t.dialogueHint, style: V6Text.caption.copyWith(color: V6Colors.textSecondary)),
-          const SizedBox(height: 12),
-          for (var i = 0; i < data.lines.length; i++) ...[
-            if (i > 0) const SizedBox(height: 10),
-            ChatLine(
-              speaker: data.lines[i].speaker,
-              avatar: widget.avatars.avatarFor(data.lines[i].speaker),
-              bubble: _Bubble(
-                line: data.lines[i],
-                shown: _shown.contains(i),
-                onTap: () => _toggle(i),
-              ),
-            ),
-          ],
-          if (data.tip != null) TipCard(data.tip!),
         ],
+        const SizedBox(height: 12),
+        for (var i = 0; i < data.lines.length; i++) ...[
+          if (i > 0) const SizedBox(height: 10),
+          ChatLine(
+            speaker: data.lines[i].speaker,
+            avatar: widget.avatars.avatarFor(data.lines[i].speaker),
+            bubble: _hidden
+                ? _PlaceholderBubble(mine: isLearnerSpeaker(data.lines[i].speaker))
+                : _Bubble(
+                    line: data.lines[i],
+                    shown: _shown.contains(i),
+                    onTap: () => _toggle(i),
+                  ),
+          ),
+        ],
+        if (data.tip != null && !_hidden) TipCard(data.tip!),
       ],
     );
   }
 }
 
-/// "Play conversation" (all line clips in order) and the slow button beside it.
+/// Figma "Listening controls": "Play conversation" with a play arrow (all line clips in order; "Play again" after)
+/// and the slow button.
 class _ListenBar extends StatelessWidget {
-  const _ListenBar({required this.onPlay, required this.onPlaySlow});
+  const _ListenBar({required this.label, required this.onPlay, required this.onPlaySlow});
 
+  final String label;
   final VoidCallback onPlay;
   final VoidCallback onPlaySlow;
 
@@ -117,17 +146,18 @@ class _ListenBar extends StatelessWidget {
       children: [
         Expanded(
           child: SizedBox(
-            height: 48,
+            height: 52,
             child: FilledButton.icon(
               onPressed: onPlay,
+              iconAlignment: IconAlignment.end,
               style: FilledButton.styleFrom(
                 backgroundColor: V6Colors.primary,
                 foregroundColor: V6Colors.onPrimary,
                 textStyle: V6Text.button,
                 shape: const StadiumBorder(),
               ),
-              icon: const Icon(Icons.volume_up_rounded),
-              label: Text(t.playConversation),
+              icon: const Icon(Icons.play_arrow_rounded),
+              label: Text(label),
             ),
           ),
         ),
@@ -151,6 +181,36 @@ class _ListenBar extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Figma "Placeholder bar" bubble: the line is hidden until the conversation has played.
+class _PlaceholderBubble extends StatelessWidget {
+  const _PlaceholderBubble({required this.mine});
+
+  final bool mine;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget bar(double width) => Container(
+          width: width,
+          height: 12,
+          decoration: BoxDecoration(color: V6Colors.borderNeutral, borderRadius: BorderRadius.circular(6)),
+        );
+    return ExcludeSemantics(
+      child: Container(
+        width: 232,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: V6Colors.neutralBackground,
+          borderRadius: chatBubbleRadius(mine: mine),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [bar(168), const SizedBox(height: 2), bar(112)],
+        ),
+      ),
     );
   }
 }

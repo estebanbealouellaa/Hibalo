@@ -475,7 +475,7 @@
   "verbFormsObject": "Ano ang ginagawan",
   "playConversation": "I-play ang usapan",
   "showText": "Ipakita ang teksto",
-  "listenFirstHint": "Pakinggan muna ang usapan, saka sabayan ang pagbasa.",
+  "listenFirstHint": "Makinig muna, saka tingnan ang teksto.",
   "audioComingSoon": "Malapit na ang audio",
   "qtReading": "Pagbasa",
   "q11ReadStory": "Basahin ang kuwento",
@@ -486,5 +486,9 @@
   "q11ListenHint": "Makinig, saka piliin ang tamang sagot.",
   "showTranscript": "Ipakita ang transcript",
   "hideTranscript": "Itago ang transcript",
-  "transcriptLabel": "Transcript"
+  "transcriptLabel": "Transcript",
+  "playAgain": "I-play ulit",
+  "hideText": "Itago ang teksto",
+  "listeningTapHint": "I-tap ang linya para makita ang Filipino.",
+  "q10ListenLabel": "Pakinggan ang recording"
 }

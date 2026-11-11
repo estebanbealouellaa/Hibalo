@@ -859,8 +859,8 @@
                 "gamot"
               ],
               [
-                "ubo",
-                "ubo"
+                "kapoy",
+                "pagod"
               ],
               [
                 "sip-on",
@@ -1563,8 +1563,8 @@
             "prompt": "Match the words.",
             "pairs": [
               [
-                "dyip",
-                "dyip"
+                "manaog",
+                "bumaba"
               ],
               [
                 "traysikad",
@@ -8262,20 +8262,20 @@
             "prompt": "Match the words.",
             "pairs": [
               [
-                "ngayon",
-                "subong"
+                "subong",
+                "ngayon"
               ],
               [
-                "bukas",
-                "buwas"
+                "buwas",
+                "bukas"
               ],
               [
-                "bakit",
-                "ngaa"
+                "ngaa",
+                "bakit"
               ],
               [
-                "kailan",
-                "san-o"
+                "san-o",
+                "kailan"
               ]
             ]
           },

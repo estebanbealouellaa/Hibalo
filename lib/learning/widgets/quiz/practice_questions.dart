@@ -273,7 +273,18 @@ class _OpenAnswerQuestionState extends State<OpenAnswerQuestion> {
         // A clip to answer about (i10): the play buttons, or its transcript while it isn't recorded.
         if (widget.data.transcript != null) ...[
           AudioOrText(
-            buttons: BigAudioButtons(clip: widget.data.audio),
+            buttons: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(child: AudioButton(clip: widget.data.audio, label: t.playAudio, size: 88, iconSize: 28)),
+                const SizedBox(height: 12),
+                Text(
+                  t.q10ListenLabel,
+                  textAlign: TextAlign.center,
+                  style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary),
+                ),
+              ],
+            ),
             missing: widget.data.audio == null,
             text: widget.data.transcript,
           ),

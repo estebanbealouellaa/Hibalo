@@ -133,7 +133,7 @@ class _RolePlayPartState extends State<RolePlayPart> {
       chat.add(ChatLine(
         speaker: turn.speaker,
         avatar: widget.avatars.avatarFor(turn.speaker),
-        nameTrailing: turn.fast ? _FastLabel(t.rolePlayFast) : null,
+        nameTrailing: turn.fast ? SmallChip(t.rolePlayFast) : null,
         bubble: _ChatBubble(hil: turn.hil, fil: turn.fil, mine: isLearnerSpeaker(turn.speaker)),
       ));
       if (i < _answered && turn.correctChoice != null) {
@@ -168,7 +168,7 @@ class _RolePlayPartState extends State<RolePlayPart> {
         ] else if (current != null) ...[
           if (current.cue != null) ...[
             const SizedBox(height: 12),
-            Text(current.cue!, style: V6Text.bodyMediumSemiBold.copyWith(color: V6Colors.textSecondary)),
+            _CueLine(current.cue!),
           ],
           const SizedBox(height: 12),
           for (final (n, choice) in _choicesOf(_answered).indexed) ...[
@@ -229,17 +229,29 @@ class _ChatBubble extends StatelessWidget {
   }
 }
 
-class _FastLabel extends StatelessWidget {
-  const _FastLabel(this.text);
+/// Figma "Cue line" (P11 compatibility variant): a lagoon strip with an info icon, italic text.
+class _CueLine extends StatelessWidget {
+  const _CueLine(this.text);
 
   final String text;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-      decoration: const ShapeDecoration(color: V6Colors.coralContainer, shape: StadiumBorder()),
-      child: Text(text, style: V6Text.labelSmall.copyWith(color: V6Colors.coralText)),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(color: V6Colors.lagoonContainer, borderRadius: BorderRadius.circular(12)),
+      child: Row(
+        children: [
+          const Icon(Icons.info_rounded, size: 18, color: V6Colors.lagoonText),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: V6Text.bodyMedium.copyWith(fontStyle: FontStyle.italic, color: V6Colors.lagoonText),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
