@@ -16,6 +16,14 @@
   "@learnLessonsHeading": {
     "description": "S01 heading above the lesson list."
   },
+  "learnUnitHeader": "Unit {number} · {title}",
+  "@learnUnitHeader": {
+    "description": "S01 header above the first lesson of each unit (Intermediate). The title comes from the lesson file and stays as it is.",
+    "placeholders": {
+      "number": {"type": "int"},
+      "title": {"type": "String"}
+    }
+  },
   "learnLockedLevelsHint": "{levels}: finish {previous} to unlock",
   "@learnLockedLevelsHint": {
     "description": "S01 hint under the level tabs while later levels are locked, e.g. 'Intermediate and Advanced: finish Beginner to unlock'.",

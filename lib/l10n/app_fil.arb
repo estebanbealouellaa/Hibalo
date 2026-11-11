@@ -5,6 +5,7 @@
   "learnSubtitle": "Tuklasin ang Hiligaynon sa maiikling aralin!",
   "learnSearchHint": "Maghanap ng aralin...",
   "learnLessonsHeading": "Mga Aralin",
+  "learnUnitHeader": "Yunit {number} · {title}",
   "learnLockedLevelsHint": "{levels}: tapusin ang {previous} para mabuksan",
   "listAnd": "at",
   "learnLevelLocked": "Tapusin ang {previous} para mabuksan ang {level}",

@@ -164,6 +164,93 @@ void main() {
     });
   });
 
+  group('S01 Learn · Intermediate', () {
+    Map<String, LessonProgress> beginnerDone() => {
+          for (final l in catalog.levels.first.lessons) l.id: l.hasQuiz ? passed(8) : done,
+        };
+
+    Future<void> openIntermediate(WidgetTester tester, {Map<String, LessonProgress>? lessons}) async {
+      await show(tester, const LearnScreen(), lessons: lessons ?? beginnerDone());
+      await tester.tap(find.text('Intermediate')); // level titles come from the lesson files
+      await tester.pumpAndSettle();
+    }
+
+    Color badgeColor(WidgetTester tester, int number) {
+      final box = tester.widget<Container>(find.ancestor(of: find.text('$number'), matching: find.byType(Container)).first);
+      return (box.decoration! as BoxDecoration).color!;
+    }
+
+    testWidgets('a unit header above the first lesson of each unit', (tester) async {
+      await openIntermediate(tester);
+      for (final header in [
+        'Unit 1 · Everyday life',
+        'Unit 2 · Building sentences',
+        'Unit 3 · Real life',
+        'Unit 4 · Putting it together',
+      ]) {
+        expect(find.text(header), findsOneWidget, reason: header);
+      }
+      // In order: Unit 1, then its lessons, then Unit 2.
+      final y = tester.getTopLeft;
+      expect(y(find.text('Unit 1 · Everyday life')).dy, lessThan(y(find.text('Feelings, Health & Weather')).dy));
+      expect(y(find.text('Past, Now & Later')).dy, lessThan(y(find.text('Unit 2 · Building sentences')).dy));
+      expect(y(find.text('Unit 2 · Building sentences')).dy, lessThan(y(find.text('Who Did What')).dy));
+    });
+
+    testWidgets('rows: Lesson N numbers, meta, locked messages, placeholder thumbnails', (tester) async {
+      await openIntermediate(tester);
+      expect(find.text('15 parts • 16 min'), findsOneWidget, reason: 'i01 is open');
+      expect(find.text('Pass Lesson 1 quiz to unlock'), findsOneWidget, reason: 'i02 waits for i01');
+      expect(find.text('Pass Lesson 11 quiz to unlock'), findsOneWidget, reason: 'i12 waits for i11');
+      for (var n = 1; n <= 12; n++) {
+        expect(find.text('$n'), findsOneWidget, reason: 'number $n');
+      }
+      // No icons yet: the Figma placeholder, never the firefly.
+      expect(find.byWidgetPredicate((w) => w.runtimeType.toString() == '_PlaceholderThumbnail'), findsNWidgets(12));
+      expect(find.byType(LessonImage), findsNothing);
+    });
+
+    testWidgets('locked number badge is #79718B, on every level', (tester) async {
+      await openIntermediate(tester);
+      expect(badgeColor(tester, 1), isNot(const Color(0xFF79718B)), reason: 'i01 is current');
+      expect(badgeColor(tester, 2), const Color(0xFF79718B));
+
+      await show(tester, const LearnScreen());
+      expect(badgeColor(tester, 3), const Color(0xFF79718B), reason: 'Beginner Lesson 3 is locked');
+    });
+
+    testWidgets('passing a quiz opens the next lesson', (tester) async {
+      final i01 = catalog.levels[1].lessons.first.id;
+      await openIntermediate(tester, lessons: {...beginnerDone(), i01: passed(10)});
+      expect(find.text('13 parts • 16 min'), findsOneWidget, reason: 'i02 is open and shows its meta');
+      expect(find.text('Pass Lesson 1 quiz to unlock'), findsNothing);
+      expect(find.text('Pass Lesson 2 quiz to unlock'), findsOneWidget);
+    });
+
+    testWidgets('search keeps the unit header of the lessons it finds', (tester) async {
+      await openIntermediate(tester);
+      await tester.enterText(find.byType(TextField), 'reading');
+      await tester.pump();
+      expect(find.text('Reading a Story'), findsOneWidget);
+      expect(find.text('Unit 3 · Real life'), findsOneWidget);
+      expect(find.text('Unit 1 · Everyday life'), findsNothing);
+    });
+
+    testWidgets('Beginner has no unit headers', (tester) async {
+      await show(tester, const LearnScreen());
+      expect(find.textContaining('Unit '), findsNothing);
+    });
+
+    testWidgets('unit header in Filipino and Hiligaynon; the unit title stays as it is', (tester) async {
+      for (final code in ['fil', 'hil']) {
+        await show(tester, const LearnScreen(), lessons: beginnerDone(), locale: Locale(code));
+        await tester.tap(find.text('Intermediate'));
+        await tester.pumpAndSettle();
+        expect(find.text('Yunit 1 · Everyday life'), findsOneWidget, reason: code);
+      }
+    });
+  });
+
   group('S02 Lesson Detail', () {
     testWidgets('not started', (tester) async {
       await show(tester, const LessonDetailScreen(lessonId: 'b02'),

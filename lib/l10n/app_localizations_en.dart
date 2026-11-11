@@ -21,6 +21,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get learnLessonsHeading => 'Lessons';
 
   @override
+  String learnUnitHeader(int number, String title) {
+    return 'Unit $number · $title';
+  }
+
+  @override
   String learnLockedLevelsHint(String levels, String previous) {
     return '$levels: finish $previous to unlock';
   }

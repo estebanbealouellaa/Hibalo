@@ -102,14 +102,42 @@ class _LearnScreenState extends State<LearnScreen> {
         else
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-            sliver: SliverList.separated(
-              itemCount: lessons.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, i) =>
-                  _row(context, catalog, rules, lessons[i], t),
-            ),
+            sliver: _lessonList(context, catalog, rules, lessons, t),
           ),
       ],
+    );
+  }
+
+  /// The rows, with "Unit N · title" above the first shown lesson of each unit
+  /// (Figma "S01 · Learn · Intermediate": 12 between every header and row).
+  Widget _lessonList(
+    BuildContext context,
+    LessonCatalog catalog,
+    LearningRules rules,
+    List<Lesson> lessons,
+    AppLocalizations t,
+  ) {
+    final entries = <Object>[];
+    LessonUnit? unit;
+    for (final lesson in lessons) {
+      if (lesson.unit != null && lesson.unit != unit) entries.add(lesson.unit!);
+      unit = lesson.unit;
+      entries.add(lesson);
+    }
+    return SliverList.separated(
+      itemCount: entries.length,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (context, i) => switch (entries[i]) {
+        final LessonUnit u => Semantics(
+            header: true,
+            child: Text(
+              t.learnUnitHeader(u.number, u.title),
+              style: V6Text.labelLargeBold.copyWith(color: V6Colors.primary),
+            ),
+          ),
+        final Lesson lesson => _row(context, catalog, rules, lesson, t),
+        _ => const SizedBox.shrink(),
+      },
     );
   }
 

@@ -36,7 +36,8 @@
       "pattern.sentence": "The full sentence the slots build (shown under the slots, above 'fil').",
       "open_answer.audio / transcript": "Optional. Play button above the answer box; transcript is shown on the Sample answer sheet.",
       "icon / coverImage null": "Pictures not made yet: show the placeholder thumbnail (Figma) and the firefly banner.",
-      "image null (culture_note)": "Show firefly_reading until the picture exists."
+      "image null (culture_note)": "Show firefly_reading until the picture exists.",
+      "listening.audioText": "Hiligaynon words of the clip. Shown in place of the play button when the clip is missing."
     },
     "questionTypes": {
       "multiple_choice": [

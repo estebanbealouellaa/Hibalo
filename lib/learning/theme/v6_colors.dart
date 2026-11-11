@@ -31,6 +31,9 @@ abstract final class V6Colors {
   static const borderNeutral = Color(0xFF8E8B98); // V6/Color/Border/Neutral
   static const borderFocus = Color(0xFF6837CD); // V6/Color/Border/Focus
 
+  // Lesson list
+  static const lessonLockedBadge = Color(0xFF79718B); // V6/Color/Lesson/Locked Badge
+
   // States
   static const stateDisabled = Color(0xFFE9E1F2); // V6/Color/State/Disabled
   static const navInactiveIcon = Color(0xFF9384B5); // V6/Color/Nav/Inactive Icon

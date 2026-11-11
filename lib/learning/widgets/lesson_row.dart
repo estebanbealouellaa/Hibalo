@@ -26,7 +26,7 @@ class LessonRow extends StatelessWidget {
   final String meta;
   final LessonRowState state;
 
-  /// Lesson icon asset path, or null (→ firefly_reading).
+  /// Lesson icon asset path, or null (→ the Figma placeholder thumbnail; Intermediate pictures aren't made yet).
   final String? icon;
   final String fallbackPicture;
 
@@ -75,16 +75,18 @@ class LessonRow extends StatelessWidget {
                 const SizedBox(width: 10),
                 Opacity(
                   opacity: _locked ? 0.6 : 1,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: LessonImage(
-                      path: icon,
-                      fallback: fallbackPicture,
-                      width: 52,
-                      height: 52,
-                      fallbackColor: V6Colors.primaryContainer,
-                    ),
-                  ),
+                  child: icon == null
+                      ? const _PlaceholderThumbnail()
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: LessonImage(
+                            path: icon,
+                            fallback: fallbackPicture,
+                            width: 52,
+                            height: 52,
+                            fallbackColor: V6Colors.primaryContainer,
+                          ),
+                        ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(child: _texts()),
@@ -150,7 +152,7 @@ class _NumberBox extends StatelessWidget {
       LessonRowState.current ||
       LessonRowState.quizPending =>
         (V6Colors.citrus, V6Colors.onCitrus),
-      LessonRowState.locked => (V6Colors.textDisabled, V6Colors.onPrimary),
+      LessonRowState.locked => (V6Colors.lessonLockedBadge, V6Colors.onPrimary),
     };
 
     return SizedBox(
@@ -190,4 +192,56 @@ class _NumberBox extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Figma "Image Placeholder" at 52 × 52: a grey tile with a dashed border and an X,
+/// shown while a lesson has no icon yet.
+class _PlaceholderThumbnail extends StatelessWidget {
+  const _PlaceholderThumbnail();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 52,
+      height: 52,
+      child: CustomPaint(painter: _PlaceholderPainter()),
+    );
+  }
+}
+
+class _PlaceholderPainter extends CustomPainter {
+  const _PlaceholderPainter();
+
+  static const double _radius = 16;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rrect = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(_radius));
+    canvas.drawRRect(rrect, Paint()..color = V6Colors.neutralBackground);
+
+    // The X, clipped to the tile.
+    canvas.save();
+    canvas.clipRRect(rrect);
+    final cross = Paint()
+      ..color = V6Colors.borderInput.withValues(alpha: 0.5)
+      ..strokeWidth = 1;
+    canvas.drawLine(Offset.zero, Offset(size.width, size.height), cross);
+    canvas.drawLine(Offset(size.width, 0), Offset(0, size.height), cross);
+    canvas.restore();
+
+    // Dashed border.
+    final border = Paint()
+      ..color = V6Colors.borderInput
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    final path = Path()..addRRect(rrect.deflate(0.75));
+    for (final metric in path.computeMetrics()) {
+      for (double d = 0; d < metric.length; d += 7) {
+        canvas.drawPath(metric.extractPath(d, (d + 4).clamp(0, metric.length)), border);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_PlaceholderPainter oldDelegate) => false;
 }

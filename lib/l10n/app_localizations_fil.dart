@@ -21,6 +21,11 @@ class AppLocalizationsFil extends AppLocalizations {
   String get learnLessonsHeading => 'Mga Aralin';
 
   @override
+  String learnUnitHeader(int number, String title) {
+    return 'Yunit $number · $title';
+  }
+
+  @override
   String learnLockedLevelsHint(String levels, String previous) {
     return '$levels: tapusin ang $previous para mabuksan';
   }

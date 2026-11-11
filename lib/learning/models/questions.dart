@@ -78,6 +78,7 @@ sealed class QuizQuestion {
             answerAudio: answerAudio,
             prompt: q.str('prompt'),
             audio: audio('audio'),
+            audioText: q.strOrNull('audioText'),
             optionKind: q.str('optionKind'),
             options: options,
             answer: answer);
@@ -258,6 +259,7 @@ class ListeningData extends QuizQuestion with ChoiceQuestion {
     required super.answerAudio,
     required this.prompt,
     required this.audio,
+    this.audioText,
     required this.optionKind,
     required this.options,
     required this.answer,
@@ -267,6 +269,9 @@ class ListeningData extends QuizQuestion with ChoiceQuestion {
 
   /// The clip to listen to, or null if it isn't recorded yet.
   final String? audio;
+
+  /// The clip's Hiligaynon words, shown in place of the play button while the clip is missing; null if the JSON has none.
+  final String? audioText;
 
   /// "text" (the only kind used so far).
   final String optionKind;

@@ -124,6 +124,12 @@ abstract class AppLocalizations {
   /// **'Lessons'**
   String get learnLessonsHeading;
 
+  /// S01 header above the first lesson of each unit (Intermediate). The title comes from the lesson file and stays as it is.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit {number} · {title}'**
+  String learnUnitHeader(int number, String title);
+
   /// S01 hint under the level tabs while later levels are locked, e.g. 'Intermediate and Advanced: finish Beginner to unlock'.
   ///
   /// In en, this message translates to:

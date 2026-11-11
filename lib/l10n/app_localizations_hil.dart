@@ -22,6 +22,11 @@ class AppLocalizationsHil extends AppLocalizations {
   String get learnLessonsHeading => 'Mga Leksyon';
 
   @override
+  String learnUnitHeader(int number, String title) {
+    return 'Yunit $number · $title';
+  }
+
+  @override
   String learnLockedLevelsHint(String levels, String previous) {
     return '$levels: tapusa ang $previous para mabuksan';
   }

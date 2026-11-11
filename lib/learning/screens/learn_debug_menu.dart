@@ -23,6 +23,22 @@ void showLearnDebugMenu(BuildContext context) {
 
   int scored(int i) => lessons[i].quiz?.scoredQuestions.length ?? 0;
 
+  final beginnerPassed = {
+    for (var i = 0; i < lessons.length; i++)
+      lessons[i].id: i == 0 ? done() : done(passed: true, best: scored(i)),
+  };
+  final intermediate = [
+    for (final level in progress.catalog.levels)
+      if (level.id == 'intermediate') ...level.lessons,
+  ];
+
+  /// All Beginner passed and Intermediate Lessons 1…[count] passed (full score).
+  Map<String, LessonProgress> intermediatePassed(int count) => {
+        ...beginnerPassed,
+        for (final l in intermediate.take(count))
+          l.id: done(passed: true, best: l.quiz?.scoredQuestions.length ?? 0),
+      };
+
   final presets = <String, Map<String, LessonProgress>>{
     'Reset all progress': {},
     'Lesson 1 done': {lessons[0].id: done()},
@@ -47,9 +63,15 @@ void showLearnDebugMenu(BuildContext context) {
                 ? done()
                 : done(passed: true, best: scored(i)),
     },
-    'All Beginner passed': {
-      for (var i = 0; i < lessons.length; i++)
-        lessons[i].id: i == 0 ? done() : done(passed: true, best: scored(i)),
+    'All Beginner passed': beginnerPassed,
+    if (intermediate.length >= 12) ...{
+      'Intermediate: Lesson 3 current': intermediatePassed(2),
+      'Intermediate: Lesson 10 current': intermediatePassed(9),
+      'Intermediate: Lesson 12 current': intermediatePassed(11),
+      'Intermediate: Lesson 12 finished, quiz pending': {
+        ...intermediatePassed(11),
+        intermediate[11].id: done(),
+      },
     },
   };
 

@@ -266,6 +266,17 @@ void main() {
     }
   });
 
+  test('every Intermediate listening question has the words of its clip', () {
+    final listening = [
+      for (final l in intermediate) ...l.quiz!.questions.whereType<ListeningData>(),
+    ];
+    expect(listening, hasLength(10));
+    for (final q in listening) {
+      expect(q.audioText, isNotNull, reason: q.id);
+      expect(q.audioText!.trim(), isNotEmpty, reason: q.id);
+    }
+  });
+
   test('Q08 plays the same clip on the Wrong sheet', () {
     for (final file in [_beginnerFile, _intermediateFile]) {
       final raw = jsonDecode(File('assets/$file').readAsStringSync());

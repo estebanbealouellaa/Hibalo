@@ -831,6 +831,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i01/i01_nahadlok.m4a",
+            "audioText": "nahadlok",
             "optionKind": "text",
             "options": [
               "natakot",
@@ -1626,6 +1627,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i02/i02_pamasahe.m4a",
+            "audioText": "pamasahe",
             "optionKind": "text",
             "options": [
               "pamasahe",
@@ -2370,6 +2372,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i03/i03_nakatulog.m4a",
+            "audioText": "nakatulog",
             "optionKind": "text",
             "options": [
               "nakatulog",
@@ -3027,6 +3030,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i04/i04_ginpalit.m4a",
+            "audioText": "ginpalit",
             "optionKind": "text",
             "options": [
               "niluto",
@@ -4613,6 +4617,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i06/i06_matam_is.m4a",
+            "audioText": "matam-is",
             "optionKind": "text",
             "options": [
               "matamis",
@@ -5423,6 +5428,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i07/i07_indi_ko_gusto.m4a",
+            "audioText": "Indi ko gusto.",
             "optionKind": "text",
             "options": [
               "Ayaw ko.",
@@ -6275,6 +6281,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i08/i08_tagpila_ang_kilo.m4a",
+            "audioText": "Tagpila ang kilo?",
             "optionKind": "text",
             "options": [
               "Magkano ang isang kilo?",
@@ -6980,6 +6987,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i09/i09_mabaskog.m4a",
+            "audioText": "mabaskog",
             "optionKind": "text",
             "options": [
               "malakas",
@@ -7578,6 +7586,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i10/i10_alas_siete.m4a",
+            "audioText": "alas-siete",
             "optionKind": "text",
             "options": [
               "7:00",
@@ -8329,6 +8338,7 @@
             "type": "listening",
             "prompt": "What does the speaker say?",
             "audio": "audio/i11/i11_diin_ka_makadto_buwas.m4a",
+            "audioText": "Diin ka makadto buwas?",
             "optionKind": "text",
             "options": [
               "Saan ka pupunta bukas?",
