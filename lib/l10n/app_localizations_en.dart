@@ -1596,4 +1596,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get audioComingSoon => 'Audio coming soon';
+
+  @override
+  String get qtReading => 'Reading';
+
+  @override
+  String get q11ReadStory => 'Read the story';
+
+  @override
+  String get q11ReadConversation => 'Read the conversation';
+
+  @override
+  String get q11ReadHint => 'Read the story, then choose the correct answer.';
+
+  @override
+  String get q11ReadConversationHint =>
+      'Read the conversation, then choose the correct answer.';
+
+  @override
+  String get q11ListenLabel => 'Listen to the conversation';
+
+  @override
+  String get q11ListenHint => 'Listen, then choose the correct answer.';
+
+  @override
+  String get showTranscript => 'Show transcript';
+
+  @override
+  String get hideTranscript => 'Hide transcript';
+
+  @override
+  String get transcriptLabel => 'Transcript';
 }

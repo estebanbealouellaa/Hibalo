@@ -300,10 +300,14 @@ class AudioButton extends StatelessWidget {
     this.iconSize,
     this.background = V6Colors.primary,
     this.foreground = V6Colors.onPrimary,
+    this.onPressed,
   });
 
   /// The clip's asset path, or null (then nothing is shown).
   final String? clip;
+
+  /// Plays something else than [clip] (e.g. a whole conversation); [clip] then only decides if the button shows.
+  final VoidCallback? onPressed;
   final String label;
   final bool slow;
   final double size;
@@ -331,7 +335,7 @@ class AudioButton extends StatelessWidget {
             shape: const CircleBorder(),
             child: InkWell(
               customBorder: const CircleBorder(),
-              onTap: () => LessonAudio.instance.play(clip, slow: slow),
+              onTap: onPressed ?? () => LessonAudio.instance.play(clip, slow: slow),
               child: SizedBox(
                 width: size,
                 height: size,

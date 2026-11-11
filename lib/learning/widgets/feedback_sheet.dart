@@ -31,6 +31,7 @@ Future<void> showFeedbackSheet(
   String? answerAudio,
   String? detail,
   List<(String, String)>? pairs,
+  String? transcript,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -49,6 +50,7 @@ Future<void> showFeedbackSheet(
         answerAudio: answerAudio,
         detail: detail,
         pairs: pairs,
+        transcript: transcript,
       ),
     ),
   );
@@ -66,6 +68,7 @@ class FeedbackSheet extends StatelessWidget {
     this.answerAudio,
     this.detail,
     this.pairs,
+    this.transcript,
   });
 
   final FeedbackType type;
@@ -88,6 +91,9 @@ class FeedbackSheet extends StatelessWidget {
   /// Q07 Match pairs: the right pairs (Hiligaynon, Filipino), listed on the
   /// Wrong / Time's up sheet instead of one answer.
   final List<(String, String)>? pairs;
+
+  /// F04 for an open answer about a clip (i10): what the clip says, under the sample answer.
+  final String? transcript;
 
   @override
   Widget build(BuildContext context) {
@@ -175,6 +181,12 @@ class FeedbackSheet extends StatelessWidget {
                     if (info && answer != null) ...[
                       const SizedBox(height: 4),
                       Text(answer!, style: V6Text.bodyLargeSemiBold),
+                    ],
+                    if (info && transcript != null) ...[
+                      const SizedBox(height: 10),
+                      Text(t.transcriptLabel, style: V6Text.labelMediumBold.copyWith(color: V6Colors.textMuted)),
+                      const SizedBox(height: 2),
+                      Text(transcript!, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
                     ],
                     // F02/F03 for Q07: every right pair.
                     if (!info && pairs != null && type != FeedbackType.correct) ...[

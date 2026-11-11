@@ -19,6 +19,7 @@ import '../widgets/feedback_sheet.dart';
 import '../widgets/leave_dialog.dart';
 import '../widgets/quiz/choice_questions.dart';
 import '../widgets/quiz/practice_questions.dart';
+import '../widgets/quiz/read_answer_question.dart';
 import '../widgets/quiz/question_contract.dart';
 import '../widgets/quiz/quiz_common.dart';
 import '../widgets/quiz/tile_questions.dart';
@@ -142,7 +143,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
       case OpenAnswerData():
         _outcomes[q.id] = QuestionOutcome.practice;
         setState(() => _phase = QuestionPhase.checked);
-        await _sheet(type: FeedbackType.info, answer: q.modelAnswer);
+        await _sheet(type: FeedbackType.info, answer: q.modelAnswer, transcript: q.transcript);
       default:
         final right = _answer.correct;
         _outcomes[q.id] = right ? QuestionOutcome.right : QuestionOutcome.wrong;
@@ -190,6 +191,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
     String? answer,
     String? answerAudio,
     List<(String, String)>? pairs,
+    String? transcript,
   }) async {
     if (!mounted) return;
     _timer?.pause();
@@ -201,6 +203,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
         answer: answer,
         answerAudio: answerAudio,
         pairs: pairs,
+        transcript: transcript,
       );
     } finally {
       _timer?.resume();
@@ -349,13 +352,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
       DictationData d => DictationQuestion(data: d, phase: _phase, onChanged: _onAnswer),
       SpeakingData d => SpeakingQuestion(data: d, recorder: _recorder, onChanged: _onAnswer),
       OpenAnswerData d => OpenAnswerQuestion(data: d, phase: _phase, onChanged: _onAnswer),
-      // Stage 1 stand-in until ReadAnswerQuestion exists: the question as a plain multiple choice.
-      ReadAnswerData d => MultipleChoiceQuestion(
-          data: MultipleChoiceData(d.id,
-              answerAudio: d.answerAudio, prompt: d.question, options: d.options, answer: d.answer),
-          order: order,
-          phase: _phase,
-          onChanged: _onAnswer),
+      ReadAnswerData d => ReadAnswerQuestion(data: d, order: order, phase: _phase, onChanged: _onAnswer),
     };
   }
 

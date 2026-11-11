@@ -4,6 +4,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../models/questions.dart';
 import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
+import '../../services/lesson_audio.dart';
 import '../parts/part_common.dart' show AudioButton;
 
 /// Building blocks shared by the Q01–Q10 widgets, sized from the Figma
@@ -30,8 +31,11 @@ class QuestionTypeChip extends StatelessWidget {
       DictationData() => (t.qtDictation, Icons.volume_up_rounded, V6Colors.lagoonContainer, V6Colors.lagoonText),
       SpeakingData() => (t.qtSpeaking, Icons.mic_rounded, V6Colors.coralContainer, V6Colors.coralText),
       OpenAnswerData() => (t.qtOpenAnswer, Icons.content_paste_rounded, V6Colors.glowTonal, V6Colors.glowText),
-      // Stage 1 stand-in; Q11's own chips come with its widget.
-      ReadAnswerData() => (t.qtChoose, Icons.check_circle_rounded, V6Colors.citrusContainer, V6Colors.citrusText),
+      // Figma Q11: "Reading" is citrus; listen mode uses the Listening chip (lagoon).
+      ReadAnswerData(mode: ReadAnswerMode.read) =>
+        (t.qtReading, Icons.check_circle_rounded, V6Colors.citrusContainer, V6Colors.citrusText),
+      ReadAnswerData(mode: ReadAnswerMode.listen) =>
+        (t.qtListening, Icons.volume_up_rounded, V6Colors.lagoonContainer, V6Colors.lagoonText),
     };
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 6, 12, 6),
@@ -110,10 +114,14 @@ class PromptCard extends StatelessWidget {
     required this.text,
     this.sub,
     this.child,
+    this.textStyle,
   });
 
   final String label;
   final String text;
+
+  /// Overrides the big Hiligaynon style (a long transcript uses body text).
+  final TextStyle? textStyle;
   final String? sub;
   final Widget? child;
 
@@ -131,7 +139,7 @@ class PromptCard extends StatelessWidget {
         children: [
           Text(label, style: V6Text.labelMediumBold.copyWith(color: V6Colors.glowText)),
           const SizedBox(height: 6),
-          Text(text, style: V6Text.hilResultExtraBold),
+          Text(text, style: textStyle ?? V6Text.hilResultExtraBold),
           if (sub != null) ...[
             const SizedBox(height: 6),
             Text(sub!, style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted)),
@@ -260,22 +268,33 @@ class QuizTextField extends StatelessWidget {
 }
 
 /// The 88 px play button and the 48 px slow button side by side. Nothing is
-/// shown when [clip] is null (not recorded yet).
+/// shown when [clip] is null (not recorded yet). [clips] plays a whole conversation instead.
 class BigAudioButtons extends StatelessWidget {
-  const BigAudioButtons({super.key, required this.clip});
+  const BigAudioButtons({super.key, required this.clip}) : clips = null;
+
+  BigAudioButtons.conversation({super.key, required List<String> this.clips})
+      : clip = clips.isEmpty ? null : clips.first;
 
   final String? clip;
+  final List<String>? clips;
 
   @override
   Widget build(BuildContext context) {
     if (clip == null) return const SizedBox.shrink();
     final t = AppLocalizations.of(context);
+    final all = clips;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AudioButton(clip: clip, label: t.playAudio, size: 88, iconSize: 28),
+          AudioButton(
+            clip: clip,
+            label: t.playAudio,
+            size: 88,
+            iconSize: 28,
+            onPressed: all == null ? null : () => LessonAudio.instance.playAll(all),
+          ),
           const SizedBox(width: 16),
           AudioButton(
             clip: clip,
@@ -285,9 +304,39 @@ class BigAudioButtons extends StatelessWidget {
             iconSize: 24,
             background: V6Colors.primaryContainer,
             foreground: V6Colors.primary,
+            onPressed: all == null ? null : () => LessonAudio.instance.playAll(all, slow: true),
           ),
         ],
       ),
+    );
+  }
+}
+
+/// The play buttons, or, while the clip isn't recorded, its Hiligaynon words ([text]) in a prompt card
+/// with "Audio coming soon" (Q02, Q08, Q10, Q11 listen). With no [text] only the note shows.
+class AudioOrText extends StatelessWidget {
+  const AudioOrText({super.key, required this.buttons, required this.missing, required this.text});
+
+  final Widget buttons;
+
+  /// The clip isn't in the app.
+  final bool missing;
+  final String? text;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!missing) return buttons;
+    final t = AppLocalizations.of(context);
+    final words = text;
+    if (words == null) {
+      return Text(t.audioComingSoon, style: V6Text.caption.copyWith(color: V6Colors.textMuted));
+    }
+    return PromptCard(
+      label: t.hiligaynonLabel,
+      text: words,
+      // A word or short line stays big; a longer passage (e.g. the i10 transcript) is body text.
+      textStyle: words.length > 40 ? V6Text.bodyLargeSemiBold : null,
+      child: Text(t.audioComingSoon, style: V6Text.caption.copyWith(color: V6Colors.textMuted)),
     );
   }
 }

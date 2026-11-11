@@ -2955,6 +2955,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Audio coming soon'**
   String get audioComingSoon;
+
+  /// Q11 question type chip (read mode).
+  ///
+  /// In en, this message translates to:
+  /// **'Reading'**
+  String get qtReading;
+
+  /// Q11 label above a reading passage.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the story'**
+  String get q11ReadStory;
+
+  /// Q11 label above a dialogue passage.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the conversation'**
+  String get q11ReadConversation;
+
+  /// Q11 hint under the question (reading).
+  ///
+  /// In en, this message translates to:
+  /// **'Read the story, then choose the correct answer.'**
+  String get q11ReadHint;
+
+  /// Q11 hint under the question (dialogue).
+  ///
+  /// In en, this message translates to:
+  /// **'Read the conversation, then choose the correct answer.'**
+  String get q11ReadConversationHint;
+
+  /// Q11 listen mode, under the play buttons.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to the conversation'**
+  String get q11ListenLabel;
+
+  /// Q11 listen mode hint under the question.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen, then choose the correct answer.'**
+  String get q11ListenHint;
+
+  /// Q11 listen mode after answering: shows the conversation text.
+  ///
+  /// In en, this message translates to:
+  /// **'Show transcript'**
+  String get showTranscript;
+
+  /// Q11 listen mode: hides the conversation text again.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide transcript'**
+  String get hideTranscript;
+
+  /// F04 Sample answer: label above what the clip says.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcript'**
+  String get transcriptLabel;
 }
 
 class _AppLocalizationsDelegate

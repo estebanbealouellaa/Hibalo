@@ -476,5 +476,15 @@
   "playConversation": "I-play ang usapan",
   "showText": "Ipakita ang teksto",
   "listenFirstHint": "Pakinggan muna ang usapan, saka sabayan ang pagbasa.",
-  "audioComingSoon": "Malapit na ang audio"
+  "audioComingSoon": "Malapit na ang audio",
+  "qtReading": "Pagbasa",
+  "q11ReadStory": "Basahin ang kuwento",
+  "q11ReadConversation": "Basahin ang usapan",
+  "q11ReadHint": "Basahin ang kuwento, saka piliin ang tamang sagot.",
+  "q11ReadConversationHint": "Basahin ang usapan, saka piliin ang tamang sagot.",
+  "q11ListenLabel": "Pakinggan ang usapan",
+  "q11ListenHint": "Makinig, saka piliin ang tamang sagot.",
+  "showTranscript": "Ipakita ang transcript",
+  "hideTranscript": "Itago ang transcript",
+  "transcriptLabel": "Transcript"
 }

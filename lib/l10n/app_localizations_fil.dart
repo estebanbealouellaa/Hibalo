@@ -1609,4 +1609,36 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get audioComingSoon => 'Malapit na ang audio';
+
+  @override
+  String get qtReading => 'Pagbasa';
+
+  @override
+  String get q11ReadStory => 'Basahin ang kuwento';
+
+  @override
+  String get q11ReadConversation => 'Basahin ang usapan';
+
+  @override
+  String get q11ReadHint =>
+      'Basahin ang kuwento, saka piliin ang tamang sagot.';
+
+  @override
+  String get q11ReadConversationHint =>
+      'Basahin ang usapan, saka piliin ang tamang sagot.';
+
+  @override
+  String get q11ListenLabel => 'Pakinggan ang usapan';
+
+  @override
+  String get q11ListenHint => 'Makinig, saka piliin ang tamang sagot.';
+
+  @override
+  String get showTranscript => 'Ipakita ang transcript';
+
+  @override
+  String get hideTranscript => 'Itago ang transcript';
+
+  @override
+  String get transcriptLabel => 'Transcript';
 }

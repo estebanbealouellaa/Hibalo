@@ -1576,7 +1576,7 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String rolePlayNotQuite(String hint) {
-    return 'Indi pa husto: $hint. Tilawi ang iban nga sabat.';
+    return 'Indi pa husto: $hint. Pilia ang iban nga sabat.';
   }
 
   @override
@@ -1610,4 +1610,36 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get audioComingSoon => 'Madali na lang ang audio';
+
+  @override
+  String get qtReading => 'Pagbasa';
+
+  @override
+  String get q11ReadStory => 'Basaha ang istorya';
+
+  @override
+  String get q11ReadConversation => 'Basaha ang istoryahanay';
+
+  @override
+  String get q11ReadHint =>
+      'Basaha ang istorya, dayon pilia ang husto nga sabat.';
+
+  @override
+  String get q11ReadConversationHint =>
+      'Basaha ang istoryahanay, dayon pilia ang husto nga sabat.';
+
+  @override
+  String get q11ListenLabel => 'Pamatii ang istoryahanay';
+
+  @override
+  String get q11ListenHint => 'Pamati, dayon pilia ang husto nga sabat.';
+
+  @override
+  String get showTranscript => 'Ipakita ang transcript';
+
+  @override
+  String get hideTranscript => 'Tagua ang transcript';
+
+  @override
+  String get transcriptLabel => 'Transcript';
 }

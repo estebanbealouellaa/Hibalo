@@ -231,6 +231,17 @@ void main() {
       expect(find.textContaining('Lesson ${last.order + 1}'), findsNothing);
     });
 
+    testWidgets('after Intermediate Lesson 12: "Intermediate complete!"', (tester) async {
+      await show(tester, QuizResultScreen(lessonId: 'i12', result: result(11, 11), answers: allRight('i12')));
+      expect(find.text('Intermediate complete!'), findsOneWidget);
+      expect(find.textContaining('Lesson 13'), findsNothing);
+    });
+
+    testWidgets('Intermediate Lesson 1 passed: "Lesson 2 unlocked"', (tester) async {
+      await show(tester, QuizResultScreen(lessonId: 'i01', result: result(11, 11), answers: allRight('i01')));
+      expect(find.text('Lesson 2 unlocked'), findsOneWidget);
+    });
+
     testWidgets('last Beginner lesson not passed: "Pass this quiz to complete Beginner"', (tester) async {
       final last = lastBeginner();
       await show(tester, QuizResultScreen(lessonId: last.id, result: result(2, 8), answers: allRight(last.id)));
@@ -295,6 +306,28 @@ void main() {
       final type = qs.whereType<TypeAnswerData>().first;
       expect(find.text('Your answer: ${type.accepted.first}'), findsOneWidget);
       expect(find.byIcon(Icons.close_rounded), findsNWidgets(3));
+    });
+
+    testWidgets('Q11 rows look like Q01: the question, your answer, the correct answer', (tester) async {
+      final qs = quizOf('i09');
+      final reads = qs.whereType<ReadAnswerData>().toList();
+      expect(reads, hasLength(3));
+      final answers = [
+        for (final q in qs)
+          q == reads.first
+              ? AnsweredQuestion(question: q, outcome: QuestionOutcome.wrong, answer: reads.first.options[(reads.first.answer + 1) % reads.first.options.length])
+              : AnsweredQuestion(
+                  question: q,
+                  outcome: q.scored ? QuestionOutcome.right : QuestionOutcome.practice,
+                  answer: correctAnswerText(q),
+                  pairsRight: q is MatchPairsData ? q.pairs.length : null,
+                ),
+      ];
+      await show(tester, QuizReviewScreen(result: result(10, 11), answers: answers), size: const Size(375, 3200));
+      final n = qs.indexOf(reads.first) + 1;
+      expect(find.text('$n. ${reads.first.question}'), findsOneWidget);
+      expect(find.text('Correct answer: ${reads.first.correctOption}'), findsOneWidget);
+      expect(find.text('${qs.indexOf(reads[1]) + 1}. ${reads[1].question}'), findsOneWidget);
     });
 
     testWidgets('failed version: Try again + Back to lessons; Back returns to S04', (tester) async {

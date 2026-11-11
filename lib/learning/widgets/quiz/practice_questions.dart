@@ -83,13 +83,16 @@ class _SpeakingQuestionState extends State<SpeakingQuestion> {
           label: t.hiligaynonLabel,
           text: widget.data.text,
           sub: widget.data.meaning,
-          child: Row(
-            children: [
-              AudioButton(clip: widget.data.audio, label: t.nativeSpeaker, size: 64, iconSize: 28),
-              const SizedBox(width: 8),
-              Text(t.nativeSpeaker, style: V6Text.labelLargeBold.copyWith(color: V6Colors.primary)),
-            ],
-          ),
+          // While the clip isn't recorded: "Audio coming soon" instead of the Native speaker button.
+          child: widget.data.audio == null
+              ? Text(t.audioComingSoon, style: V6Text.caption.copyWith(color: V6Colors.textMuted))
+              : Row(
+                  children: [
+                    AudioButton(clip: widget.data.audio, label: t.nativeSpeaker, size: 64, iconSize: 28),
+                    const SizedBox(width: 8),
+                    Text(t.nativeSpeaker, style: V6Text.labelLargeBold.copyWith(color: V6Colors.primary)),
+                  ],
+                ),
         ),
         const SizedBox(height: 10),
         Center(
@@ -113,7 +116,7 @@ class _SpeakingQuestionState extends State<SpeakingQuestion> {
                 label: t.nativeSpeaker,
                 background: V6Colors.primaryContainer,
                 foreground: V6Colors.primary,
-                onTap: () => LessonAudio.instance.play(widget.data.audio),
+                onTap: widget.data.audio == null ? null : () => LessonAudio.instance.play(widget.data.audio),
               ),
             ),
             const SizedBox(width: 12),
@@ -267,6 +270,15 @@ class _OpenAnswerQuestionState extends State<OpenAnswerQuestion> {
       children: [
         QuizTitle(widget.data.prompt, hint: widget.data.hint),
         const SizedBox(height: 12),
+        // A clip to answer about (i10): the play buttons, or its transcript while it isn't recorded.
+        if (widget.data.transcript != null) ...[
+          AudioOrText(
+            buttons: BigAudioButtons(clip: widget.data.audio),
+            missing: widget.data.audio == null,
+            text: widget.data.transcript,
+          ),
+          const SizedBox(height: 12),
+        ],
         // Figma "Answer box": at least 160 high, padding 16/14, radius 14.
         ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 160),

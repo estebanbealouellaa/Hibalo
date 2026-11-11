@@ -466,7 +466,7 @@
   "adminEntry": "Admin",
   "settingsClearHistory": "Panason ang history sang translation",
   "rolePlayInstruction": "Pilia ang imo sabat.",
-  "rolePlayNotQuite": "Indi pa husto: {hint}. Tilawi ang iban nga sabat.",
+  "rolePlayNotQuite": "Indi pa husto: {hint}. Pilia ang iban nga sabat.",
   "rolePlayFast": "Madasig maghambal",
   "verbFormsInstruction": "I-tap ang gamot nga tinaga para makita kon paano nagabag-o ang porma sini.",
   "verbFormsWhen": "San-o",
@@ -476,5 +476,15 @@
   "playConversation": "I-play ang istoryahanay",
   "showText": "Ipakita ang teksto",
   "listenFirstHint": "Pamatii anay ang istoryahanay, dayon basaha upod.",
-  "audioComingSoon": "Madali na lang ang audio"
+  "audioComingSoon": "Madali na lang ang audio",
+  "qtReading": "Pagbasa",
+  "q11ReadStory": "Basaha ang istorya",
+  "q11ReadConversation": "Basaha ang istoryahanay",
+  "q11ReadHint": "Basaha ang istorya, dayon pilia ang husto nga sabat.",
+  "q11ReadConversationHint": "Basaha ang istoryahanay, dayon pilia ang husto nga sabat.",
+  "q11ListenLabel": "Pamatii ang istoryahanay",
+  "q11ListenHint": "Pamati, dayon pilia ang husto nga sabat.",
+  "showTranscript": "Ipakita ang transcript",
+  "hideTranscript": "Tagua ang transcript",
+  "transcriptLabel": "Transcript"
 }

@@ -132,7 +132,12 @@ class _DictationQuestionState extends State<DictationQuestion>
       children: [
         QuizTitle(widget.data.prompt, hint: t.q08Hint),
         const SizedBox(height: 12),
-        BigAudioButtons(clip: widget.data.audio),
+        // While the clip isn't recorded: the sentence to write, with "Audio coming soon".
+        AudioOrText(
+          buttons: BigAudioButtons(clip: widget.data.audio),
+          missing: widget.data.audio == null,
+          text: widget.data.accepted.first,
+        ),
         const SizedBox(height: 12),
         QuizTextField(controller: controller, enabled: answering, onChanged: _onTyped),
         if (bank.isNotEmpty) ...[

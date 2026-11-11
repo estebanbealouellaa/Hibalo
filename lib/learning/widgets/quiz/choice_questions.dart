@@ -11,9 +11,10 @@ import 'quiz_common.dart';
 
 /// Q01, Q02, Q03 and Q06: tap selects one option card, Check reveals right / wrong.
 
-/// The shuffled option cards, shared by the four widgets below.
-class _OptionList extends StatelessWidget {
-  const _OptionList({
+/// The shuffled option cards, shared by the choice widgets (Q01, Q02, Q03, Q06 and Q11).
+class ChoiceOptionList extends StatelessWidget {
+  const ChoiceOptionList({
+    super.key,
     required this.question,
     required this.order,
     required this.chosen,
@@ -60,8 +61,8 @@ class _OptionList extends StatelessWidget {
   }
 }
 
-/// Keeps the chosen option and reports it to the shell.
-mixin _ChoiceState<W extends StatefulWidget> on State<W> {
+/// Keeps the chosen option and reports it to the shell (also used by Q11).
+mixin ChoiceState<W extends StatefulWidget> on State<W> {
   int? chosen;
 
   ChoiceQuestion get choice;
@@ -92,7 +93,7 @@ class MultipleChoiceQuestion extends StatefulWidget {
 }
 
 class _MultipleChoiceQuestionState extends State<MultipleChoiceQuestion>
-    with _ChoiceState<MultipleChoiceQuestion> {
+    with ChoiceState<MultipleChoiceQuestion> {
   @override
   ChoiceQuestion get choice => widget.data;
   @override
@@ -105,7 +106,7 @@ class _MultipleChoiceQuestionState extends State<MultipleChoiceQuestion>
       children: [
         QuizTitle(widget.data.prompt, hint: AppLocalizations.of(context).q01Hint),
         const SizedBox(height: 12),
-        _OptionList(
+        ChoiceOptionList(
           question: widget.data,
           order: widget.order,
           chosen: chosen,
@@ -136,7 +137,7 @@ class ListeningQuestion extends StatefulWidget {
 }
 
 class _ListeningQuestionState extends State<ListeningQuestion>
-    with _ChoiceState<ListeningQuestion> {
+    with ChoiceState<ListeningQuestion> {
   @override
   ChoiceQuestion get choice => widget.data;
   @override
@@ -149,9 +150,14 @@ class _ListeningQuestionState extends State<ListeningQuestion>
       children: [
         QuizTitle(widget.data.prompt, hint: AppLocalizations.of(context).q02Hint),
         const SizedBox(height: 12),
-        BigAudioButtons(clip: widget.data.audio),
+        // While the clip isn't recorded: its words (audioText) with "Audio coming soon".
+        AudioOrText(
+          buttons: BigAudioButtons(clip: widget.data.audio),
+          missing: widget.data.audio == null,
+          text: widget.data.audioText,
+        ),
         const SizedBox(height: 12),
-        _OptionList(
+        ChoiceOptionList(
           question: widget.data,
           order: widget.order,
           chosen: chosen,
@@ -182,7 +188,7 @@ class FillBlankQuestion extends StatefulWidget {
 }
 
 class _FillBlankQuestionState extends State<FillBlankQuestion>
-    with _ChoiceState<FillBlankQuestion> {
+    with ChoiceState<FillBlankQuestion> {
   @override
   ChoiceQuestion get choice => widget.data;
   @override
@@ -204,7 +210,7 @@ class _FillBlankQuestionState extends State<FillBlankQuestion>
           sub: widget.data.meaning,
         ),
         const SizedBox(height: 12),
-        _OptionList(
+        ChoiceOptionList(
           question: widget.data,
           order: widget.order,
           chosen: chosen,
@@ -239,7 +245,7 @@ class RealSituationQuestion extends StatefulWidget {
 }
 
 class _RealSituationQuestionState extends State<RealSituationQuestion>
-    with _ChoiceState<RealSituationQuestion> {
+    with ChoiceState<RealSituationQuestion> {
   @override
   ChoiceQuestion get choice => widget.data;
   @override
@@ -281,7 +287,7 @@ class _RealSituationQuestionState extends State<RealSituationQuestion>
           ),
         ),
         const SizedBox(height: 12),
-        _OptionList(
+        ChoiceOptionList(
           question: widget.data,
           order: widget.order,
           chosen: chosen,
