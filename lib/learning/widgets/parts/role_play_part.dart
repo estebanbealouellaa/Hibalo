@@ -10,6 +10,7 @@ import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
 import 'chat_line.dart';
 import 'part_common.dart';
+import '../markup_text.dart';
 
 /// P11 Role-play (Figma "P11 · Part · Role-play · Choose / Right choice / Not quite / Done"):
 /// the other speaker says a line, the learner picks a reply. Right → Ana's reply bubble and the next
@@ -181,8 +182,9 @@ class _RolePlayPartState extends State<RolePlayPart> {
           ],
           if (_wrong != null) ...[
             const SizedBox(height: 12),
-            Text(
+            MarkupText(
               t.rolePlayNotQuite(_wrong!.hint ?? ''),
+              exampleColor: V6Colors.error,
               style: V6Text.bodyMedium.copyWith(color: V6Colors.error),
             ),
           ],

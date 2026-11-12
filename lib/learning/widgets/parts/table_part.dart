@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../models/parts.dart';
 import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
-import 'part_common.dart';
+import 'part_common.dart';
+import '../markup_text.dart';
 
 /// P02 Table: 2–4 columns that share the width and wrap (never scroll sideways). No audio.
 class TablePart extends StatelessWidget {
@@ -78,7 +79,7 @@ class TablePart extends StatelessWidget {
                 row(
                   [
                     for (var c = 0; c < data.rows[r].length; c++)
-                      Text(data.rows[r][c], style: cellStyle(c)),
+                      MarkupText(data.rows[r][c], style: cellStyle(c)),
                   ],
                   const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
                   divider: r < data.rows.length - 1,

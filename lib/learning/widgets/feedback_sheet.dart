@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../theme/v6_colors.dart';
 import '../theme/v6_text.dart';
-import 'parts/part_common.dart';
+import 'parts/part_common.dart';
+import 'markup_text.dart';
 
 /// F01–F04: which feedback sheet to show.
 enum FeedbackType {
@@ -234,7 +235,7 @@ class FeedbackSheet extends StatelessWidget {
                     ],
                     if (detail != null) ...[
                       const SizedBox(height: 4),
-                      Text(detail!, style: V6Text.labelLargeBold.copyWith(color: detailColor)),
+                      MarkupText(detail!, exampleColor: detailColor, style: V6Text.labelLargeBold.copyWith(color: detailColor)),
                     ],
                   ],
                 ),

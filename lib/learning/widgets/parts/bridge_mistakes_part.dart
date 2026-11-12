@@ -129,8 +129,9 @@ class _MistakeRow extends StatelessWidget {
               const Icon(Icons.close_rounded, color: V6Colors.error, size: 18),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(
+                child: MarkupText(
                   mistake.wrong,
+                  exampleColor: V6Colors.error,
                   style: V6Text.bodyLargeMedium.copyWith(
                     color: V6Colors.error,
                     decoration: TextDecoration.lineThrough,
@@ -146,8 +147,9 @@ class _MistakeRow extends StatelessWidget {
               const Icon(Icons.check_circle_rounded, color: V6Colors.success, size: 18),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(
+                child: MarkupText(
                   mistake.right,
+                  exampleColor: V6Colors.success,
                   style: V6Text.bodyLargeBold.copyWith(color: V6Colors.success),
                 ),
               ),
@@ -155,7 +157,7 @@ class _MistakeRow extends StatelessWidget {
           ),
           if (mistake.why case final why?) ...[
             const SizedBox(height: 6),
-            Text(why, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
+            MarkupText(why, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
           ],
         ],
       ),

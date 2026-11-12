@@ -4,7 +4,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../models/questions.dart';
 import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
-import '../../services/lesson_audio.dart';
+import '../../services/lesson_audio.dart';
+import '../markup_text.dart';
 import '../parts/part_common.dart' show AudioButton;
 
 /// Building blocks shared by the Q01–Q10 widgets, sized from the Figma
@@ -96,7 +97,7 @@ class QuizTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(title, style: V6Text.headlineMediumExtraBold),
+        MarkupText(title, style: V6Text.headlineMediumExtraBold),
         if (hint != null) ...[
           const SizedBox(height: 12),
           Text(hint!, style: V6Text.bodyMedium.copyWith(color: V6Colors.textMuted)),

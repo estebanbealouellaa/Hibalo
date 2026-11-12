@@ -4,7 +4,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../models/parts.dart';
 import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
-import 'part_common.dart';
+import 'part_common.dart';
+import '../markup_text.dart';
 
 /// P01 · Key idea: icon + title, the explanation, and optional term cards
 /// (Hiligaynon word, NOTE row, FILIPINO row). No audio.
@@ -92,7 +93,7 @@ class _TermCard extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
+            child: MarkupText(
               value,
               style: bold ? V6Text.bodyMediumSemiBold : V6Text.bodyMedium,
             ),

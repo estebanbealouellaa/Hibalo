@@ -4,7 +4,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../models/parts.dart';
 import '../../theme/v6_colors.dart';
 import '../../theme/v6_text.dart';
-import 'part_common.dart';
+import 'part_common.dart';
+import '../markup_text.dart';
 
 /// P06 Quick check: tapping an option answers at once (one try, no timer); the player shows feedback and pays XP.
 class QuickCheckPart extends StatelessWidget {
@@ -36,7 +37,7 @@ class QuickCheckPart extends StatelessWidget {
           child: SmallChip(t.quickCheckChip),
         ),
         const SizedBox(height: 14),
-        Text(data.prompt, style: V6Text.headlineMedium),
+        MarkupText(data.prompt, style: V6Text.headlineMedium),
         const SizedBox(height: 14),
         Text(t.quickCheckNote, style: V6Text.bodyMedium.copyWith(color: V6Colors.textSecondary)),
         const SizedBox(height: 14),
