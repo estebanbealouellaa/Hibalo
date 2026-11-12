@@ -14,6 +14,7 @@ import 'package:hibalo_app/learning/theme/part_icons.dart';
 
 const _beginnerFile = 'lessons/beginner_lessons.json';
 const _intermediateFile = 'lessons/intermediate_lessons.json';
+const _advancedFile = 'lessons/advanced_lessons.json';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ void main() {
   late LessonCatalog catalog;
   late List<Lesson> beginner;
   late List<Lesson> intermediate;
+  late List<Lesson> advanced;
   late List<Lesson> all;
 
   setUpAll(() async {
@@ -29,6 +31,7 @@ void main() {
     catalog = repo.catalog;
     beginner = catalog.levels.firstWhere((l) => l.id == 'beginner').lessons;
     intermediate = catalog.levels.firstWhere((l) => l.id == 'intermediate').lessons;
+    advanced = catalog.levels.firstWhere((l) => l.id == 'advanced').lessons;
     all = catalog.allLessons;
   });
 
@@ -65,10 +68,28 @@ void main() {
     expect(intermediate.map((l) => l.coverImage), everyElement(isNull));
   });
 
-  test('Advanced has no lessons yet', () {
-    final advanced = catalog.levels.last;
-    expect(advanced.lessons, isEmpty);
-    expect(advanced.unlockAfterLevel, 'intermediate');
+  test('loads all 10 Advanced lessons in order, in 4 units', () {
+    expect(advanced, hasLength(10));
+    expect(advanced.map((l) => l.order), List.generate(10, (i) => i + 1));
+    expect(advanced.map((l) => l.id),
+        List.generate(10, (i) => 'a${(i + 1).toString().padLeft(2, '0')}'));
+    expect(advanced.map((l) => l.unit?.number), [1, 1, 1, 2, 2, 3, 3, 4, 4, 4]);
+    expect(advanced.map((l) => l.unit!.title).toSet(), {
+      'Sounding natural', 'Right words, right people', 'Telling and explaining', 'Hiligaynon in real life',
+    });
+    expect(catalog.levels.last.unlockAfterLevel, 'intermediate');
+    expect(advanced.first.unlock.after, isNull);
+    for (var i = 1; i < advanced.length; i++) {
+      expect(advanced[i].unlock.after, advanced[i - 1].id);
+      expect(advanced[i].unlock.needs, UnlockNeed.passQuiz);
+    }
+    for (final l in advanced) {
+      expect(l.partsCount, inInclusiveRange(16, 17), reason: l.id);
+      expect(l.quiz!.questions, hasLength(15), reason: l.id);
+      expect(l.quiz!.scoredQuestions, hasLength(14), reason: l.id);
+      expect(l.icon, isNull);
+      expect(l.coverImage, isNull);
+    }
   });
 
   test('settings match the guide', () {
@@ -126,6 +147,8 @@ void main() {
           CultureNotePartData() => 'P10',
           RolePlayPartData() => 'P11',
           VerbFormsPartData() => 'P12',
+          IdiomCardsPartData() => 'P13',
+          RegisterPairsPartData() => 'P14',
         };
         expect(part.template, expected, reason: '${lesson.id} ${part.id}');
         expect(kPartTemplates[part.template], isNotNull);
@@ -153,7 +176,9 @@ void main() {
           DictationData() => 'Q08',
           SpeakingData() => 'Q09',
           OpenAnswerData() => 'Q10',
+          PassageSetData() => 'Q13',
           ReadAnswerData() => 'Q11',
+          SpotMistakeData() => 'Q12',
         };
         expect(q.template, expected, reason: '${lesson.id} ${q.id}');
         expect(kQuestionTemplates[q.template], q.type);
@@ -201,13 +226,17 @@ void main() {
             expect(t.accepted, isNotEmpty, reason: q.id);
           case MatchPairsData():
             expect(q.pairs.length, greaterThanOrEqualTo(2), reason: q.id);
+          case SpotMistakeData():
+            expect(q.wrongIndex, inInclusiveRange(0, q.tiles.length - 1), reason: q.id);
+            expect(q.tiles.join(' '), q.sentence, reason: q.id);
+            expect(q.fix, isNot(q.wrongWord), reason: q.id);
           case SpeakingData() || OpenAnswerData():
             break;
         }
         checked++;
       }
     }
-    expect(checked, greaterThan(250));
+    expect(checked, greaterThan(400));
   });
 
   test('every Q11 passage is a reading or dialogue of the same lesson', () {
@@ -279,8 +308,65 @@ void main() {
     }
   });
 
+  test('every Advanced passage set: 3 in a row on one reading or dialogue of the lesson', () {
+    var sets = 0;
+    for (final lesson in advanced) {
+      final qs = lesson.quiz!.questions;
+      for (var i = 0; i < qs.length; i++) {
+        final q = qs[i];
+        if (q is! PassageSetData || q.setIndex != 1) continue;
+        sets++;
+        final group = qs.sublist(i, i + q.setSize).cast<PassageSetData>();
+        expect(group.map((g) => g.setIndex), [1, 2, 3], reason: q.id);
+        expect(group.map((g) => g.passagePart).toSet(), {q.passagePart}, reason: q.id);
+        final part = lesson.parts.where((p) => p.id == q.passagePart).single;
+        expect(part, anyOf(isA<ReadingPartData>(), isA<DialoguePartData>()), reason: q.id);
+        if (q.mode == ReadAnswerMode.listen) {
+          expect((part as DialoguePartData).lines.every((l) => l.hasClip), isTrue, reason: q.id);
+        }
+      }
+    }
+    expect(sets, 10, reason: 'one set per Advanced lesson');
+    // a08 and a10 listen; the others read.
+    final listen = [for (final l in advanced) ...l.quiz!.questions.whereType<PassageSetData>()]
+        .where((q) => q.mode == ReadAnswerMode.listen && q.setIndex == 1)
+        .map((q) => q.passagePart);
+    expect(listen, ['a08_p13', 'a10_p01']);
+  });
+
+  test('idiom cards, register pairs and Advanced role-play extras are complete', () {
+    final idioms = [for (final l in advanced) ...l.parts.whereType<IdiomCardsPartData>()];
+    expect(idioms.map((p) => p.cards.length), [5, 5, 4]);
+    for (final c in [for (final p in idioms) ...p.cards]) {
+      expect(c.exampleHil, isNotEmpty, reason: c.id);
+      expect(c.exampleHil.length, c.exampleFil.length, reason: c.id);
+      expect([c.literal, c.means, c.tone, c.sayTo], everyElement(isNotEmpty), reason: c.id);
+    }
+    expect([for (final p in idioms) ...p.cards].where((c) => c.careful).length, 3);
+
+    final pairs = [for (final l in advanced) ...l.parts.whereType<RegisterPairsPartData>()];
+    expect(pairs, hasLength(6));
+    expect(pairs.where((p) => p.leftWrongOnPurpose).map((p) => p.id), ['a02_p03', 'a09_p05']);
+    for (final p in pairs) {
+      expect(p.stepCount, p.situations.length);
+      for (final s in p.situations) {
+        expect(s.left.note != null, p.leftWrongOnPurpose, reason: '${p.id} ${s.title}');
+        expect(s.changes, isNotEmpty, reason: '${p.id} ${s.title}');
+      }
+    }
+
+    final rolePlays = [for (final l in advanced) ...l.parts.whereType<RolePlayPartData>()];
+    expect([for (final p in rolePlays) ...p.turns].where((t) => t.quote != null), hasLength(2));
+    expect([for (final p in rolePlays) for (final t in p.turns) ...t.choices].where((c) => c.note != null),
+        hasLength(1));
+    expect(advanced.expand((l) => l.parts.whereType<ReadingPartData>()).where((p) => p.text != null),
+        hasLength(1));
+    expect(advanced.expand((l) => l.parts.whereType<DialoguePartData>()).where((p) => p.listening).map((p) => p.id),
+        ['a08_p06', 'a08_p10', 'a08_p13', 'a10_p01']);
+  });
+
   test('Q08 plays the same clip on the Wrong sheet', () {
-    for (final file in [_beginnerFile, _intermediateFile]) {
+    for (final file in [_beginnerFile, _intermediateFile, _advancedFile]) {
       final raw = jsonDecode(File('assets/$file').readAsStringSync());
       for (final lesson in raw['lessons'] as List) {
         for (final q in (lesson['quiz']?['questions'] as List?) ?? const []) {
@@ -304,7 +390,8 @@ void main() {
           ReadingPartData(:final icon) ||
           BridgeMistakesPartData(:final icon) ||
           RolePlayPartData(:final icon) ||
-          VerbFormsPartData(:final icon) =>
+          VerbFormsPartData(:final icon) ||
+          RegisterPairsPartData(:final icon) =>
             icon,
           _ => null,
         };
@@ -335,30 +422,33 @@ void main() {
     final fallback = await rootBundle.load(catalog.settings.missingPicture);
     expect(fallback.lengthInBytes, greaterThan(0));
 
-    bool isIntermediate(AssetRef r) => RegExp(r'^i\d\d\b').hasMatch(r.where);
+    bool isLevel(AssetRef r, String letter) => RegExp('^$letter\\d\\d\\b').hasMatch(r.where);
 
     // Beginner (and settings): every picture and all 133 native-speaker clips are in the app.
-    final rest = repo.assetRefs.where((r) => !isIntermediate(r)).toList();
+    final rest = repo.assetRefs.where((r) => !isLevel(r, 'i') && !isLevel(r, 'a')).toList();
     expect(rest.where((r) => !r.found).map((r) => '${r.where}: ${r.jsonPath}'), isEmpty);
     final audio = rest.where((r) => r.jsonPath.startsWith('audio/')).toList();
     expect(audio.map((r) => r.jsonPath).toSet(), hasLength(133));
 
-    // Intermediate: clips aren't recorded yet. Report them, don't fail.
-    final inter = repo.assetRefs.where(isIntermediate).toList();
-    final missing = {for (final r in inter) if (!r.found) r.jsonPath}.toList()..sort();
-    final found = {for (final r in inter) if (r.found) r.jsonPath};
-    // ignore: avoid_print
-    print('Intermediate clips: ${found.length} in the app, ${missing.length} missing'
-        '${missing.isEmpty ? '' : ':\n  ${missing.join('\n  ')}'}');
-    expect(inter.every((r) => r.jsonPath.startsWith('audio/i')), isTrue,
-        reason: 'Intermediate has no pictures yet, only clips');
-    expect(found.length + missing.length, 132);
+    // Intermediate and Advanced: clips aren't recorded yet. Report them, don't fail.
+    for (final (letter, name, total) in [('i', 'Intermediate', 132), ('a', 'Advanced', 118)]) {
+      final refs = repo.assetRefs.where((r) => isLevel(r, letter)).toList();
+      final missing = {for (final r in refs) if (!r.found) r.jsonPath}.toList()..sort();
+      final found = {for (final r in refs) if (r.found) r.jsonPath};
+      // ignore: avoid_print
+      print('$name clips: ${found.length} in the app, ${missing.length} missing'
+          '${missing.isEmpty ? '' : ':\n  ${missing.join('\n  ')}'}');
+      expect(refs.every((r) => r.jsonPath.startsWith('audio/$letter')), isTrue,
+          reason: '$name has no pictures yet, only clips');
+      expect(found.length + missing.length, total, reason: name);
+    }
   });
 
   group('the loader rejects broken JSON', () {
     late String settingsText;
     late Map<String, dynamic> good;
     late Map<String, dynamic> goodInter;
+    late Map<String, dynamic> goodAdv;
     late Set<String> assets;
 
     setUpAll(() async {
@@ -366,6 +456,8 @@ void main() {
       good = jsonDecode(await rootBundle.loadString('assets/$_beginnerFile'))
           as Map<String, dynamic>;
       goodInter = jsonDecode(await rootBundle.loadString('assets/$_intermediateFile'))
+          as Map<String, dynamic>;
+      goodAdv = jsonDecode(await rootBundle.loadString('assets/$_advancedFile'))
           as Map<String, dynamic>;
       assets = (await AssetManifest.loadFromAssetBundle(rootBundle))
           .listAssets()
@@ -375,11 +467,13 @@ void main() {
     Map<String, dynamic> copyOf(Map<String, dynamic> json) =>
         jsonDecode(jsonEncode(json)) as Map<String, dynamic>;
 
-    String errorOf(Map<String, dynamic> beginnerJson, Map<String, dynamic> interJson) {
+    String errorOf(Map<String, dynamic> beginnerJson, Map<String, dynamic> interJson,
+        [Map<String, dynamic>? advJson]) {
       try {
         LessonRepository.parse(settingsText, {
           _beginnerFile: jsonEncode(beginnerJson),
           _intermediateFile: jsonEncode(interJson),
+          _advancedFile: jsonEncode(advJson ?? goodAdv),
         }, assets);
       } on FormatException catch (e) {
         return e.message;
@@ -401,12 +495,56 @@ void main() {
       return errorOf(good, copy);
     }
 
+    /// Same for an Advanced lesson (0-based [index]).
+    String errorForAdv(int index, void Function(Map<String, dynamic> lesson) change) {
+      final copy = copyOf(goodAdv);
+      change(copy['lessons'][index] as Map<String, dynamic>);
+      return errorOf(good, goodInter, copy);
+    }
+
     test('the good files load', () {
       final repo = LessonRepository.parse(settingsText, {
         _beginnerFile: jsonEncode(good),
         _intermediateFile: jsonEncode(goodInter),
+        _advancedFile: jsonEncode(goodAdv),
       }, assets);
-      expect(repo.catalog.allLessons, hasLength(25));
+      expect(repo.catalog.allLessons, hasLength(35));
+    });
+
+    test('Q12 wrongIndex out of range', () {
+      expect(errorForAdv(0, (l) => l['quiz']['questions'][5]['wrongIndex'] = 9),
+          contains('wrongIndex 9 is out of range'));
+    });
+
+    test('Q12 tiles that are not the sentence', () {
+      expect(errorForAdv(0, (l) => (l['quiz']['questions'][5]['tiles'] as List).removeLast()),
+          contains('tiles should be the sentence split on spaces'));
+    });
+
+    test('passage set with a question on another passage', () {
+      expect(errorForAdv(0, (l) => l['quiz']['questions'][11]['passagePart'] = 'a01_p01'),
+          anyOf(contains('passage set needs 3 questions in a row'), contains('should be a reading or a dialogue')));
+    });
+
+    test('passage set that starts at question 2', () {
+      expect(errorForAdv(0, (l) => (l['quiz']['questions'] as List).removeAt(10)),
+          contains('a passage set starts with setIndex 1'));
+    });
+
+    test('register pair whose left note does not match leftWrongOnPurpose', () {
+      expect(errorForAdv(1, (l) => (l['parts'][2]['situations'][0]['left'] as Map).remove('note')),
+          contains('but leftWrongOnPurpose is true'));
+    });
+
+    test('idiom card example lines that do not match', () {
+      expect(errorForAdv(2, (l) => (l['parts'][2]['cards'][0]['example']['fil'] as List).removeLast()),
+          contains('lines, fil has'));
+    });
+
+    test('a pattern with 6 slots', () {
+      expect(
+          errorForAdv(0, (l) => (l['parts'][4]['slots'] as List).add({'label': '', 'hil': 'x'})),
+          contains('a pattern needs 3 to 5 slots, not 6'));
     });
 
     test('unknown template', () {

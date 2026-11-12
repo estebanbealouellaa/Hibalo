@@ -90,6 +90,8 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
         ChoiceQuestion c => shuffledOrder(c.options.length, random, shuffle: s.shuffleOptions),
         BuildSentenceData b => tileOrder(b, random, shuffle: s.shuffleBuildTiles),
         MatchPairsData m => shuffledOrder(m.pairs.length, random, shuffle: s.shuffleMatchRightColumn),
+        // The tiles keep the sentence order.
+        SpotMistakeData m => List.generate(m.tiles.length, (i) => i),
         _ => const [],
       };
     }
@@ -353,6 +355,13 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
       SpeakingData d => SpeakingQuestion(data: d, recorder: _recorder, onChanged: _onAnswer),
       OpenAnswerData d => OpenAnswerQuestion(data: d, phase: _phase, onChanged: _onAnswer),
       ReadAnswerData d => ReadAnswerQuestion(data: d, order: order, phase: _phase, onChanged: _onAnswer),
+      // Stage 1 stand-in until SpotMistakeQuestion exists: the tiles as options, the wrong one is the answer.
+      SpotMistakeData d => MultipleChoiceQuestion(
+          data: MultipleChoiceData(d.id,
+              answerAudio: d.answerAudio, prompt: d.prompt, options: d.tiles, answer: d.wrongIndex),
+          order: order,
+          phase: _phase,
+          onChanged: _onAnswer),
     };
   }
 

@@ -250,7 +250,7 @@ void main() {
     test('all done', () {
       final p = pick({for (final l in catalog.allLessons) l.id: passed(l)});
       expect(p.kind, ContinueKind.allDone);
-      expect(p.lesson.id, 'i12');
+      expect(p.lesson.id, 'a10');
     });
   });
 
@@ -311,12 +311,12 @@ void main() {
       expect((player.lessonId, player.startPart), ('b02', 4));
     });
 
-    testWidgets('all done: Intermediate complete!', (tester) async {
+    testWidgets('all done: Advanced complete!', (tester) async {
       await home(tester, {
         for (final l in catalog.allLessons)
           l.id: LessonProgress(partsDone: l.partsCount, completed: true, passed: true, bestScore: 8),
       });
-      expect(find.text('Intermediate complete!'), findsOneWidget);
+      expect(find.text('Advanced complete!'), findsOneWidget);
       expect(find.text('Review lessons'), findsOneWidget);
     });
 

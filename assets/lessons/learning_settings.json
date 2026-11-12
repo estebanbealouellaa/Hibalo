@@ -1,7 +1,7 @@
 {
   "_meta": {
     "app": "Hibalo",
-    "module": "Learning Module – Beginner + Intermediate",
+    "module": "Learning Module – Beginner + Intermediate + Advanced",
     "schemaVersion": 8,
     "contentStatus": "AI-drafted by the team with Claude. NOT checked by a native speaker. Key words were spot-checked against public references (see 'references'). Items marked check: 'unverified' could not be confirmed. No native-speaker check is planned.",
     "source": "Teammate's Self-Paced Learning Module and Question Bank (Beginner), with review fixes applied",
@@ -37,7 +37,12 @@
       "open_answer.audio / transcript": "Optional. Play button above the answer box; transcript is shown on the Sample answer sheet.",
       "icon / coverImage null": "Pictures not made yet: show the placeholder thumbnail (Figma) and the firefly banner.",
       "image null (culture_note)": "Show firefly_reading until the picture exists.",
-      "listening.audioText": "Hiligaynon words of the clip. Shown in place of the play button when the clip is missing."
+      "listening.audioText": "Hiligaynon words of the clip. Shown in place of the play button when the clip is missing.",
+      "role_play turns[].quote": "Optional. A quoted line shown under the speaker's bubble (e.g. what another person said).",
+      "role_play turns[].fil / choices[].fil": "Advanced lessons give the Filipino inline; null = show none.",
+      "role_play choices[].note": "Optional small label on a choice, e.g. 'Filipino, to your friend'.",
+      "reading.text": "Optional intro line above a reading.",
+      "dialogue lines[].audio (Advanced)": "Listening dialogues use audio/aNN/aNN_pNN_01.m4a … one clip per line."
     },
     "questionTypes": {
       "multiple_choice": [
@@ -98,6 +103,23 @@
       "read_answer": [
         "mode: 'read' | 'listen'",
         "passagePart (id of a reading or dialogue part in the same lesson)",
+        "question",
+        "options",
+        "answer"
+      ],
+      "spot_mistake": [
+        "prompt",
+        "sentence",
+        "tiles[] (sentence split on spaces; punctuation stays on its tile)",
+        "meaning",
+        "wrongIndex",
+        "fix (shown on the fix chip and in F02; may be two words)"
+      ],
+      "passage_set": [
+        "mode: read | listen",
+        "passagePart (reading or dialogue part in the same lesson)",
+        "setIndex",
+        "setSize",
         "question",
         "options",
         "answer"
@@ -176,6 +198,18 @@
         "columns[] (3 headings)",
         "roots[]: root, fil, forms[3], doerForms[3] (optional), example{hil,fil}",
         "note"
+      ],
+      "idiom_cards": [
+        "title",
+        "cards[]: id, hil, literal, means, tone, careful, sayTo, warning (null = none), example{hil[], fil[]} (1–2 lines each, a dash per speaker), audio"
+      ],
+      "register_pairs": [
+        "title",
+        "icon",
+        "leftLabel",
+        "rightLabel",
+        "leftWrongOnPurpose",
+        "situations[]: title, left{hil, fil|null, note?}, right{hil, fil}, changes[]"
       ]
     },
     "references": [
@@ -560,6 +594,41 @@
         "doerForms present: show a second row 'Who does it' above 'What it happens to'"
       ]
     },
+    "P13": {
+      "kind": "part",
+      "name": "Idiom cards",
+      "figmaFrame": "P13 · Part · Idiom card · Default / Careful (+ long card)",
+      "flutterWidget": "IdiomCardsPart",
+      "partType": "idiom_cards",
+      "fields": [
+        "title",
+        "cards[]: id, hil, literal, means, tone, careful, sayTo, warning (null = none), example{hil[], fil[]} (1–2 lines each, a dash per speaker), audio"
+      ],
+      "variants": [
+        "Default",
+        "Careful: tone chip in Warning colour + warning line",
+        "Counter 'n / N'; Back/Next between cards like P04"
+      ]
+    },
+    "P14": {
+      "kind": "part",
+      "name": "Formal vs casual",
+      "figmaFrame": "P14 · Part · Formal vs casual (+ paging, wrong-on-purpose, long text)",
+      "flutterWidget": "RegisterPairsPart",
+      "partType": "register_pairs",
+      "fields": [
+        "title",
+        "icon",
+        "leftLabel",
+        "rightLabel",
+        "leftWrongOnPurpose",
+        "situations[]: title, left{hil, fil|null, note?}, right{hil, fil}, changes[]"
+      ],
+      "variants": [
+        "Counter 'n / N'; Back/Next between situations",
+        "left.note present (leftWrongOnPurpose): grey card with ✗, note in small text instead of Filipino"
+      ]
+    },
     "Q01": {
       "kind": "question",
       "name": "Multiple choice",
@@ -745,6 +814,39 @@
       ],
       "notes": "No timer: reading or listening to the passage takes time."
     },
+    "Q12": {
+      "kind": "question",
+      "name": "Spot the mistake",
+      "figmaFrame": "Q12 · Quiz · Spot the mistake · Default / Word selected / Correct / Wrong (+ wrap)",
+      "flutterWidget": "SpotMistakeQuestion",
+      "questionType": "spot_mistake",
+      "fields": [
+        "prompt",
+        "sentence",
+        "tiles[] (sentence split on spaces; punctuation stays on its tile)",
+        "meaning",
+        "wrongIndex",
+        "fix (shown on the fix chip and in F02; may be two words)"
+      ],
+      "notes": "No timer. Correct = tapping tiles[wrongIndex]. Tiles wrap to more rows when needed."
+    },
+    "Q13": {
+      "kind": "question",
+      "name": "Passage set",
+      "figmaFrame": "Q13 · Quiz · Passage set · Reading / Listening (+ dialogue passage)",
+      "flutterWidget": "PassageSetQuestion",
+      "questionType": "passage_set",
+      "fields": [
+        "mode: read | listen",
+        "passagePart (reading or dialogue part in the same lesson)",
+        "setIndex",
+        "setSize",
+        "question",
+        "options",
+        "answer"
+      ],
+      "notes": "Each sub-question is its own scored question in the quiz (3 per set, back to back). Header keeps the quiz position (e.g. 11 / 15) and shows 'Question n of N' as a small label. Passage collapses to 'Show story' after the first question. Dialogue passages show 'Speaker: line'. Listen mode plays the part's line clips in order; 'Show transcript' after answering. No timer."
+    },
     "F01": {
       "kind": "feedback",
       "name": "Correct",
@@ -811,7 +913,7 @@
       "unlock": {
         "afterLevel": "intermediate"
       },
-      "file": null
+      "file": "lessons/advanced_lessons.json"
     }
   ]
 }

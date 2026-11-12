@@ -15,6 +15,8 @@ const Map<String, String> kQuestionTemplates = {
   'Q09': 'speaking',
   'Q10': 'open_answer',
   'Q11': 'read_answer',
+  'Q12': 'spot_mistake',
+  'Q13': 'passage_set',
 };
 
 /// One quiz question. There is one subclass per template ID, and the quiz
@@ -148,7 +150,23 @@ sealed class QuizQuestion {
             modelAnswer: q.str('modelAnswer'),
             audio: audio('audio'),
             transcript: q.strOrNull('transcript'));
-      case 'Q11':
+      case 'Q12':
+        final tiles = q.strings('tiles');
+        final sentence = q.str('sentence');
+        if (tiles.join(' ') != sentence) q.fail('tiles should be the sentence split on spaces');
+        final wrongIndex = q.integer('wrongIndex');
+        if (wrongIndex < 0 || wrongIndex >= tiles.length) {
+          q.fail('wrongIndex $wrongIndex is out of range (0–${tiles.length - 1})');
+        }
+        return SpotMistakeData(id,
+            answerAudio: answerAudio,
+            prompt: q.str('prompt'),
+            sentence: sentence,
+            tiles: tiles,
+            meaning: q.str('meaning'),
+            wrongIndex: wrongIndex,
+            fix: q.str('fix'));
+      case 'Q11' || 'Q13':
         final (options, answer) = _options(q);
         final mode = q.str('mode');
         final partId = q.str('passagePart');
@@ -169,9 +187,25 @@ sealed class QuizQuestion {
           if (part is! DialoguePartData) q.fail('listen mode needs a dialogue with audio');
           if (part.lines.any((l) => !l.hasClip)) q.fail('listen mode: passage "$partId" has lines without audio');
         }
+        final readMode = listen ? ReadAnswerMode.listen : ReadAnswerMode.read;
+        if (template == 'Q13') {
+          final setSize = q.integer('setSize');
+          final setIndex = q.integer('setIndex');
+          if (setIndex < 1 || setIndex > setSize) q.fail('setIndex $setIndex is not 1–$setSize');
+          return PassageSetData(id,
+              answerAudio: answerAudio,
+              mode: readMode,
+              passagePart: partId,
+              passage: passage,
+              question: q.str('question'),
+              options: options,
+              answer: answer,
+              setIndex: setIndex,
+              setSize: setSize);
+        }
         return ReadAnswerData(id,
             answerAudio: answerAudio,
-            mode: listen ? ReadAnswerMode.listen : ReadAnswerMode.read,
+            mode: readMode,
             passagePart: partId,
             passage: passage,
             question: q.str('question'),
@@ -480,7 +514,9 @@ class ReadAnswerData extends QuizQuestion with ChoiceQuestion {
     required this.question,
     required this.options,
     required this.answer,
-  }) : super(id, 'Q11', type: 'read_answer', scored: true);
+    String template = 'Q11',
+    String type = 'read_answer',
+  }) : super(id, template, type: type, scored: true);
 
   final ReadAnswerMode mode;
 
@@ -499,4 +535,57 @@ class ReadAnswerData extends QuizQuestion with ChoiceQuestion {
   /// The line clips in order, or empty when any of them isn't in the app yet.
   List<String> get clips =>
       passage.every((l) => l.audio != null) ? [for (final l in passage) l.audio!] : const [];
+}
+
+/// Q13 Passage set: one of [setSize] questions in a row on the same passage. It works like Q11
+/// (a subclass, so every Q11 rule applies); the widget adds "Question n of N" and folds the passage
+/// to "Show story" after the first question.
+class PassageSetData extends ReadAnswerData {
+  PassageSetData(
+    super.id, {
+    required super.answerAudio,
+    required super.mode,
+    required super.passagePart,
+    required super.passage,
+    required super.question,
+    required super.options,
+    required super.answer,
+    required this.setIndex,
+    required this.setSize,
+  }) : super(template: 'Q13', type: 'passage_set');
+
+  /// 1-based position in the set.
+  final int setIndex;
+  final int setSize;
+}
+
+/// Q12 Spot the mistake: tap the wrong word. No timer.
+class SpotMistakeData extends QuizQuestion {
+  SpotMistakeData(
+    String id, {
+    required super.answerAudio,
+    required this.prompt,
+    required this.sentence,
+    required this.tiles,
+    required this.meaning,
+    required this.wrongIndex,
+    required this.fix,
+  }) : super(id, 'Q12', type: 'spot_mistake', scored: true);
+
+  final String prompt;
+  final String sentence;
+
+  /// The sentence split on spaces; punctuation stays on its tile.
+  final List<String> tiles;
+
+  /// The Filipino meaning of the corrected sentence.
+  final String meaning;
+
+  /// Index of the wrong tile: tapping it is the right answer.
+  final int wrongIndex;
+
+  /// The right word(s), on the fix chip and the Not quite sheet (may be two words).
+  final String fix;
+
+  String get wrongWord => tiles[wrongIndex];
 }

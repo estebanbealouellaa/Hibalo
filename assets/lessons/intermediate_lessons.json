@@ -1061,7 +1061,7 @@
             },
             {
               "hil": "Kapoy na ako sang trabaho.",
-              "note": "from i01",
+              "note": "from Lesson 1",
               "fil": "Pagod na ako sa trabaho."
             }
           ]
@@ -6439,7 +6439,7 @@
           "type": "table",
           "title": "Story Words",
           "icon": "table_chart",
-          "text": "*una*, *dayon* and *sa ulihi* are review from i03.",
+          "text": "*una*, *dayon* and *sa ulihi* are review from Lesson 3.",
           "columns": [
             "Hiligaynon",
             "Filipino"
@@ -7335,7 +7335,7 @@
           "icon": "swap_horiz",
           "bridge": [
             "Many words are shared, so your Filipino helps you catch the main idea.",
-            "Watch for words that look the same but mean something else: *kita* (we), *wala* (also \"left side\"). i11 covers these."
+            "Watch for words that look the same but mean something else: *kita* (we), *wala* (also \"left side\"). Lesson 11 covers these."
           ],
           "mistakes": [
             {

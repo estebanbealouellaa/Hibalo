@@ -300,6 +300,9 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
           },
         ),
       VerbFormsPartData p => VerbFormsPart(data: p),
+      // Stage 1 stand-ins until IdiomCardsPart / RegisterPairsPart exist.
+      IdiomCardsPartData p => Text(p.cards[_step].hil, style: V6Text.titleLarge),
+      RegisterPairsPartData p => Text(p.situations[_step].title, style: V6Text.titleLarge),
     };
   }
 

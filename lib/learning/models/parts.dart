@@ -16,9 +16,11 @@ const Map<String, String> kPartTemplates = {
   'P10': 'culture_note',
   'P11': 'role_play',
   'P12': 'verb_forms',
+  'P13': 'idiom_cards',
+  'P14': 'register_pairs',
 };
 
-/// One part of a lesson. There is one subclass per template ID (P01 → KeyIdeaPart, … P12 → VerbFormsPart),
+/// One part of a lesson. There is one subclass per template ID (P01 → KeyIdeaPart, … P14 → RegisterPairsPart),
 /// and the part player picks the widget with an exhaustive `switch` on the subclass.
 sealed class LessonPart {
   LessonPart(this.id, this.template);
@@ -75,6 +77,7 @@ sealed class LessonPart {
           id,
           title: p.str('title'),
           icon: p.str('icon'),
+          text: p.strOrNull('text'),
           lines: [for (final l in p.objects('lines')) HilFil.fromJson(l)],
           tip: p.strOrNull('tip'),
         ),
@@ -93,6 +96,8 @@ sealed class LessonPart {
         ),
       'P11' => RolePlayPartData.fromJson(id, p),
       'P12' => VerbFormsPartData.fromJson(id, p),
+      'P13' => IdiomCardsPartData.fromJson(id, p, assets),
+      'P14' => RegisterPairsPartData.fromJson(id, p),
       _ => p.fail('unknown part template "$template"'),
     };
   }
@@ -231,7 +236,7 @@ class PatternPartData extends LessonPart {
   /// Null hides it (some Intermediate parts).
   final String? text;
 
-  /// 3 or 4 slots; at most one has highlight = true (the link word).
+  /// 3 to 5 slots; at most one has highlight = true (the link word).
   final List<PatternSlot> slots;
 
   /// The full sentence the slots build, shown under them (Intermediate), or null.
@@ -243,8 +248,8 @@ class PatternPartData extends LessonPart {
 
   factory PatternPartData.fromJson(String id, JsonReader p) {
     final slots = [for (final s in p.objects('slots')) PatternSlot.fromJson(s)];
-    if (slots.length < 3 || slots.length > 4) {
-      p.fail('a pattern needs 3 or 4 slots, not ${slots.length}');
+    if (slots.length < 3 || slots.length > 5) {
+      p.fail('a pattern needs 3 to 5 slots, not ${slots.length}');
     }
     if (slots.where((s) => s.highlight).length > 1) {
       p.fail('only one slot can be highlighted');
@@ -425,12 +430,16 @@ class ReadingPartData extends LessonPart {
     String id, {
     required this.title,
     required this.icon,
+    this.text,
     required this.lines,
     required this.tip,
   }) : super(id, 'P08');
 
   final String title;
   final String icon;
+
+  /// Intro line above the reading (Advanced), or null.
+  final String? text;
   final List<HilFil> lines;
   final String? tip;
 }
@@ -525,6 +534,7 @@ class RolePlayTurn {
     required this.cue,
     required this.fast,
     required this.choices,
+    this.quote,
   });
 
   final String speaker;
@@ -535,6 +545,9 @@ class RolePlayTurn {
 
   /// Short instruction shown above the choices, or null.
   final String? cue;
+
+  /// A quoted line under the speaker's bubble (Advanced, e.g. what someone else said), or null.
+  final String? quote;
 
   /// Show a small "talking fast" label on this bubble.
   final bool fast;
@@ -562,14 +575,24 @@ class RolePlayTurn {
       cue: r.strOrNull('cue'),
       fast: r.boolean('fast', fallback: false),
       choices: choices,
+      quote: r.strOrNull('quote'),
     );
   }
 }
 
 class RolePlayChoice {
-  const RolePlayChoice({required this.hil, required this.fil, required this.correct, required this.hint});
+  const RolePlayChoice({
+    required this.hil,
+    required this.fil,
+    required this.correct,
+    required this.hint,
+    this.note,
+  });
 
   final String hil;
+
+  /// Small grey label above the reply (e.g. "Filipino, to your friend"), or null.
+  final String? note;
 
   /// Null = show no Filipino line.
   final String? fil;
@@ -583,6 +606,7 @@ class RolePlayChoice {
         fil: r.strOrNull('fil'),
         correct: r.boolean('correct'),
         hint: r.strOrNull('hint'),
+        note: r.strOrNull('note'),
       );
 }
 
@@ -663,4 +687,169 @@ class VerbRoot {
       example: HilFil.fromJson(r.object('example')),
     );
   }
+}
+
+/// P13: idiom cards, one card at a time with "n / N" (Back/Next like P04). No title on screen.
+class IdiomCardsPartData extends LessonPart {
+  IdiomCardsPartData(String id, {required this.title, required this.cards}) : super(id, 'P13');
+
+  /// Not shown (Lance, Nov 12: like word cards).
+  final String title;
+  final List<IdiomCard> cards;
+
+  @override
+  int get stepCount => cards.length;
+
+  factory IdiomCardsPartData.fromJson(String id, JsonReader p, AssetResolver assets) {
+    final cards = [
+      for (final (i, c) in p.objects('cards').indexed) IdiomCard.fromJson(c, assets, '${p.path} > cards[$i]'),
+    ];
+    if (cards.isEmpty) p.fail('idiom cards need at least one card');
+    if (cards.map((c) => c.id).toSet().length != cards.length) p.fail('card ids repeat');
+    return IdiomCardsPartData(id, title: p.str('title'), cards: cards);
+  }
+}
+
+class IdiomCard {
+  const IdiomCard({
+    required this.id,
+    required this.hil,
+    required this.literal,
+    required this.means,
+    required this.tone,
+    required this.careful,
+    required this.sayTo,
+    required this.warning,
+    required this.exampleHil,
+    required this.exampleFil,
+    required this.audio,
+  });
+
+  final String id;
+  final String hil;
+
+  /// "Word for word".
+  final String literal;
+
+  /// "What it really means".
+  final String means;
+
+  /// Tone chip text; [careful] shows it in the Warning colour.
+  final String tone;
+  final bool careful;
+
+  /// "Who you can say it to".
+  final String sayTo;
+
+  /// Warning line, or null.
+  final String? warning;
+
+  /// Example lines (a dash per speaker), Hiligaynon and Filipino, same length.
+  final List<String> exampleHil;
+  final List<String> exampleFil;
+
+  /// The idiom's clip, or null (none, or not recorded yet).
+  final String? audio;
+
+  factory IdiomCard.fromJson(JsonReader r, AssetResolver assets, String where) {
+    final example = r.object('example');
+    final hil = example.strings('hil');
+    final fil = example.strings('fil');
+    if (hil.isEmpty) example.fail('the example has no lines');
+    if (hil.length != fil.length) example.fail('hil has ${hil.length} lines, fil has ${fil.length}');
+    return IdiomCard(
+      id: r.str('id'),
+      hil: r.str('hil'),
+      literal: r.str('literal'),
+      means: r.str('means'),
+      tone: r.str('tone'),
+      careful: r.boolean('careful'),
+      sayTo: r.str('sayTo'),
+      warning: r.strOrNull('warning'),
+      exampleHil: hil,
+      exampleFil: fil,
+      audio: assets.resolveAudio(r.strOrNull('audio'), '$where > audio'),
+    );
+  }
+}
+
+/// P14: two ways to say the same thing, one situation at a time with "n / N" (Back/Next).
+/// Header = the situation title; the part title shows under it (Lance, Nov 12). No audio.
+class RegisterPairsPartData extends LessonPart {
+  RegisterPairsPartData(
+    String id, {
+    required this.title,
+    required this.icon,
+    required this.leftLabel,
+    required this.rightLabel,
+    required this.leftWrongOnPurpose,
+    required this.situations,
+  }) : super(id, 'P14');
+
+  /// Shown under each situation's title (what kind of pair it is).
+  final String title;
+  final String icon;
+  final String leftLabel;
+  final String rightLabel;
+
+  /// The left card is the wrong way on purpose (grey, ✗, `left.note` instead of Filipino).
+  final bool leftWrongOnPurpose;
+  final List<RegisterSituation> situations;
+
+  @override
+  int get stepCount => situations.length;
+
+  factory RegisterPairsPartData.fromJson(String id, JsonReader p) {
+    final wrong = p.boolean('leftWrongOnPurpose');
+    final situations = [for (final s in p.objects('situations')) RegisterSituation.fromJson(s)];
+    if (situations.isEmpty) p.fail('register pairs need at least one situation');
+    for (final (i, s) in situations.indexed) {
+      if ((s.left.note != null) != wrong) {
+        p.fail('situations[$i]: left.note ${s.left.note == null ? 'missing' : 'present'}, '
+            'but leftWrongOnPurpose is $wrong');
+      }
+    }
+    return RegisterPairsPartData(
+      id,
+      title: p.str('title'),
+      icon: p.str('icon'),
+      leftLabel: p.str('leftLabel'),
+      rightLabel: p.str('rightLabel'),
+      leftWrongOnPurpose: wrong,
+      situations: situations,
+    );
+  }
+}
+
+class RegisterSituation {
+  const RegisterSituation({required this.title, required this.left, required this.right, required this.changes});
+
+  final String title;
+  final RegisterSide left;
+  final RegisterSide right;
+
+  /// "What changed" chips, e.g. "imo → ninyo".
+  final List<String> changes;
+
+  factory RegisterSituation.fromJson(JsonReader r) => RegisterSituation(
+        title: r.str('title'),
+        left: RegisterSide.fromJson(r.object('left')),
+        right: RegisterSide.fromJson(r.object('right')),
+        changes: r.strings('changes'),
+      );
+}
+
+class RegisterSide {
+  const RegisterSide({required this.hil, required this.fil, required this.note});
+
+  final String hil;
+
+  /// Null = no Filipino line.
+  final String? fil;
+
+  /// Wrong-on-purpose explanation (with *markup*), shown instead of the Filipino; null otherwise.
+  final String? note;
+
+  factory RegisterSide.fromJson(JsonReader r) =>
+      RegisterSide(hil: r.str('hil'), fil: r.strOrNull('fil'), note: r.strOrNull('note'));
 }

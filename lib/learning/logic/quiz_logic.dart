@@ -91,6 +91,7 @@ String? correctAnswerText(QuizQuestion q) => switch (q) {
       FillBlankData q => q.correctOption,
       RealSituationData q => q.correctOption,
       ReadAnswerData q => q.correctOption,
+      SpotMistakeData q => q.fix,
       TypeAnswerData q => q.accepted.first,
       DictationData q => q.accepted.first,
       BuildSentenceData q => q.answer.join(' '),

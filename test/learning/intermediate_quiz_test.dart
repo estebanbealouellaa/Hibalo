@@ -109,6 +109,8 @@ void main() {
       case OpenAnswerData():
         await tester.enterText(find.byType(TextField), 'Nagatinda si Manang Rosa.');
         await frames(tester, 2);
+      case SpotMistakeData s:
+        await press(tester, find.text(s.wrongWord).last);
     }
     await press(tester, primary());
     if (q is! SpeakingData) await press(tester, find.text('Continue').last);

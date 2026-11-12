@@ -121,10 +121,12 @@ void main() {
       r = rules({...beginnerDone, inter[0].id: passed});
       expect(r.rowState(inter[1]), LessonRowState.current);
 
-      // Every Intermediate quiz passed: Advanced has no lessons yet, so it stays locked.
+      // Every Intermediate quiz passed: Advanced opens, with its Lesson 1.
       r = rules({...beginnerDone, for (final l in inter) l.id: passed});
       expect(r.isLevelFinished(level('intermediate')), isTrue);
-      expect(r.isLevelUnlocked(level('advanced')), isFalse);
+      expect(r.isLevelUnlocked(level('advanced')), isTrue);
+      expect(r.rowState(level('advanced').lessons.first), LessonRowState.current);
+      expect(r.rowState(level('advanced').lessons[1]), LessonRowState.locked);
     });
   });
 

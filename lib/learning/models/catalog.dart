@@ -586,6 +586,23 @@ class Quiz {
       for (final q in r.objects('questions')) QuizQuestion.fromJson(q, assets, parts),
     ];
     if (questions.isEmpty) r.fail('the quiz has no questions');
+    // Q13: every set is setSize questions in a row, numbered 1…setSize, on one passage in one mode.
+    for (var i = 0; i < questions.length; i++) {
+      final q = questions[i];
+      if (q is! PassageSetData || q.setIndex != 1) {
+        if (q is PassageSetData && (i == 0 || questions[i - 1] is! PassageSetData)) {
+          r.fail('${q.id}: a passage set starts with setIndex 1');
+        }
+        continue;
+      }
+      for (var k = 1; k < q.setSize; k++) {
+        final next = i + k < questions.length ? questions[i + k] : null;
+        if (next is! PassageSetData || next.setIndex != k + 1 || next.setSize != q.setSize ||
+            next.passagePart != q.passagePart || next.mode != q.mode) {
+          r.fail('${q.id}: the passage set needs ${q.setSize} questions in a row on ${q.passagePart}');
+        }
+      }
+    }
     return Quiz(id: r.str('id'), questions: questions);
   }
 }

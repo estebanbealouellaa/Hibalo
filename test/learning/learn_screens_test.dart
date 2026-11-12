@@ -132,17 +132,30 @@ void main() {
       expect(find.text('15 parts • 16 min'), findsOneWidget);
     });
 
-    testWidgets('after all of Intermediate, Advanced stays locked: lessons coming soon', (tester) async {
+    testWidgets('Advanced stays locked until every Intermediate quiz is passed', (tester) async {
+      final beforeAdvanced = [...catalog.levels[0].lessons, ...catalog.levels[1].lessons];
       await show(tester, const LearnScreen(), lessons: {
-        for (final l in catalog.allLessons) l.id: l.hasQuiz ? passed(8) : done,
+        for (final l in beforeAdvanced.take(beforeAdvanced.length - 1)) l.id: l.hasQuiz ? passed(8) : done,
       });
       await tester.ensureVisible(find.text('Advanced'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Advanced'));
       await tester.pump();
-      expect(find.text('Lessons coming soon'), findsOneWidget);
-      // The tab didn't switch.
-      expect(find.text('Letters & Sounds'), findsOneWidget);
+      expect(find.text('Finish Intermediate to unlock Advanced'), findsOneWidget);
+    });
+
+    testWidgets('after all of Intermediate, Advanced opens with Lesson 1 open', (tester) async {
+      await show(tester, const LearnScreen(), lessons: {
+        for (final l in [...catalog.levels[0].lessons, ...catalog.levels[1].lessons])
+          l.id: l.hasQuiz ? passed(8) : done,
+      });
+      await tester.ensureVisible(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      expect(find.text('Unit 1 · Sounding natural'), findsOneWidget);
+      expect(find.text('Who Did What, Part 2'), findsOneWidget);
+      expect(find.text('17 parts • ${catalog.levels[2].lessons.first.estMinutes} min'), findsOneWidget);
     });
 
     testWidgets('a current row opens Lesson Detail', (tester) async {

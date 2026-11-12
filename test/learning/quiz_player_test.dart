@@ -173,6 +173,10 @@ void main() {
       case OpenAnswerData():
         await tester.enterText(find.byType(TextField), 'Maayong aga!');
         await frames(tester, 2);
+      case SpotMistakeData s:
+        // Q12: tap the wrong tile (right) or another one.
+        final tile = right ? s.wrongIndex : (s.wrongIndex + 1) % s.tiles.length;
+        await press(tester, find.text(s.tiles[tile]).last);
     }
     await press(tester, primary());
     if (q is! SpeakingData) await press(tester, find.text('Continue').last);

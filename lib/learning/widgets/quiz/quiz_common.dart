@@ -33,6 +33,8 @@ class QuestionTypeChip extends StatelessWidget {
       SpeakingData() => (t.qtSpeaking, Icons.mic_rounded, V6Colors.coralContainer, V6Colors.coralText),
       OpenAnswerData() => (t.qtOpenAnswer, Icons.content_paste_rounded, V6Colors.glowTonal, V6Colors.glowText),
       // Figma Q11: "Reading" is citrus; listen mode uses the Listening chip (lagoon).
+      // Stage 1 stand-in; Q12's own chip comes with its widget.
+      SpotMistakeData() => (t.qtChoose, Icons.check_circle_rounded, V6Colors.citrusContainer, V6Colors.citrusText),
       ReadAnswerData(mode: ReadAnswerMode.read) =>
         (t.qtReading, Icons.check_circle_rounded, V6Colors.citrusContainer, V6Colors.citrusText),
       ReadAnswerData(mode: ReadAnswerMode.listen) =>

@@ -10,6 +10,7 @@ const Map<String, IconData> kPartIcons = {
   'calendar_month': Icons.calendar_month_rounded,
   'campaign': Icons.campaign_rounded,
   'chat_bubble': Icons.chat_bubble_rounded,
+  'compare_arrows': Icons.compare_arrows_rounded,
   'directions_run': Icons.directions_run_rounded,
   'family_restroom': Icons.family_restroom_rounded,
   'favorite': Icons.favorite_rounded,

@@ -144,6 +144,8 @@ class ReviewRow extends StatelessWidget {
     return switch (q) {
       MultipleChoiceData q => q.prompt,
       ReadAnswerData q => q.question,
+      // Stage 1 stand-in; the Figma rows come with the Q12 / Q13 widgets.
+      SpotMistakeData q => q.prompt,
       ListeningData q => typed(t.rvListening, q.prompt),
       FillBlankData q => typed(t.rvFillBlank, q.sentence),
       TypeAnswerData q => typed(t.rvType, q.text),
