@@ -13,6 +13,8 @@ import 'quiz_common.dart';
 /// Read mode: the passage (Hiligaynon only) in a card above the question. Listen mode: play buttons that play
 /// the passage's line clips in order; "Show transcript" after answering. While the clips aren't recorded,
 /// listen mode shows the passage like read mode, with "Audio coming soon". No timer.
+/// Q13 (a [PassageSetData]) adds "Question n of N" and, from question 2, folds a read passage into a
+/// "Show story" bar (Figma "Q13 · Quiz · Passage set"). The play buttons of listen mode always stay.
 class ReadAnswerQuestion extends StatefulWidget {
   const ReadAnswerQuestion({
     super.key,
@@ -33,6 +35,9 @@ class ReadAnswerQuestion extends StatefulWidget {
 
 class _ReadAnswerQuestionState extends State<ReadAnswerQuestion> with ChoiceState<ReadAnswerQuestion> {
   bool _transcript = false;
+
+  /// Q13 from question 2: the folded story is open.
+  bool _storyOpen = false;
 
   @override
   ChoiceQuestion get choice => widget.data;
@@ -57,9 +62,15 @@ class _ReadAnswerQuestionState extends State<ReadAnswerQuestion> with ChoiceStat
       hint = _isDialogue ? t.q11ReadConversationHint : t.q11ReadHint;
     }
 
+    final set = data is PassageSetData ? data : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (set != null) ...[
+          Text(t.questionOfSet(set.setIndex, set.setSize),
+              style: V6Text.labelMedium.copyWith(color: V6Colors.textSecondary)),
+          const SizedBox(height: 12),
+        ],
         if (listen && !audioMissing) ...[
           BigAudioButtons.conversation(clips: clips),
           const SizedBox(height: 8),
@@ -81,6 +92,23 @@ class _ReadAnswerQuestionState extends State<ReadAnswerQuestion> with ChoiceStat
               ),
             ),
             if (_transcript) _PassageCard(label: t.q11ReadConversation, lines: data.passage),
+          ],
+        ] else if (set != null && set.setIndex > 1) ...[
+          _StoryBar(
+            label: _storyOpen ? t.hideStory : t.showStory,
+            open: _storyOpen,
+            onTap: () => setState(() => _storyOpen = !_storyOpen),
+          ),
+          if (_storyOpen) ...[
+            const SizedBox(height: 8),
+            _PassageCard(
+              label: _isDialogue ? t.q11ReadConversation : t.q11ReadStory,
+              lines: data.passage,
+            ),
+          ],
+          if (audioMissing) ...[
+            const SizedBox(height: 6),
+            Text(t.audioComingSoon, style: V6Text.caption.copyWith(color: V6Colors.textMuted)),
           ],
         ] else ...[
           _PassageCard(
@@ -142,6 +170,43 @@ class _PassageCard extends StatelessWidget {
                   style: V6Text.bodyLarge,
                 ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Figma "Show story bar": white, radius 16, 48 high, Body/Large · SemiBold in Primary, expand arrow.
+class _StoryBar extends StatelessWidget {
+  const _StoryBar({required this.label, required this.open, required this.onTap});
+
+  final String label;
+  final bool open;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: V6Colors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: V6Colors.borderDivider),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: SizedBox(
+          height: 48,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(child: Text(label, style: V6Text.bodyLargeSemiBold.copyWith(color: V6Colors.primary))),
+                const SizedBox(width: 12),
+                Icon(open ? Icons.expand_less_rounded : Icons.expand_more_rounded, color: V6Colors.primary),
+              ],
+            ),
           ),
         ),
       ),

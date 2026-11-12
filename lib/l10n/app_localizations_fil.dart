@@ -1667,4 +1667,37 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get registerChanged => 'Ano ang nagbago';
+
+  @override
+  String get qtSpotMistake => 'Hanapin ang mali';
+
+  @override
+  String get q12Hint => 'May isang maling salita sa pangungusap na ito.';
+
+  @override
+  String get q12MeaningLabel => 'Kahulugan sa Filipino';
+
+  @override
+  String questionOfSet(int n, int total) {
+    return 'Tanong $n sa $total';
+  }
+
+  @override
+  String get showStory => 'Ipakita ang kuwento';
+
+  @override
+  String get hideStory => 'Itago ang kuwento';
+
+  @override
+  String get rvSpotMistake => 'I-tap ang maling salita';
+
+  @override
+  String rvStoryQuestion(int n, int total, String question) {
+    return 'Tanong sa kuwento $n sa $total: $question';
+  }
+
+  @override
+  String reviewFixIs(String wrong, String fix) {
+    return 'Tama: $wrong → $fix';
+  }
 }

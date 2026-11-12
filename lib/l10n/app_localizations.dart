@@ -3069,6 +3069,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What changed'**
   String get registerChanged;
+
+  /// Q12 question type chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Spot the mistake'**
+  String get qtSpotMistake;
+
+  /// Q12 hint under the title.
+  ///
+  /// In en, this message translates to:
+  /// **'One word in this sentence is wrong.'**
+  String get q12Hint;
+
+  /// Q12 label of the meaning card.
+  ///
+  /// In en, this message translates to:
+  /// **'Meaning in Filipino'**
+  String get q12MeaningLabel;
+
+  /// Q13 small label: position in the passage set.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {n} of {total}'**
+  String questionOfSet(int n, int total);
+
+  /// Q13: opens the folded passage.
+  ///
+  /// In en, this message translates to:
+  /// **'Show story'**
+  String get showStory;
+
+  /// Q13: folds the passage again.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide story'**
+  String get hideStory;
+
+  /// S05 row type for Q12 (before the sentence).
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the wrong word'**
+  String get rvSpotMistake;
+
+  /// S05 row title for Q13.
+  ///
+  /// In en, this message translates to:
+  /// **'Story question {n} of {total}: {question}'**
+  String rvStoryQuestion(int n, int total, String question);
+
+  /// S05 Q12: the wrong word and its fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct: {wrong} → {fix}'**
+  String reviewFixIs(String wrong, String fix);
 }
 
 class _AppLocalizationsDelegate

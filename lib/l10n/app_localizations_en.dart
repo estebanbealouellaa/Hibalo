@@ -1653,4 +1653,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registerChanged => 'What changed';
+
+  @override
+  String get qtSpotMistake => 'Spot the mistake';
+
+  @override
+  String get q12Hint => 'One word in this sentence is wrong.';
+
+  @override
+  String get q12MeaningLabel => 'Meaning in Filipino';
+
+  @override
+  String questionOfSet(int n, int total) {
+    return 'Question $n of $total';
+  }
+
+  @override
+  String get showStory => 'Show story';
+
+  @override
+  String get hideStory => 'Hide story';
+
+  @override
+  String get rvSpotMistake => 'Tap the wrong word';
+
+  @override
+  String rvStoryQuestion(int n, int total, String question) {
+    return 'Story question $n of $total: $question';
+  }
+
+  @override
+  String reviewFixIs(String wrong, String fix) {
+    return 'Correct: $wrong → $fix';
+  }
 }

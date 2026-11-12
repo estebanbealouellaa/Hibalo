@@ -143,9 +143,10 @@ class ReviewRow extends StatelessWidget {
     String typed(String type, String text) => t.reviewTyped(type, text);
     return switch (q) {
       MultipleChoiceData q => q.prompt,
+      // Figma "S05 · Quiz review · Advanced types".
+      PassageSetData q => t.rvStoryQuestion(q.setIndex, q.setSize, q.question),
       ReadAnswerData q => q.question,
-      // Stage 1 stand-in; the Figma rows come with the Q12 / Q13 widgets.
-      SpotMistakeData q => q.prompt,
+      SpotMistakeData q => typed(t.rvSpotMistake, q.sentence),
       ListeningData q => typed(t.rvListening, q.prompt),
       FillBlankData q => typed(t.rvFillBlank, q.sentence),
       TypeAnswerData q => typed(t.rvType, q.text),
@@ -235,7 +236,8 @@ class ReviewRow extends StatelessWidget {
                   if (!right && correct != null) ...[
                     const SizedBox(height: 3),
                     Text(
-                      t.correctAnswerIs(correct),
+                      // Q12: "Correct: ako → ko".
+                      q is SpotMistakeData ? t.reviewFixIs(q.wrongWord, q.fix) : t.correctAnswerIs(correct),
                       style: V6Text.captionSemiBold.copyWith(color: V6Colors.textSecondary),
                     ),
                   ],

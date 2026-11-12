@@ -237,6 +237,12 @@ void main() {
       expect(find.textContaining('Lesson 13'), findsNothing);
     });
 
+    testWidgets('after Advanced Lesson 10: "Advanced complete!"', (tester) async {
+      await show(tester, QuizResultScreen(lessonId: 'a10', result: result(14, 14), answers: allRight('a10')));
+      expect(find.text('Advanced complete!'), findsOneWidget);
+      expect(find.textContaining('Lesson 11'), findsNothing);
+    });
+
     testWidgets('Intermediate Lesson 1 passed: "Lesson 2 unlocked"', (tester) async {
       await show(tester, QuizResultScreen(lessonId: 'i01', result: result(11, 11), answers: allRight('i01')));
       expect(find.text('Lesson 2 unlocked'), findsOneWidget);
@@ -328,6 +334,31 @@ void main() {
       expect(find.text('$n. ${reads.first.question}'), findsOneWidget);
       expect(find.text('Correct answer: ${reads.first.correctOption}'), findsOneWidget);
       expect(find.text('${qs.indexOf(reads[1]) + 1}. ${reads[1].question}'), findsOneWidget);
+    });
+
+    testWidgets('Q12 and Q13 rows as in Figma (Advanced types)', (tester) async {
+      final qs = quizOf('a01');
+      final spot = qs.whereType<SpotMistakeData>().first;
+      final story = qs.whereType<PassageSetData>().first;
+      final answers = [
+        for (final q in qs)
+          q == spot
+              ? AnsweredQuestion(question: q, outcome: QuestionOutcome.wrong, answer: spot.tiles.last)
+              : AnsweredQuestion(
+                  question: q,
+                  outcome: q.scored ? QuestionOutcome.right : QuestionOutcome.practice,
+                  answer: correctAnswerText(q),
+                  pairsRight: q is MatchPairsData ? q.pairs.length : null,
+                ),
+      ];
+      await show(tester, QuizReviewScreen(result: result(13, 14), answers: answers), size: const Size(375, 3600));
+      final n = qs.indexOf(spot) + 1;
+      expect(find.text('$n. Tap the wrong word: ${spot.sentence}'), findsOneWidget);
+      expect(find.text('Your answer: ${spot.tiles.last}'), findsOneWidget);
+      expect(find.text('Correct: ${spot.wrongWord} → ${spot.fix}'), findsOneWidget);
+      final m = qs.indexOf(story) + 1;
+      expect(find.text('$m. Story question 1 of 3: ${story.question}'), findsOneWidget);
+      expect(find.text('Your answer: ${story.correctOption}'), findsOneWidget);
     });
 
     testWidgets('failed version: Try again + Back to lessons; Back returns to S04', (tester) async {

@@ -1668,4 +1668,37 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get registerChanged => 'Ano ang nagbag-o';
+
+  @override
+  String get qtSpotMistake => 'Pangitaa ang sala';
+
+  @override
+  String get q12Hint => 'May isa ka sala nga tinaga sa sini nga sentensiya.';
+
+  @override
+  String get q12MeaningLabel => 'Kahulugan sa Filipino';
+
+  @override
+  String questionOfSet(int n, int total) {
+    return 'Pamangkot $n sa $total';
+  }
+
+  @override
+  String get showStory => 'Ipakita ang istorya';
+
+  @override
+  String get hideStory => 'Tagua ang istorya';
+
+  @override
+  String get rvSpotMistake => 'I-tap ang sala nga tinaga';
+
+  @override
+  String rvStoryQuestion(int n, int total, String question) {
+    return 'Pamangkot sa istorya $n sa $total: $question';
+  }
+
+  @override
+  String reviewFixIs(String wrong, String fix) {
+    return 'Husto: $wrong → $fix';
+  }
 }

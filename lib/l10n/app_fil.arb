@@ -495,5 +495,14 @@
   "idiomMeans": "Ang tunay na kahulugan",
   "idiomTone": "Tono",
   "idiomSayTo": "Kanino puwedeng sabihin",
-  "registerChanged": "Ano ang nagbago"
+  "registerChanged": "Ano ang nagbago",
+  "qtSpotMistake": "Hanapin ang mali",
+  "q12Hint": "May isang maling salita sa pangungusap na ito.",
+  "q12MeaningLabel": "Kahulugan sa Filipino",
+  "questionOfSet": "Tanong {n} sa {total}",
+  "showStory": "Ipakita ang kuwento",
+  "hideStory": "Itago ang kuwento",
+  "rvSpotMistake": "I-tap ang maling salita",
+  "rvStoryQuestion": "Tanong sa kuwento {n} sa {total}: {question}",
+  "reviewFixIs": "Tama: {wrong} → {fix}"
 }

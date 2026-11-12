@@ -20,6 +20,7 @@ import '../widgets/leave_dialog.dart';
 import '../widgets/quiz/choice_questions.dart';
 import '../widgets/quiz/practice_questions.dart';
 import '../widgets/quiz/read_answer_question.dart';
+import '../widgets/quiz/spot_mistake_question.dart';
 import '../widgets/quiz/question_contract.dart';
 import '../widgets/quiz/quiz_common.dart';
 import '../widgets/quiz/tile_questions.dart';
@@ -355,13 +356,7 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
       SpeakingData d => SpeakingQuestion(data: d, recorder: _recorder, onChanged: _onAnswer),
       OpenAnswerData d => OpenAnswerQuestion(data: d, phase: _phase, onChanged: _onAnswer),
       ReadAnswerData d => ReadAnswerQuestion(data: d, order: order, phase: _phase, onChanged: _onAnswer),
-      // Stage 1 stand-in until SpotMistakeQuestion exists: the tiles as options, the wrong one is the answer.
-      SpotMistakeData d => MultipleChoiceQuestion(
-          data: MultipleChoiceData(d.id,
-              answerAudio: d.answerAudio, prompt: d.prompt, options: d.tiles, answer: d.wrongIndex),
-          order: order,
-          phase: _phase,
-          onChanged: _onAnswer),
+      SpotMistakeData d => SpotMistakeQuestion(data: d, phase: _phase, onChanged: _onAnswer),
     };
   }
 

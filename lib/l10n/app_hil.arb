@@ -495,5 +495,14 @@
   "idiomMeans": "Ang matuod nga kahulugan",
   "idiomTone": "Tono",
   "idiomSayTo": "Kay sin-o pwede masiling",
-  "registerChanged": "Ano ang nagbag-o"
+  "registerChanged": "Ano ang nagbag-o",
+  "qtSpotMistake": "Pangitaa ang sala",
+  "q12Hint": "May isa ka sala nga tinaga sa sini nga sentensiya.",
+  "q12MeaningLabel": "Kahulugan sa Filipino",
+  "questionOfSet": "Pamangkot {n} sa {total}",
+  "showStory": "Ipakita ang istorya",
+  "hideStory": "Tagua ang istorya",
+  "rvSpotMistake": "I-tap ang sala nga tinaga",
+  "rvStoryQuestion": "Pamangkot sa istorya {n} sa {total}: {question}",
+  "reviewFixIs": "Husto: {wrong} → {fix}"
 }
