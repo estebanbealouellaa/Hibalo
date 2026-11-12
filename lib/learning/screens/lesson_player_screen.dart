@@ -17,18 +17,20 @@ import '../widgets/leave_dialog.dart';
 import '../widgets/parts/bridge_mistakes_part.dart';
 import '../widgets/parts/culture_note_part.dart';
 import '../widgets/parts/dialogue_part.dart';
+import '../widgets/parts/idiom_cards_part.dart';
 import '../widgets/parts/key_idea_part.dart';
 import '../widgets/parts/letters_part.dart';
 import '../widgets/parts/pattern_part.dart';
 import '../widgets/parts/quick_check_part.dart';
 import '../widgets/parts/reading_part.dart';
+import '../widgets/parts/register_pairs_part.dart';
 import '../widgets/parts/role_play_part.dart';
 import '../widgets/parts/table_part.dart';
 import '../widgets/parts/verb_forms_part.dart';
 import '../widgets/parts/words_part.dart';
 import '../widgets/segmented_progress.dart';
 
-/// Lesson part player (P01–P12); a Back/Next step is a card (P04), a letter (P05) or a whole part.
+/// Lesson part player (P01–P14); a Back/Next step is a card (P04), a letter (P05) or a whole part.
 class LessonPlayerScreen extends StatefulWidget {
   const LessonPlayerScreen({
     super.key,
@@ -238,9 +240,21 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
                 // (14 on most parts, 12 on P05/P07, 10 on P08/P10).
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 12, 20, _captionGap(_current)),
-                  child: Text(
-                    t.partCaption(_lesson.order, _part + 1, _lesson.partsCount),
-                    style: V6Text.labelMedium.copyWith(color: V6Colors.textSecondary),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          t.partCaption(_lesson.order, _part + 1, _lesson.partsCount),
+                          style: V6Text.labelMedium.copyWith(color: V6Colors.textSecondary),
+                        ),
+                      ),
+                      // Figma P14 "Overline row": the situation counter at the right.
+                      if (_current case RegisterPairsPartData(:final situations))
+                        Text(
+                          '${_step + 1} / ${situations.length}',
+                          style: V6Text.labelMediumBold.copyWith(color: V6Colors.textSecondary),
+                        ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -300,9 +314,8 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
           },
         ),
       VerbFormsPartData p => VerbFormsPart(data: p),
-      // Stage 1 stand-ins until IdiomCardsPart / RegisterPairsPart exist.
-      IdiomCardsPartData p => Text(p.cards[_step].hil, style: V6Text.titleLarge),
-      RegisterPairsPartData p => Text(p.situations[_step].title, style: V6Text.titleLarge),
+      IdiomCardsPartData p => IdiomCardsPart(data: p, index: _step),
+      RegisterPairsPartData p => RegisterPairsPart(data: p, index: _step),
     };
   }
 

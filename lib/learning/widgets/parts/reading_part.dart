@@ -39,6 +39,11 @@ class _ReadingPartState extends State<ReadingPart> {
         children: [
           // Figma P08: the card grows with its sentences up to the space left, then scrolls with the fade.
           PartHeader(icon: widget.data.icon, title: widget.data.title),
+          // Intro line (one Advanced reading).
+          if (widget.data.text case final text?) ...[
+            const SizedBox(height: 10),
+            PartText(text),
+          ],
           const SizedBox(height: 10),
           ShowAllSwitch(label: t.showAllFilipino, value: _showAll, onChanged: _setAll),
           const SizedBox(height: 10),

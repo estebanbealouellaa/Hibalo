@@ -1652,4 +1652,19 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get q10ListenLabel => 'Pakinggan ang recording';
+
+  @override
+  String get idiomLiteral => 'Salita sa salita';
+
+  @override
+  String get idiomMeans => 'Ang tunay na kahulugan';
+
+  @override
+  String get idiomTone => 'Tono';
+
+  @override
+  String get idiomSayTo => 'Kanino puwedeng sabihin';
+
+  @override
+  String get registerChanged => 'Ano ang nagbago';
 }

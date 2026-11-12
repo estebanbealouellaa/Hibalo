@@ -1653,4 +1653,19 @@ class AppLocalizationsHil extends AppLocalizations {
 
   @override
   String get q10ListenLabel => 'Pamatii ang recording';
+
+  @override
+  String get idiomLiteral => 'Tinaga sa tinaga';
+
+  @override
+  String get idiomMeans => 'Ang matuod nga kahulugan';
+
+  @override
+  String get idiomTone => 'Tono';
+
+  @override
+  String get idiomSayTo => 'Kay sin-o pwede masiling';
+
+  @override
+  String get registerChanged => 'Ano ang nagbag-o';
 }

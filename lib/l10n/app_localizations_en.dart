@@ -1638,4 +1638,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get q10ListenLabel => 'Listen to the recording';
+
+  @override
+  String get idiomLiteral => 'Word for word';
+
+  @override
+  String get idiomMeans => 'What it really means';
+
+  @override
+  String get idiomTone => 'Tone';
+
+  @override
+  String get idiomSayTo => 'Who you can say it to';
+
+  @override
+  String get registerChanged => 'What changed';
 }

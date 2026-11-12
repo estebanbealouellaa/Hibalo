@@ -2258,5 +2258,15 @@
   "listeningTapHint": "Tap a line to see the Filipino.",
   "@listeningTapHint": {"description": "Listening dialogue: hint once the text is shown."},
   "q10ListenLabel": "Listen to the recording",
-  "@q10ListenLabel": {"description": "Q10 with a clip: caption under the play button."}
+  "@q10ListenLabel": {"description": "Q10 with a clip: caption under the play button."},
+  "idiomLiteral": "Word for word",
+  "@idiomLiteral": {"description": "P13 idiom card: label above the literal meaning."},
+  "idiomMeans": "What it really means",
+  "@idiomMeans": {"description": "P13 idiom card: label above the real meaning."},
+  "idiomTone": "Tone",
+  "@idiomTone": {"description": "P13 idiom card: label above the tone chip."},
+  "idiomSayTo": "Who you can say it to",
+  "@idiomSayTo": {"description": "P13 idiom card: label above who it suits."},
+  "registerChanged": "What changed",
+  "@registerChanged": {"description": "P14: label above the change chips."}
 }

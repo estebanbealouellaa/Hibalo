@@ -490,5 +490,10 @@
   "playAgain": "I-play ulit",
   "hideText": "Itago ang teksto",
   "listeningTapHint": "I-tap ang linya para makita ang Filipino.",
-  "q10ListenLabel": "Pakinggan ang recording"
+  "q10ListenLabel": "Pakinggan ang recording",
+  "idiomLiteral": "Salita sa salita",
+  "idiomMeans": "Ang tunay na kahulugan",
+  "idiomTone": "Tono",
+  "idiomSayTo": "Kanino puwedeng sabihin",
+  "registerChanged": "Ano ang nagbago"
 }

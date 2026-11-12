@@ -3039,6 +3039,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Listen to the recording'**
   String get q10ListenLabel;
+
+  /// P13 idiom card: label above the literal meaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Word for word'**
+  String get idiomLiteral;
+
+  /// P13 idiom card: label above the real meaning.
+  ///
+  /// In en, this message translates to:
+  /// **'What it really means'**
+  String get idiomMeans;
+
+  /// P13 idiom card: label above the tone chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tone'**
+  String get idiomTone;
+
+  /// P13 idiom card: label above who it suits.
+  ///
+  /// In en, this message translates to:
+  /// **'Who you can say it to'**
+  String get idiomSayTo;
+
+  /// P14: label above the change chips.
+  ///
+  /// In en, this message translates to:
+  /// **'What changed'**
+  String get registerChanged;
 }
 
 class _AppLocalizationsDelegate

@@ -137,6 +137,22 @@ class _RolePlayPartState extends State<RolePlayPart> {
         nameTrailing: turn.fast ? SmallChip(t.rolePlayFast) : null,
         bubble: _ChatBubble(hil: turn.hil, fil: turn.fil, mine: isLearnerSpeaker(turn.speaker)),
       ));
+      // Figma "Quoted line": what someone else said, under the speaker's bubble (44 in, 232 wide).
+      if (turn.quote case final quote?) {
+        chat.add(Padding(
+          padding: const EdgeInsets.only(left: 44),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 232),
+              child: Text(
+                quote,
+                style: V6Text.bodyMedium.copyWith(fontStyle: FontStyle.italic, color: V6Colors.textSecondary),
+              ),
+            ),
+          ),
+        ));
+      }
       if (i < _answered && turn.correctChoice != null) {
         final reply = turn.correctChoice!;
         chat.add(ChatLine(
@@ -300,6 +316,11 @@ class ReplyOption extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Small grey label above the reply (Lance, Nov 12), e.g. "Filipino, to your friend".
+                      if (choice.note case final note?) ...[
+                        Text(note, style: V6Text.caption.copyWith(color: V6Colors.textMuted)),
+                        const SizedBox(height: 2),
+                      ],
                       Text(choice.hil, style: marked ? V6Text.bodyLargeSemiBold : V6Text.bodyLarge),
                       if (choice.fil != null) ...[
                         const SizedBox(height: 2),
