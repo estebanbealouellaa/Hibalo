@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +23,10 @@ class AuthProvider extends ChangeNotifier {
 
   bool _isAdmin = false;
   bool get isAdmin => _isAdmin;
+
+  /// How long the admin-role check waits for the server before using the cached copy.
+  /// Offline the server never answers, and the app must still open (it works offline after sign-in).
+  static const adminCheckTimeout = Duration(seconds: 5);
 
   Future<bool> signUp({
     required String name,
@@ -73,7 +79,7 @@ class AuthProvider extends ChangeNotifier {
       final uid = credential.user?.uid;
       if (uid != null) {
         await _checkAdminRole(uid);
-        await _updateLastActive(uid);
+        _updateLastActive(uid);
       }
 
       return true;
@@ -93,9 +99,12 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// At app start and after sign-in. Never waits on the network for long: the role check gives up after
+  /// [adminCheckTimeout] and uses the cached copy, and the lastActive write isn't awaited (Firestore sends it
+  /// when the phone is back online; a write's future only completes once the server confirms it).
   Future<void> refreshAdminRole(String uid) async {
     await _checkAdminRole(uid);
-    await _updateLastActive(uid);
+    _updateLastActive(uid);
     notifyListeners();
   }
 
@@ -107,18 +116,36 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> _checkAdminRole(String uid) async {
     try {
-      final doc = await _firestore.collection('users').doc(uid).get();
-      _isAdmin = doc.data()?['role'] == 'admin';
+      final data = await readUserDoc(uid).timeout(adminCheckTimeout);
+      _isAdmin = data?['role'] == 'admin';
     } catch (_) {
-      _isAdmin = false;
+      // Offline or slow: the copy Firestore keeps on the phone.
+      try {
+        final cached = await readUserDoc(uid, cacheOnly: true).timeout(adminCheckTimeout);
+        _isAdmin = cached?['role'] == 'admin';
+      } catch (_) {
+        _isAdmin = false;
+      }
     }
   }
 
-  Future<void> _updateLastActive(String uid) async {
-    try {
-      await _firestore.collection('users').doc(uid).update({
-        'lastActive': Timestamp.now(),
-      });
-    } catch (_) {}
+  /// Fire and forget: errors are ignored and nothing waits for it.
+  void _updateLastActive(String uid) {
+    unawaited(writeLastActive(uid).catchError((Object _) {}));
+  }
+
+  /// users/{uid} from the server (or Firestore's own offline fallback), or only the phone's cache.
+  /// Overridden in tests.
+  @protected
+  Future<Map<String, dynamic>?> readUserDoc(String uid, {bool cacheOnly = false}) async {
+    final ref = _firestore.collection('users').doc(uid);
+    final doc = await (cacheOnly ? ref.get(const GetOptions(source: Source.cache)) : ref.get());
+    return doc.data();
+  }
+
+  /// users/{uid}.lastActive = now. Overridden in tests.
+  @protected
+  Future<void> writeLastActive(String uid) {
+    return _firestore.collection('users').doc(uid).update({'lastActive': Timestamp.now()});
   }
 }
