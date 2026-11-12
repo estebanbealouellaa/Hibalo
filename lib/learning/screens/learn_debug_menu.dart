@@ -38,6 +38,17 @@ void showLearnDebugMenu(BuildContext context) {
         for (final l in intermediate.take(count))
           l.id: done(passed: true, best: l.quiz?.scoredQuestions.length ?? 0),
       };
+  final advanced = [
+    for (final level in progress.catalog.levels)
+      if (level.id == 'advanced') ...level.lessons,
+  ];
+
+  /// Everything before Advanced passed, and Advanced Lessons 1…[count] passed (full score).
+  Map<String, LessonProgress> advancedPassed(int count) => {
+        ...intermediatePassed(intermediate.length),
+        for (final l in advanced.take(count))
+          l.id: done(passed: true, best: l.quiz?.scoredQuestions.length ?? 0),
+      };
 
   final presets = <String, Map<String, LessonProgress>>{
     'Reset all progress': {},
@@ -71,6 +82,15 @@ void showLearnDebugMenu(BuildContext context) {
       'Intermediate: Lesson 12 finished, quiz pending': {
         ...intermediatePassed(11),
         intermediate[11].id: done(),
+      },
+    },
+    // Advanced Lesson 1 opens once every Intermediate quiz is passed; 2, 3, 6, 8 for the phone checks.
+    if (advanced.length >= 10) ...{
+      'All Intermediate passed (Advanced Lesson 1 current)': advancedPassed(0),
+      for (final n in [2, 3, 6, 8, 10]) 'Advanced: Lesson $n current': advancedPassed(n - 1),
+      'Advanced: Lesson 10 finished, quiz pending': {
+        ...advancedPassed(9),
+        advanced[9].id: done(),
       },
     },
   };

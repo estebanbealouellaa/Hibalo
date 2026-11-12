@@ -264,6 +264,81 @@ void main() {
     });
   });
 
+  group('S01 Learn · Advanced', () {
+    List<Lesson> advancedLessons() => catalog.levels[2].lessons;
+    Map<String, LessonProgress> intermediateDone() => {
+          for (final l in [...catalog.levels[0].lessons, ...catalog.levels[1].lessons])
+            l.id: l.hasQuiz ? passed(8) : done,
+        };
+
+    Future<void> openAdvanced(WidgetTester tester, {Map<String, LessonProgress>? lessons}) async {
+      await show(tester, const LearnScreen(), lessons: lessons ?? intermediateDone());
+      await tester.ensureVisible(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('unit headers, Lesson N numbers, placeholders, locked messages', (tester) async {
+      await openAdvanced(tester);
+      for (final header in [
+        'Unit 1 · Sounding natural',
+        'Unit 2 · Right words, right people',
+        'Unit 3 · Telling and explaining',
+        'Unit 4 · Hiligaynon in real life',
+      ]) {
+        expect(find.text(header), findsOneWidget, reason: header);
+      }
+      final first = advancedLessons().first;
+      expect(find.text(first.title), findsOneWidget);
+      expect(find.text('${first.partsCount} parts • ${first.estMinutes} min'), findsOneWidget);
+      for (var n = 1; n <= 10; n++) {
+        expect(find.text('$n'), findsOneWidget, reason: 'number $n');
+      }
+      expect(find.text('Pass Lesson 1 quiz to unlock'), findsOneWidget);
+      expect(find.text('Pass Lesson 9 quiz to unlock'), findsOneWidget);
+      expect(find.byWidgetPredicate((w) => w.runtimeType.toString() == '_PlaceholderThumbnail'), findsNWidgets(10));
+      // Unit 2 starts at Lesson 4.
+      final y = tester.getTopLeft;
+      expect(y(find.text(advancedLessons()[2].title)).dy, lessThan(y(find.text('Unit 2 · Right words, right people')).dy));
+      expect(y(find.text('Unit 2 · Right words, right people')).dy, lessThan(y(find.text(advancedLessons()[3].title)).dy));
+    });
+
+    testWidgets('passing Lesson 1 quiz opens Lesson 2', (tester) async {
+      final a = advancedLessons();
+      await openAdvanced(tester, lessons: {...intermediateDone(), a[0].id: passed(14)});
+      expect(find.text('${a[1].partsCount} parts • ${a[1].estMinutes} min'), findsWidgets);
+      expect(find.text('Pass Lesson 1 quiz to unlock'), findsNothing);
+      expect(find.text('Pass Lesson 2 quiz to unlock'), findsOneWidget);
+    });
+
+    testWidgets('search keeps the unit header of the lessons it finds', (tester) async {
+      await openAdvanced(tester);
+      await tester.enterText(find.byType(TextField), 'idioms');
+      await tester.pump();
+      expect(find.text('Idioms & Expressions'), findsOneWidget);
+      expect(find.text('Unit 1 · Sounding natural'), findsOneWidget);
+      expect(find.text('Unit 4 · Hiligaynon in real life'), findsNothing);
+    });
+
+    testWidgets('debug presets: Advanced Lesson 3 current', (tester) async {
+      await show(tester, const LearnScreen());
+      await tester.tap(find.byTooltip('Debug: set progress'));
+      await tester.pumpAndSettle();
+      final preset = find.text('Advanced: Lesson 3 current');
+      await tester.scrollUntilVisible(preset, 200, scrollable: find.byType(Scrollable).last);
+      await tester.tap(preset);
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Advanced'));
+      await tester.pumpAndSettle();
+      final a = advancedLessons();
+      expect(find.text('${a[2].partsCount} parts • ${a[2].estMinutes} min'), findsWidgets, reason: 'Lesson 3 is open');
+      expect(find.text('Pass Lesson 3 quiz to unlock'), findsOneWidget, reason: 'Lesson 4 waits');
+    });
+  });
+
   group('S02 Lesson Detail', () {
     testWidgets('not started', (tester) async {
       await show(tester, const LessonDetailScreen(lessonId: 'b02'),
