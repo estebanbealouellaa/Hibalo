@@ -56,9 +56,14 @@ class ChatLine extends StatelessWidget {
     required this.avatar,
     required this.bubble,
     this.nameTrailing,
+    this.displayName,
   });
 
+  /// The JSON name: decides the learner's side.
   final String speaker;
+
+  /// The name shown (Filipino lesson text: "You" → "Ikaw"); [speaker] when null.
+  final String? displayName;
 
   /// SVG asset path, or null if the file is missing.
   final String? avatar;
@@ -70,6 +75,7 @@ class ChatLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mine = isLearnerSpeaker(speaker);
+    final shown = displayName ?? speaker;
     final message = Flexible(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 232),
@@ -83,7 +89,7 @@ class ChatLine extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      speaker,
+                      shown,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: V6Text.captionSemiBold.copyWith(color: V6Colors.textSecondary),
@@ -99,7 +105,7 @@ class ChatLine extends StatelessWidget {
         ),
       ),
     );
-    final face = ChatAvatar(path: avatar, speaker: speaker);
+    final face = ChatAvatar(path: avatar, speaker: shown);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: mine ? MainAxisAlignment.end : MainAxisAlignment.start,

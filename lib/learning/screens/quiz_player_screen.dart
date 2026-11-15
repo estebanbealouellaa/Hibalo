@@ -373,7 +373,13 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
           otherClips: _otherClips,
         ),
       OpenAnswerData d => OpenAnswerQuestion(data: d, phase: _phase, onChanged: _onAnswer),
-      ReadAnswerData d => ReadAnswerQuestion(data: d, order: order, phase: _phase, onChanged: _onAnswer),
+      ReadAnswerData d => ReadAnswerQuestion(
+          data: d,
+          order: order,
+          phase: _phase,
+          onChanged: _onAnswer,
+          speakerName: _settings.avatars.nameFor,
+        ),
       SpotMistakeData d => SpotMistakeQuestion(data: d, phase: _phase, onChanged: _onAnswer),
     };
   }

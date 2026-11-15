@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_localizations.dart';
 
-/// The app language (English, Filipino or Hiligaynon); it changes only the app's own words, never lesson content.
+/// The app language (English, Filipino or Hiligaynon): the app's own words, and the lesson text
+/// (Filipino and Hiligaynon show the Filipino lesson text where it exists; see LessonOverlay).
 /// Saved per account; signed out (and an account with no choice yet) is English.
 class AppLanguage extends ChangeNotifier {
   AppLanguage._();

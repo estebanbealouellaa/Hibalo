@@ -165,7 +165,10 @@ class LearningSettings {
           if (images.map[key] is Map<String, dynamic>)
             key: ImageSlot.fromJson(images.object(key)),
       },
-      avatars: AvatarRules.fromJson(r.object('avatars'), assets),
+      avatars: AvatarRules.fromJson(r.object('avatars'), assets, names: {
+        for (final e in (r.objectOrNull('speakerNames')?.map ?? const <String, dynamic>{}).entries)
+          if (e.value is String) e.key: e.value as String,
+      }),
       lastPartWithQuizButton: buttons.str('lastPartWithQuiz'),
       lastPartNoQuizButton: buttons.str('lastPartNoQuiz'),
       uiLanguages: languages.strings('options'),
@@ -293,7 +296,14 @@ class AvatarRules {
     required this.byName,
     required this.byPrefix,
     required this.fallback,
+    this.names = const {},
   });
+
+  /// Speaker name in the JSON → name to show (Filipino lesson text: "You" → "Ikaw").
+  /// The JSON name still decides the avatar and the learner's side.
+  final Map<String, String> names;
+
+  String nameFor(String speaker) => names[speaker] ?? speaker;
 
   /// Speaker name → avatar asset path (null if the file is missing).
   final Map<String, String?> byName;
@@ -310,7 +320,7 @@ class AvatarRules {
     return fallback;
   }
 
-  factory AvatarRules.fromJson(JsonReader r, AssetResolver assets) {
+  factory AvatarRules.fromJson(JsonReader r, AssetResolver assets, {Map<String, String> names = const {}}) {
     String? path(String key) => assets.resolve(
         'images/avatars/${r.str(key)}.svg', 'settings > avatars > $key');
 
@@ -327,7 +337,7 @@ class AvatarRules {
         byName[key] = path(key);
       }
     }
-    return AvatarRules(byName: byName, byPrefix: byPrefix, fallback: fallback);
+    return AvatarRules(byName: byName, byPrefix: byPrefix, fallback: fallback, names: names);
   }
 }
 

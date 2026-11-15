@@ -114,6 +114,7 @@ class _DialoguePartState extends State<DialoguePart> {
           if (i > 0) const SizedBox(height: 10),
           ChatLine(
             speaker: data.lines[i].speaker,
+            displayName: widget.avatars.nameFor(data.lines[i].speaker),
             avatar: widget.avatars.avatarFor(data.lines[i].speaker),
             bubble: _hidden
                 ? _PlaceholderBubble(mine: isLearnerSpeaker(data.lines[i].speaker))

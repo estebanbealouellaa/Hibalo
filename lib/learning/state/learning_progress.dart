@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import '../../l10n/app_language.dart';
 import '../data/lesson_repository.dart';
 import '../logic/streak.dart';
 import '../logic/unlocking.dart';
@@ -15,14 +16,19 @@ class LearningProgress extends ChangeNotifier {
   LearningProgress({
     ProgressStore? store,
     Future<LessonRepository> Function()? loadLessons,
+    Future<LessonRepository> Function(bool filipino)? loadLessonsIn,
     DateTime Function()? clock,
     ProgressCloud? cloud,
     Stream<String?>? accounts,
+    AppLanguage? language,
   })  : _store = store ?? ProgressStore(),
-        _loadLessons = loadLessons ?? LessonRepository.instance,
+        _loadLessonsIn = loadLessonsIn ??
+            (loadLessons != null ? (_) => loadLessons() : (f) => LessonRepository.instance(filipino: f)),
         _clock = clock ?? DateTime.now,
-        _cloud = cloud {
+        _cloud = cloud,
+        _language = language {
     _accounts = accounts?.listen(_onAccount);
+    _language?.addListener(_onLanguage);
   }
 
   /// A ready-made instance for tests and previews: no loading needed.
@@ -35,9 +41,10 @@ class LearningProgress extends ChangeNotifier {
     ProgressCloud? cloud,
     String? uid,
   })  : _store = store ?? ProgressStore(),
-        _loadLessons = LessonRepository.instance,
+        _loadLessonsIn = ((f) => LessonRepository.instance(filipino: f)),
         _clock = clock ?? DateTime.now,
         _cloud = cloud,
+        _language = null,
         _uid = uid,
         _catalog = catalog,
         _snapshot = snapshot,
@@ -46,7 +53,15 @@ class LearningProgress extends ChangeNotifier {
   }
 
   final ProgressStore _store;
-  final Future<LessonRepository> Function() _loadLessons;
+  final Future<LessonRepository> Function(bool filipino) _loadLessonsIn;
+
+  /// The app language: Filipino and Hiligaynon show the Filipino lesson text, English the English.
+  final AppLanguage? _language;
+
+  bool get _wantsFilipino => _language != null && _language.language != 'English';
+
+  /// Which lesson text [_catalog] holds.
+  bool _catalogFilipino = false;
   final DateTime Function() _clock;
   final ProgressCloud? _cloud;
   StreamSubscription<String?>? _accounts;
@@ -77,7 +92,12 @@ class LearningProgress extends ChangeNotifier {
         if (_switchAccount()) await _store.save(_snapshot);
         notifyListeners();
       }
-      _catalog ??= (await _loadLessons()).catalog;
+      if (_catalog == null) {
+        final filipino = _wantsFilipino;
+        _catalog = (await _loadLessonsIn(filipino)).catalog;
+        _catalogFilipino = filipino;
+        if (filipino != _wantsFilipino) unawaited(_onLanguageChanged());
+      }
       unawaited(_sync());
     } catch (e, stack) {
       _lessonsError = e;
@@ -85,6 +105,25 @@ class LearningProgress extends ChangeNotifier {
     } finally {
       _loading = false;
       notifyListeners();
+    }
+  }
+
+  void _onLanguage() {
+    if (_catalog != null && _catalogFilipino != _wantsFilipino) unawaited(_onLanguageChanged());
+  }
+
+  /// Swaps in the lesson text for the new app language. Progress is keyed by lesson ids, which
+  /// are the same in both, so nothing else changes. If it fails, the old text stays.
+  Future<void> _onLanguageChanged() async {
+    final filipino = _wantsFilipino;
+    try {
+      final catalog = (await _loadLessonsIn(filipino)).catalog;
+      if (filipino != _wantsFilipino) return; // changed again meanwhile
+      _catalog = catalog;
+      _catalogFilipino = filipino;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('[Learning] could not switch the lesson text: $e');
     }
   }
 
@@ -297,6 +336,7 @@ class LearningProgress extends ChangeNotifier {
 
   @override
   void dispose() {
+    _language?.removeListener(_onLanguage);
     _accounts?.cancel();
     super.dispose();
   }

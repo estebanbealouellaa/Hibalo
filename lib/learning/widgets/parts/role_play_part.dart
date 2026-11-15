@@ -133,6 +133,7 @@ class _RolePlayPartState extends State<RolePlayPart> {
       final turn = _turns[i];
       chat.add(ChatLine(
         speaker: turn.speaker,
+        displayName: widget.avatars.nameFor(turn.speaker),
         avatar: widget.avatars.avatarFor(turn.speaker),
         nameTrailing: turn.fast ? SmallChip(t.rolePlayFast) : null,
         bubble: _ChatBubble(hil: turn.hil, fil: turn.fil, mine: isLearnerSpeaker(turn.speaker)),

@@ -22,7 +22,11 @@ class ReadAnswerQuestion extends StatefulWidget {
     required this.order,
     required this.phase,
     required this.onChanged,
+    this.speakerName,
   });
+
+  /// The name shown for a passage speaker (Filipino lesson text); the JSON name when null.
+  final String Function(String speaker)? speakerName;
 
   final ReadAnswerData data;
   final List<int> order;
@@ -91,7 +95,7 @@ class _ReadAnswerQuestionState extends State<ReadAnswerQuestion> with ChoiceStat
                 ),
               ),
             ),
-            if (_transcript) _PassageCard(label: t.q11ReadConversation, lines: data.passage),
+            if (_transcript) _PassageCard(label: t.q11ReadConversation, lines: data.passage, speakerName: widget.speakerName),
           ],
         ] else if (set != null && set.setIndex > 1) ...[
           _StoryBar(
@@ -104,6 +108,7 @@ class _ReadAnswerQuestionState extends State<ReadAnswerQuestion> with ChoiceStat
             _PassageCard(
               label: _isDialogue ? t.q11ReadConversation : t.q11ReadStory,
               lines: data.passage,
+              speakerName: widget.speakerName,
             ),
           ],
           if (audioMissing) ...[
@@ -114,6 +119,7 @@ class _ReadAnswerQuestionState extends State<ReadAnswerQuestion> with ChoiceStat
           _PassageCard(
             label: _isDialogue ? t.q11ReadConversation : t.q11ReadStory,
             lines: data.passage,
+            speakerName: widget.speakerName,
           ),
           if (audioMissing) ...[
             const SizedBox(height: 6),
@@ -138,10 +144,11 @@ class _ReadAnswerQuestionState extends State<ReadAnswerQuestion> with ChoiceStat
 /// Figma "Passage card": white, radius 20, padding 16/14, a small label, the lines in Body/Large;
 /// at most 200 high, scrolling with a fade when longer. Dialogue lines read "Speaker: line".
 class _PassageCard extends StatelessWidget {
-  const _PassageCard({required this.label, required this.lines});
+  const _PassageCard({required this.label, required this.lines, this.speakerName});
 
   final String label;
   final List<PassageLine> lines;
+  final String Function(String speaker)? speakerName;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +171,7 @@ class _PassageCard extends StatelessWidget {
                 Text.rich(
                   TextSpan(children: [
                     if (line.speaker != null)
-                      TextSpan(text: '${line.speaker}: ', style: V6Text.bodyLargeSemiBold),
+                      TextSpan(text: '${speakerName?.call(line.speaker!) ?? line.speaker}: ', style: V6Text.bodyLargeSemiBold),
                     TextSpan(text: line.hil),
                   ]),
                   style: V6Text.bodyLarge,

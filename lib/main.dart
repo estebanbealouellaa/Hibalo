@@ -44,6 +44,7 @@ void main() async {
           create: (_) => LearningProgress(
             cloud: FirestoreProgressCloud(),
             accounts: FirebaseAuth.instance.authStateChanges().map((user) => user?.uid),
+            language: AppLanguage.instance,
           )..load(),
         ),
 
