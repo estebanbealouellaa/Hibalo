@@ -175,10 +175,15 @@ class LearningSettings {
   }
 }
 
+/// The score the Q09 levels use: [relative] = distance to the native clip ÷ the
+/// average distance to the other clips; [distance] = the plain DTW distance.
+enum PronunciationScore { relative, distance }
+
 /// settings.pronunciationFeedback. Missing block = off.
 class PronunciationSettings {
   const PronunciationSettings({
     required this.enabled,
+    this.score = PronunciationScore.relative,
     required this.veryClose,
     required this.almost,
     required this.minSpeechMs,
@@ -194,6 +199,9 @@ class PronunciationSettings {
   );
 
   final bool enabled;
+
+  /// Which number the thresholds apply to.
+  final PronunciationScore score;
 
   /// Score at or below this = "Very close"; at or below [almost] = "Almost".
   final double? veryClose;
@@ -213,8 +221,14 @@ class PronunciationSettings {
     if (veryClose != null && almost != null && veryClose > almost) {
       r.fail('veryClose should not be above almost');
     }
+    final score = switch (r.strOrNull('score') ?? 'relative') {
+      'relative' => PronunciationScore.relative,
+      'distance' => PronunciationScore.distance,
+      final other => r.fail('"score" should be "relative" or "distance", not "$other"'),
+    };
     return PronunciationSettings(
       enabled: r.boolean('enabled'),
+      score: score,
       veryClose: veryClose,
       almost: almost,
       minSpeechMs: r.integer('minSpeechMs'),

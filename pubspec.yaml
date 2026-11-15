@@ -62,6 +62,7 @@ flutter:
     - assets/images/words/
     - assets/images/culture/
     - assets/images/situations/
+    - assets/images/icons/
     - assets/audio/b01/
     - assets/audio/b02/
     - assets/audio/b03/

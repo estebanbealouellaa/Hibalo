@@ -306,12 +306,13 @@
       "note": "Only the app's own words (menus, buttons, labels, messages) follow this setting. Lesson content in lessons.json does not change: Hiligaynon stays Hiligaynon, meanings stay Filipino, and lesson explanations stay as written."
     },
     "pronunciationFeedback": {
-      "enabled": false,
-      "veryClose": null,
-      "almost": null,
+      "enabled": true,
+      "score": "relative",
+      "veryClose": 0.82,
+      "almost": 0.95,
       "minSpeechMs": 250,
       "minLevelDb": -40,
-      "note": "Q09 pronunciation similarity feedback (practice only: no score, no XP). Shown only when enabled is true and both thresholds are set; lower score = closer. veryClose/almost come from the team's test recordings. A recording counts as heard when its loudest 25 ms reaches minLevelDb (dBFS) and the sound lasts at least minSpeechMs; otherwise 'Couldn't hear'. No native clip = 'Comparison coming soon'."
+      "note": "Q09 pronunciation similarity feedback (practice only: no score, no XP). Shown only when enabled is true and both thresholds are set; lower score = closer. score: 'relative' (distance to the native clip ÷ the average distance to the other Beginner Q09 clips) or 'distance' (plain DTW distance). veryClose/almost come from the team's test recordings (Nov 16: 2 speakers, 42 recordings; the plain distance didn't separate the takes). A recording counts as heard when its loudest 25 ms reaches minLevelDb (dBFS) and the sound lasts at least minSpeechMs; otherwise 'Couldn't hear'. No native clip = 'Comparison coming soon'."
     }
   },
   "templates": {

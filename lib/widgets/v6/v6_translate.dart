@@ -110,8 +110,12 @@ class TranslationInputCard extends StatelessWidget {
     required this.onScan,
     required this.onTranslate,
     this.translating = false,
+    this.busyLabel,
     this.onClear,
   });
+
+  /// The button text while [translating] ("Translating…" when null).
+  final String? busyLabel;
 
   /// Clears the text; the clear button shows only while [filled].
   final VoidCallback? onClear;
@@ -201,7 +205,7 @@ class TranslationInputCard extends StatelessWidget {
                                   child: CircularProgressIndicator(strokeWidth: 2.2, color: V6Colors.onPrimary),
                                 ),
                                 const SizedBox(width: 8),
-                                Flexible(child: Text(t.trTranslating, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                                Flexible(child: Text(busyLabel ?? t.trTranslating, maxLines: 1, overflow: TextOverflow.ellipsis)),
                               ],
                             )
                           : Text(t.trTranslateButton),

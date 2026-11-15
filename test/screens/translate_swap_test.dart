@@ -1,11 +1,13 @@
 // Swap changes only the direction; History keeps one entry per text, not one per swap.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hibalo_app/l10n/app_language.dart';
 import 'package:hibalo_app/models/translator_state.dart';
 import 'package:hibalo_app/providers/translator_provider.dart';
+import 'package:hibalo_app/services/translation/offline_translator.dart';
 import 'package:hibalo_app/screens/translator_screen.dart';
 import 'package:hibalo_app/services/translation_store.dart';
 import 'package:hibalo_app/theme/v6_app_theme.dart';
@@ -15,6 +17,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// The real provider with a fake translation step: "HIL(text)" or "FIL(text)".
 class _Translator extends TranslatorProvider {
   int runs = 0;
+
+  @override
+  ValueListenable<TranslatorLoad> get modelStatus => ValueNotifier(TranslatorLoad.ready);
 
   @override
   Future<(String, bool)> runTranslation(

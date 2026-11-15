@@ -9,6 +9,54 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get q09Checking => 'Checking…';
+
+  @override
+  String get q09VeryClose => 'Very close';
+
+  @override
+  String get q09VeryCloseText => 'You sound very close to the native speaker.';
+
+  @override
+  String get q09Almost => 'Almost';
+
+  @override
+  String get q09AlmostText => 'Almost there. Listen again and try once more.';
+
+  @override
+  String get q09TryAgain => 'Try again';
+
+  @override
+  String get q09TryAgainText => 'Listen to the native speaker, then try again.';
+
+  @override
+  String get q09CouldntHear => 'We couldn\'t hear you';
+
+  @override
+  String get q09CouldntHearText => 'Hold the phone closer and try again.';
+
+  @override
+  String get q09PlayMine => 'Play mine';
+
+  @override
+  String get q09PlayNative => 'Play native';
+
+  @override
+  String get q09RecordAgain => 'Record again';
+
+  @override
+  String get q09RecordedAgain => 'Recorded · tap to record again';
+
+  @override
+  String get q09ComparisonComingSoon => 'Comparison coming soon';
+
+  @override
+  String get trPreparingTranslator => 'Preparing translator…';
+
+  @override
+  String get trPreparingShort => 'Preparing…';
+
+  @override
   String get learnTitle => 'Learn';
 
   @override

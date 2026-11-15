@@ -8,6 +8,7 @@ abstract final class V6Colors {
   static const primaryContainer = Color(0xFFECE3FC); // V6/Color/Primary Container
   static const onPrimary = Color(0xFFFFFFFF); // V6/Color/On Primary
   static const onPrimaryContainer = Color(0xFF321B58); // V6/Color/On Primary Container
+  static const secondaryButtonIcon = Color(0xFF4A3880); // Figma "Button · Secondary · Icon first" leading icon
   static const onPrimaryMuted = Color(0xFFECE3FC); // V6/Color/On Primary Muted
   static const link = Color(0xFF6837CD); // V6/Color/Link
 
@@ -62,6 +63,7 @@ abstract final class V6Colors {
   static const coralText = Color(0xFFA63A28); // V6/Color/Accent/Coral Text
   static const coralContainer = Color(0xFFFFE8E3); // V6/Color/Accent/Coral Container
   static const coralTonal = Color(0xFFFFD3CA); // V6/Color/Accent/Coral Tonal
+  static const coralContainerSoft = Color(0xFFFFF3F0); // V6/Color/Accent/Coral Container Soft
   static const tilePink = Color(0xFFFF7864); // V6/Color/Tile/Pink
 
   // Accent: glow (gold)

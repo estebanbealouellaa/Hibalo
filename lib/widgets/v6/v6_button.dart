@@ -37,7 +37,15 @@ class V6Button extends StatelessWidget {
     this.loading = false,
     this.expand = false,
     this.icon,
+    this.leadingIcon,
+    this.leadingIconColor,
   });
+
+  /// Figma "Button · Secondary · Icon first" (840:9652): a 20 px icon before the label.
+  final IconData? leadingIcon;
+
+  /// The leading icon's colour (the label colour when null).
+  final Color? leadingIconColor;
 
   final String label;
   final VoidCallback? onPressed;
@@ -71,6 +79,10 @@ class V6Button extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        if (leadingIcon != null && !loading) ...[
+          Icon(leadingIcon, size: 20, color: disabled ? fg : (leadingIconColor ?? fg)),
+          const SizedBox(width: 8),
+        ],
         if (loading) ...[
           SizedBox(
             width: 20,

@@ -12,81 +12,7 @@ import 'package:hibalo_app/learning/services/pronunciation/dtw.dart';
 import 'package:hibalo_app/learning/services/pronunciation/mfcc.dart';
 import 'package:hibalo_app/learning/services/pronunciation/similarity.dart';
 
-/// Stands in for MediaCodec: returns made-up PCM per clip path.
-class FakeClipDecoder implements ClipDecoder {
-  FakeClipDecoder(this.clips, {this.sampleRate = 16000});
-
-  final Map<String, Float64List> clips;
-  final int sampleRate;
-  final List<String> calls = [];
-
-  @override
-  Future<RawPcm> decode(String assetPath) async {
-    calls.add(assetPath);
-    final x = clips[assetPath];
-    if (x == null) throw ClipDecodeException('missing $assetPath');
-    return RawPcm(
-      samples: Int16List.fromList([for (final v in x) (v * 32767).round().clamp(-32768, 32767)]),
-      sampleRate: sampleRate,
-      channels: 1,
-    );
-  }
-}
-
-const int rate = 16000;
-
-Float64List tone(double hz, double seconds, {double amp = 0.3, int sampleRate = rate}) => Float64List.fromList([
-      for (var i = 0; i < (seconds * sampleRate).round(); i++) amp * math.sin(2 * math.pi * hz * i / sampleRate),
-    ]);
-
-Float64List silence(double seconds) => Float64List((seconds * rate).round());
-
-/// A vowel-like sound: harmonics of [f0] shaped by [formants].
-Float64List vowel(double f0, List<double> formants, double seconds, {double amp = 0.3}) {
-  final n = (seconds * rate).round();
-  final out = Float64List(n);
-  for (var h = 1; h * f0 < 7000; h++) {
-    final f = h * f0;
-    var w = 0.0;
-    for (final formant in formants) {
-      w += math.exp(-math.pow((f - formant) / 120, 2));
-    }
-    if (w < 1e-3) continue;
-    for (var i = 0; i < n; i++) {
-      out[i] += w * math.sin(2 * math.pi * f * i / rate);
-    }
-  }
-  final peak = out.fold<double>(0, (m, v) => math.max(m, v.abs()));
-  for (var i = 0; i < n; i++) {
-    out[i] *= amp / peak;
-  }
-  return out;
-}
-
-Float64List noise(double seconds, {double amp = 0.1, int seed = 1}) {
-  final r = math.Random(seed);
-  return Float64List.fromList([for (var i = 0; i < (seconds * rate).round(); i++) amp * (r.nextDouble() * 2 - 1)]);
-}
-
-Float64List join(List<Float64List> parts) => Float64List.fromList([for (final p in parts) ...p]);
-
-/// Made-up "words" with different vowel/consonant patterns.
-Float64List wordA({double f0 = 120, double speed = 1}) => join([
-      vowel(f0, [700, 1200], 0.25 / speed),
-      noise(0.08 / speed, seed: 2),
-      vowel(f0, [300, 2300], 0.25 / speed),
-    ]);
-
-Float64List wordB({double f0 = 120}) => join([
-      vowel(f0, [300, 800], 0.3),
-      vowel(f0, [500, 1800], 0.25),
-    ]);
-
-Float64List wordC({double f0 = 120}) => join([
-      noise(0.1, seed: 3),
-      vowel(f0, [400, 2000], 0.2),
-      vowel(f0, [750, 1100], 0.25),
-    ]);
+import 'pronunciation_fixtures.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -209,6 +135,17 @@ void main() {
       expect(levelFor(1, veryClose: 2), isNull);
     });
 
+    test('edges at the tuned thresholds 0.82 / 0.95 (relative score)', () {
+      PronunciationLevel? at(double v) => levelFor(v, veryClose: 0.82, almost: 0.95);
+      expect(at(0), PronunciationLevel.veryClose);
+      expect(at(0.82), PronunciationLevel.veryClose, reason: 'exactly 0.82 is still Very close');
+      expect(at(0.8200001), PronunciationLevel.almost);
+      expect(at(0.95), PronunciationLevel.almost, reason: 'exactly 0.95 is still Almost');
+      expect(at(0.9500001), PronunciationLevel.tryAgain);
+      expect(at(3), PronunciationLevel.tryAgain);
+      expect(at(double.nan), isNull);
+    });
+
     test('Very close / Almost / Try again', () {
       expect(levelFor(1.9, veryClose: 2, almost: 3), PronunciationLevel.veryClose);
       expect(levelFor(2, veryClose: 2, almost: 3), PronunciationLevel.veryClose);
@@ -292,14 +229,23 @@ void main() {
       catalog = (await LessonRepository.load(rootBundle)).catalog;
     });
 
-    test('off by default, no thresholds yet', () {
+    test('on, relative score, thresholds from the tuning session (Nov 16)', () {
       final p = catalog.settings.pronunciation;
-      expect(p.enabled, isFalse);
-      expect(p.veryClose, isNull);
-      expect(p.almost, isNull);
-      expect(p.active, isFalse);
+      expect(p.enabled, isTrue);
+      expect(p.score, PronunciationScore.relative);
+      expect(p.veryClose, 0.82);
+      expect(p.almost, 0.95);
+      expect(p.active, isTrue);
       expect(p.minSpeechMs, 250);
       expect(p.minLevelDb, -40);
+    });
+
+    test('score must be relative or distance', () {
+      PronunciationSettings read(Object? score) => PronunciationSettings.fromJson(JsonReader(
+          {'enabled': true, 'veryClose': 0.8, 'almost': 0.9, 'minSpeechMs': 250, 'minLevelDb': -40, 'score': score}, 'p'));
+      expect(read('distance').score, PronunciationScore.distance);
+      expect(read(null).score, PronunciationScore.relative);
+      expect(() => read('loudness'), throwsFormatException);
     });
 
     test('active only when enabled and both thresholds are set', () {

@@ -16,7 +16,11 @@ class V6Banner extends StatelessWidget {
     required this.message,
     this.actionLabel,
     this.onAction,
+    this.progress = false,
   });
+
+  /// A 20 px spinner in the accent colour instead of the icon (something is loading).
+  final bool progress;
 
   final V6BannerType type;
   final String message;
@@ -39,11 +43,21 @@ class V6Banner extends StatelessWidget {
         decoration: BoxDecoration(color: background, borderRadius: BorderRadius.circular(12)),
         child: Row(
           children: [
-            Icon(
-              type == V6BannerType.success ? Icons.check_circle_outline_rounded : Icons.error_outline_rounded,
-              size: 20,
-              color: accent,
-            ),
+            if (progress)
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: CircularProgressIndicator(strokeWidth: 2.2, color: accent),
+                ),
+              )
+            else
+              Icon(
+                type == V6BannerType.success ? Icons.check_circle_outline_rounded : Icons.error_outline_rounded,
+                size: 20,
+                color: accent,
+              ),
             const SizedBox(width: 8),
             Expanded(
               child: Column(

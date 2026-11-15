@@ -15,6 +15,9 @@ abstract class VoiceRecorder {
 
   bool get hasRecording;
 
+  /// The kept recording as 16 kHz mono 16-bit PCM (in memory only), or null.
+  Uint8List? get recordingBytes;
+
   Future<void> play();
 
   Future<void> clear();
@@ -42,8 +45,8 @@ class InMemoryVoiceRecorder implements VoiceRecorder {
   @override
   bool get hasRecording => _kept != null && _kept!.lengthInBytes > 1;
 
-  /// The kept recording (16 kHz mono 16-bit PCM), for the debug pronunciation tuning
-  /// screen; it stays in memory and goes with [clear].
+  /// Stays in memory and goes with [clear].
+  @override
   Uint8List? get recordingBytes => _kept;
 
   @override

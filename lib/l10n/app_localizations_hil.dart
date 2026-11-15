@@ -9,6 +9,57 @@ class AppLocalizationsHil extends AppLocalizations {
   AppLocalizationsHil([String locale = 'hil']) : super(locale);
 
   @override
+  String get q09Checking => 'Ginausisa…';
+
+  @override
+  String get q09VeryClose => 'Malapit gid';
+
+  @override
+  String get q09VeryCloseText =>
+      'Halos pareho na ang tingog mo sa manughambal sang Hiligaynon.';
+
+  @override
+  String get q09Almost => 'Malapit na';
+
+  @override
+  String get q09AlmostText =>
+      'Malapit na. Pamati liwat kag tilawi liwat sing isa pa.';
+
+  @override
+  String get q09TryAgain => 'Tilawi liwat';
+
+  @override
+  String get q09TryAgainText =>
+      'Pamatii ang manughambal sang Hiligaynon, dayon tilawi liwat.';
+
+  @override
+  String get q09CouldntHear => 'Wala ka namon nabatian';
+
+  @override
+  String get q09CouldntHearText => 'Ilapit ang phone kag tilawi liwat.';
+
+  @override
+  String get q09PlayMine => 'I-play ang akon';
+
+  @override
+  String get q09PlayNative => 'I-play ang manughambal';
+
+  @override
+  String get q09RecordAgain => 'I-record liwat';
+
+  @override
+  String get q09RecordedAgain => 'Na-record · i-tap para mag-record liwat';
+
+  @override
+  String get q09ComparisonComingSoon => 'Madali na lang ang pagtandi';
+
+  @override
+  String get trPreparingTranslator => 'Ginahanda ang translator…';
+
+  @override
+  String get trPreparingShort => 'Ginahanda…';
+
+  @override
   String get learnTitle => 'Magtuon';
 
   @override

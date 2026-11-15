@@ -9,6 +9,57 @@ class AppLocalizationsFil extends AppLocalizations {
   AppLocalizationsFil([String locale = 'fil']) : super(locale);
 
   @override
+  String get q09Checking => 'Sinusuri…';
+
+  @override
+  String get q09VeryClose => 'Napakalapit';
+
+  @override
+  String get q09VeryCloseText =>
+      'Halos kapareho mo na ang tagapagsalita ng Hiligaynon.';
+
+  @override
+  String get q09Almost => 'Malapit na';
+
+  @override
+  String get q09AlmostText =>
+      'Malapit na. Makinig ulit at subukan pa nang isang beses.';
+
+  @override
+  String get q09TryAgain => 'Subukan ulit';
+
+  @override
+  String get q09TryAgainText =>
+      'Pakinggan ang tagapagsalita ng Hiligaynon, saka subukan ulit.';
+
+  @override
+  String get q09CouldntHear => 'Hindi ka namin narinig';
+
+  @override
+  String get q09CouldntHearText => 'Ilapit ang phone at subukan ulit.';
+
+  @override
+  String get q09PlayMine => 'I-play ang akin';
+
+  @override
+  String get q09PlayNative => 'I-play ang tagapagsalita';
+
+  @override
+  String get q09RecordAgain => 'I-record ulit';
+
+  @override
+  String get q09RecordedAgain => 'Na-record · i-tap para mag-record ulit';
+
+  @override
+  String get q09ComparisonComingSoon => 'Malapit na ang paghahambing';
+
+  @override
+  String get trPreparingTranslator => 'Inihahanda ang tagasalin…';
+
+  @override
+  String get trPreparingShort => 'Inihahanda…';
+
+  @override
   String get learnTitle => 'Matuto';
 
   @override

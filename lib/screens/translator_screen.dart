@@ -1,6 +1,7 @@
 import '../l10n/app_localizations.dart';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -91,6 +92,11 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
   final TranslationSpeaker _speaker = TranslationSpeaker();
   final ImagePicker _picker = ImagePicker();
   TranslatorProvider? _translator;
+  ValueListenable<TranslatorLoad>? _modelStatus;
+
+  void _onModelStatus() {
+    if (mounted) setState(() {});
+  }
 
   late final AnimationController _swap;
 
@@ -134,6 +140,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     _translator = context.read<TranslatorProvider>()
       ..addListener(_prepareVoice)
       ..addListener(_recordHistory);
+    _modelStatus = _translator!.modelStatus..addListener(_onModelStatus);
     TranslationStore.instance.load();
     _prepareVoice();
 
@@ -150,6 +157,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     _swap.dispose();
     _translator?.removeListener(_prepareVoice);
     _translator?.removeListener(_recordHistory);
+    _modelStatus?.removeListener(_onModelStatus);
     _speaker.dispose();
     super.dispose();
   }
@@ -416,6 +424,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
     final text = _inputController.text;
     final scanning = _scan == ScanStage.scanning;
     final showResult = !scanning && (state.isTranslating || state.translatedText.isNotEmpty);
+    final preparing = _modelStatus?.value == TranslatorLoad.loading;
 
     return Scaffold(
       backgroundColor: V6Colors.background,
@@ -443,6 +452,11 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
                 onSwap: scanning || state.isListening ? null : _swapLanguages,
               ),
               const SizedBox(height: 16),
+              // From app start until the offline models are loaded (~15 s on a slow phone).
+              if (preparing) ...[
+                V6Banner(type: V6BannerType.info, progress: true, message: t.trPreparingTranslator),
+                const SizedBox(height: 12),
+              ],
               if (scanning)
                 ScanningCard(photo: _photo, onCancel: _cancelScan)
               else ...[
@@ -455,6 +469,7 @@ class TranslatorScreenState extends State<TranslatorScreen> with SingleTickerPro
                   onScan: _openScan,
                   onTranslate: text.trim().isEmpty ? null : _translate,
                   translating: state.isTranslating,
+                  busyLabel: preparing ? t.trPreparingShort : null,
                   onClear: _clear,
                   textArea: TextField(
                     controller: _inputController,

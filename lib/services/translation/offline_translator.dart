@@ -98,14 +98,19 @@ class OfflineTranslator {
   late _TextData _text;
   Future<void>? _loading;
 
+  /// Whether the models are still loading (the Translate tab shows "Preparing translator…").
+  final ValueNotifier<TranslatorLoad> status = ValueNotifier(TranslatorLoad.loading);
+
   /// Loads everything once and keeps it in memory. Throws if a file is
   /// missing or broken; a later call tries again.
   Future<void> load() => _loading ??= _load().catchError((Object e) {
     _loading = null;
+    status.value = TranslatorLoad.failed;
     throw e;
   });
 
   Future<void> _load() async {
+    status.value = TranslatorLoad.loading;
     final sw = Stopwatch()..start();
     final spm = await rootBundle.load('${TranslationEngine.modelDir}/spm.model');
     final spelling = await rootBundle.loadString(
@@ -124,6 +129,7 @@ class OfflineTranslator {
       useDictionaryWords,
     ));
     await _engine.load();
+    status.value = TranslatorLoad.ready;
     debugPrint(
       '[HibaloTranslate] ready in ${sw.elapsedMilliseconds} ms '
       '(${_text.phrases.length} phrases)',
@@ -272,3 +278,7 @@ class OfflineTranslator {
     );
   }
 }
+
+/// The offline translator's models: still loading, ready, or failed to load
+/// (then the first translation tries again and falls back as before).
+enum TranslatorLoad { loading, ready, failed }

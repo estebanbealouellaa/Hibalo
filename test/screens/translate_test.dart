@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +12,7 @@ import 'package:hibalo_app/providers/translator_provider.dart';
 import 'package:hibalo_app/screens/translate/scan_pieces.dart';
 import 'package:hibalo_app/screens/translate/voice_popup.dart';
 import 'package:hibalo_app/screens/translator_screen.dart';
+import 'package:hibalo_app/services/translation/offline_translator.dart';
 import 'package:hibalo_app/services/translation/scan_translator.dart';
 import 'package:hibalo_app/theme/v6_app_theme.dart';
 import 'package:hibalo_app/widgets/v6/v6.dart';
@@ -352,6 +354,9 @@ void main() {
 class _FakeTranslator extends TranslatorProvider {
   int _results = 0;
   PhotoText? scanned;
+
+  @override
+  ValueListenable<TranslatorLoad> get modelStatus => ValueNotifier(TranslatorLoad.ready);
 
   @override
   int get speechResults => _results;

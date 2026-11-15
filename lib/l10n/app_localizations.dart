@@ -100,6 +100,102 @@ abstract class AppLocalizations {
     Locale('hil'),
   ];
 
+  /// Q09 button while the recording is compared with the native clip.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking…'**
+  String get q09Checking;
+
+  /// Q09 result level (best).
+  ///
+  /// In en, this message translates to:
+  /// **'Very close'**
+  String get q09VeryClose;
+
+  /// Q09 Very close message.
+  ///
+  /// In en, this message translates to:
+  /// **'You sound very close to the native speaker.'**
+  String get q09VeryCloseText;
+
+  /// Q09 result level (middle).
+  ///
+  /// In en, this message translates to:
+  /// **'Almost'**
+  String get q09Almost;
+
+  /// Q09 Almost message.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost there. Listen again and try once more.'**
+  String get q09AlmostText;
+
+  /// Q09 result level (lowest).
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get q09TryAgain;
+
+  /// Q09 Try again message.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to the native speaker, then try again.'**
+  String get q09TryAgainText;
+
+  /// Q09 when the recording is too quiet or too short.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t hear you'**
+  String get q09CouldntHear;
+
+  /// Q09 Couldn't hear message.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the phone closer and try again.'**
+  String get q09CouldntHearText;
+
+  /// Q09 button: plays the learner's recording.
+  ///
+  /// In en, this message translates to:
+  /// **'Play mine'**
+  String get q09PlayMine;
+
+  /// Q09 button: plays the native speaker's clip.
+  ///
+  /// In en, this message translates to:
+  /// **'Play native'**
+  String get q09PlayNative;
+
+  /// Q09 button: records again (replaces the old recording).
+  ///
+  /// In en, this message translates to:
+  /// **'Record again'**
+  String get q09RecordAgain;
+
+  /// Q09 (no native clip) under the mic after a recording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded · tap to record again'**
+  String get q09RecordedAgain;
+
+  /// Q09 when the phrase has no native clip yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison coming soon'**
+  String get q09ComparisonComingSoon;
+
+  /// Translate: shown from app start until the offline translator is ready.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing translator…'**
+  String get trPreparingTranslator;
+
+  /// Translate button while the offline translator is still loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing…'**
+  String get trPreparingShort;
+
   /// S01 title.
   ///
   /// In en, this message translates to:

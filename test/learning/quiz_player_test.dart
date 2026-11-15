@@ -14,6 +14,8 @@ import 'package:hibalo_app/learning/models/progress.dart';
 import 'package:hibalo_app/learning/models/questions.dart';
 import 'package:hibalo_app/learning/screens/quiz_result_screen.dart';
 import 'package:hibalo_app/learning/screens/quiz_player_screen.dart';
+import 'package:hibalo_app/learning/services/pronunciation/clip_decoder.dart';
+import 'package:hibalo_app/learning/services/pronunciation/similarity.dart';
 import 'package:hibalo_app/learning/services/voice_recorder.dart';
 import 'package:hibalo_app/learning/state/learning_progress.dart';
 import 'package:hibalo_app/learning/widgets/quiz/choice_questions.dart';
@@ -23,11 +25,23 @@ import 'package:hibalo_app/learning/widgets/quiz/tile_questions.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// No native clip can be decoded here (no MediaCodec in tests), so Q09 works without
+/// feedback; test/learning/q09_feedback_test.dart covers the feedback itself.
+class _NoClipDecoder implements ClipDecoder {
+  @override
+  Future<RawPcm> decode(String assetPath) async => throw ClipDecodeException('no decoder in tests');
+}
+
+PronunciationComparer noClipComparer() => PronunciationComparer(decoder: _NoClipDecoder(), useIsolate: false);
+
 /// A recorder that never touches the mic or storage.
 class FakeRecorder implements VoiceRecorder {
-  FakeRecorder({this.available = true});
+  FakeRecorder({this.available = true, this.pcm});
 
   final bool available;
+
+  /// What a recording "contains" (16 kHz 16-bit PCM); empty when null.
+  final Uint8List? pcm;
   bool recording = false;
   bool _has = false;
   bool cleared = false;
@@ -47,6 +61,9 @@ class FakeRecorder implements VoiceRecorder {
 
   @override
   bool get hasRecording => _has;
+
+  @override
+  Uint8List? get recordingBytes => _has ? (pcm ?? Uint8List(0)) : null;
 
   @override
   Future<void> play() async {}
@@ -117,7 +134,7 @@ void main() {
       builder: (_) => const Scaffold(body: Text('LEARN')),
     ));
     nav.push(MaterialPageRoute<void>(
-      builder: (_) => QuizPlayerScreen(lessonId: lessonId, random: Random(seed), recorder: recorder),
+      builder: (_) => QuizPlayerScreen(lessonId: lessonId, random: Random(seed), recorder: recorder, comparer: noClipComparer()),
     ));
     await frames(tester);
     return (progress, recorder);
@@ -358,7 +375,7 @@ void main() {
     expect(find.text('LEARN'), findsOneWidget);
     final nav = tester.state<NavigatorState>(find.byType(Navigator));
     nav.push(MaterialPageRoute<void>(
-      builder: (_) => QuizPlayerScreen(lessonId: 'b02', random: Random(9), recorder: FakeRecorder()),
+      builder: (_) => QuizPlayerScreen(lessonId: 'b02', random: Random(9), recorder: FakeRecorder(), comparer: noClipComparer()),
     ));
     await frames(tester);
     // F01 shows no "+10 XP" for a question already paid.

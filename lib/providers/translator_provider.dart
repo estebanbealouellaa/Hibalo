@@ -116,6 +116,9 @@ class TranslatorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Whether the offline models are loaded yet. (Tests replace it.)
+  ValueListenable<TranslatorLoad> get modelStatus => OfflineTranslator.instance.status;
+
   // The offline model is the main path. Firestore is only the fallback for
   // when the model can't be used. (Tests replace it.)
   @protected

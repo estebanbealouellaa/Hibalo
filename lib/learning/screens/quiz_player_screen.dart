@@ -10,6 +10,7 @@ import '../logic/quiz_timer.dart';
 import '../models/catalog.dart';
 import '../models/questions.dart';
 import '../services/lesson_audio.dart';
+import '../services/pronunciation/similarity.dart';
 import '../services/voice_recorder.dart';
 import '../state/learning_progress.dart';
 import '../theme/v6_colors.dart';
@@ -33,6 +34,7 @@ class QuizPlayerScreen extends StatefulWidget {
     required this.lessonId,
     this.random,
     this.recorder,
+    this.comparer,
   });
 
   final String lessonId;
@@ -42,6 +44,9 @@ class QuizPlayerScreen extends StatefulWidget {
 
   /// Q09 recorder; the real in-memory one when null.
   final VoiceRecorder? recorder;
+
+  /// Q09 pronunciation check; the app-wide one (MediaCodec decoder) when null.
+  final PronunciationComparer? comparer;
 
   /// Makes the shuffle for each new attempt when [random] is null, so every
   /// start (and Try again) gets a new order. Swapped in tests.
@@ -56,6 +61,12 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
   late final Lesson _lesson;
   late final List<QuizQuestion> _questions;
   late final VoiceRecorder _recorder = widget.recorder ?? InMemoryVoiceRecorder();
+  late final PronunciationComparer _comparer = widget.comparer ??
+      PronunciationComparer.shared(SpeechCheck(
+        minSpeechMs: _settings.pronunciation.minSpeechMs,
+        minLevelDb: _settings.pronunciation.minLevelDb,
+      ));
+  late final List<String> _otherClips = beginnerSpeakingClips(context.read<LearningProgress>().catalog);
 
   /// Display order per question: options (Q01/Q02/Q03/Q06), bank tiles
   /// (Q05) or the right column (Q07). Made once, when the quiz starts.
@@ -353,7 +364,14 @@ class _QuizPlayerScreenState extends State<QuizPlayerScreen> {
       MatchPairsData d =>
         MatchPairsQuestion(data: d, rightOrder: order, phase: _phase, onChanged: _onAnswer),
       DictationData d => DictationQuestion(data: d, phase: _phase, onChanged: _onAnswer),
-      SpeakingData d => SpeakingQuestion(data: d, recorder: _recorder, onChanged: _onAnswer),
+      SpeakingData d => SpeakingQuestion(
+          data: d,
+          recorder: _recorder,
+          onChanged: _onAnswer,
+          feedback: _settings.pronunciation,
+          comparer: _comparer,
+          otherClips: _otherClips,
+        ),
       OpenAnswerData d => OpenAnswerQuestion(data: d, phase: _phase, onChanged: _onAnswer),
       ReadAnswerData d => ReadAnswerQuestion(data: d, order: order, phase: _phase, onChanged: _onAnswer),
       SpotMistakeData d => SpotMistakeQuestion(data: d, phase: _phase, onChanged: _onAnswer),

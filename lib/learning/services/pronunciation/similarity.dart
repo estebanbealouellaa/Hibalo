@@ -132,6 +132,13 @@ class PronunciationComparer {
   /// Off in unit tests that run inside fake async.
   final bool useIsolate;
 
+  /// One per app run, so the native clips are decoded once (they're cached in it).
+  static PronunciationComparer shared(SpeechCheck check) =>
+      _shared != null && _shared!.check.minSpeechMs == check.minSpeechMs && _shared!.check.minLevelDb == check.minLevelDb
+          ? _shared!
+          : _shared = PronunciationComparer(check: check);
+  static PronunciationComparer? _shared;
+
   final Map<String, List<Float64List>> _features = {};
   final Set<String> _failed = {};
 
