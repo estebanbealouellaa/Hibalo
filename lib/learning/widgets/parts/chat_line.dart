@@ -95,7 +95,7 @@ class ChatLine extends StatelessWidget {
                       style: V6Text.captionSemiBold.copyWith(color: V6Colors.textSecondary),
                     ),
                   ),
-                  if (nameTrailing != null) ...[const SizedBox(width: 8), nameTrailing!],
+                  if (nameTrailing != null) ...[const SizedBox(width: 8), Flexible(child: nameTrailing!)],
                 ],
               ),
               const SizedBox(height: 4),

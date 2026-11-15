@@ -4,6 +4,7 @@
     python tools/lesson_strings.py import <csv> [<csv> ...]      # writes assets/lessons/*.fil.json
     python tools/lesson_strings.py import --dry-run <csv> ...    # checks only
     python tools/lesson_strings.py check                          # checks the overlay files
+    python tools/lesson_strings.py missing <csv>                  # exported texts with no Filipino yet
 
 Overlay format and keys: see lib/learning/data/lesson_overlay.dart (this script uses the same
 keys: nearest object id + the path inside it). Dev tool only, not part of the app.
@@ -46,6 +47,11 @@ MIXED = {'text', 'prompt', 'bridge', 'explain', 'note', 'changes', 'right', 'wro
 ALWAYS_KEYS = {'b03_bm.mistakes[0].wrong', 'b12_c1.prompt', 'b13_k1.terms[2].note', 'i04_p08.terms[2].note',
                'i06_p02.rows[4][2]', 'i09_p05.terms[0].note', 'a03_p11.terms[1].note', 'a05_p07.explain',
                'a05_p15.mistakes[1].wrong'}
+# Rows whose *…* parts may change in Filipino (Lance, Stage 2): English inside *…* translated,
+# or the same Hiligaynon in another order. Every non-English *…* part must still be in the text.
+MARKUP_CHANGES = {'b01_k1.text', 'b03_bm.bridge[1]', 'i01_p14.mistakes[2].why', 'i02_p05.text', 'i02_p11.tip',
+                  'i03_p01.tip', 'i03_p02.text', 'i04_p14.turns[0].choices[1].hint',
+                  'i04_p14.turns[1].choices[2].hint', 'i11_p12.bridge[0]', 'a01_p15.tip', 'a01_p16.mistakes[1].why'}
 # Option lists that look English but must stay as they are (Hiligaynon loanwords).
 KEEP_OPTIONS = {'a08_q14.options'}
 
@@ -182,7 +188,9 @@ def select(data, file):
                       or (col not in hil_cols and not in_language_column and is_english(value))):
                 picked.append((key, field, value, owner))
             continue
-        if field in ALWAYS or key in ALWAYS_KEYS or (field in MIXED and is_english(value)):
+        # terms[].note is always an English note (field guide), even when it's short ("around noon").
+        is_term_note = re.search(r'\.terms\[\d+\]\.note$', key) is not None
+        if field in ALWAYS or key in ALWAYS_KEYS or is_term_note or (field in MIXED and is_english(value)):
             picked.append((key, field, value, owner))
     for list_key, items in option_lists.items():
         if list_key in KEEP_OPTIONS:
@@ -284,6 +292,38 @@ def node_of(key):
     return head if re.match(r'^[bia]\d\d_', head) else ''
 
 
+def export_missing(path):
+    """Rows the export picks that have no Filipino yet (for a top-up translation)."""
+    rows = []
+    for level, file in LEVEL_FILES.items():
+        data, ov = load(file), read_overlay(file)
+        groups = OrderedDict()
+        for key, field, value, owner in select(data, file):
+            if key in ov:
+                continue
+            g = groups.setdefault(value, {'keys': [], 'fields': set(), 'ctx': [], 'notes': [], 'max': 0})
+            g['keys'].append(key)
+            g['fields'].add(field)
+            c = context(key, field, owner)
+            if c and c not in g['ctx']:
+                g['ctx'].append(c)
+            n = notes(field, key, value, owner)
+            if n and n not in g['notes']:
+                g['notes'].append(n)
+            limit = max_length(field, key, value)
+            g['max'] = limit if not g['max'] else min(g['max'], limit)
+        for english, g in groups.items():
+            rows.append([' | '.join(g['keys']), level, ' '.join(sorted({lesson_of(k) for k in g['keys']} - {''})),
+                         ' '.join(sorted({node_of(k) for k in g['keys']} - {''})), ' '.join(sorted(g['fields'])), english,
+                         ' || '.join(g['ctx'][:3]), g['max'], '', ' / '.join(g['notes']), len(g['keys'])])
+    with open(path, 'w', encoding='utf-8-sig', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(HEADER)
+        w.writerows(rows)
+    print(f'{os.path.relpath(path, ROOT)}: {len(rows)} texts without Filipino')
+    return rows
+
+
 def export(outdir):
     os.makedirs(outdir, exist_ok=True)
     summary = []
@@ -383,7 +423,12 @@ def validate_entries(file, entries, data):
             errors.append(f'{file} {key}: Filipino is empty')
             continue
         if markup(english) != markup(fil):
-            errors.append(f'{file} {key}: *Hiligaynon* parts changed: {markup(english)} -> {markup(fil)}')
+            if key in MARKUP_CHANGES:
+                lost = [m for m in markup(english) if not is_english(m.strip('*')) and m.strip('*').lower() not in fil.lower()]
+                if lost:
+                    errors.append(f'{file} {key}: allowed *…* change, but Hiligaynon/Filipino left out: {lost}')
+            else:
+                errors.append(f'{file} {key}: *Hiligaynon* parts changed: {markup(english)} -> {markup(fil)}')
         for q in quoted_non_english(english):
             if q not in fil:
                 warnings.append(f'{file} {key}: quoted "{q}" not found in the Filipino')
@@ -416,7 +461,8 @@ def write_overlay(file, entries):
     data = {'_meta': {'language': 'fil', 'source': file,
                       'note': 'Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.',
                       'updated': datetime.date.today().isoformat(), 'count': len(entries)},
-            'strings': OrderedDict((k, {'en': en, 'fil': fil}) for k, (en, fil) in sorted(entries.items()))}
+            'strings': OrderedDict((k, {'en': en, 'fil': fil, **({'markupChanged': True} if k in MARKUP_CHANGES else {})})
+                                   for k, (en, fil) in sorted(entries.items()))}
     with open(overlay_path(file), 'w', encoding='utf-8', newline='\n') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write('\n')
@@ -483,6 +529,8 @@ if __name__ == '__main__':
     elif len(sys.argv) >= 3 and sys.argv[1] == 'import':
         args = [a for a in sys.argv[2:] if a != '--dry-run']
         sys.exit(import_csvs(args, dry_run='--dry-run' in sys.argv))
+    elif len(sys.argv) == 3 and sys.argv[1] == 'missing':
+        export_missing(sys.argv[2])
     elif len(sys.argv) == 2 and sys.argv[1] == 'check':
         sys.exit(check())
     else:

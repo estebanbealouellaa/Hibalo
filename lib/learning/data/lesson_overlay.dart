@@ -121,7 +121,11 @@ class LessonOverlay {
       if (english != en) problems.add('$key: stale (the English is now "$english")');
       if (fil.trim().isEmpty) problems.add('$key: Filipino is empty');
       final a = markup(english), b = markup(fil);
-      if (fil.trim().isNotEmpty && !_sameItems(a, b)) {
+      // "markupChanged": one of the rows Lance allowed to change its *…* parts (English inside
+      // them translated, or reordered); the import checked that no Hiligaynon was left out.
+      final raw = (overlay['strings'] as Map)[key];
+      final allowed = raw is Map && raw['markupChanged'] == true;
+      if (fil.trim().isNotEmpty && !allowed && !_sameItems(a, b)) {
         problems.add('$key: *Hiligaynon* parts changed (${a.join(', ')} → ${b.join(', ')})');
       }
     }

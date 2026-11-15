@@ -1,0 +1,3023 @@
+{
+  "_meta": {
+    "language": "fil",
+    "source": "intermediate_lessons.json",
+    "note": "Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.",
+    "updated": "2026-11-16",
+    "count": 751
+  },
+  "strings": {
+    "i01.objectives[0]": {
+      "en": "Say how you feel, now and in the past",
+      "fil": "Sabihin ang nararamdaman mo, ngayon at noon"
+    },
+    "i01.objectives[1]": {
+      "en": "Tell someone what hurts and understand simple health questions",
+      "fil": "Sabihin kung ano ang masakit at intindihin ang simpleng tanong tungkol sa kalusugan"
+    },
+    "i01.objectives[2]": {
+      "en": "Talk about the weather",
+      "fil": "Pag-usapan ang panahon"
+    },
+    "i01.title": {
+      "en": "Feelings, Health & Weather",
+      "fil": "Damdamin, Kalusugan at Panahon"
+    },
+    "i01.unit.title": {
+      "en": "Everyday life",
+      "fil": "Pang-araw-araw na buhay"
+    },
+    "i01_p01.setting": {
+      "en": "Ana meets Manang Rosa outside the clinic on a rainy morning.",
+      "fil": "Nakasalubong ni Ana si Manang Rosa sa labas ng klinika isang maulang umaga."
+    },
+    "i01_p01.tip": {
+      "en": "*Ginahilanat ako* means *May lagnat ako* (I have a fever).",
+      "fil": "Ang *Ginahilanat ako* ay *May lagnat ako*."
+    },
+    "i01_p01.title": {
+      "en": "A Rainy Morning",
+      "fil": "Isang Maulang Umaga"
+    },
+    "i01_p02.terms[0].note": {
+      "en": "I was happy / I'm glad",
+      "fil": "natuwa ako / masaya ako"
+    },
+    "i01_p02.terms[1].note": {
+      "en": "she/he was sad (also said: *Nasuboan siya*)",
+      "fil": "nalungkot siya (sinasabi rin: *Nasuboan siya*)"
+    },
+    "i01_p02.terms[2].note": {
+      "en": "I was scared",
+      "fil": "natakot ako"
+    },
+    "i01_p02.terms[3].note": {
+      "en": "she/he got angry",
+      "fil": "nagalit siya"
+    },
+    "i01_p02.text": {
+      "en": "Add the prefix *na-* to a feeling root to say you felt it or became that way: *lipay* (joy) → *Nalipay ako* (Natuwa ako / Masaya ako). For a general state, use the describing word: *Malipayon ako*. It works like Filipino *natuwa*, *nalungkot*.",
+      "fil": "Idagdag ang unlaping *na-* sa ugat ng damdamin para sabihing naramdaman mo ito o naging ganoon ka: *lipay* (saya) → *Nalipay ako* (Natuwa ako / Masaya ako). Para sa pangkalahatang kalagayan, gamitin ang salitang naglalarawan: *Malipayon ako*. Gumagana ito gaya ng *natuwa*, *nalungkot* sa Filipino."
+    },
+    "i01_p02.title": {
+      "en": "How Do You Feel?",
+      "fil": "Ano ang Nararamdaman Mo?"
+    },
+    "i01_p03.title": {
+      "en": "Feelings",
+      "fil": "Mga damdamin"
+    },
+    "i01_p04.slots[0].label": {
+      "en": "Prefix",
+      "fil": "Unlapi"
+    },
+    "i01_p04.slots[1].label": {
+      "en": "Feeling root",
+      "fil": "Ugat ng damdamin"
+    },
+    "i01_p04.slots[2].label": {
+      "en": "Who",
+      "fil": "Sino"
+    },
+    "i01_p04.title": {
+      "en": "Na- + feeling",
+      "fil": "Na- + damdamin"
+    },
+    "i01_p05.explain": {
+      "en": "*Kapoy* means tired, not lazy.",
+      "fil": "Ang *Kapoy* ay pagod, hindi tamad."
+    },
+    "i01_p05.prompt": {
+      "en": "\"Kapoy na ako.\" What does *kapoy* mean?",
+      "fil": "“Kapoy na ako.” Ano ang ibig sabihin ng *kapoy*?"
+    },
+    "i01_p06.terms[0].note": {
+      "en": "what are you feeling? (a doctor's question)",
+      "fil": "ano ang nararamdaman mo? (tanong ng doktor)"
+    },
+    "i01_p06.terms[1].note": {
+      "en": "I have a fever",
+      "fil": "may lagnat ako"
+    },
+    "i01_p06.terms[2].note": {
+      "en": "my head hurts (also said: *Ginasakit ang ulo ko*)",
+      "fil": "masakit ang ulo ko (sinasabi rin: *Ginasakit ang ulo ko*)"
+    },
+    "i01_p06.terms[3].note": {
+      "en": "advice",
+      "fil": "payo"
+    },
+    "i01_p06.text": {
+      "en": "To say a body part hurts, use *Masakit ang ___ ko*, just like Filipino. You'll also hear *Ginasakit ang ___ ko* (it's aching). For fever: *Ginahilanat ako.*",
+      "fil": "Para sabihing masakit ang isang bahagi ng katawan, gamitin ang *Masakit ang ___ ko*, gaya ng sa Filipino. Maririnig mo rin ang *Ginasakit ang ___ ko* (sumasakit). Para sa lagnat: *Ginahilanat ako.*"
+    },
+    "i01_p06.title": {
+      "en": "Telling What Hurts",
+      "fil": "Pagsasabi Kung Ano ang Masakit"
+    },
+    "i01_p07.title": {
+      "en": "Health",
+      "fil": "Kalusugan"
+    },
+    "i01_p09.prompt": {
+      "en": "The doctor asks \"Ano ang ginabatyag mo?\" You have a fever. What do you say?",
+      "fil": "Tinanong ka ng doktor, “Ano ang ginabatyag mo?” May lagnat ka. Ano ang sasabihin mo?"
+    },
+    "i01_p10.terms[0].note": {
+      "en": "it's hot today",
+      "fil": "mainit ngayon"
+    },
+    "i01_p10.terms[1].note": {
+      "en": "it's raining",
+      "fil": "umuulan"
+    },
+    "i01_p10.terms[2].note": {
+      "en": "there's a typhoon",
+      "fil": "may bagyo"
+    },
+    "i01_p10.terms[3].note": {
+      "en": "*basi* = maybe",
+      "fil": "*basi* = baka"
+    },
+    "i01_p10.text": {
+      "en": "Weather words are close to Filipino. Use *Naga-* for weather happening now: *Nagaulan.* (It's raining.)",
+      "fil": "Malapit sa Filipino ang mga salita tungkol sa panahon. Gamitin ang *Naga-* para sa panahong nangyayari ngayon: *Nagaulan.* (Umuulan.)"
+    },
+    "i01_p10.title": {
+      "en": "Talking About the Weather",
+      "fil": "Pag-uusap Tungkol sa Panahon"
+    },
+    "i01_p11.title": {
+      "en": "Weather",
+      "fil": "Panahon"
+    },
+    "i01_p12.tip": {
+      "en": "Find the time words: *kahapon*, *subong*, *buwas*. See how the verb changes with them: *nag-ulan* (rained, yesterday) vs *nagaulan* (raining, now).",
+      "fil": "Hanapin ang mga salitang pang-oras: *kahapon*, *subong*, *buwas*. Tingnan kung paano nagbabago ang pandiwa kasama nila: *nag-ulan* (umulan, kahapon) laban sa *nagaulan* (umuulan, ngayon)."
+    },
+    "i01_p12.title": {
+      "en": "Ana's Sick Day",
+      "fil": "Ang Araw na May Sakit si Ana"
+    },
+    "i01_p13.setting": {
+      "en": "You feel sick and visit the clinic.",
+      "fil": "Masama ang pakiramdam mo at pumunta ka sa klinika."
+    },
+    "i01_p13.tip": {
+      "en": "*Halin pa kahapon* = since yesterday. *Beses* = times (from Spanish).",
+      "fil": "*Halin pa kahapon* = mula pa kahapon. *Beses* = beses (galing sa Espanyol)."
+    },
+    "i01_p13.title": {
+      "en": "At the Clinic",
+      "fil": "Sa Klinika"
+    },
+    "i01_p13.turns[0].choices[1].hint": {
+      "en": "that means you're happy",
+      "fil": "ibig sabihin niyan ay masaya ka"
+    },
+    "i01_p13.turns[0].choices[2].hint": {
+      "en": "that asks for the market",
+      "fil": "nagtatanong iyan kung nasaan ang palengke"
+    },
+    "i01_p13.turns[1].choices[1].hint": {
+      "en": "buwas is tomorrow",
+      "fil": "ang buwas ay bukas"
+    },
+    "i01_p13.turns[1].choices[2].hint": {
+      "en": "answer since when",
+      "fil": "sagutin kung kailan pa"
+    },
+    "i01_p13.turns[2].choices[1].hint": {
+      "en": "that's sorry, not thanks",
+      "fil": "paghingi ng tawad iyan, hindi pasasalamat"
+    },
+    "i01_p14.mistakes[0].right": {
+      "en": "*Kapoy siya* means tired",
+      "fil": "Ang *Kapoy siya* ay pagod siya"
+    },
+    "i01_p14.mistakes[0].why": {
+      "en": "lazy is *tamad* in Filipino, not *kapoy*.",
+      "fil": "Ang tamad ay *tamad* sa Filipino, hindi *kapoy*."
+    },
+    "i01_p14.mistakes[0].wrong": {
+      "en": "*Kapoy siya* for \"lazy\"",
+      "fil": "*Kapoy siya* para sa “tamad”"
+    },
+    "i01_p14.mistakes[1].why": {
+      "en": "*nalipay* means you felt or became happy; *malipayon* describes being happy in general. Plain *lipay* isn't used this way.",
+      "fil": "Ang *nalipay* ay naramdaman mo o naging masaya ka; inilalarawan ng *malipayon* ang pagiging masaya sa pangkalahatan. Hindi ginagamit nang ganito ang *lipay* lang."
+    },
+    "i01_p14.mistakes[2].why": {
+      "en": "-um- is Tagalog; Hiligaynon uses naga- for \"happening now\".",
+      "fil": "Tagalog ang -um-; *naga-* ang gamit ng Hiligaynon para sa “nangyayari ngayon”.",
+      "markupChanged": true
+    },
+    "i01_p15.text": {
+      "en": "The Visayas gets many typhoons from June to November. Ilonggos often greet each other after a storm with *Okay lang kamo?* and share news about *baha* (floods) and *brownout*.",
+      "fil": "Maraming bagyo sa Visayas mula Hunyo hanggang Nobyembre. Madalas magbatian ang mga Ilonggo pagkatapos ng bagyo ng *Okay lang kamo?* at nagbabalitaan tungkol sa *baha* at *brownout*."
+    },
+    "i01_p15.title": {
+      "en": "Typhoon season",
+      "fil": "Panahon ng bagyo"
+    },
+    "i01_q1.prompt": {
+      "en": "What does \"Mainit subong, pero buwas basi mag-ulan.\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Mainit subong, pero buwas basi mag-ulan.”?"
+    },
+    "i01_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i01_q11.prompt": {
+      "en": "Someone says \"Salamat!\" You reply:",
+      "fil": "May nagsabi ng “Salamat!” Isasagot mo ang:"
+    },
+    "i01_q13.prompt": {
+      "en": "Listen, then say it yourself.",
+      "fil": "Makinig, saka sabihin mo rin."
+    },
+    "i01_q5.situation": {
+      "en": "A friend asks \"Ano ang ginabatyag mo?\" You have a fever.",
+      "fil": "Tinanong ka ng kaibigan, “Ano ang ginabatyag mo?” May lagnat ka."
+    },
+    "i01_q6.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i01_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i01_q8.prompt": {
+      "en": "Which word means \"baka\"?",
+      "fil": "Aling salita ang ibig sabihin ay “baka”?"
+    },
+    "i01_q9.question": {
+      "en": "Why did Ana go to the doctor?",
+      "fil": "Bakit pumunta si Ana sa doktor?"
+    },
+    "i02.objectives[0]": {
+      "en": "Talk about your work and school",
+      "fil": "Pag-usapan ang trabaho at paaralan mo"
+    },
+    "i02.objectives[1]": {
+      "en": "Ride a jeepney or tricycle: ask the fare and say where to stop",
+      "fil": "Sumakay ng dyip o traysikel: itanong ang pamasahe at sabihin kung saan bababa"
+    },
+    "i02.objectives[2]": {
+      "en": "Say sorry for being late and ask a teacher to repeat",
+      "fil": "Humingi ng tawad sa pagkahuli at pakiusapan ang guro na ulitin"
+    },
+    "i02.title": {
+      "en": "Work, School & Getting Around",
+      "fil": "Trabaho, Paaralan at Pagbibiyahe"
+    },
+    "i02.unit.title": {
+      "en": "Everyday life",
+      "fil": "Pang-araw-araw na buhay"
+    },
+    "i02_p01.setting": {
+      "en": "Ana takes a jeepney to school.",
+      "fil": "Nag-dyip si Ana papuntang paaralan."
+    },
+    "i02_p01.tip": {
+      "en": "Ilonggos say *Lugar lang!* (or *Sa lugar lang!*) to stop a jeepney. *Para!* is understood everywhere too. There is no *po*: show respect with *Manong* / *Manang*.",
+      "fil": "*Lugar lang!* (o *Sa lugar lang!*) ang sinasabi ng mga Ilonggo para pahintuin ang dyip. Naiintindihan din kahit saan ang *Para!*. Walang *po*: ipakita ang paggalang gamit ang *Manong* / *Manang*."
+    },
+    "i02_p01.title": {
+      "en": "On the Jeepney",
+      "fil": "Sa Dyip"
+    },
+    "i02_p02.terms[0].note": {
+      "en": "coworker",
+      "fil": "katrabaho"
+    },
+    "i02_p02.terms[1].note": {
+      "en": "exam",
+      "fil": "pagsusulit"
+    },
+    "i02_p02.terms[2].note": {
+      "en": "lesson",
+      "fil": "aralin"
+    },
+    "i02_p02.terms[3].note": {
+      "en": "from Lesson 1",
+      "fil": "mula sa Aralin 1"
+    },
+    "i02_p02.text": {
+      "en": "Many work and school words are the same as in Filipino (*trabaho*, *klase*, *sweldo*). Learn the ones that change.",
+      "fil": "Maraming salita sa trabaho at paaralan ang kapareho ng Filipino (*trabaho*, *klase*, *sweldo*). Pag-aralan ang mga nagbabago."
+    },
+    "i02_p02.title": {
+      "en": "Work and School Words",
+      "fil": "Mga Salita sa Trabaho at Paaralan"
+    },
+    "i02_p03.title": {
+      "en": "Work and School",
+      "fil": "Trabaho at Paaralan"
+    },
+    "i02_p04.explain": {
+      "en": "*kaupod* = companion, so *kaupod sa trabaho* = coworker.",
+      "fil": "*kaupod* = kasama, kaya ang *kaupod sa trabaho* = katrabaho."
+    },
+    "i02_p04.prompt": {
+      "en": "Which word means \"katrabaho\"?",
+      "fil": "Aling salita ang ibig sabihin ay “katrabaho”?"
+    },
+    "i02_p05.terms[0].note": {
+      "en": "how much is the fare?",
+      "fil": "magkano ang pamasahe?"
+    },
+    "i02_p05.terms[1].note": {
+      "en": "to stop a jeepney (*Para!* also works)",
+      "fil": "para pahintuin ang dyip (puwede rin ang *Para!*)"
+    },
+    "i02_p05.terms[2].note": {
+      "en": "where should I get off?",
+      "fil": "saan ako bababa?"
+    },
+    "i02_p05.terms[3].note": {
+      "en": "is it still far?",
+      "fil": "malayo pa ba?"
+    },
+    "i02_p05.text": {
+      "en": "Jeepneys, tricycles and pedicabs are everywhere. Careful: *traysikad* is a pedicab (Filipino *padyak*), *traysikel* is a motor tricycle.",
+      "fil": "Kahit saan may dyip, traysikel at padyak. Mag-ingat: ang *traysikad* ay padyak, ang *traysikel* ay traysikel na de-motor.",
+      "markupChanged": true
+    },
+    "i02_p05.title": {
+      "en": "Getting Around",
+      "fil": "Pagbibiyahe"
+    },
+    "i02_p06.title": {
+      "en": "Transport",
+      "fil": "Sasakyan"
+    },
+    "i02_p07.title": {
+      "en": "On the Ride",
+      "fil": "Habang Nakasakay"
+    },
+    "i02_p08.explain": {
+      "en": "*Lugar lang!* asks the driver to stop.",
+      "fil": "Ang *Lugar lang!* ay pakiusap sa drayber na huminto."
+    },
+    "i02_p08.prompt": {
+      "en": "The jeepney reaches your stop. What do you say?",
+      "fil": "Nasa babaan mo na ang dyip. Ano ang sasabihin mo?"
+    },
+    "i02_p09.terms[0].note": {
+      "en": "sorry, I'm late",
+      "fil": "pasensya, nahuli ako"
+    },
+    "i02_p09.terms[1].note": {
+      "en": "may I ask a question?",
+      "fil": "puwede ba akong magtanong?"
+    },
+    "i02_p09.terms[2].note": {
+      "en": "I didn't understand; can you (polite) repeat it?",
+      "fil": "hindi ko naintindihan; puwede ba ninyong ulitin?"
+    },
+    "i02_p09.terms[3].note": {
+      "en": "thanks for your help",
+      "fil": "salamat sa tulong mo"
+    },
+    "i02_p09.text": {
+      "en": "Polite phrases for class or the office. *Mahimo bala…?* = \"May I…? / Can…?\"",
+      "fil": "Magagalang na parirala para sa klase o opisina. *Mahimo bala…?* = “Puwede ba…?”"
+    },
+    "i02_p09.title": {
+      "en": "At School or Work",
+      "fil": "Sa Paaralan o Trabaho"
+    },
+    "i02_p10.setting": {
+      "en": "You arrive late and your teacher is talking.",
+      "fil": "Nahuli ka ng dating at nagsasalita ang guro mo."
+    },
+    "i02_p10.tip": {
+      "en": "*Lingkod na* = sit down now. *Nadugayan* = took long. *ninyo* (polite \"you\") shows respect to a teacher.",
+      "fil": "*Lingkod na* = umupo ka na. *Nadugayan* = natagalan. Ipinapakita ng *ninyo* (magalang na “ikaw”) ang paggalang sa guro."
+    },
+    "i02_p10.title": {
+      "en": "Late for Class",
+      "fil": "Huli sa Klase"
+    },
+    "i02_p10.turns[0].choices[1].hint": {
+      "en": "that's for the jeepney",
+      "fil": "para sa dyip iyan"
+    },
+    "i02_p10.turns[0].choices[2].hint": {
+      "en": "that asks if it's far",
+      "fil": "nagtatanong iyan kung malayo"
+    },
+    "i02_p10.turns[1].choices[1].hint": {
+      "en": "that asks the fare",
+      "fil": "nagtatanong iyan ng pamasahe"
+    },
+    "i02_p10.turns[1].choices[2].hint": {
+      "en": "that says you're tired",
+      "fil": "sinasabi niyan na pagod ka"
+    },
+    "i02_p10.turns[2].choices[1].hint": {
+      "en": "that's the reply to thanks",
+      "fil": "sagot iyan sa pasasalamat"
+    },
+    "i02_p11.tip": {
+      "en": "*Kada aga* (every morning) goes with *naga-* verbs: things you do every day.",
+      "fil": "Kasama ng mga pandiwang *naga-* ang *Kada aga* (tuwing umaga): mga bagay na ginagawa mo araw-araw.",
+      "markupChanged": true
+    },
+    "i02_p11.title": {
+      "en": "Ben's Workday",
+      "fil": "Ang Araw ng Trabaho ni Ben"
+    },
+    "i02_p12.mistakes[0].why": {
+      "en": "Hiligaynon doesn't use *po*; say *Manong* or *Manang*. *Lugar lang* is the local way to ask the driver to stop.",
+      "fil": "Hindi gumagamit ng *po* ang Hiligaynon; sabihin ang *Manong* o *Manang*. Ang *Lugar lang* ang lokal na paraan ng pagpapahinto sa drayber."
+    },
+    "i02_p12.mistakes[1].why": {
+      "en": "*traysikad* is a pedicab (padyak).",
+      "fil": "Ang *traysikad* ay padyak."
+    },
+    "i02_p12.mistakes[1].wrong": {
+      "en": "*traysikad* for a motor tricycle",
+      "fil": "*traysikad* para sa traysikel na de-motor"
+    },
+    "i02_p12.mistakes[2].why": {
+      "en": "*magkano* is Filipino; Hiligaynon uses *pila*.",
+      "fil": "Filipino ang *magkano*; *pila* ang gamit ng Hiligaynon."
+    },
+    "i02_p13.text": {
+      "en": "Iloilo's jeepneys are known for their long, rounded \"sedan-like\" front, different from Manila jeepneys. Riders pass their fare forward with *Bayad!* and ask the driver to stop with *Lugar lang!*",
+      "fil": "Kilala ang mga dyip ng Iloilo sa mahaba at bilugang harapan na parang kotse, iba sa mga dyip ng Maynila. Ipinapasa ng mga pasahero ang bayad nila sa unahan na may *Bayad!* at pinapahinto ang drayber sa *Lugar lang!*"
+    },
+    "i02_p13.title": {
+      "en": "Jeepneys in Iloilo",
+      "fil": "Mga Dyip sa Iloilo"
+    },
+    "i02_q1.situation": {
+      "en": "The jeepney reaches your stop.",
+      "fil": "Nasa babaan mo na ang dyip."
+    },
+    "i02_q10.prompt": {
+      "en": "Your teacher speaks too fast. What do you say?",
+      "fil": "Masyadong mabilis magsalita ang guro mo. Ano ang sasabihin mo?"
+    },
+    "i02_q11.prompt": {
+      "en": "\"Kapoy na ako.\" means:",
+      "fil": "Ang “Kapoy na ako.” ay:"
+    },
+    "i02_q13.prompt": {
+      "en": "Listen, then say it yourself.",
+      "fil": "Makinig, saka sabihin mo rin."
+    },
+    "i02_q3.prompt": {
+      "en": "What does \"Diin ako manaog?\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Diin ako manaog?”?"
+    },
+    "i02_q4.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i02_q7.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i02_q8.question": {
+      "en": "How does Ben go home?",
+      "fil": "Paano umuuwi si Ben?"
+    },
+    "i02_q9.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i03.objectives[0]": {
+      "en": "Say what you did, what you're doing and what you'll do",
+      "fil": "Sabihin ang ginawa mo, ginagawa mo at gagawin mo"
+    },
+    "i03.objectives[1]": {
+      "en": "Use na (already), pa (still) and wala pa (not yet)",
+      "fil": "Gamitin ang na, pa at wala pa (hindi pa)"
+    },
+    "i03.objectives[2]": {
+      "en": "Tell events in order: first, then, finally",
+      "fil": "Isalaysay ang mga pangyayari nang sunod-sunod: una, saka, sa huli"
+    },
+    "i03.title": {
+      "en": "Past, Now & Later",
+      "fil": "Nakaraan, Ngayon at Mamaya"
+    },
+    "i03.unit.title": {
+      "en": "Everyday life",
+      "fil": "Pang-araw-araw na buhay"
+    },
+    "i03_p01.tip": {
+      "en": "Look at the start of each verb: *nag-* = done, *naga-* = ongoing or every day, *mag-* = not done yet (planned). The time words tell you *when*.",
+      "fil": "Tingnan ang simula ng bawat pandiwa: *nag-* = tapos na, *naga-* = ginagawa pa o araw-araw, *mag-* = hindi pa tapos (balak pa lang). Ang mga salitang pang-oras ang nagsasabi kung *kailan*.",
+      "markupChanged": true
+    },
+    "i03_p01.title": {
+      "en": "Ana's Diary",
+      "fil": "Ang Talaarawan ni Ana"
+    },
+    "i03_p02.terms[0].note": {
+      "en": "yesterday (a finished action → nag-)",
+      "fil": "kahapon (tapos na ang kilos → nag-)"
+    },
+    "i03_p02.terms[1].note": {
+      "en": "now (happening → naga-)",
+      "fil": "ngayon (nangyayari → naga-)"
+    },
+    "i03_p02.terms[2].note": {
+      "en": "every morning (habit → naga-)",
+      "fil": "tuwing umaga (nakagawian → naga-)"
+    },
+    "i03_p02.terms[3].note": {
+      "en": "tomorrow (not done yet → mag-)",
+      "fil": "bukas (hindi pa nagagawa → mag-)"
+    },
+    "i03_p02.text": {
+      "en": "The start of the verb shows whether an action is *done*, *ongoing / every day*, or *not done yet*. Time words like *kahapon*, *subong* and *buwas* tell you *when*.",
+      "fil": "Ipinapakita ng simula ng pandiwa kung ang kilos ay *tapos na*, *ginagawa pa / araw-araw*, o *hindi pa nagagawa*. Ang mga salitang pang-oras gaya ng *kahapon*, *subong* at *buwas* ang nagsasabi kung *kailan*.",
+      "markupChanged": true
+    },
+    "i03_p02.title": {
+      "en": "Two Clues for Time",
+      "fil": "Dalawang Palatandaan ng Oras"
+    },
+    "i03_p03.slots[0].label": {
+      "en": "Done",
+      "fil": "Tapos na"
+    },
+    "i03_p03.slots[1].label": {
+      "en": "Root",
+      "fil": "Ugat"
+    },
+    "i03_p03.slots[2].label": {
+      "en": "Who",
+      "fil": "Sino"
+    },
+    "i03_p03.title": {
+      "en": "nag- + root = done",
+      "fil": "nag- + ugat = tapos na"
+    },
+    "i03_p04.columns[0]": {
+      "en": "Done",
+      "fil": "Tapos na"
+    },
+    "i03_p04.columns[1]": {
+      "en": "Ongoing / every day",
+      "fil": "Ginagawa pa / araw-araw"
+    },
+    "i03_p04.columns[2]": {
+      "en": "Not yet",
+      "fil": "Hindi pa"
+    },
+    "i03_p04.note": {
+      "en": "Spelling changes when a thing is in focus: kaon → *kaunon*, inom → *imnon*, basa → *basahon* (you will learn these in Lesson 4).",
+      "fil": "Nagbabago ang baybay kapag ang bagay ang pokus: kaon → *kaunon*, inom → *imnon*, basa → *basahon* (matututunan mo ito sa Aralin 4)."
+    },
+    "i03_p04.text": {
+      "en": "The start of the verb shows if the action is done, ongoing or every day, or not done yet.",
+      "fil": "Ipinapakita ng simula ng pandiwa kung tapos na ang kilos, ginagawa pa o araw-araw, o hindi pa nagagawa."
+    },
+    "i03_p04.title": {
+      "en": "Past, Now & Later",
+      "fil": "Nakaraan, Ngayon at Mamaya"
+    },
+    "i03_p05.explain": {
+      "en": "For a finished action yesterday, use the done form *nagkaon*.",
+      "fil": "Para sa kilos na natapos kahapon, gamitin ang anyong tapos na: *nagkaon*."
+    },
+    "i03_p06.title": {
+      "en": "Time Words",
+      "fil": "Mga Salitang Pang-oras"
+    },
+    "i03_p07.terms[0].note": {
+      "en": "already",
+      "fil": "na"
+    },
+    "i03_p07.terms[1].note": {
+      "en": "still",
+      "fil": "pa"
+    },
+    "i03_p07.terms[2].note": {
+      "en": "not yet",
+      "fil": "hindi pa"
+    },
+    "i03_p07.terms[3].note": {
+      "en": "just now",
+      "fil": "kani-kanina lang"
+    },
+    "i03_p07.text": {
+      "en": "*na* and *pa* usually come right after the verb or describing word: *Nagkaon na ako*, *Gutom na ako*. For \"not yet\", start with *wala pa*: *Wala pa ako nagkaon.*",
+      "fil": "Karaniwang kasunod agad ng pandiwa o salitang naglalarawan ang *na* at *pa*: *Nagkaon na ako*, *Gutom na ako*. Para sa “hindi pa”, magsimula sa *wala pa*: *Wala pa ako nagkaon.*"
+    },
+    "i03_p07.title": {
+      "en": "Already, Still, Not Yet",
+      "fil": "Na, Pa, Hindi Pa"
+    },
+    "i03_p08.title": {
+      "en": "Where Do na and pa Go?",
+      "fil": "Saan Inilalagay ang na at pa?"
+    },
+    "i03_p09.explain": {
+      "en": "*wala pa* = not yet.",
+      "fil": "*wala pa* = hindi pa."
+    },
+    "i03_p09.prompt": {
+      "en": "\"Wala pa ako nagkaon.\" means:",
+      "fil": "Ang “Wala pa ako nagkaon.” ay:"
+    },
+    "i03_p10.terms[0].note": {
+      "en": "I fell asleep",
+      "fil": "nakatulog ako"
+    },
+    "i03_p10.terms[1].note": {
+      "en": "I was able to read the book",
+      "fil": "nabasa ko ang libro"
+    },
+    "i03_p10.text": {
+      "en": "*naka-* means you were able to, or it happened (often without planning): *Nakatulog ako sa dyip.* (I fell asleep in the jeepney.) Plain *Nagtulog ako* just means \"I slept\".",
+      "fil": "Ang *naka-* ay nakaya mo, o nangyari (madalas nang hindi sinasadya): *Nakatulog ako sa dyip.* (Nakatulog ako sa dyip.) Ang *Nagtulog ako* lang ay “natulog ako”."
+    },
+    "i03_p10.title": {
+      "en": "Able To / Happened To: naka-",
+      "fil": "Nakaya / Nangyari: naka-"
+    },
+    "i03_p11.terms[0].note": {
+      "en": "first",
+      "fil": "una"
+    },
+    "i03_p11.terms[1].note": {
+      "en": "then / next",
+      "fil": "saka / sunod"
+    },
+    "i03_p11.terms[2].note": {
+      "en": "afterward",
+      "fil": "pagkatapos"
+    },
+    "i03_p11.terms[3].note": {
+      "en": "finally",
+      "fil": "sa wakas"
+    },
+    "i03_p11.title": {
+      "en": "First, Then, Finally",
+      "fil": "Una, Saka, Sa Huli"
+    },
+    "i03_p12.tip": {
+      "en": "All these were finished last Saturday, so every verb uses the done forms *nag-* or *naka-*. *Nagpamahaw* = ate breakfast (from *pamahaw*).",
+      "fil": "Natapos lahat ng ito noong Sabado, kaya anyong tapos na ang gamit ng bawat pandiwa: *nag-* o *naka-*. *Nagpamahaw* = nag-almusal (mula sa *pamahaw*)."
+    },
+    "i03_p12.title": {
+      "en": "Last Saturday",
+      "fil": "Noong Sabado"
+    },
+    "i03_p13.bridge[1]": {
+      "en": "Filipino *na* and *pa* work the same in Hiligaynon.",
+      "fil": "Pareho ang gamit ng *na* at *pa* sa Filipino at Hiligaynon."
+    },
+    "i03_p13.bridge[2]": {
+      "en": "*hindi pa* = *wala pa* (for things that haven't happened).",
+      "fil": "*hindi pa* = *wala pa* (para sa mga hindi pa nangyayari)."
+    },
+    "i03_p13.mistakes[0].why": {
+      "en": "for a finished action use *nag-*; *naga-* is for ongoing or everyday actions.",
+      "fil": "para sa tapos nang kilos, gamitin ang *nag-*; para sa ginagawa pa o araw-araw ang *naga-*."
+    },
+    "i03_p13.mistakes[0].wrong": {
+      "en": "*Nagakaon ako kahapon.* (to say you ate)",
+      "fil": "*Nagakaon ako kahapon.* (para sabihing kumain ka)"
+    },
+    "i03_p13.mistakes[1].why": {
+      "en": "for *kaon*, the done form is *nagkaon* (the Filipino-style *kumain* pattern doesn't carry over).",
+      "fil": "sa *kaon*, ang anyong tapos na ay *nagkaon* (hindi sumusunod ang padron ng *kumain* sa Filipino)."
+    },
+    "i03_p13.mistakes[2].why": {
+      "en": "for \"not yet\" use *wala pa*.",
+      "fil": "para sa “hindi pa”, gamitin ang *wala pa*."
+    },
+    "i03_p14.text": {
+      "en": "In many Ilonggo homes, the family rests for a while after lunch (*panyaga*) before going back to work. People say *Pahuway anay* (rest first).",
+      "fil": "Sa maraming bahay ng Ilonggo, nagpapahinga muna ang pamilya pagkatapos ng tanghalian (*panyaga*) bago bumalik sa trabaho. Sinasabi nila ang *Pahuway anay* (magpahinga muna)."
+    },
+    "i03_p14.title": {
+      "en": "Rest After Lunch",
+      "fil": "Pahinga Pagkatapos ng Tanghalian"
+    },
+    "i03_p15.title": {
+      "en": "Have You Eaten?",
+      "fil": "Kumain Ka Na?"
+    },
+    "i03_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i03_q11.prompt": {
+      "en": "\"Diin ako manaog?\" means:",
+      "fil": "Ang “Diin ako manaog?” ay:"
+    },
+    "i03_q13.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "i03_q13.prompt": {
+      "en": "Write three lines: yesterday, today, tomorrow.",
+      "fil": "Sumulat ng tatlong linya: kahapon, ngayon, bukas."
+    },
+    "i03_q4.prompt": {
+      "en": "Which verb says the reading was finished yesterday?",
+      "fil": "Aling pandiwa ang nagsasabing natapos ang pagbabasa kahapon?"
+    },
+    "i03_q5.prompt": {
+      "en": "\"Wala pa ako nagkaon.\" means:",
+      "fil": "Ang “Wala pa ako nagkaon.” ay:"
+    },
+    "i03_q6.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i03_q8.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i03_q9.question": {
+      "en": "What did the writer do after going to the market?",
+      "fil": "Ano ang ginawa ng sumulat pagkatapos pumunta sa palengke?"
+    },
+    "i04.objectives[0]": {
+      "en": "Use the marker words ang, sang, sa, si, ni and kay",
+      "fil": "Gamitin ang mga panandang ang, sang, sa, si, ni at kay"
+    },
+    "i04.objectives[1]": {
+      "en": "Say who did something, or what was done to something",
+      "fil": "Sabihin kung sino ang gumawa ng isang bagay, o kung ano ang ginawa sa isang bagay"
+    },
+    "i04.objectives[2]": {
+      "en": "Choose ako or ko in a sentence",
+      "fil": "Piliin ang ako o ko sa pangungusap"
+    },
+    "i04.title": {
+      "en": "Who Did What",
+      "fil": "Sino ang Gumawa ng Ano"
+    },
+    "i04.unit.title": {
+      "en": "Building sentences",
+      "fil": "Pagbuo ng pangungusap"
+    },
+    "i04_p01.tip": {
+      "en": "Watch two kinds of sentences: *Si Nanay ang nagluto* (who did it) and *Ginluto niya* (what was done).",
+      "fil": "Bantayan ang dalawang uri ng pangungusap: *Si Nanay ang nagluto* (sino ang gumawa) at *Ginluto niya* (ano ang ginawa)."
+    },
+    "i04_p01.title": {
+      "en": "Who Cooked the Adobo?",
+      "fil": "Sino ang Nagluto ng Adobo?"
+    },
+    "i04_p02.terms[0].note": {
+      "en": "in the spotlight",
+      "fil": "nasa spotlight"
+    },
+    "i04_p02.terms[1].note": {
+      "en": "doer or owner, not in the spotlight",
+      "fil": "gumawa o may-ari, wala sa spotlight"
+    },
+    "i04_p02.terms[2].note": {
+      "en": "place or receiver",
+      "fil": "lugar o tumatanggap"
+    },
+    "i04_p02.text": {
+      "en": "In these sentence patterns, one person or thing is in the spotlight. A thing takes *ang* and a person's name takes *si*. Pronouns like *ako* and *siya* need no marker. Filipino works the same way: *ang / ng / sa* = Hiligaynon *ang / sang / sa*. Names use *si / ni / kay* in both languages.",
+      "fil": "Sa mga padron ng pangungusap na ito, may isang tao o bagay na nasa spotlight. *ang* ang gamit ng bagay at *si* ang gamit ng pangalan ng tao. Walang pananda ang mga panghalip gaya ng *ako* at *siya*. Ganito rin sa Filipino: *ang / ng / sa* = Hiligaynon *ang / sang / sa*. *si / ni / kay* ang gamit sa pangalan sa dalawang wika."
+    },
+    "i04_p02.title": {
+      "en": "The Spotlight Word: ang",
+      "fil": "Ang Salitang Nasa Spotlight: ang"
+    },
+    "i04_p03.columns[0]": {
+      "en": "Role",
+      "fil": "Gamit"
+    },
+    "i04_p03.columns[1]": {
+      "en": "Thing",
+      "fil": "Bagay"
+    },
+    "i04_p03.columns[2]": {
+      "en": "Name",
+      "fil": "Pangalan"
+    },
+    "i04_p03.rows[0][0]": {
+      "en": "In the spotlight",
+      "fil": "Nasa spotlight"
+    },
+    "i04_p03.rows[1][0]": {
+      "en": "Doer / owner / object",
+      "fil": "Gumawa / may-ari / layon"
+    },
+    "i04_p03.rows[2][0]": {
+      "en": "Place / receiver",
+      "fil": "Lugar / tumatanggap"
+    },
+    "i04_p03.title": {
+      "en": "Marker Words",
+      "fil": "Mga Pananda"
+    },
+    "i04_p04.slots[0].label": {
+      "en": "Verb, nag-",
+      "fil": "Pandiwa, nag-"
+    },
+    "i04_p04.slots[1].label": {
+      "en": "Doer, spotlight",
+      "fil": "Gumawa, spotlight"
+    },
+    "i04_p04.slots[2].label": {
+      "en": "Marker",
+      "fil": "Pananda"
+    },
+    "i04_p04.slots[3].label": {
+      "en": "Thing",
+      "fil": "Bagay"
+    },
+    "i04_p04.title": {
+      "en": "Who Did It",
+      "fil": "Sino ang Gumawa"
+    },
+    "i04_p05.slots[0].label": {
+      "en": "Verb, gin-",
+      "fil": "Pandiwa, gin-"
+    },
+    "i04_p05.slots[1].label": {
+      "en": "Marker",
+      "fil": "Pananda"
+    },
+    "i04_p05.slots[2].label": {
+      "en": "Doer",
+      "fil": "Gumawa"
+    },
+    "i04_p05.slots[3].label": {
+      "en": "Thing, spotlight",
+      "fil": "Bagay, spotlight"
+    },
+    "i04_p05.title": {
+      "en": "What Was Done",
+      "fil": "Ano ang Ginawa"
+    },
+    "i04_p06.explain": {
+      "en": "in a *nag-* sentence the doer is in the spotlight, so the thing takes *sang*.",
+      "fil": "sa pangungusap na *nag-*, ang gumawa ang nasa spotlight, kaya *sang* ang gamit ng bagay."
+    },
+    "i04_p07.columns[0]": {
+      "en": "Done",
+      "fil": "Tapos na"
+    },
+    "i04_p07.columns[1]": {
+      "en": "Ongoing / every day",
+      "fil": "Ginagawa pa / araw-araw"
+    },
+    "i04_p07.columns[2]": {
+      "en": "Not yet",
+      "fil": "Hindi pa"
+    },
+    "i04_p07.text": {
+      "en": "When the thing is in the spotlight, the verb uses *gin-* (done), *gina-* (ongoing or every day) or *-on* (not yet).",
+      "fil": "Kapag ang bagay ang nasa spotlight, *gin-* (tapos na), *gina-* (ginagawa pa o araw-araw) o *-on* (hindi pa) ang gamit ng pandiwa."
+    },
+    "i04_p07.title": {
+      "en": "What Was Done: gin- / gina- / -on",
+      "fil": "Ano ang Ginawa: gin- / gina- / -on"
+    },
+    "i04_p08.terms[0].note": {
+      "en": "ako = I, in the spotlight",
+      "fil": "ako = ako, nasa spotlight"
+    },
+    "i04_p08.terms[1].note": {
+      "en": "ko = by me",
+      "fil": "ko = ko (ginawa ko)"
+    },
+    "i04_p08.terms[2].note": {
+      "en": "sa imo = to you",
+      "fil": "sa imo = sa iyo"
+    },
+    "i04_p08.text": {
+      "en": "In the patterns of this lesson, use *ako* as the doer with *nag-* verbs (*Nagbasa ako sang libro*) and ko as the doer with *gin-* verbs (*Ginbasa ko ang libro*). Filipino does the same: *Nagbasa ako* / *Binasa ko*.",
+      "fil": "Sa mga padron ng araling ito, gamitin ang *ako* bilang gumawa sa mga pandiwang *nag-* (*Nagbasa ako sang libro*) at ang ko bilang gumawa sa mga pandiwang *gin-* (*Ginbasa ko ang libro*). Ganito rin sa Filipino: *Nagbasa ako* / *Binasa ko*."
+    },
+    "i04_p08.title": {
+      "en": "ako or ko?",
+      "fil": "ako o ko?"
+    },
+    "i04_p09.explain": {
+      "en": "in a *gin-* sentence the doer uses *ko*.",
+      "fil": "sa pangungusap na *gin-*, *ko* ang gamit ng gumawa."
+    },
+    "i04_p10.terms[0].note": {
+      "en": "I ate the fish (that one)",
+      "fil": "kinain ko ang isda (iyong isda)"
+    },
+    "i04_p10.terms[1].note": {
+      "en": "I ate fish (some fish)",
+      "fil": "kumain ako ng isda (kahit anong isda)"
+    },
+    "i04_p10.text": {
+      "en": "A specific thing you both know usually goes in the spotlight with a *gin-* verb. A thing in general usually stays with a *nag-* verb.",
+      "fil": "Ang tiyak na bagay na alam ninyong dalawa ay karaniwang nasa spotlight kasama ang pandiwang *gin-*. Ang bagay sa pangkalahatan ay karaniwang kasama ng pandiwang *nag-*."
+    },
+    "i04_p10.tip": {
+      "en": "This is a strong habit, not a strict rule.",
+      "fil": "Malakas na kaugalian ito, hindi mahigpit na tuntunin."
+    },
+    "i04_p10.title": {
+      "en": "A Fish or the Fish?",
+      "fil": "Isang Isda o Ang Isda?"
+    },
+    "i04_p11.tip": {
+      "en": "Find the doer in each *gin-* sentence: *niya*, *ni Nanay*, *namon*.",
+      "fil": "Hanapin ang gumawa sa bawat pangungusap na *gin-*: *niya*, *ni Nanay*, *namon*."
+    },
+    "i04_p11.title": {
+      "en": "Market Day",
+      "fil": "Araw ng Palengke"
+    },
+    "i04_p12.bridge[1]": {
+      "en": "Filipino *si / ni / kay* = Hiligaynon *si / ni / kay* (the same!).",
+      "fil": "Filipino *si / ni / kay* = Hiligaynon *si / ni / kay* (pareho!)."
+    },
+    "i04_p12.mistakes[0].why": {
+      "en": "in a *gin-* sentence the doer is *ko*, not *ako*.",
+      "fil": "sa pangungusap na *gin-*, *ko* ang gumawa, hindi *ako*."
+    },
+    "i04_p12.mistakes[1].why": {
+      "en": "in a *nag-* sentence the thing takes *sang*.",
+      "fil": "sa pangungusap na *nag-*, *sang* ang gamit ng bagay."
+    },
+    "i04_p13.text": {
+      "en": "Iloilo is proud of *La Paz batchoy*, a noodle soup named after the La Paz district of Iloilo City. Ilonggos say *Namit gid ang batchoy!*",
+      "fil": "Ipinagmamalaki ng Iloilo ang *La Paz batchoy*, isang sopas na may miki na ipinangalan sa distrito ng La Paz sa Iloilo City. Sinasabi ng mga Ilonggo, *Namit gid ang batchoy!*"
+    },
+    "i04_p14.setting": {
+      "en": "Manang Rosa visits and sees food on the table.",
+      "fil": "Bumisita si Manang Rosa at nakita niya ang pagkain sa mesa."
+    },
+    "i04_p14.title": {
+      "en": "Who Did It?",
+      "fil": "Sino ang Gumawa?"
+    },
+    "i04_p14.turns[0].choices[1].hint": {
+      "en": "that means someone cooked *you*",
+      "fil": "ibig sabihin niyan ay *ikaw* ang niluto ng isang tao",
+      "markupChanged": true
+    },
+    "i04_p14.turns[0].choices[2].hint": {
+      "en": "in the spotlight use *ako*",
+      "fil": "sa spotlight, gamitin ang *ako*"
+    },
+    "i04_p14.turns[1].choices[1].hint": {
+      "en": "a place takes *sa*",
+      "fil": "*sa* ang gamit ng lugar"
+    },
+    "i04_p14.turns[1].choices[2].hint": {
+      "en": "this sounds like *you* were bought at the market",
+      "fil": "parang *ikaw* ang binili sa palengke",
+      "markupChanged": true
+    },
+    "i04_q1.prompt": {
+      "en": "What does \"Ginluto ni Nanay ang adobo.\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Ginluto ni Nanay ang adobo.”?"
+    },
+    "i04_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i04_q11.prompt": {
+      "en": "\"Nagkaon na ako.\" means:",
+      "fil": "Ang “Nagkaon na ako.” ay:"
+    },
+    "i04_q12.situation": {
+      "en": "The jeepney reaches your stop.",
+      "fil": "Nasa babaan mo na ang dyip."
+    },
+    "i04_q13.prompt": {
+      "en": "Listen, then say it yourself.",
+      "fil": "Makinig, saka sabihin mo rin."
+    },
+    "i04_q2.prompt": {
+      "en": "What does \"Ginhatag ko kay Maria ang libro.\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Ginhatag ko kay Maria ang libro.”?"
+    },
+    "i04_q5.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i04_q8.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i04_q9.question": {
+      "en": "Who cooked the fish?",
+      "fil": "Sino ang nagluto ng isda?"
+    },
+    "i05.objectives[0]": {
+      "en": "Use gid, man, lang, na and pa to sound natural",
+      "fil": "Gamitin ang gid, man, lang, na at pa para maging natural ang pananalita"
+    },
+    "i05.objectives[1]": {
+      "en": "Say maybe, I wonder and I hope (basi, ayhan, kunta)",
+      "fil": "Sabihin ang baka, kaya kaya at sana (basi, ayhan, kunta)"
+    },
+    "i05.objectives[2]": {
+      "en": "Put the little words in the right place",
+      "fil": "Ilagay ang maliliit na salita sa tamang puwesto"
+    },
+    "i05.title": {
+      "en": "Little Words That Matter",
+      "fil": "Maliliit na Salitang Mahalaga"
+    },
+    "i05.unit.title": {
+      "en": "Building sentences",
+      "fil": "Pagbuo ng pangungusap"
+    },
+    "i05_p01.tip": {
+      "en": "Four little words make this sound natural: *man*, *na*, *gid*, *lang*.",
+      "fil": "Apat na maliliit na salita ang nagpapatunog na natural dito: *man*, *na*, *gid*, *lang*."
+    },
+    "i05_p01.title": {
+      "en": "Tired but Fine",
+      "fil": "Pagod Pero Okay Lang"
+    },
+    "i05_p02.columns[1]": {
+      "en": "Meaning",
+      "fil": "Kahulugan"
+    },
+    "i05_p02.columns[2]": {
+      "en": "Example",
+      "fil": "Halimbawa"
+    },
+    "i05_p02.rows[0][1]": {
+      "en": "really / very",
+      "fil": "talaga / sobra"
+    },
+    "i05_p02.rows[1][1]": {
+      "en": "also, too / softens",
+      "fil": "rin, din / pampalambot"
+    },
+    "i05_p02.rows[2][1]": {
+      "en": "only, just",
+      "fil": "lang, lamang"
+    },
+    "i05_p02.rows[3][1]": {
+      "en": "already / now",
+      "fil": "na / ngayon"
+    },
+    "i05_p02.rows[4][1]": {
+      "en": "still / yet / more",
+      "fil": "pa / pa rin / dagdag"
+    },
+    "i05_p02.rows[5][1]": {
+      "en": "question marker (like *ba*)",
+      "fil": "pananda ng tanong (gaya ng *ba*)"
+    },
+    "i05_p02.rows[6][1]": {
+      "en": "seems / like",
+      "fil": "parang / tila"
+    },
+    "i05_p02.rows[7][1]": {
+      "en": "maybe",
+      "fil": "baka"
+    },
+    "i05_p02.rows[8][1]": {
+      "en": "I wonder",
+      "fil": "kaya kaya / iniisip ko kung"
+    },
+    "i05_p02.rows[9][1]": {
+      "en": "I hope / I wish",
+      "fil": "sana"
+    },
+    "i05_p02.title": {
+      "en": "The Little Words",
+      "fil": "Ang Maliliit na Salita"
+    },
+    "i05_p03.title": {
+      "en": "Little Words",
+      "fil": "Maliliit na Salita"
+    },
+    "i05_p04.terms[0].note": {
+      "en": "also / too",
+      "fil": "rin / din"
+    },
+    "i05_p04.terms[1].note": {
+      "en": "returns the question",
+      "fil": "ibinabalik ang tanong"
+    },
+    "i05_p04.terms[2].note": {
+      "en": "softens (fine, thanks for asking)",
+      "fil": "pampalambot (okay lang, salamat sa pagtatanong)"
+    },
+    "i05_p04.terms[3].note": {
+      "en": "gently says no",
+      "fil": "marahang pagtanggi"
+    },
+    "i05_p04.text": {
+      "en": "*man* is the most useful little word.",
+      "fil": "Ang *man* ang pinakamagagamit na maliit na salita."
+    },
+    "i05_p04.title": {
+      "en": "man: Four Jobs",
+      "fil": "man: Apat na Gamit"
+    },
+    "i05_p05.explain": {
+      "en": "*man* = too.",
+      "fil": "*man* = rin."
+    },
+    "i05_p05.prompt": {
+      "en": "Your friend says \"Gutom na ako.\" You're hungry too.",
+      "fil": "Sinabi ng kaibigan mo, “Gutom na ako.” Gutom ka rin."
+    },
+    "i05_p06.terms[0].note": {
+      "en": "thank you very much",
+      "fil": "maraming salamat"
+    },
+    "i05_p06.terms[1].note": {
+      "en": "it's really true",
+      "fil": "totoo talaga"
+    },
+    "i05_p06.terms[2].note": {
+      "en": "it's okay / go ahead",
+      "fil": "okay lang / sige lang"
+    },
+    "i05_p06.terms[3].note": {
+      "en": "take it easy / slowly",
+      "fil": "dahan-dahan lang"
+    },
+    "i05_p06.text": {
+      "en": "*gid* makes a word stronger; *lang* makes it smaller or gentler.",
+      "fil": "Pinalalakas ng *gid* ang isang salita; pinaliliit o pinalalambot ito ng *lang*."
+    },
+    "i05_p06.title": {
+      "en": "gid and lang",
+      "fil": "gid at lang"
+    },
+    "i05_p07.slots[0].label": {
+      "en": "First word",
+      "fil": "Unang salita"
+    },
+    "i05_p07.slots[1].label": {
+      "en": "Little word",
+      "fil": "Maliit na salita"
+    },
+    "i05_p07.slots[2].label": {
+      "en": "The rest",
+      "fil": "Ang natitira"
+    },
+    "i05_p07.title": {
+      "en": "Where the Little Words Go",
+      "fil": "Saan Inilalagay ang Maliliit na Salita"
+    },
+    "i05_p08.explain": {
+      "en": "here *gid* follows *matahom* to make it stronger.",
+      "fil": "dito, sumusunod ang *gid* sa *matahom* para palakasin ito."
+    },
+    "i05_p08.prompt": {
+      "en": "Which is correct?",
+      "fil": "Alin ang tama?"
+    },
+    "i05_p09.terms[0].note": {
+      "en": "maybe",
+      "fil": "baka"
+    },
+    "i05_p09.terms[1].note": {
+      "en": "it seems",
+      "fil": "parang"
+    },
+    "i05_p09.title": {
+      "en": "Maybe, I Wonder, I Hope",
+      "fil": "Baka, Kaya Kaya, Sana"
+    },
+    "i05_p10.tip": {
+      "en": "Count the little words: *daw*, *basi*, *ayhan*, *kunta*, *gid*.",
+      "fil": "Bilangin ang maliliit na salita: *daw*, *basi*, *ayhan*, *kunta*, *gid*."
+    },
+    "i05_p10.title": {
+      "en": "Waiting for Ben",
+      "fil": "Naghihintay kay Ben"
+    },
+    "i05_p11.setting": {
+      "en": "Your friend Ben drops by at lunchtime.",
+      "fil": "Dumaan ang kaibigan mong si Ben nang tanghalian."
+    },
+    "i05_p11.tip": {
+      "en": "*mangkok* = bowl.",
+      "fil": "*mangkok* = mangkok."
+    },
+    "i05_p11.title": {
+      "en": "Hungry?",
+      "fil": "Gutom Ka?"
+    },
+    "i05_p11.turns[0].choices[1].hint": {
+      "en": "*na* goes after the first word",
+      "fil": "nasa likod ng unang salita ang *na*"
+    },
+    "i05_p11.turns[0].choices[2].hint": {
+      "en": "answer about yourself",
+      "fil": "sumagot tungkol sa sarili mo"
+    },
+    "i05_p11.turns[1].choices[1].hint": {
+      "en": "you just said you're hungry",
+      "fil": "kasasabi mo lang na gutom ka"
+    },
+    "i05_p11.turns[2].choices[1].hint": {
+      "en": "that sounds like \"whatever\"",
+      "fil": "parang “bahala na” ang dating niyan"
+    },
+    "i05_p12.mistakes[0].why": {
+      "en": "the little word goes before the pronoun.",
+      "fil": "nauuna ang maliit na salita sa panghalip."
+    },
+    "i05_p12.mistakes[1].right": {
+      "en": "use *man* for \"too\", returning a question, or softening",
+      "fil": "gamitin ang *man* para sa “rin”, pagbabalik ng tanong, o pagpapalambot"
+    },
+    "i05_p12.mistakes[1].why": {
+      "en": "too much *man* sounds odd.",
+      "fil": "kakaiba ang tunog kapag sobra ang *man*."
+    },
+    "i05_p12.mistakes[1].wrong": {
+      "en": "*man* in every sentence",
+      "fil": "*man* sa bawat pangungusap"
+    },
+    "i05_p13.text": {
+      "en": "*Ambot* can mean \"I don't know\", \"whatever\" or \"I'm not sure…\", depending on your tone. Ilonggos are known for a soft, sing-song way of speaking, so listen to the tone, not just the words.",
+      "fil": "Ang *Ambot* ay puwedeng “ewan ko”, “bahala na” o “hindi ako sigurado…”, depende sa tono mo. Kilala ang mga Ilonggo sa malambot at parang kumakantang pananalita, kaya pakinggan ang tono, hindi lang ang mga salita."
+    },
+    "i05_q1.prompt": {
+      "en": "Which word means \"baka\"?",
+      "fil": "Aling salita ang ibig sabihin ay “baka”?"
+    },
+    "i05_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i05_q12.prompt": {
+      "en": "\"Basi mag-ulan.\" means:",
+      "fil": "Ang “Basi mag-ulan.” ay:"
+    },
+    "i05_q13.prompt": {
+      "en": "Listen, then say it yourself.",
+      "fil": "Makinig, saka sabihin mo rin."
+    },
+    "i05_q4.situation": {
+      "en": "A friend says \"Maayo man ako. Kag ikaw man?\" You're also fine.",
+      "fil": "Sinabi ng kaibigan mo, “Maayo man ako. Kag ikaw man?” Okay ka rin."
+    },
+    "i05_q6.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i05_q8.prompt": {
+      "en": "Which is correct?",
+      "fil": "Alin ang tama?"
+    },
+    "i05_q9.question": {
+      "en": "Who is the speaker waiting for?",
+      "fil": "Sino ang hinihintay ng nagsasalita?"
+    },
+    "i06.objectives[0]": {
+      "en": "Describe people, places and things",
+      "fil": "Ilarawan ang mga tao, lugar at bagay"
+    },
+    "i06.objectives[1]": {
+      "en": "Say colours and how much (very, a bit, too)",
+      "fil": "Sabihin ang mga kulay at kung gaano (sobra, medyo, masyado)"
+    },
+    "i06.objectives[2]": {
+      "en": "Compare two things and say which is the most",
+      "fil": "Paghambingin ang dalawang bagay at sabihin kung alin ang pinaka"
+    },
+    "i06.title": {
+      "en": "Describing & Comparing",
+      "fil": "Paglalarawan at Paghahambing"
+    },
+    "i06.unit.title": {
+      "en": "Building sentences",
+      "fil": "Pagbuo ng pangungusap"
+    },
+    "i06_p01.setting": {
+      "en": "Ana buys mangoes at the market.",
+      "fil": "Bumili si Ana ng mangga sa palengke."
+    },
+    "i06_p01.tip": {
+      "en": "*mas* = more, *pinaka-* = most. *ini* = this, *ina* = that (near you).",
+      "fil": "*mas* = mas, *pinaka-* = pinaka. *ini* = ito, *ina* = iyan (malapit sa iyo)."
+    },
+    "i06_p01.title": {
+      "en": "Which Mango?",
+      "fil": "Aling Mangga?"
+    },
+    "i06_p02.columns[2]": {
+      "en": "Opposite",
+      "fil": "Kasalungat"
+    },
+    "i06_p02.text": {
+      "en": "for an old person say *tigulang*; for an old thing say *daan*.",
+      "fil": "para sa matandang tao, sabihin ang *tigulang*; para sa lumang bagay, sabihin ang *daan*."
+    },
+    "i06_p02.title": {
+      "en": "Describing Words and Their Opposites",
+      "fil": "Mga Salitang Naglalarawan at Kanilang Kasalungat"
+    },
+    "i06_p03.title": {
+      "en": "Describing Words",
+      "fil": "Mga Salitang Naglalarawan"
+    },
+    "i06_p04.terms[0].note": {
+      "en": "a beautiful child",
+      "fil": "magandang bata"
+    },
+    "i06_p04.terms[1].note": {
+      "en": "the child is beautiful",
+      "fil": "maganda ang bata"
+    },
+    "i06_p04.terms[2].note": {
+      "en": "a big white house",
+      "fil": "malaking puting bahay"
+    },
+    "i06_p04.text": {
+      "en": "Put *nga* between the describing word and the thing, or make the describing word the start of the sentence. Filipino uses *na / -ng* the same way.",
+      "fil": "Ilagay ang *nga* sa pagitan ng salitang naglalarawan at ng bagay, o gawing simula ng pangungusap ang salitang naglalarawan. Ganito rin ang gamit ng *na / -ng* sa Filipino."
+    },
+    "i06_p04.title": {
+      "en": "Describing a Thing: nga",
+      "fil": "Paglalarawan ng Bagay: nga"
+    },
+    "i06_p05.slots[0].label": {
+      "en": "Describing word",
+      "fil": "Salitang naglalarawan"
+    },
+    "i06_p05.slots[1].label": {
+      "en": "Link",
+      "fil": "Pandugtong"
+    },
+    "i06_p05.slots[2].label": {
+      "en": "Thing",
+      "fil": "Bagay"
+    },
+    "i06_p05.title": {
+      "en": "Word + nga + Thing",
+      "fil": "Salita + nga + Bagay"
+    },
+    "i06_p06.explain": {
+      "en": "*nga* links the describing word to the thing.",
+      "fil": "Idinudugtong ng *nga* ang salitang naglalarawan sa bagay."
+    },
+    "i06_p07.title": {
+      "en": "Colours",
+      "fil": "Mga Kulay"
+    },
+    "i06_p08.terms[0].note": {
+      "en": "very beautiful",
+      "fil": "napakaganda"
+    },
+    "i06_p08.terms[1].note": {
+      "en": "a bit expensive",
+      "fil": "medyo mahal"
+    },
+    "i06_p08.terms[2].note": {
+      "en": "too expensive",
+      "fil": "masyadong mahal"
+    },
+    "i06_p08.terms[3].note": {
+      "en": "so hot!",
+      "fil": "ang init!"
+    },
+    "i06_p08.title": {
+      "en": "Very, a Bit, Too Much",
+      "fil": "Sobra, Medyo, Masyado"
+    },
+    "i06_p09.terms[0].note": {
+      "en": "more … than",
+      "fil": "mas … kaysa"
+    },
+    "i06_p09.terms[1].note": {
+      "en": "kay before a name",
+      "fil": "kay bago ang pangalan"
+    },
+    "i06_p09.terms[2].note": {
+      "en": "the same",
+      "fil": "pareho"
+    },
+    "i06_p09.terms[3].note": {
+      "en": "the most",
+      "fil": "pinaka"
+    },
+    "i06_p09.text": {
+      "en": "*mas … kaysa* = more … than. Use *kaysa kay* before a name. *pareho* = the same. *pinaka-* = the most.",
+      "fil": "*mas … kaysa* = mas … kaysa. Gamitin ang *kaysa kay* bago ang pangalan. *pareho* = pareho. *pinaka-* = pinaka."
+    },
+    "i06_p09.title": {
+      "en": "Comparing",
+      "fil": "Paghahambing"
+    },
+    "i06_p10.slots[0].label": {
+      "en": "More",
+      "fil": "Mas"
+    },
+    "i06_p10.slots[1].label": {
+      "en": "Who",
+      "fil": "Sino"
+    },
+    "i06_p10.slots[2].label": {
+      "en": "Than",
+      "fil": "Kaysa"
+    },
+    "i06_p10.slots[3].label": {
+      "en": "Compared to",
+      "fil": "Inihahambing sa"
+    },
+    "i06_p11.explain": {
+      "en": "*pinaka-* = the most.",
+      "fil": "*pinaka-* = pinaka."
+    },
+    "i06_p11.prompt": {
+      "en": "How do you say \"the most beautiful\"?",
+      "fil": "Paano sabihin ang “pinakamaganda”?"
+    },
+    "i06_p12.tip": {
+      "en": "Line 4 uses *matugnaw* (cold). *Malamig* is Tagalog.",
+      "fil": "Gumagamit ang linya 4 ng *matugnaw* (malamig). Tagalog ang *Malamig*."
+    },
+    "i06_p12.title": {
+      "en": "Our House",
+      "fil": "Ang Bahay Namin"
+    },
+    "i06_p13.bridge[0]": {
+      "en": "*maganda* = *matahom* (people, places) and *maayo* (good quality).",
+      "fil": "*maganda* = *matahom* (tao, lugar) at *maayo* (magandang kalidad)."
+    },
+    "i06_p13.bridge[1]": {
+      "en": "*malaki / maliit* = *daku / diutay* (also *gamay*).",
+      "fil": "*malaki / maliit* = *daku / diutay* (puwede rin ang *gamay*)."
+    },
+    "i06_p13.bridge[2]": {
+      "en": "*mas … kaysa* is the same in both languages.",
+      "fil": "Pareho sa dalawang wika ang *mas … kaysa*."
+    },
+    "i06_p13.mistakes[0].why": {
+      "en": "don't forget *nga*.",
+      "fil": "huwag kalimutan ang *nga*."
+    },
+    "i06_p13.mistakes[1].why": {
+      "en": "use *kay* before a person's name.",
+      "fil": "gamitin ang *kay* bago ang pangalan ng tao."
+    },
+    "i06_p13.mistakes[2].why": {
+      "en": "*daan* is for old things.",
+      "fil": "para sa lumang bagay ang *daan*."
+    },
+    "i06_p13.mistakes[2].wrong": {
+      "en": "*daan* for an old person",
+      "fil": "*daan* para sa matandang tao"
+    },
+    "i06_p14.text": {
+      "en": "Guimaras, an island province next to Iloilo, is famous for its sweet mangoes. Ilonggos proudly call them some of the sweetest in the world: *Matam-is gid!*",
+      "fil": "Kilala ang Guimaras, isang islang lalawigan sa tabi ng Iloilo, sa matatamis nitong mangga. Buong pagmamalaking sinasabi ng mga Ilonggo na isa ito sa pinakamatatamis sa mundo: *Matam-is gid!*"
+    },
+    "i06_p14.title": {
+      "en": "Guimaras Mangoes",
+      "fil": "Mga Mangga ng Guimaras"
+    },
+    "i06_q1.prompt": {
+      "en": "What does \"Ang Guimaras ang may pinakamatahom nga baybay.\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Ang Guimaras ang may pinakamatahom nga baybay.”?"
+    },
+    "i06_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i06_q11.prompt": {
+      "en": "\"Ako man.\" means:",
+      "fil": "Ang “Ako man.” ay:"
+    },
+    "i06_q13.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "i06_q13.prompt": {
+      "en": "Describe your house with three describing words.",
+      "fil": "Ilarawan ang bahay mo gamit ang tatlong salitang naglalarawan."
+    },
+    "i06_q5.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i06_q7.prompt": {
+      "en": "Which word means \"malamig\"?",
+      "fil": "Aling salita ang ibig sabihin ay “malamig”?"
+    },
+    "i06_q8.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i06_q9.question": {
+      "en": "What colour is the house?",
+      "fil": "Anong kulay ang bahay?"
+    },
+    "i07.objectives[0]": {
+      "en": "Say what you like, don't like and prefer",
+      "fil": "Sabihin ang gusto mo, ayaw mo at mas gusto mo"
+    },
+    "i07.objectives[1]": {
+      "en": "Give your opinion with a reason",
+      "fil": "Ibigay ang opinyon mo na may dahilan"
+    },
+    "i07.objectives[2]": {
+      "en": "Agree, and disagree politely",
+      "fil": "Sumang-ayon, at tumutol nang magalang"
+    },
+    "i07.title": {
+      "en": "Opinions & Reasons",
+      "fil": "Mga Opinyon at Dahilan"
+    },
+    "i07.unit.title": {
+      "en": "Real life",
+      "fil": "Totoong buhay"
+    },
+    "i07_p01.tip": {
+      "en": "Four joining words: *pero* (but), *bisan* (even if), *kay* (because), *amo nga* (that's why).",
+      "fil": "Apat na pandugtong: *pero* (pero), *bisan* (kahit), *kay* (dahil), *amo nga* (kaya)."
+    },
+    "i07_p01.title": {
+      "en": "Where Should We Eat?",
+      "fil": "Saan Tayo Kakain?"
+    },
+    "i07_p02.terms[1].note": {
+      "en": "I don't like…",
+      "fil": "ayaw ko ang…"
+    },
+    "i07_p02.terms[2].note": {
+      "en": "I prefer… to…",
+      "fil": "mas gusto ko ang… kaysa…"
+    },
+    "i07_p02.terms[3].note": {
+      "en": "I love… (people, pets)",
+      "fil": "mahal ko ang… (tao, alagang hayop)"
+    },
+    "i07_p02.terms[4].note": {
+      "en": "I know. / I don't know.",
+      "fil": "alam ko. / hindi ko alam."
+    },
+    "i07_p02.title": {
+      "en": "Likes and Dislikes",
+      "fil": "Gusto at Ayaw"
+    },
+    "i07_p03.title": {
+      "en": "Opinion Words",
+      "fil": "Mga Salita ng Opinyon"
+    },
+    "i07_p04.columns[2]": {
+      "en": "How strong",
+      "fil": "Gaano kalakas"
+    },
+    "i07_p04.rows[0][2]": {
+      "en": "everyday",
+      "fil": "pang-araw-araw"
+    },
+    "i07_p04.rows[1][2]": {
+      "en": "everyday",
+      "fil": "pang-araw-araw"
+    },
+    "i07_p04.rows[2][2]": {
+      "en": "thoughtful",
+      "fil": "maingat na pag-iisip"
+    },
+    "i07_p04.rows[3][2]": {
+      "en": "strong",
+      "fil": "matapang"
+    },
+    "i07_p04.title": {
+      "en": "Opinion Starters",
+      "fil": "Pambungad sa Opinyon"
+    },
+    "i07_p05.slots[0].label": {
+      "en": "Starter",
+      "fil": "Pambungad"
+    },
+    "i07_p05.slots[1].label": {
+      "en": "Opinion",
+      "fil": "Opinyon"
+    },
+    "i07_p05.slots[2].label": {
+      "en": "Because",
+      "fil": "Dahil"
+    },
+    "i07_p05.slots[3].label": {
+      "en": "Reason",
+      "fil": "Dahilan"
+    },
+    "i07_p05.text": {
+      "en": "*kaysa* = than; *kay* = because. They look alike, so read carefully.",
+      "fil": "*kaysa* = kaysa; *kay* = dahil. Magkamukha sila, kaya basahin nang mabuti."
+    },
+    "i07_p05.title": {
+      "en": "Opinion + kay + Reason",
+      "fil": "Opinyon + kay + Dahilan"
+    },
+    "i07_p06.explain": {
+      "en": "*amo nga* = that's why.",
+      "fil": "*amo nga* = kaya."
+    },
+    "i07_p07.terms[0].note": {
+      "en": "because",
+      "fil": "dahil"
+    },
+    "i07_p07.terms[1].note": {
+      "en": "that's why",
+      "fil": "kaya"
+    },
+    "i07_p07.terms[2].note": {
+      "en": "but",
+      "fil": "pero"
+    },
+    "i07_p07.terms[3].note": {
+      "en": "even if / although",
+      "fil": "kahit / bagaman"
+    },
+    "i07_p07.terms[4].note": {
+      "en": "or",
+      "fil": "o"
+    },
+    "i07_p07.tip": {
+      "en": "In writing and speeches you may see *apang* (however). In everyday talk, *pero* is enough.",
+      "fil": "Sa sulatin at talumpati, puwede mong makita ang *apang* (gayunman). Sa pang-araw-araw na usapan, sapat na ang *pero*."
+    },
+    "i07_p07.title": {
+      "en": "Joining Ideas",
+      "fil": "Pagdudugtong ng mga Ideya"
+    },
+    "i07_p08.columns[2]": {
+      "en": "When to use",
+      "fil": "Kailan gagamitin"
+    },
+    "i07_p08.rows[0][2]": {
+      "en": "agree",
+      "fil": "sang-ayon"
+    },
+    "i07_p08.rows[1][2]": {
+      "en": "agree",
+      "fil": "sang-ayon"
+    },
+    "i07_p08.rows[2][2]": {
+      "en": "agree strongly",
+      "fil": "lubos na sang-ayon"
+    },
+    "i07_p08.rows[3][2]": {
+      "en": "disagree",
+      "fil": "hindi sang-ayon"
+    },
+    "i07_p08.rows[4][2]": {
+      "en": "disagree politely",
+      "fil": "magalang na pagtutol"
+    },
+    "i07_p08.rows[5][2]": {
+      "en": "disagree formally",
+      "fil": "pormal na pagtutol"
+    },
+    "i07_p08.rows[6][2]": {
+      "en": "blunt: use with close friends only",
+      "fil": "prangka: sa malalapit na kaibigan lang gamitin"
+    },
+    "i07_p08.title": {
+      "en": "Agree and Disagree",
+      "fil": "Pagsang-ayon at Pagtutol"
+    },
+    "i07_p09.explain": {
+      "en": "start with *Tuod, pero…* to disagree politely.",
+      "fil": "magsimula sa *Tuod, pero…* para tumutol nang magalang."
+    },
+    "i07_p09.prompt": {
+      "en": "An older neighbour says \"Mas maayo ang bus.\" You disagree.",
+      "fil": "Sinabi ng nakatatandang kapitbahay, “Mas maayo ang bus.” Hindi ka sang-ayon."
+    },
+    "i07_p10.tip": {
+      "en": "Find the reason word (*kay*), the contrast (*pero*, *bisan*) and the result (*amo nga*).",
+      "fil": "Hanapin ang salitang dahilan (*kay*), ang pagsalungat (*pero*, *bisan*) at ang resulta (*amo nga*)."
+    },
+    "i07_p10.title": {
+      "en": "Town or City?",
+      "fil": "Bayan o Lungsod?"
+    },
+    "i07_p11.setting": {
+      "en": "You and your co-worker Ben are working late.",
+      "fil": "Gabi na at nagtatrabaho pa kayo ng katrabaho mong si Ben."
+    },
+    "i07_p11.tip": {
+      "en": "*pagkatapos sini* = after this.",
+      "fil": "*pagkatapos sini* = pagkatapos nito."
+    },
+    "i07_p11.title": {
+      "en": "Time to Go Home?",
+      "fil": "Oras Na Bang Umuwi?"
+    },
+    "i07_p11.turns[0].choices[1].hint": {
+      "en": "too blunt for a co-worker",
+      "fil": "masyadong prangka para sa katrabaho"
+    },
+    "i07_p11.turns[0].choices[2].hint": {
+      "en": "*ukon* means \"or\"",
+      "fil": "ang *ukon* ay “o”"
+    },
+    "i07_p11.turns[1].choices[1].hint": {
+      "en": "that asks \"coffee or tea?\"",
+      "fil": "nagtatanong iyan ng “kape o tsaa?”"
+    },
+    "i07_p12.mistakes[0].why": {
+      "en": "in Hiligaynon *ayaw* means \"don't\" (*Ayaw pagkadto!* = Huwag kang pumunta!).",
+      "fil": "sa Hiligaynon, ang *ayaw* ay “huwag” (*Ayaw pagkadto!* = Huwag kang pumunta!)."
+    },
+    "i07_p12.mistakes[1].why": {
+      "en": "*kay* links the reason clearly.",
+      "fil": "malinaw na idinudugtong ng *kay* ang dahilan."
+    },
+    "i07_p12.mistakes[2].why": {
+      "en": "soften before you disagree.",
+      "fil": "palambutin muna bago tumutol."
+    },
+    "i07_p12.mistakes[2].wrong": {
+      "en": "*Sayop ka!* to an older person",
+      "fil": "*Sayop ka!* sa nakatatanda"
+    },
+    "i07_p13.terms[0].note": {
+      "en": "opinion",
+      "fil": "opinyon"
+    },
+    "i07_p13.terms[1].note": {
+      "en": "reason",
+      "fil": "dahilan"
+    },
+    "i07_p13.terms[2].note": {
+      "en": "contrast",
+      "fil": "pagsalungat"
+    },
+    "i07_p13.text": {
+      "en": "A full opinion has three parts: what you think + why (*kay*) + a contrast (*pero* / *bisan*).",
+      "fil": "May tatlong bahagi ang buong opinyon: ang iniisip mo + bakit (*kay*) + isang pagsalungat (*pero* / *bisan*)."
+    },
+    "i07_p13.title": {
+      "en": "A Full Opinion",
+      "fil": "Isang Buong Opinyon"
+    },
+    "i07_p14.text": {
+      "en": "Ilonggos are known for speaking softly, even when they disagree. Starting with *Tuod, pero…* or adding *lang* keeps the talk friendly. A blunt *Sayop!* can sound rude, especially to an older person.",
+      "fil": "Kilala ang mga Ilonggo sa malumanay na pagsasalita, kahit hindi sila sang-ayon. Napapanatiling magiliw ang usapan kapag nagsimula sa *Tuod, pero…* o nagdagdag ng *lang*. Puwedeng tunog bastos ang prangkang *Sayop!*, lalo na sa nakatatanda."
+    },
+    "i07_p14.title": {
+      "en": "Soft Words, Strong Ideas",
+      "fil": "Malambot na Salita, Matibay na Ideya"
+    },
+    "i07_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i07_q11.prompt": {
+      "en": "\"Mas mataas si Ben kaysa kay Jose.\" means:",
+      "fil": "Ang “Mas mataas si Ben kaysa kay Jose.” ay:"
+    },
+    "i07_q13.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "i07_q13.prompt": {
+      "en": "Give your opinion with a reason and a contrast (three sentences).",
+      "fil": "Ibigay ang opinyon mo na may dahilan at pagsalungat (tatlong pangungusap)."
+    },
+    "i07_q4.prompt": {
+      "en": "\"Amo nga\" means:",
+      "fil": "Ang “Amo nga” ay:"
+    },
+    "i07_q5.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i07_q7.situation": {
+      "en": "An older neighbour says \"Mas maayo ang bus.\" You disagree politely.",
+      "fil": "Sinabi ng nakatatandang kapitbahay, “Mas maayo ang bus.” Tumutol ka nang magalang."
+    },
+    "i07_q8.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i07_q9.question": {
+      "en": "Why does the speaker prefer the town?",
+      "fil": "Bakit mas gusto ng nagsasalita ang bayan?"
+    },
+    "i08.objectives[0]": {
+      "en": "Order food and pay at a restaurant",
+      "fil": "Umorder ng pagkain at magbayad sa restawran"
+    },
+    "i08.objectives[1]": {
+      "en": "Shop, bargain and ask for help",
+      "fil": "Mamili, tumawad at humingi ng tulong"
+    },
+    "i08.objectives[2]": {
+      "en": "Ask a teacher or boss to repeat something",
+      "fil": "Pakiusapan ang guro o amo na ulitin ang isang bagay"
+    },
+    "i08.title": {
+      "en": "Real-Life Situations",
+      "fil": "Mga Sitwasyon sa Totoong Buhay"
+    },
+    "i08.unit.title": {
+      "en": "Real life",
+      "fil": "Totoong buhay"
+    },
+    "i08_p01.tip": {
+      "en": "*Hulat lang* = wait a moment. *Pila tanan?* = how much is everything?",
+      "fil": "*Hulat lang* = sandali lang. *Pila tanan?* = magkano lahat?"
+    },
+    "i08_p01.title": {
+      "en": "At the Batchoy Place",
+      "fil": "Sa Batchoyan"
+    },
+    "i08_p02.terms[0].note": {
+      "en": "friendly (to a friend)",
+      "fil": "magiliw (sa kaibigan)"
+    },
+    "i08_p02.text": {
+      "en": "Add *palihog* (please) or ask with *pwede bala…?* (may I…?) to make a request softer. Use *Manong / Manang* for older people.",
+      "fil": "Idagdag ang *palihog* (pakiusap) o magtanong ng *pwede bala…?* (puwede ba…?) para mapalambot ang pakiusap. Gamitin ang *Manong / Manang* para sa nakatatanda."
+    },
+    "i08_p02.title": {
+      "en": "Making It Polite",
+      "fil": "Paggawang Magalang"
+    },
+    "i08_p03.title": {
+      "en": "At a Restaurant",
+      "fil": "Sa Restawran"
+    },
+    "i08_p04.title": {
+      "en": "Useful Words",
+      "fil": "Mga Salitang Magagamit"
+    },
+    "i08_p05.explain": {
+      "en": "*wala sing…* = without / none of…",
+      "fil": "*wala sing…* = walang…"
+    },
+    "i08_p05.prompt": {
+      "en": "You want your food without chili.",
+      "fil": "Gusto mong walang sili ang pagkain mo."
+    },
+    "i08_p06.text": {
+      "en": "Say *Ari* (here) when you hand over the money.",
+      "fil": "Sabihin ang *Ari* (heto) kapag iniaabot mo ang pera."
+    },
+    "i08_p06.title": {
+      "en": "At the Market",
+      "fil": "Sa Palengke"
+    },
+    "i08_p07.title": {
+      "en": "At the Clinic",
+      "fil": "Sa Klinika"
+    },
+    "i08_p08.title": {
+      "en": "Getting Around",
+      "fil": "Pagbibiyahe"
+    },
+    "i08_p09.title": {
+      "en": "At School or Work",
+      "fil": "Sa Paaralan o Trabaho"
+    },
+    "i08_p10.setting": {
+      "en": "You're at a fruit stall in the market.",
+      "fil": "Nasa prutasan ka sa palengke."
+    },
+    "i08_p10.tip": {
+      "en": "*Singkwenta* = 50, *kwarenta* = 40 (Spanish numbers are common at the market).",
+      "fil": "*Singkwenta* = 50, *kwarenta* = 40 (karaniwan sa palengke ang mga numerong Espanyol)."
+    },
+    "i08_p10.title": {
+      "en": "Buying Mangoes",
+      "fil": "Pagbili ng Mangga"
+    },
+    "i08_p10.turns[0].choices[1].hint": {
+      "en": "that's Filipino",
+      "fil": "Filipino iyan"
+    },
+    "i08_p10.turns[0].choices[2].hint": {
+      "en": "that asks where to get off",
+      "fil": "nagtatanong iyan kung saan bababa"
+    },
+    "i08_p10.turns[1].choices[1].hint": {
+      "en": "too blunt",
+      "fil": "masyadong prangka"
+    },
+    "i08_p10.turns[1].choices[2].hint": {
+      "en": "that's for food",
+      "fil": "para sa pagkain iyan"
+    },
+    "i08_p10.turns[2].choices[1].hint": {
+      "en": "you haven't paid yet",
+      "fil": "hindi ka pa nagbabayad"
+    },
+    "i08_p11.setting": {
+      "en": "You lost your bag at the mall and go to the guard.",
+      "fil": "Nawala ang bag mo sa mall at lumapit ka sa guwardiya."
+    },
+    "i08_p11.title": {
+      "en": "Lost Bag",
+      "fil": "Nawalang Bag"
+    },
+    "i08_p11.turns[0].choices[1].hint": {
+      "en": "that's for food",
+      "fil": "para sa pagkain iyan"
+    },
+    "i08_p11.turns[0].choices[2].hint": {
+      "en": "that stops a jeepney",
+      "fil": "pampahinto iyan ng dyip"
+    },
+    "i08_p11.turns[1].choices[1].hint": {
+      "en": "that's a big house",
+      "fil": "malaking bahay iyan"
+    },
+    "i08_p11.turns[2].choices[1].hint": {
+      "en": "that sounds like \"whatever\"",
+      "fil": "parang “bahala na” ang dating niyan"
+    },
+    "i08_p12.explain": {
+      "en": "*Manang* + *pwede bala…?* is the softest way to ask.",
+      "fil": "*Manang* + *pwede bala…?* ang pinakamalambot na paraan ng pagtatanong."
+    },
+    "i08_p12.prompt": {
+      "en": "Which request is the most polite?",
+      "fil": "Aling pakiusap ang pinakamagalang?"
+    },
+    "i08_p13.bridge[2]": {
+      "en": "Filipino *po / ho* has no match: say *Manong / Manang* and *palihog* instead.",
+      "fil": "Walang katapat ang *po / ho* ng Filipino: sabihin na lang ang *Manong / Manang* at *palihog*."
+    },
+    "i08_p13.mistakes[0].right": {
+      "en": "keep a few phrases ready: *Pila?*, *Lugar lang!*, *Mahimo bala liwaton?*",
+      "fil": "ihanda ang ilang parirala: *Pila?*, *Lugar lang!*, *Mahimo bala liwaton?*"
+    },
+    "i08_p13.mistakes[0].wrong": {
+      "en": "Switching to Filipino when you're in a hurry",
+      "fil": "Paglipat sa Filipino kapag nagmamadali"
+    },
+    "i08_p13.mistakes[1].right": {
+      "en": "repeat it back: *Kwarenta? Sige.*",
+      "fil": "ulitin ito: *Kwarenta? Sige.*"
+    },
+    "i08_p13.mistakes[1].why": {
+      "en": "avoid mix-ups with numbers.",
+      "fil": "iwasan ang pagkalito sa mga numero."
+    },
+    "i08_p13.mistakes[1].wrong": {
+      "en": "Not checking the price",
+      "fil": "Hindi pag-check ng presyo"
+    },
+    "i08_p14.text": {
+      "en": "In Iloilo markets, a regular customer is called a *suki*. Vendors often give their *suki* a better price or a little extra. Buy from the same stall a few times and you may hear: *Para sa suki ko!*",
+      "fil": "Sa mga palengke ng Iloilo, *suki* ang tawag sa regular na mamimili. Madalas bigyan ng tindera ang *suki* nila ng mas mababang presyo o kaunting dagdag. Bumili sa iisang puwesto nang ilang beses at baka marinig mo: *Para sa suki ko!*"
+    },
+    "i08_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i08_q11.situation": {
+      "en": "In class, you didn't understand the teacher.",
+      "fil": "Sa klase, hindi mo naintindihan ang guro."
+    },
+    "i08_q13.prompt": {
+      "en": "Listen, then say it yourself.",
+      "fil": "Makinig, saka sabihin mo rin."
+    },
+    "i08_q3.situation": {
+      "en": "The jeepney reaches your stop. What do you say?",
+      "fil": "Nasa babaan mo na ang dyip. Ano ang sasabihin mo?"
+    },
+    "i08_q4.prompt": {
+      "en": "Which request is the MOST polite?",
+      "fil": "Aling pakiusap ang PINAKAMAGALANG?"
+    },
+    "i08_q6.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i08_q7.prompt": {
+      "en": "\"Indi ko nahangpan.\" means:",
+      "fil": "Ang “Indi ko nahangpan.” ay:"
+    },
+    "i08_q8.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i08_q9.question": {
+      "en": "How much is everything?",
+      "fil": "Magkano lahat?"
+    },
+    "i09.objectives[0]": {
+      "en": "Read a short story and find who, where, when, what and why",
+      "fil": "Magbasa ng maikling kuwento at hanapin ang sino, saan, kailan, ano at bakit"
+    },
+    "i09.objectives[1]": {
+      "en": "Use story words: while, so, finally",
+      "fil": "Gumamit ng mga salita sa kuwento: habang, kaya, sa wakas"
+    },
+    "i09.objectives[2]": {
+      "en": "Retell a story in your own words",
+      "fil": "Ikuwento muli ang kuwento sa sarili mong salita"
+    },
+    "i09.title": {
+      "en": "Reading a Story",
+      "fil": "Pagbasa ng Kuwento"
+    },
+    "i09.unit.title": {
+      "en": "Real life",
+      "fil": "Totoong buhay"
+    },
+    "i09_p01.terms[0].note": {
+      "en": "who, where, when",
+      "fil": "sino, saan, kailan"
+    },
+    "i09_p01.terms[1].note": {
+      "en": "what happened",
+      "fil": "ano ang nangyari"
+    },
+    "i09_p01.terms[2].note": {
+      "en": "what they did",
+      "fil": "ano ang ginawa nila"
+    },
+    "i09_p01.terms[3].note": {
+      "en": "how it ended",
+      "fil": "paano ito nagtapos"
+    },
+    "i09_p01.terms[4].note": {
+      "en": "how they felt or what they learned",
+      "fil": "ano ang naramdaman o natutunan nila"
+    },
+    "i09_p01.text": {
+      "en": "Most short stories have five steps.",
+      "fil": "Karamihan sa maiikling kuwento ay may limang hakbang."
+    },
+    "i09_p01.title": {
+      "en": "How a Story Works",
+      "fil": "Paano Binubuo ang Kuwento"
+    },
+    "i09_p02.text": {
+      "en": "*una*, *dayon* and *sa ulihi* are review from Lesson 3.",
+      "fil": "Balik-aral mula sa Aralin 3 ang *una*, *dayon* at *sa ulihi*."
+    },
+    "i09_p02.title": {
+      "en": "Story Words",
+      "fil": "Mga Salita sa Kuwento"
+    },
+    "i09_p03.title": {
+      "en": "Words in the Story",
+      "fil": "Mga Salita sa Kuwento"
+    },
+    "i09_p04.explain": {
+      "en": "*samtang* = while.",
+      "fil": "*samtang* = habang."
+    },
+    "i09_p04.prompt": {
+      "en": "Which word means \"habang\"?",
+      "fil": "Aling salita ang ibig sabihin ay “habang”?"
+    },
+    "i09_p05.terms[0].note": {
+      "en": "get the main idea",
+      "fil": "kunin ang pangunahing ideya"
+    },
+    "i09_p05.terms[1].note": {
+      "en": "look for *una*, *dayon*, *kay*",
+      "fil": "hanapin ang *una*, *dayon*, *kay*"
+    },
+    "i09_p05.terms[2].note": {
+      "en": "use the sentences around them",
+      "fil": "gamitin ang mga pangungusap sa paligid nito"
+    },
+    "i09_p05.terms[4].note": {
+      "en": "say it aloud without looking",
+      "fil": "sabihin ito nang malakas nang hindi tumitingin"
+    },
+    "i09_p05.title": {
+      "en": "How to Read a Story",
+      "fil": "Paano Magbasa ng Kuwento"
+    },
+    "i09_p06.tip": {
+      "en": "Lines 1–3 = setting, 4 = event, 5 = response, 6–7 = result, 8 = feeling.",
+      "fil": "Linya 1–3 = tagpuan, 4 = pangyayari, 5 = tugon, 6–7 = resulta, 8 = damdamin."
+    },
+    "i09_p07.columns[0]": {
+      "en": "Question",
+      "fil": "Tanong"
+    },
+    "i09_p07.columns[2]": {
+      "en": "Answer",
+      "fil": "Sagot"
+    },
+    "i09_p07.text": {
+      "en": "*nagasugid* = nagkukuwento; *ang nagasugid* = the person telling the story.",
+      "fil": "*nagasugid* = nagkukuwento; *ang nagasugid* = ang nagkukuwento."
+    },
+    "i09_p07.title": {
+      "en": "Questions About the Story",
+      "fil": "Mga Tanong Tungkol sa Kuwento"
+    },
+    "i09_p08.explain": {
+      "en": "line 5 says *Wala kami sing payong, gani naghulat kami*.",
+      "fil": "sinasabi ng linya 5 ang *Wala kami sing payong, gani naghulat kami*."
+    },
+    "i09_p09.slots[0].label": {
+      "en": "When",
+      "fil": "Kailan"
+    },
+    "i09_p09.slots[1].label": {
+      "en": "Did what, nag-",
+      "fil": "Ginawa ang ano, nag-"
+    },
+    "i09_p09.slots[2].label": {
+      "en": "Who",
+      "fil": "Sino"
+    },
+    "i09_p09.slots[3].label": {
+      "en": "Where",
+      "fil": "Saan"
+    },
+    "i09_p09.title": {
+      "en": "Retelling a Story",
+      "fil": "Muling Pagkukuwento"
+    },
+    "i09_p10.tip": {
+      "en": "Try it: change the place and the food, and tell your own story.",
+      "fil": "Subukan mo: palitan ang lugar at ang pagkain, at ikuwento ang sarili mong kuwento."
+    },
+    "i09_p10.title": {
+      "en": "At the Beach",
+      "fil": "Sa Tabing-dagat"
+    },
+    "i09_p11.bridge[0]": {
+      "en": "*una*, *pagkatapos* are the same in both; *dayon* ≈ *saka*.",
+      "fil": "Pareho sa dalawa ang *una*, *pagkatapos*; *dayon* ≈ *saka*."
+    },
+    "i09_p11.mistakes[0].right": {
+      "en": "read the whole sentence first",
+      "fil": "basahin muna ang buong pangungusap"
+    },
+    "i09_p11.mistakes[0].why": {
+      "en": "some words change meaning in a sentence (*gani* can mean \"so\" or \"indeed\").",
+      "fil": "nagbabago ang kahulugan ng ilang salita sa pangungusap (puwedeng “kaya” o “talaga” ang *gani*)."
+    },
+    "i09_p11.mistakes[0].wrong": {
+      "en": "Translating word by word",
+      "fil": "Pagsasalin nang salita por salita"
+    },
+    "i09_p11.mistakes[1].why": {
+      "en": "a past story needs *nag-*.",
+      "fil": "kailangan ng kuwentong nakaraan ang *nag-*."
+    },
+    "i09_p12.text": {
+      "en": "*Sugid* means to tell, and a *sugidanon* is a story. In the mountains of central Panay, the Panay Bukidnon people keep long epic stories, also called *sugidanon*, that are chanted from memory and passed down through families.",
+      "fil": "Ang *Sugid* ay magkuwento, at ang *sugidanon* ay kuwento. Sa kabundukan ng gitnang Panay, iniingatan ng mga Panay Bukidnon ang mahahabang epiko, na tinatawag ding *sugidanon*, na inaawit nang saulo at ipinapasa sa mga pamilya."
+    },
+    "i09_q1.prompt": {
+      "en": "What does \"Nalipay ako kay namit gid ang pagkaon.\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Nalipay ako kay namit gid ang pagkaon.”?"
+    },
+    "i09_q10.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i09_q11.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i09_q12.prompt": {
+      "en": "\"Pila ang pamasahe?\" means:",
+      "fil": "Ang “Pila ang pamasahe?” ay:"
+    },
+    "i09_q13.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "i09_q13.prompt": {
+      "en": "Write five sentences about your weekend using *una*, *dayon* and *kay*.",
+      "fil": "Sumulat ng limang pangungusap tungkol sa weekend mo gamit ang *una*, *dayon* at *kay*."
+    },
+    "i09_q5.question": {
+      "en": "Who went to the market?",
+      "fil": "Sino ang pumunta sa palengke?"
+    },
+    "i09_q6.question": {
+      "en": "Why did they wait at the store?",
+      "fil": "Bakit sila naghintay sa tindahan?"
+    },
+    "i09_q7.question": {
+      "en": "What did they buy?",
+      "fil": "Ano ang binili nila?"
+    },
+    "i09_q8.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i10.objectives[0]": {
+      "en": "Listen three times: main idea, details, little words",
+      "fil": "Makinig nang tatlong beses: pangunahing ideya, detalye, maliliit na salita"
+    },
+    "i10.objectives[1]": {
+      "en": "Catch times, places and names in fast speech",
+      "fil": "Mahuli ang oras, lugar at pangalan sa mabilis na pananalita"
+    },
+    "i10.objectives[2]": {
+      "en": "Tell what the speaker wants",
+      "fil": "Sabihin kung ano ang gusto ng nagsasalita"
+    },
+    "i10.title": {
+      "en": "Listening",
+      "fil": "Pakikinig"
+    },
+    "i10.unit.title": {
+      "en": "Putting it together",
+      "fil": "Pagsasama-sama ng lahat"
+    },
+    "i10_p01.terms[0].note": {
+      "en": "what is it about? who is talking?",
+      "fil": "tungkol saan ito? sino ang nagsasalita?"
+    },
+    "i10_p01.terms[1].note": {
+      "en": "names, numbers, places, times",
+      "fil": "pangalan, numero, lugar, oras"
+    },
+    "i10_p01.terms[2].note": {
+      "en": "*na, pa, gid, man* and the tone",
+      "fil": "*na, pa, gid, man* at ang tono"
+    },
+    "i10_p01.text": {
+      "en": "Don't try to understand every word. Listen three times, then read the text.",
+      "fil": "Huwag subukang intindihin ang bawat salita. Makinig nang tatlong beses, saka basahin ang teksto."
+    },
+    "i10_p01.title": {
+      "en": "Listen Three Times",
+      "fil": "Makinig Nang Tatlong Beses"
+    },
+    "i10_p02.columns[0]": {
+      "en": "What happens",
+      "fil": "Ano ang nangyayari"
+    },
+    "i10_p02.columns[1]": {
+      "en": "Example",
+      "fil": "Halimbawa"
+    },
+    "i10_p02.rows[0][0]": {
+      "en": "Words run together",
+      "fil": "Nagdidikit ang mga salita"
+    },
+    "i10_p02.rows[1][0]": {
+      "en": "Short words go by fast",
+      "fil": "Mabilis lumipas ang maiikling salita"
+    },
+    "i10_p02.rows[2][0]": {
+      "en": "Little words carry the mood",
+      "fil": "Ang maliliit na salita ang nagdadala ng damdamin"
+    },
+    "i10_p02.rows[3][0]": {
+      "en": "Spanish and English words",
+      "fil": "Mga salitang Espanyol at Ingles"
+    },
+    "i10_p02.rows[4][0]": {
+      "en": "Mixing languages",
+      "fil": "Paghahalo ng wika"
+    },
+    "i10_p02.title": {
+      "en": "Why Fast Speech Sounds Different",
+      "fil": "Bakit Iba ang Tunog ng Mabilis na Pananalita"
+    },
+    "i10_p03.title": {
+      "en": "Words You'll Hear",
+      "fil": "Mga Salitang Maririnig Mo"
+    },
+    "i10_p04.explain": {
+      "en": "*siete* = 7 (Spanish).",
+      "fil": "*siete* = 7 (Espanyol)."
+    },
+    "i10_p04.prompt": {
+      "en": "\"Alas-siete\" is what time?",
+      "fil": "Anong oras ang “Alas-siete”?"
+    },
+    "i10_p05.tip": {
+      "en": "First listen: what is it about? Second listen: what time is it?",
+      "fil": "Unang pakikinig: tungkol saan ito? Ikalawang pakikinig: anong oras na?"
+    },
+    "i10_p05.title": {
+      "en": "A Phone Call",
+      "fil": "Isang Tawag sa Telepono"
+    },
+    "i10_p06.options[0]": {
+      "en": "be late",
+      "fil": "mahuli"
+    },
+    "i10_p06.options[1]": {
+      "en": "eat",
+      "fil": "kumain"
+    },
+    "i10_p06.options[2]": {
+      "en": "go to the market",
+      "fil": "pumunta sa palengke"
+    },
+    "i10_p06.prompt": {
+      "en": "In the phone call, what does Nanay ask Ana not to do?",
+      "fil": "Sa tawag, ano ang ipinagbabawal ni Nanay kay Ana?"
+    },
+    "i10_p07.explain": {
+      "en": "Ana says *Alas-sais pa lang* (it's only six).",
+      "fil": "Sinabi ni Ana ang *Alas-sais pa lang*."
+    },
+    "i10_p07.prompt": {
+      "en": "What time is it in the phone call?",
+      "fil": "Anong oras na sa tawag?"
+    },
+    "i10_p08.terms[0].note": {
+      "en": "asking",
+      "fil": "pagtatanong"
+    },
+    "i10_p08.terms[1].note": {
+      "en": "telling",
+      "fil": "pagsasabi"
+    },
+    "i10_p08.terms[2].note": {
+      "en": "inviting",
+      "fil": "pag-aanyaya"
+    },
+    "i10_p08.terms[3].note": {
+      "en": "complaining",
+      "fil": "pagrereklamo"
+    },
+    "i10_p08.text": {
+      "en": "Ask yourself: is the speaker asking, telling, inviting or complaining?",
+      "fil": "Tanungin ang sarili: nagtatanong ba, nagsasabi, nag-aanyaya o nagrereklamo ang nagsasalita?"
+    },
+    "i10_p08.title": {
+      "en": "What Does the Speaker Want?",
+      "fil": "Ano ang Gusto ng Nagsasalita?"
+    },
+    "i10_p09.title": {
+      "en": "Plans for Saturday",
+      "fil": "Mga Plano sa Sabado"
+    },
+    "i10_p10.options[0]": {
+      "en": "excited",
+      "fil": "nasasabik"
+    },
+    "i10_p10.options[1]": {
+      "en": "angry",
+      "fil": "galit"
+    },
+    "i10_p10.options[2]": {
+      "en": "sad",
+      "fil": "malungkot"
+    },
+    "i10_p10.prompt": {
+      "en": "How does Ana feel about the trip?",
+      "fil": "Ano ang nararamdaman ni Ana tungkol sa lakad?"
+    },
+    "i10_p11.bridge[0]": {
+      "en": "Many words are shared, so your Filipino helps you catch the main idea.",
+      "fil": "Maraming salitang magkapareho, kaya tutulungan ka ng Filipino mo na makuha ang pangunahing ideya."
+    },
+    "i10_p11.bridge[1]": {
+      "en": "Watch for words that look the same but mean something else: *kita* (we), *wala* (also \"left side\"). Lesson 11 covers these.",
+      "fil": "Bantayan ang mga salitang magkamukha pero iba ang kahulugan: *kita* (tayo), *wala* (kaliwa rin). Tatalakayin ang mga ito sa Aralin 11."
+    },
+    "i10_p11.mistakes[0].right": {
+      "en": "get the main idea first.",
+      "fil": "kunin muna ang pangunahing ideya."
+    },
+    "i10_p11.mistakes[0].wrong": {
+      "en": "Trying to understand every word",
+      "fil": "Pagsubok na intindihin ang bawat salita"
+    },
+    "i10_p11.mistakes[1].right": {
+      "en": "listen three times, then read.",
+      "fil": "makinig nang tatlong beses, saka basahin."
+    },
+    "i10_p11.mistakes[1].wrong": {
+      "en": "Reading the text too early",
+      "fil": "Masyadong maagang pagbasa ng teksto"
+    },
+    "i10_p12.text": {
+      "en": "Ilonggos usually tell the time with Spanish numbers: *alas-dos* (2:00), *alas-singko* (5:00). *Antes* (before) is also from Spanish. Prices and dates often mix Spanish, English and Hiligaynon numbers, so listen closely.",
+      "fil": "Karaniwang sinasabi ng mga Ilonggo ang oras gamit ang mga numerong Espanyol: *alas-dos* (2:00), *alas-singko* (5:00). Galing din sa Espanyol ang *Antes* (bago). Madalas maghalo ang mga numerong Espanyol, Ingles at Hiligaynon sa presyo at petsa, kaya makinig nang mabuti."
+    },
+    "i10_p12.title": {
+      "en": "Telling Time",
+      "fil": "Pagsasabi ng Oras"
+    },
+    "i10_q1.options[0]": {
+      "en": "Read every word of the text",
+      "fil": "Basahin ang bawat salita ng teksto"
+    },
+    "i10_q1.options[1]": {
+      "en": "Listen for the main idea",
+      "fil": "Pakinggan ang pangunahing ideya"
+    },
+    "i10_q1.options[2]": {
+      "en": "Translate word for word",
+      "fil": "Isalin nang salita por salita"
+    },
+    "i10_q1.options[3]": {
+      "en": "Stop at the first new word",
+      "fil": "Huminto sa unang bagong salita"
+    },
+    "i10_q1.prompt": {
+      "en": "Best first step when you listen to a new recording?",
+      "fil": "Ano ang pinakamagandang unang hakbang kapag nakikinig sa bagong recording?"
+    },
+    "i10_q10.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i10_q11.prompt": {
+      "en": "\"samtang\" means:",
+      "fil": "Ang “samtang” ay:"
+    },
+    "i10_q12.prompt": {
+      "en": "\"Nadula ang bag ko.\" means:",
+      "fil": "Ang “Nadula ang bag ko.” ay:"
+    },
+    "i10_q13.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "i10_q13.prompt": {
+      "en": "Listen to Manang Rosa, then write the main idea in Filipino.",
+      "fil": "Pakinggan si Manang Rosa, saka isulat sa Filipino ang pangunahing ideya."
+    },
+    "i10_q5.question": {
+      "en": "Where will they meet?",
+      "fil": "Saan sila magkikita?"
+    },
+    "i10_q6.question": {
+      "en": "What time will they meet at the terminal?",
+      "fil": "Anong oras sila magkikita sa terminal?"
+    },
+    "i10_q7.question": {
+      "en": "What will they do if it rains?",
+      "fil": "Ano ang gagawin nila kapag umulan?"
+    },
+    "i10_q8.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i10_q9.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i11.objectives[0]": {
+      "en": "Translate the meaning, not word for word",
+      "fil": "Isalin ang kahulugan, hindi salita por salita"
+    },
+    "i11.objectives[1]": {
+      "en": "Spot words that look the same but mean something else",
+      "fil": "Pansinin ang mga salitang magkamukha pero iba ang kahulugan"
+    },
+    "i11.objectives[2]": {
+      "en": "Keep the tone: polite, soft or strong",
+      "fil": "Panatilihin ang tono: magalang, malambot o matapang"
+    },
+    "i11.title": {
+      "en": "Translating Both Ways",
+      "fil": "Pagsasalin sa Dalawang Direksyon"
+    },
+    "i11.unit.title": {
+      "en": "Putting it together",
+      "fil": "Pagsasama-sama ng lahat"
+    },
+    "i11_p01.terms[0].note": {
+      "en": "who did what, to whom, when, why?",
+      "fil": "sino ang gumawa ng ano, kanino, kailan, bakit?"
+    },
+    "i11_p01.terms[1].note": {
+      "en": "which Hiligaynon sentence shape fits?",
+      "fil": "aling hugis ng pangungusap sa Hiligaynon ang bagay?"
+    },
+    "i11_p01.terms[2].note": {
+      "en": "use Hiligaynon words, not Filipino",
+      "fil": "gumamit ng salitang Hiligaynon, hindi Filipino"
+    },
+    "i11_p01.terms[3].note": {
+      "en": "same meaning, time and tone?",
+      "fil": "pareho ba ang kahulugan, panahunan at tono?"
+    },
+    "i11_p01.text": {
+      "en": "Translate what the sentence means, not each word.",
+      "fil": "Isalin ang ibig sabihin ng pangungusap, hindi ang bawat salita."
+    },
+    "i11_p01.title": {
+      "en": "Meaning, Not Words",
+      "fil": "Kahulugan, Hindi Salita"
+    },
+    "i11_p02.title": {
+      "en": "Common Swaps",
+      "fil": "Karaniwang Palitan"
+    },
+    "i11_p03.columns[2]": {
+      "en": "What changes",
+      "fil": "Ano ang nagbabago"
+    },
+    "i11_p03.rows[0][2]": {
+      "en": "done: *nag-*",
+      "fil": "tapos na: *nag-*"
+    },
+    "i11_p03.rows[1][2]": {
+      "en": "not yet: *mag-*",
+      "fil": "hindi pa: *mag-*"
+    },
+    "i11_p03.rows[2][2]": {
+      "en": "thing in focus: *gin-*",
+      "fil": "bagay ang pokus: *gin-*"
+    },
+    "i11_p03.rows[3][2]": {
+      "en": "number + *ka*",
+      "fil": "numero + *ka*"
+    },
+    "i11_p03.rows[4][2]": {
+      "en": "past \"not\" = *wala*",
+      "fil": "“hindi” sa nakaraan = *wala*"
+    },
+    "i11_p03.rows[5][2]": {
+      "en": "two ways to say \"my\"",
+      "fil": "dalawang paraan ng pagsabi ng “ko/akin”"
+    },
+    "i11_p03.title": {
+      "en": "Grammar Swaps",
+      "fil": "Palitan sa Gramatika"
+    },
+    "i11_p04.explain": {
+      "en": "for the past, \"not\" is *wala*.",
+      "fil": "sa nakaraan, *wala* ang “hindi”."
+    },
+    "i11_p05.columns[0]": {
+      "en": "Word",
+      "fil": "Salita"
+    },
+    "i11_p05.columns[1]": {
+      "en": "In Filipino",
+      "fil": "Sa Filipino"
+    },
+    "i11_p05.columns[2]": {
+      "en": "In Hiligaynon",
+      "fil": "Sa Hiligaynon"
+    },
+    "i11_p05.rows[0][1]": {
+      "en": "I…you (*Mahal kita*)",
+      "fil": "ako…ikaw (*Mahal kita*)"
+    },
+    "i11_p05.rows[0][2]": {
+      "en": "we (you and me)",
+      "fil": "tayo (ikaw at ako)"
+    },
+    "i11_p05.rows[1][2]": {
+      "en": "cooked rice (kanin)",
+      "fil": "kanin"
+    },
+    "i11_p05.rows[2][1]": {
+      "en": "none",
+      "fil": "wala"
+    },
+    "i11_p05.rows[2][2]": {
+      "en": "none; also \"left side\"; also \"did not\"",
+      "fil": "wala; kaliwa rin; hindi ginawa rin"
+    },
+    "i11_p05.rows[3][1]": {
+      "en": "tree stump",
+      "fil": "tuod ng puno"
+    },
+    "i11_p05.rows[3][2]": {
+      "en": "true",
+      "fil": "totoo"
+    },
+    "i11_p05.rows[4][1]": {
+      "en": "expensive / dear",
+      "fil": "mahal (presyo) / mahalaga"
+    },
+    "i11_p05.rows[4][2]": {
+      "en": "mostly expensive; for \"I love you\" say *Palangga ta ka*",
+      "fil": "karaniwang mahal (presyo); para sa “Mahal kita”, sabihin ang *Palangga ta ka*"
+    },
+    "i11_p05.title": {
+      "en": "Look the Same, Mean Something Else",
+      "fil": "Magkamukha, Iba ang Kahulugan"
+    },
+    "i11_p06.explain": {
+      "en": "*Palangga ta ka* is the natural everyday way to say \"Mahal kita.\" In Hiligaynon, *mahal* usually means expensive (it can also mean precious).",
+      "fil": "*Palangga ta ka* ang natural at pang-araw-araw na paraan ng pagsabi ng “Mahal kita.” Sa Hiligaynon, karaniwang mahal (presyo) ang ibig sabihin ng *mahal* (puwede ring mahalaga)."
+    },
+    "i11_p06.prompt": {
+      "en": "How do you say \"Mahal kita\" (I love you)?",
+      "fil": "Paano sabihin ang “Mahal kita”?"
+    },
+    "i11_p07.columns[2]": {
+      "en": "Note",
+      "fil": "Tala"
+    },
+    "i11_p07.rows[3][2]": {
+      "en": "*gid* keeps the feeling",
+      "fil": "pinananatili ng *gid* ang damdamin"
+    },
+    "i11_p07.rows[4][2]": {
+      "en": "a different pattern, not word for word",
+      "fil": "ibang padron, hindi salita por salita"
+    },
+    "i11_p07.title": {
+      "en": "Translated Examples",
+      "fil": "Mga Halimbawang Isinalin"
+    },
+    "i11_p08.slots[0].label": {
+      "en": "Number",
+      "fil": "Numero"
+    },
+    "i11_p08.slots[1].label": {
+      "en": "Link",
+      "fil": "Pandugtong"
+    },
+    "i11_p08.slots[2].label": {
+      "en": "Thing",
+      "fil": "Bagay"
+    },
+    "i11_p08.title": {
+      "en": "Number + ka + Thing",
+      "fil": "Numero + ka + Bagay"
+    },
+    "i11_p09.terms[1].note": {
+      "en": "soft",
+      "fil": "malambot"
+    },
+    "i11_p09.terms[2].note": {
+      "en": "strong",
+      "fil": "matapang"
+    },
+    "i11_p09.text": {
+      "en": "A good translation keeps the feeling, not just the meaning.",
+      "fil": "Pinananatili ng mahusay na salin ang damdamin, hindi lang ang kahulugan."
+    },
+    "i11_p09.title": {
+      "en": "Keep the Tone",
+      "fil": "Panatilihin ang Tono"
+    },
+    "i11_p10.tip": {
+      "en": "Check it backwards: read the Hiligaynon, say it in Filipino, and compare.",
+      "fil": "Suriin pabalik: basahin ang Hiligaynon, sabihin ito sa Filipino, at ihambing."
+    },
+    "i11_p10.title": {
+      "en": "Translate a Paragraph",
+      "fil": "Isalin ang Isang Talata"
+    },
+    "i11_p11.setting": {
+      "en": "Your friend from Manila is visiting Iloilo and asks you how to say things.",
+      "fil": "Bumibisita sa Iloilo ang kaibigan mong taga-Maynila at tinatanong ka kung paano sabihin ang ilang bagay."
+    },
+    "i11_p11.tip": {
+      "en": "The friend speaks Filipino, so their lines stay in Filipino.",
+      "fil": "Filipino ang wika ng kaibigan, kaya nananatiling Filipino ang mga linya niya."
+    },
+    "i11_p11.title": {
+      "en": "Help Your Friend",
+      "fil": "Tulungan ang Kaibigan Mo"
+    },
+    "i11_p11.turns[0].choices[1].hint": {
+      "en": "*saan* is Filipino",
+      "fil": "Filipino ang *saan*"
+    },
+    "i11_p11.turns[0].choices[2].hint": {
+      "en": "that's the past",
+      "fil": "nakaraan iyan"
+    },
+    "i11_p11.turns[1].choices[1].hint": {
+      "en": "word for word doesn't work here",
+      "fil": "hindi gumagana rito ang salita por salita"
+    },
+    "i11_p11.turns[2].choices[1].hint": {
+      "en": "*talaga* is Filipino",
+      "fil": "Filipino ang *talaga*"
+    },
+    "i11_p12.bridge[0]": {
+      "en": "This whole lesson is the bridge. The key idea: *translate the meaning, not the words.*",
+      "fil": "Tulay ang buong araling ito. Ang pangunahing ideya: *isalin ang kahulugan, hindi ang mga salita.*",
+      "markupChanged": true
+    },
+    "i11_p12.mistakes[0].wrong": {
+      "en": "Word-for-word: *Indi ako alam.*",
+      "fil": "Salita por salita: *Indi ako alam.*"
+    },
+    "i11_p12.mistakes[1].wrong": {
+      "en": "Filipino words with a Hiligaynon match: *Pupunta ako sa palengke.*",
+      "fil": "Mga salitang Filipino na may katapat sa Hiligaynon: *Pupunta ako sa palengke.*"
+    },
+    "i11_p13.text": {
+      "en": "*Palangga* is one of the best-loved Hiligaynon words. It means love, or someone dear to you. You'll hear it in songs, in names of shops and in *Palangga ta ka* (I love you).",
+      "fil": "Isa ang *Palangga* sa pinakamamahal na salitang Hiligaynon. Ibig sabihin nito ay pagmamahal, o taong mahal mo. Maririnig mo ito sa mga kanta, sa pangalan ng mga tindahan at sa *Palangga ta ka* (Mahal kita)."
+    },
+    "i11_q1.prompt": {
+      "en": "What does \"Daku gid ang balay nila.\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Daku gid ang balay nila.”?"
+    },
+    "i11_q10.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "i11_q11.question": {
+      "en": "When did they go home?",
+      "fil": "Kailan sila umuwi?"
+    },
+    "i11_q12.prompt": {
+      "en": "\"Alas-otso\" is:",
+      "fil": "Ang “Alas-otso” ay:"
+    },
+    "i11_q13.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "i11_q13.prompt": {
+      "en": "Write three Filipino sentences about your day, translate them into Hiligaynon, then back into Filipino.",
+      "fil": "Sumulat ng tatlong pangungusap sa Filipino tungkol sa araw mo, isalin sa Hiligaynon, saka ibalik sa Filipino."
+    },
+    "i11_q6.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i11_q7.prompt": {
+      "en": "In Hiligaynon, \"kan-on\" means:",
+      "fil": "Sa Hiligaynon, ang “kan-on” ay:"
+    },
+    "i12.objectives[0]": {
+      "en": "Keep a chat going for six to eight turns",
+      "fil": "Panatilihin ang usapan nang anim hanggang walong palitan"
+    },
+    "i12.objectives[1]": {
+      "en": "React and ask follow-up questions",
+      "fil": "Tumugon at magtanong ng kasunod na tanong"
+    },
+    "i12.objectives[2]": {
+      "en": "Get unstuck, and close the chat politely",
+      "fil": "Makaalpas kapag naipit, at tapusin ang usapan nang magalang"
+    },
+    "i12.title": {
+      "en": "Holding a Conversation",
+      "fil": "Pakikipag-usap"
+    },
+    "i12.unit.title": {
+      "en": "Putting it together",
+      "fil": "Pagsasama-sama ng lahat"
+    },
+    "i12_p01.tip": {
+      "en": "Count the follow-up questions: *Kag ikaw man?*, *Diin ka nagatrabaho?*, *Ngaa gusto mo?*",
+      "fil": "Bilangin ang mga kasunod na tanong: *Kag ikaw man?*, *Diin ka nagatrabaho?*, *Ngaa gusto mo?*"
+    },
+    "i12_p01.title": {
+      "en": "How's Your Day?",
+      "fil": "Kumusta ang Araw Mo?"
+    },
+    "i12_p02.terms[0].note": {
+      "en": "greet and ask",
+      "fil": "bumati at magtanong"
+    },
+    "i12_p02.terms[1].note": {
+      "en": "give a detail",
+      "fil": "magbigay ng detalye"
+    },
+    "i12_p02.terms[2].note": {
+      "en": "follow-up",
+      "fil": "kasunod na tanong"
+    },
+    "i12_p02.terms[3].note": {
+      "en": "close",
+      "fil": "malapit"
+    },
+    "i12_p02.text": {
+      "en": "Greet → ask about the day → answer with a detail → ask a follow-up → share an opinion → close.",
+      "fil": "Bumati → magtanong tungkol sa araw → sumagot nang may detalye → magtanong ng kasunod → magbahagi ng opinyon → tapusin."
+    },
+    "i12_p02.title": {
+      "en": "How a Chat Flows",
+      "fil": "Paano Dumadaloy ang Usapan"
+    },
+    "i12_p03.columns[2]": {
+      "en": "When",
+      "fil": "Kailan"
+    },
+    "i12_p03.rows[0][2]": {
+      "en": "surprised / interested",
+      "fil": "nagulat / interesado"
+    },
+    "i12_p03.rows[1][2]": {
+      "en": "amazed or shocked",
+      "fil": "namangha o nagulat"
+    },
+    "i12_p03.rows[2][2]": {
+      "en": "something bad happened",
+      "fil": "may masamang nangyari"
+    },
+    "i12_p03.rows[3][2]": {
+      "en": "you agree",
+      "fil": "sang-ayon ka"
+    },
+    "i12_p03.rows[5][2]": {
+      "en": "you're not sure",
+      "fil": "hindi ka sigurado"
+    },
+    "i12_p03.title": {
+      "en": "Reaction Words",
+      "fil": "Mga Salitang Pantugon"
+    },
+    "i12_p04.title": {
+      "en": "Chat Words",
+      "fil": "Mga Salita sa Usapan"
+    },
+    "i12_p06.title": {
+      "en": "Follow-up Questions",
+      "fil": "Mga Kasunod na Tanong"
+    },
+    "i12_p07.explain": {
+      "en": "react, then ask a follow-up.",
+      "fil": "tumugon, saka magtanong ng kasunod."
+    },
+    "i12_p07.prompt": {
+      "en": "Your friend says \"Nagkadto ako sa Iloilo.\" Which keeps the chat going?",
+      "fil": "Sinabi ng kaibigan mo, “Nagkadto ako sa Iloilo.” Alin ang nagpapatuloy sa usapan?"
+    },
+    "i12_p08.columns[0]": {
+      "en": "Problem",
+      "fil": "Problema"
+    },
+    "i12_p08.rows[0][0]": {
+      "en": "You forgot a word",
+      "fil": "Nakalimutan mo ang isang salita"
+    },
+    "i12_p08.rows[1][0]": {
+      "en": "Describe it",
+      "fil": "Ilarawan ito"
+    },
+    "i12_p08.rows[2][0]": {
+      "en": "You didn't understand",
+      "fil": "Hindi mo naintindihan"
+    },
+    "i12_p08.rows[3][0]": {
+      "en": "Too fast",
+      "fil": "Masyadong mabilis"
+    },
+    "i12_p08.rows[4][0]": {
+      "en": "You need a moment",
+      "fil": "Kailangan mo ng sandali"
+    },
+    "i12_p08.rows[5][0]": {
+      "en": "You're not sure",
+      "fil": "Hindi ka sigurado"
+    },
+    "i12_p08.title": {
+      "en": "When You're Stuck",
+      "fil": "Kapag Naipit Ka"
+    },
+    "i12_p09.setting": {
+      "en": "It's your first day in a new class. Mia sits next to you.",
+      "fil": "Unang araw mo sa bagong klase. Tumabi sa iyo si Mia."
+    },
+    "i12_p09.title": {
+      "en": "A New Classmate",
+      "fil": "Isang Bagong Kaklase"
+    },
+    "i12_p09.turns[0].choices[1].hint": {
+      "en": "answer her question",
+      "fil": "sagutin ang tanong niya"
+    },
+    "i12_p09.turns[0].choices[2].hint": {
+      "en": "that means \"wrong\"",
+      "fil": "“mali” ang ibig sabihin niyan"
+    },
+    "i12_p09.turns[1].choices[1].hint": {
+      "en": "that's a day, not a place",
+      "fil": "araw iyan, hindi lugar"
+    },
+    "i12_p09.turns[2].choices[1].hint": {
+      "en": "say why you're learning",
+      "fil": "sabihin kung bakit ka nag-aaral"
+    },
+    "i12_p10.setting": {
+      "en": "You ask Manong for directions, but he talks very fast.",
+      "fil": "Nagtanong ka ng daan kay Manong, pero napakabilis niyang magsalita."
+    },
+    "i12_p10.title": {
+      "en": "Stuck? Keep Going",
+      "fil": "Naipit? Ituloy Lang"
+    },
+    "i12_p10.turns[0].choices[1].hint": {
+      "en": "you didn't understand yet",
+      "fil": "hindi mo pa naintindihan"
+    },
+    "i12_p10.turns[1].choices[1].hint": {
+      "en": "describe it instead",
+      "fil": "ilarawan na lang ito"
+    },
+    "i12_p10.turns[1].cue": {
+      "en": "You forgot the word \"hospital\".",
+      "fil": "Nakalimutan mo ang salitang “ospital”."
+    },
+    "i12_p11.terms[0].note": {
+      "en": "thanks for the chat",
+      "fil": "salamat sa kuwentuhan"
+    },
+    "i12_p11.terms[1].note": {
+      "en": "take care",
+      "fil": "ingat"
+    },
+    "i12_p11.terms[2].note": {
+      "en": "see you tomorrow",
+      "fil": "kita tayo bukas"
+    },
+    "i12_p11.title": {
+      "en": "Closing a Chat",
+      "fil": "Pagtatapos ng Usapan"
+    },
+    "i12_p12.bridge[0]": {
+      "en": "Think in short pieces, not long Filipino sentences.",
+      "fil": "Mag-isip nang paputol-putol, hindi mahahabang pangungusap sa Filipino."
+    },
+    "i12_p12.bridge[1]": {
+      "en": "*Abaw!* and *Amo?* are very Ilonggo; using them makes you sound natural.",
+      "fil": "Napaka-Ilonggo ng *Abaw!* at *Amo?*; nagiging natural ka kapag ginamit mo ang mga ito."
+    },
+    "i12_p12.mistakes[0].right": {
+      "en": "answer, then ask back: *Maayo man. Kag ikaw man?*",
+      "fil": "sumagot, saka magtanong pabalik: *Maayo man. Kag ikaw man?*"
+    },
+    "i12_p12.mistakes[0].wrong": {
+      "en": "One-word answers",
+      "fil": "Isang salitang sagot"
+    },
+    "i12_p12.mistakes[1].right": {
+      "en": "use a filler or describe it: *Ang kwan gani…* / *Ang butang nga…*",
+      "fil": "gumamit ng pampuno o ilarawan ito: *Ang kwan gani…* / *Ang butang nga…*"
+    },
+    "i12_p12.mistakes[1].wrong": {
+      "en": "Switching to Filipino when stuck",
+      "fil": "Paglipat sa Filipino kapag naipit"
+    },
+    "i12_p13.text": {
+      "en": "*Abaw!* is the sound of an Ilonggo conversation. People say it when they're surprised, amazed or even a little shocked: *Abaw, matahom gid!* (Wow, so beautiful!) or *Abaw, mahal!* (Whoa, expensive!). You've finished Intermediate. *Abaw, maayo gid!*",
+      "fil": "*Abaw!* ang tunog ng usapang Ilonggo. Sinasabi ito kapag nagulat, namangha o medyo nabigla: *Abaw, matahom gid!* (Wow, ang ganda!) o *Abaw, mahal!* (Naku, ang mahal!). Natapos mo na ang Katamtaman. *Abaw, maayo gid!*"
+    },
+    "i12_q10.question": {
+      "en": "Why does Ana like school?",
+      "fil": "Bakit gusto ni Ana ang paaralan?"
+    },
+    "i12_q11.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "i12_q12.prompt": {
+      "en": "\"Wala ako kabalo.\" means:",
+      "fil": "Ang “Wala ako kabalo.” ay:"
+    },
+    "i12_q13.prompt": {
+      "en": "Listen, then say it yourself.",
+      "fil": "Makinig, saka sabihin mo rin."
+    },
+    "i12_q2.prompt": {
+      "en": "Which means \"Totoo talaga.\"?",
+      "fil": "Alin ang ibig sabihin ay “Totoo talaga.”?"
+    },
+    "i12_q5.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "i12_q6.situation": {
+      "en": "Your friend says \"Indi ako makaupod sa baybay.\"",
+      "fil": "Sinabi ng kaibigan mo, “Indi ako makaupod sa baybay.”"
+    },
+    "i12_q7.situation": {
+      "en": "You forgot a word in the middle of a sentence.",
+      "fil": "Nakalimutan mo ang isang salita sa gitna ng pangungusap."
+    },
+    "i12_q8.prompt": {
+      "en": "Which is a follow-up question?",
+      "fil": "Alin ang kasunod na tanong?"
+    },
+    "i12_q9.question": {
+      "en": "Where does Ben work?",
+      "fil": "Saan nagtatrabaho si Ben?"
+    },
+    "intermediate.title": {
+      "en": "Intermediate",
+      "fil": "Katamtaman"
+    },
+    "intermediate.units[0].title": {
+      "en": "Everyday life",
+      "fil": "Pang-araw-araw na buhay"
+    },
+    "intermediate.units[1].title": {
+      "en": "Building sentences",
+      "fil": "Pagbuo ng pangungusap"
+    },
+    "intermediate.units[2].title": {
+      "en": "Real life",
+      "fil": "Totoong buhay"
+    },
+    "intermediate.units[3].title": {
+      "en": "Putting it together",
+      "fil": "Pagsasama-sama ng lahat"
+    }
+  }
+}

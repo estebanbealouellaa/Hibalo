@@ -218,7 +218,8 @@ class SmallChip extends StatelessWidget {
       decoration: ShapeDecoration(color: background, shape: const StadiumBorder()),
       child: Center(
         widthFactor: 1,
-        child: Text(text, style: V6Text.labelMedium.copyWith(color: foreground)),
+        // Ellipsis only if a long translation has to share a narrow row.
+        child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis, style: V6Text.labelMedium.copyWith(color: foreground)),
       ),
     );
   }
@@ -254,7 +255,8 @@ class ShowAllSwitch extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(label, style: V6Text.labelLargeSemiBold),
+                  // Wraps instead of overflowing when a translated label is long.
+                  Flexible(child: Text(label, textAlign: TextAlign.end, style: V6Text.labelLargeSemiBold)),
                   const SizedBox(width: 8),
                   // Material's track is 52 x 32, so it is scaled by 40 / 52 to get Figma's 40 x 24.
                   SizedBox(

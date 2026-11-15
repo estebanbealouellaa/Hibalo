@@ -218,9 +218,12 @@ void main() {
       expect(catalog.lessonById('i01')!.title, english.lessonById('i01')!.title);
     });
 
-    test('no overlay files in the app yet: the Filipino catalog is the English one', () async {
+    test("the app's Filipino files load; the English catalog stays English", () async {
       final fil = (await LessonRepository.load(rootBundle, filipino: true)).catalog;
-      expect(fil.lessonById('b02')!.title, 'Greetings & Courtesy');
+      expect(fil.lessonById('b02')!.title, 'Pagbati at Paggalang');
+      expect(fil.levels.first.title, 'Baguhan');
+      final en = (await LessonRepository.load(rootBundle)).catalog;
+      expect(en.lessonById('b02')!.title, 'Greetings & Courtesy');
     });
   });
 

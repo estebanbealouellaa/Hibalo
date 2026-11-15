@@ -1,0 +1,3669 @@
+{
+  "_meta": {
+    "language": "fil",
+    "source": "advanced_lessons.json",
+    "note": "Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.",
+    "updated": "2026-11-16",
+    "count": 914
+  },
+  "strings": {
+    "a01.objectives[0]": {
+      "en": "Put the doer, the thing, or the person in the spotlight",
+      "fil": "Ilagay sa spotlight ang gumawa, ang bagay, o ang tao"
+    },
+    "a01.objectives[1]": {
+      "en": "Choose the right \"I, you, he\" word for each",
+      "fil": "Piliin ang tamang salita para sa “ako, ikaw, siya” sa bawat isa"
+    },
+    "a01.objectives[2]": {
+      "en": "Build longer sentences with if, even if, while, before and after",
+      "fil": "Bumuo ng mas mahahabang pangungusap gamit ang kung, kahit, habang, bago at pagkatapos"
+    },
+    "a01.title": {
+      "en": "Who Did What, Part 2",
+      "fil": "Sino ang Gumawa ng Ano, Bahagi 2"
+    },
+    "a01.unit.title": {
+      "en": "Sounding natural",
+      "fil": "Pagiging natural"
+    },
+    "a01_p01.tip": {
+      "en": "Three ways to use *sulat*: *ginasulat* (the letter), *ginasulatan* (the person you write to), *sulati!* (write to her!).",
+      "fil": "Tatlong paraan ng paggamit ng *sulat*: *ginasulat* (ang liham), *ginasulatan* (ang taong sinusulatan mo), *sulati!* (sulatan mo siya!)."
+    },
+    "a01_p01.title": {
+      "en": "A Letter for Lola",
+      "fil": "Isang Liham para kay Lola"
+    },
+    "a01_p02.terms[0].note": {
+      "en": "the doer is in the spotlight (nag-)",
+      "fil": "ang gumawa ang nasa spotlight (nag-)"
+    },
+    "a01_p02.terms[1].note": {
+      "en": "the thing is in the spotlight (gin-)",
+      "fil": "ang bagay ang nasa spotlight (gin-)"
+    },
+    "a01_p02.terms[2].note": {
+      "en": "the person written to is in the spotlight (gin-…-an)",
+      "fil": "ang sinulatan ang nasa spotlight (gin-…-an)"
+    },
+    "a01_p02.text": {
+      "en": "The same event can put three different things in the spotlight. The start and end of the verb tell you which one. Filipino works the same way.",
+      "fil": "Puwedeng maglagay ang iisang pangyayari ng tatlong magkakaibang bagay sa spotlight. Ang simula at dulo ng pandiwa ang nagsasabi kung alin. Ganito rin sa Filipino."
+    },
+    "a01_p02.title": {
+      "en": "One Event, Three Spotlights",
+      "fil": "Isang Pangyayari, Tatlong Spotlight"
+    },
+    "a01_p03.title": {
+      "en": "Words for This Lesson",
+      "fil": "Mga Salita sa Araling Ito"
+    },
+    "a01_p04.columns[0]": {
+      "en": "Root",
+      "fil": "Ugat"
+    },
+    "a01_p04.columns[1]": {
+      "en": "Doer (nag-)",
+      "fil": "Gumawa (nag-)"
+    },
+    "a01_p04.columns[2]": {
+      "en": "Thing (gin-)",
+      "fil": "Bagay (gin-)"
+    },
+    "a01_p04.columns[3]": {
+      "en": "Person or place (gin-…-an)",
+      "fil": "Tao o lugar (gin-…-an)"
+    },
+    "a01_p04.text": {
+      "en": "*-an* changes some spellings: basa → *basahan*. In this lesson, use *ginbuligan* when the person or group being helped is in the spotlight: *Ginbuligan niya si Nanay.*",
+      "fil": "Binabago ng *-an* ang baybay ng ilang salita: basa → *basahan*. Sa araling ito, gamitin ang *ginbuligan* kapag ang tinutulungang tao o grupo ang nasa spotlight: *Ginbuligan niya si Nanay.*"
+    },
+    "a01_p04.title": {
+      "en": "Three Spotlights, Four Verbs",
+      "fil": "Tatlong Spotlight, Apat na Pandiwa"
+    },
+    "a01_p05.slots[0].label": {
+      "en": "Verb",
+      "fil": "Pandiwa"
+    },
+    "a01_p05.slots[1].label": {
+      "en": "Doer",
+      "fil": "Gumawa"
+    },
+    "a01_p05.slots[2].label": {
+      "en": "Person, spotlight",
+      "fil": "Tao, spotlight"
+    },
+    "a01_p05.slots[3].label": {
+      "en": "Marker",
+      "fil": "Pananda"
+    },
+    "a01_p05.slots[4].label": {
+      "en": "Thing",
+      "fil": "Bagay"
+    },
+    "a01_p05.title": {
+      "en": "The Person in the Spotlight: gin-…-an",
+      "fil": "Ang Tao sa Spotlight: gin-…-an"
+    },
+    "a01_p06.explain": {
+      "en": "the person who receives is in the spotlight, so the verb takes *gin-…-an*.",
+      "fil": "ang tumatanggap ang nasa spotlight, kaya *gin-…-an* ang gamit ng pandiwa."
+    },
+    "a01_p07.terms[0].note": {
+      "en": "a general activity → nag-",
+      "fil": "pangkalahatang gawain → nag-"
+    },
+    "a01_p07.terms[1].note": {
+      "en": "a specific thing you both know → gin-",
+      "fil": "tiyak na bagay na alam ninyong dalawa → gin-"
+    },
+    "a01_p07.terms[2].note": {
+      "en": "to whom or where → gin-…-an",
+      "fil": "kanino o saan → gin-…-an"
+    },
+    "a01_p07.text": {
+      "en": "Choose the spotlight by what you are talking about.",
+      "fil": "Piliin ang spotlight ayon sa pinag-uusapan mo."
+    },
+    "a01_p07.title": {
+      "en": "Which Spotlight?",
+      "fil": "Aling Spotlight?"
+    },
+    "a01_p08.columns[0]": {
+      "en": "In the spotlight",
+      "fil": "Nasa spotlight"
+    },
+    "a01_p08.columns[1]": {
+      "en": "Doer with gin-",
+      "fil": "Gumawa sa gin-"
+    },
+    "a01_p08.columns[2]": {
+      "en": "Owner (before a word)",
+      "fil": "May-ari (bago ang salita)"
+    },
+    "a01_p08.text": {
+      "en": "*Ginsulatan ko si Lola* (ko = doer) · *Ang akon lola* (akon = my) · *Nagsulat ako* (ako = in the spotlight).",
+      "fil": "*Ginsulatan ko si Lola* (ko = gumawa) · *Ang akon lola* (akon = aking) · *Nagsulat ako* (ako = nasa spotlight)."
+    },
+    "a01_p08.title": {
+      "en": "Three Sets of I, You, He",
+      "fil": "Tatlong Set ng Ako, Ikaw, Siya"
+    },
+    "a01_p09.explain": {
+      "en": "in a *gin-* sentence the doer uses *ko*.",
+      "fil": "sa pangungusap na *gin-*, *ko* ang gamit ng gumawa."
+    },
+    "a01_p10.columns[2]": {
+      "en": "Example",
+      "fil": "Halimbawa"
+    },
+    "a01_p10.title": {
+      "en": "Joining Words for Longer Sentences",
+      "fil": "Mga Pandugtong para sa Mas Mahahabang Pangungusap"
+    },
+    "a01_p11.slots[0].label": {
+      "en": "If",
+      "fil": "Kung"
+    },
+    "a01_p11.slots[1].label": {
+      "en": "What might happen",
+      "fil": "Maaaring mangyari"
+    },
+    "a01_p11.slots[2].label": {
+      "en": "What will happen",
+      "fil": "Mangyayari"
+    },
+    "a01_p11.slots[3].label": {
+      "en": "Where",
+      "fil": "Saan"
+    },
+    "a01_p11.title": {
+      "en": "Kon + What Might Happen + What Will Happen",
+      "fil": "Kon + Maaaring Mangyari + Mangyayari"
+    },
+    "a01_p12.explain": {
+      "en": "*bisan* = kahit (even if, although).",
+      "fil": "*bisan* = kahit (kahit, bagaman)."
+    },
+    "a01_p13.tip": {
+      "en": "Find the *-an* verbs (*ginhatagan, ginbuligan, ginsulatan*). Who is in the spotlight each time? *Lolo, Nanay, Lola.*",
+      "fil": "Hanapin ang mga pandiwang *-an* (*ginhatagan, ginbuligan, ginsulatan*). Sino ang nasa spotlight sa bawat isa? *Lolo, Nanay, Lola.*"
+    },
+    "a01_p13.title": {
+      "en": "A Busy Saturday",
+      "fil": "Isang Abalang Sabado"
+    },
+    "a01_p14.terms[0].note": {
+      "en": "thing → doer",
+      "fil": "bagay → gumawa"
+    },
+    "a01_p14.terms[1].note": {
+      "en": "thing → person",
+      "fil": "bagay → tao"
+    },
+    "a01_p14.terms[2].note": {
+      "en": "doer → person",
+      "fil": "gumawa → tao"
+    },
+    "a01_p14.text": {
+      "en": "You can say the same thing with a different spotlight. Change the verb, the \"I\" word and the markers together.",
+      "fil": "Puwede mong sabihin ang parehong bagay na iba ang spotlight. Sabay na palitan ang pandiwa, ang salitang “ako” at ang mga pananda."
+    },
+    "a01_p14.title": {
+      "en": "Turn the Spotlight",
+      "fil": "Ilipat ang Spotlight"
+    },
+    "a01_p15.setting": {
+      "en": "It's Lola's birthday. She asks who gave her the gifts.",
+      "fil": "Kaarawan ni Lola. Tinatanong niya kung sino ang nagbigay ng mga regalo."
+    },
+    "a01_p15.tip": {
+      "en": "*La* is short for *Lola*.",
+      "fil": "Maikli para sa *Lola* ang *La*.",
+      "markupChanged": true
+    },
+    "a01_p15.title": {
+      "en": "Lola's Birthday",
+      "fil": "Ang Kaarawan ni Lola"
+    },
+    "a01_p15.turns[0].choices[1].hint": {
+      "en": "in a *gin-* sentence the doer is *ko*",
+      "fil": "sa pangungusap na *gin-*, *ko* ang gumawa"
+    },
+    "a01_p15.turns[0].choices[2].hint": {
+      "en": "that says *Ako ang binigyan* (I was given), not *Ako ang nagbigay*",
+      "fil": "*Ako ang binigyan* ang sinasabi niyan, hindi *Ako ang nagbigay*"
+    },
+    "a01_p15.turns[1].choices[1].hint": {
+      "en": "for \"I wrote the letter\" say *Ginsulat ko*; use *Ginsulatan ko si Lola* for the person you wrote to",
+      "fil": "para sa “sinulat ko ang liham”, sabihin ang *Ginsulat ko*; gamitin ang *Ginsulatan ko si Lola* para sa taong sinulatan mo"
+    },
+    "a01_p16.bridge[0]": {
+      "en": "Filipino has the same spotlights: *sumulat / isinulat / sinulatan* = *nagsulat / ginsulat / ginsulatan*.",
+      "fil": "Pareho ang mga spotlight sa Filipino: *sumulat / isinulat / sinulatan* = *nagsulat / ginsulat / ginsulatan*."
+    },
+    "a01_p16.mistakes[0].why": {
+      "en": "in a *gin-* sentence the doer uses *ko*, not *ako*.",
+      "fil": "sa pangungusap na *gin-*, *ko* ang gamit ng gumawa, hindi *ako*."
+    },
+    "a01_p16.mistakes[1].why": {
+      "en": "Filipino *-in-* becomes *gin-* in Hiligaynon.",
+      "fil": "Nagiging *gin-* sa Hiligaynon ang *-in-* ng Filipino.",
+      "markupChanged": true
+    },
+    "a01_p16.mistakes[2].why": {
+      "en": "*kung* is Filipino.",
+      "fil": "Filipino ang *kung*."
+    },
+    "a01_p17.text": {
+      "en": "*Pancit Molo* is a dumpling soup named after the Molo district of Iloilo City. Many Ilonggo families serve it at birthdays and family gatherings, especially when it rains.",
+      "fil": "Ang *Pancit Molo* ay sopas na may dumpling na ipinangalan sa distrito ng Molo sa Iloilo City. Inihahain ito ng maraming pamilyang Ilonggo sa kaarawan at handaan ng pamilya, lalo na kapag umuulan."
+    },
+    "a01_q1.prompt": {
+      "en": "In a *gin-* sentence, the doer uses which set?",
+      "fil": "Sa pangungusap na *gin-*, aling set ang gamit ng gumawa?"
+    },
+    "a01_q10.prompt": {
+      "en": "\"Ginbuligan niya si Nanay.\" means:",
+      "fil": "Ang “Ginbuligan niya si Nanay.” ay:"
+    },
+    "a01_q11.question": {
+      "en": "What did the writer do while Nanay was cooking?",
+      "fil": "Ano ang ginawa ng sumulat habang nagluluto si Nanay?"
+    },
+    "a01_q12.question": {
+      "en": "Who helped Nanay in the kitchen?",
+      "fil": "Sino ang tumulong kay Nanay sa kusina?"
+    },
+    "a01_q13.question": {
+      "en": "What will they do if it doesn't rain tomorrow?",
+      "fil": "Ano ang gagawin nila kung hindi uulan bukas?"
+    },
+    "a01_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a01_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a01_q15.prompt": {
+      "en": "Write one event three ways: doer, thing, person.",
+      "fil": "Isulat ang isang pangyayari sa tatlong paraan: gumawa, bagay, tao."
+    },
+    "a01_q5.prompt": {
+      "en": "Type what you hear.",
+      "fil": "I-type ang naririnig mo."
+    },
+    "a01_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a01_q7.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a01_q8.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a02.objectives[0]": {
+      "en": "Tell \"correct word for word\" from \"natural\"",
+      "fil": "Pag-ibahin ang “tama pero salita por salita” at ang “natural”"
+    },
+    "a02.objectives[1]": {
+      "en": "Use the set phrases locals use every day",
+      "fil": "Gamitin ang mga nakasanayang parirala ng mga taga-roon araw-araw"
+    },
+    "a02.objectives[2]": {
+      "en": "Know where Hiligaynon is spoken and how its neighbours differ",
+      "fil": "Alamin kung saan sinasalita ang Hiligaynon at paano naiiba ang mga kalapit na wika"
+    },
+    "a02.title": {
+      "en": "Sounding Like a Local",
+      "fil": "Pagsasalita Gaya ng Taga-roon"
+    },
+    "a02.unit.title": {
+      "en": "Sounding natural",
+      "fil": "Pagiging natural"
+    },
+    "a02_p01.setting": {
+      "en": "Ana meets Carlo, a new co-worker from Bacolod, and her friend Mia from Antique.",
+      "fil": "Nakilala ni Ana si Carlo, bagong katrabaho mula sa Bacolod, at ang kaibigan niyang si Mia mula sa Antique."
+    },
+    "a02_p01.tip": {
+      "en": "Kinaray-a is a separate but related language. Some Hiligaynon speakers understand it well, especially those who live near Kinaray-a speakers.",
+      "fil": "Hiwalay pero kamag-anak na wika ang Kinaray-a. Naiintindihan ito nang mabuti ng ilang nagsasalita ng Hiligaynon, lalo na ang mga nakatira malapit sa mga nagsasalita ng Kinaray-a."
+    },
+    "a02_p01.title": {
+      "en": "A Visitor from Bacolod",
+      "fil": "Bisita mula sa Bacolod"
+    },
+    "a02_p02.terms[0].note": {
+      "en": "the set phrase for \"Where are you going?\"",
+      "fil": "ang nakasanayang parirala para sa “Saan ka pupunta?”"
+    },
+    "a02_p02.terms[1].note": {
+      "en": "the verb, the question word and the little word all change",
+      "fil": "nagbabago lahat ang pandiwa, ang salitang pananong at ang maliit na salita"
+    },
+    "a02_p02.terms[2].note": {
+      "en": "the everyday \"I don't know\"",
+      "fil": "ang pang-araw-araw na “ewan ko”"
+    },
+    "a02_p02.terms[3].note": {
+      "en": "a different pattern from Filipino",
+      "fil": "ibang padron mula sa Filipino"
+    },
+    "a02_p02.text": {
+      "en": "A sentence can be built word for word from Filipino and still sound strange. Natural Hiligaynon uses its own set phrases.",
+      "fil": "Puwedeng buuin ang pangungusap nang salita por salita mula sa Filipino pero kakaiba pa rin ang tunog. May sariling nakasanayang parirala ang natural na Hiligaynon."
+    },
+    "a02_p02.title": {
+      "en": "Correct vs Natural",
+      "fil": "Tama Laban sa Natural"
+    },
+    "a02_p03.leftLabel": {
+      "en": "Word for word (sounds like Filipino)",
+      "fil": "Salita por salita (tunog Filipino)"
+    },
+    "a02_p03.rightLabel": {
+      "en": "Natural Hiligaynon",
+      "fil": "Natural na Hiligaynon"
+    },
+    "a02_p03.situations[0].left.note": {
+      "en": "for everyday \"Mahal kita\", Ilonggos say *Palangga ta ka*",
+      "fil": "para sa pang-araw-araw na “Mahal kita”, *Palangga ta ka* ang sinasabi ng mga Ilonggo"
+    },
+    "a02_p03.situations[0].title": {
+      "en": "Saying \"I love you\"",
+      "fil": "Pagsasabi ng “Mahal kita”"
+    },
+    "a02_p03.situations[1].left.note": {
+      "en": "*kumaon* isn't a word",
+      "fil": "hindi salita ang *kumaon*"
+    },
+    "a02_p03.situations[1].title": {
+      "en": "Asking if someone has eaten",
+      "fil": "Pagtatanong kung kumain na ang isang tao"
+    },
+    "a02_p03.situations[2].left.note": {
+      "en": "*alam* is Filipino",
+      "fil": "Filipino ang *alam*"
+    },
+    "a02_p03.situations[2].title": {
+      "en": "Saying \"I don't know\"",
+      "fil": "Pagsasabi ng “Ewan ko”"
+    },
+    "a02_p03.situations[3].left.note": {
+      "en": "Filipino word",
+      "fil": "Salitang Filipino"
+    },
+    "a02_p03.situations[3].title": {
+      "en": "Saying goodbye",
+      "fil": "Pagpapaalam"
+    },
+    "a02_p03.situations[4].left.note": {
+      "en": "both words are Filipino",
+      "fil": "Filipino ang dalawang salita"
+    },
+    "a02_p03.situations[4].title": {
+      "en": "Saying \"It's delicious!\"",
+      "fil": "Pagsasabi ng “Ang sarap!”"
+    },
+    "a02_p03.situations[5].left.note": {
+      "en": "*po* is Filipino",
+      "fil": "Filipino ang *po*"
+    },
+    "a02_p03.situations[5].title": {
+      "en": "Thanking an older woman",
+      "fil": "Pagpapasalamat sa nakatatandang babae"
+    },
+    "a02_p03.title": {
+      "en": "Word for Word vs Natural",
+      "fil": "Salita por Salita Laban sa Natural"
+    },
+    "a02_p04.title": {
+      "en": "Local Words and Phrases",
+      "fil": "Mga Lokal na Salita at Parirala"
+    },
+    "a02_p05.explain": {
+      "en": "*ingat* is Filipino; Ilonggos say *Halong!*",
+      "fil": "Filipino ang *ingat*; *Halong!* ang sinasabi ng mga Ilonggo"
+    },
+    "a02_p05.prompt": {
+      "en": "What's the natural way to say \"Ingat ka!\"?",
+      "fil": "Ano ang natural na paraan ng pagsabi ng “Ingat ka!”?"
+    },
+    "a02_p06.terms[0].note": {
+      "en": "the variety this app teaches",
+      "fil": "ang uring itinuturo ng app na ito"
+    },
+    "a02_p06.terms[1].note": {
+      "en": "also Hiligaynon, with its own tone and some different words",
+      "fil": "Hiligaynon din, na may sariling tono at ilang ibang salita"
+    },
+    "a02_p06.terms[2].note": {
+      "en": "Capiznon, very close to Hiligaynon",
+      "fil": "Capiznon, napakalapit sa Hiligaynon"
+    },
+    "a02_p06.terms[3].note": {
+      "en": "Kinaray-a, a separate language",
+      "fil": "Kinaray-a, isang hiwalay na wika"
+    },
+    "a02_p06.terms[4].note": {
+      "en": "Hiligaynon came with families who moved there; it mixes with Cebuano and Filipino",
+      "fil": "dinala roon ang Hiligaynon ng mga pamilyang lumipat; humahalo ito sa Cebuano at Filipino"
+    },
+    "a02_p06.title": {
+      "en": "Where Hiligaynon Is Spoken",
+      "fil": "Saan Sinasalita ang Hiligaynon"
+    },
+    "a02_p07.columns[0]": {
+      "en": "English",
+      "fil": "Filipino"
+    },
+    "a02_p07.rows[0][0]": {
+      "en": "Good morning",
+      "fil": "Magandang umaga"
+    },
+    "a02_p07.rows[1][0]": {
+      "en": "What",
+      "fil": "Ano"
+    },
+    "a02_p07.rows[2][0]": {
+      "en": "Where",
+      "fil": "Saan"
+    },
+    "a02_p07.rows[3][0]": {
+      "en": "None / no",
+      "fil": "Wala"
+    },
+    "a02_p07.title": {
+      "en": "Hiligaynon and Its Neighbours",
+      "fil": "Ang Hiligaynon at mga Kalapit Nito"
+    },
+    "a02_p08.explain": {
+      "en": "it's related to Hiligaynon but is its own language.",
+      "fil": "kamag-anak ito ng Hiligaynon pero sarili itong wika."
+    },
+    "a02_p08.options[0]": {
+      "en": "a separate language",
+      "fil": "isang hiwalay na wika"
+    },
+    "a02_p08.options[1]": {
+      "en": "a kind of Hiligaynon",
+      "fil": "isang uri ng Hiligaynon"
+    },
+    "a02_p08.options[2]": {
+      "en": "the same as Cebuano",
+      "fil": "pareho sa Cebuano"
+    },
+    "a02_p08.prompt": {
+      "en": "Kinaray-a, spoken in Antique, is…",
+      "fil": "Ang Kinaray-a, na sinasalita sa Antique, ay…"
+    },
+    "a02_p09.terms[0].note": {
+      "en": "notice where you heard it and who said it",
+      "fil": "pansinin kung saan mo ito narinig at sino ang nagsabi"
+    },
+    "a02_p09.terms[1].note": {
+      "en": "if they say it their way, follow them",
+      "fil": "kung ganoon ang paraan nila, sumunod ka sa kanila"
+    },
+    "a02_p09.terms[2].note": {
+      "en": "every place has its own way",
+      "fil": "may sariling paraan ang bawat lugar"
+    },
+    "a02_p09.text": {
+      "en": "If someone from Bacolod or Capiz says a word differently, it's a variant, not an error.",
+      "fil": "Kung iba ang pagsabi ng isang taga-Bacolod o taga-Capiz sa isang salita, baryant ito, hindi mali."
+    },
+    "a02_p09.title": {
+      "en": "A Different Word Is Not a Mistake",
+      "fil": "Hindi Mali ang Ibang Salita"
+    },
+    "a02_p10.tip": {
+      "en": "*dira* = there (where you are). *diri* = here.",
+      "fil": "*dira* = diyan (kung nasaan ka). *diri* = dito."
+    },
+    "a02_p10.title": {
+      "en": "Carlo Writes Home",
+      "fil": "Sumulat si Carlo sa Pamilya"
+    },
+    "a02_p11.columns[2]": {
+      "en": "When",
+      "fil": "Kailan"
+    },
+    "a02_p11.rows[0][2]": {
+      "en": "a friendly hello on the street",
+      "fil": "magiliw na pagbati sa kalye"
+    },
+    "a02_p11.rows[1][2]": {
+      "en": "someone just arrived",
+      "fil": "kararating lang ng isang tao"
+    },
+    "a02_p11.rows[2][2]": {
+      "en": "a caring hello",
+      "fil": "pagbating may malasakit"
+    },
+    "a02_p11.rows[3][2]": {
+      "en": "catching up",
+      "fil": "pagkukumustahan"
+    },
+    "a02_p11.rows[4][2]": {
+      "en": "saying no kindly",
+      "fil": "mabait na pagtanggi"
+    },
+    "a02_p11.rows[5][2]": {
+      "en": "saying goodbye",
+      "fil": "pagpapaalam"
+    },
+    "a02_p11.title": {
+      "en": "Set Phrases Locals Use",
+      "fil": "Mga Nakasanayang Parirala ng Taga-roon"
+    },
+    "a02_p12.explain": {
+      "en": "*gikan* = from; *makadto* = going to.",
+      "fil": "*gikan* = galing; *makadto* = pupunta."
+    },
+    "a02_p12.prompt": {
+      "en": "Your cousin just arrived at your house. Ask where she came from.",
+      "fil": "Kararating lang ng pinsan mo sa bahay ninyo. Itanong kung saan siya galing."
+    },
+    "a02_p13.setting": {
+      "en": "You meet your neighbour Manang Rosa on the street.",
+      "fil": "Nakasalubong mo sa kalye ang kapitbahay mong si Manang Rosa."
+    },
+    "a02_p13.tip": {
+      "en": "*kamo* (you, polite) shows respect to one older person.",
+      "fil": "Ipinapakita ng *kamo* (kayo, magalang) ang paggalang sa isang nakatatanda."
+    },
+    "a02_p13.title": {
+      "en": "On the Street",
+      "fil": "Sa Kalye"
+    },
+    "a02_p13.turns[0].choices[1].hint": {
+      "en": "she asked you, and that's Filipino",
+      "fil": "ikaw ang tinanong niya, at Filipino iyan"
+    },
+    "a02_p13.turns[0].choices[2].hint": {
+      "en": "that's goodbye",
+      "fil": "paalam iyan"
+    },
+    "a02_p13.turns[1].choices[1].hint": {
+      "en": "*kumaon* isn't a word; use *nagkaon*",
+      "fil": "hindi salita ang *kumaon*; gamitin ang *nagkaon*"
+    },
+    "a02_p14.bridge[0]": {
+      "en": "Filipino speakers can guess many meanings, but natural speech needs local phrases.",
+      "fil": "Nahuhulaan ng nagsasalita ng Filipino ang maraming kahulugan, pero kailangan ng natural na pananalita ang mga lokal na parirala."
+    },
+    "a02_p14.mistakes[0].why": {
+      "en": "*Palangga ta ka* is the natural everyday way to say \"Mahal kita\".",
+      "fil": "*Palangga ta ka* ang natural at pang-araw-araw na paraan ng pagsabi ng “Mahal kita”."
+    },
+    "a02_p14.mistakes[1].right": {
+      "en": "it's a variant",
+      "fil": "baryant ito"
+    },
+    "a02_p14.mistakes[1].why": {
+      "en": "every place has its own way.",
+      "fil": "may sariling paraan ang bawat lugar."
+    },
+    "a02_p14.mistakes[1].wrong": {
+      "en": "Treating a Bacolod word as wrong",
+      "fil": "Pagturing na mali sa salitang taga-Bacolod"
+    },
+    "a02_p14.mistakes[2].right": {
+      "en": "it's a separate language",
+      "fil": "hiwalay itong wika"
+    },
+    "a02_p14.mistakes[2].why": {
+      "en": "they are related, not the same.",
+      "fil": "magkamag-anak sila, hindi magkapareho."
+    },
+    "a02_p14.mistakes[2].wrong": {
+      "en": "\"Kinaray-a is the same as Hiligaynon\"",
+      "fil": "“Pareho ang Kinaray-a at Hiligaynon”"
+    },
+    "a02_p15.text": {
+      "en": "Hiligaynon travelled with families who moved for work and land. You can hear it in Mindanao towns like Koronadal and Isulan, in Manila, and here in Batangas, where Ilonggo families live in Sta. Maria, Sto. Tomas.",
+      "fil": "Naglakbay ang Hiligaynon kasama ng mga pamilyang lumipat para sa trabaho at lupa. Maririnig mo ito sa mga bayan sa Mindanao gaya ng Koronadal at Isulan, sa Maynila, at dito sa Batangas, kung saan may mga pamilyang Ilonggo sa Sta. Maria, Sto. Tomas."
+    },
+    "a02_p15.title": {
+      "en": "Ilonggo Everywhere",
+      "fil": "Ilonggo Kahit Saan"
+    },
+    "a02_p16.explain": {
+      "en": "the verb, *bala* and the word order are all Hiligaynon.",
+      "fil": "Hiligaynon lahat ang pandiwa, ang *bala* at ang pagkakasunod ng salita."
+    },
+    "a02_p16.prompt": {
+      "en": "Which sounds most natural?",
+      "fil": "Alin ang pinakanatural ang tunog?"
+    },
+    "a02_q11.question": {
+      "en": "Where is Carlo now?",
+      "fil": "Nasaan na si Carlo ngayon?"
+    },
+    "a02_q12.question": {
+      "en": "What language does Mia speak?",
+      "fil": "Anong wika ang sinasalita ni Mia?"
+    },
+    "a02_q13.question": {
+      "en": "How does Carlo find the way people speak in Iloilo?",
+      "fil": "Ano ang tingin ni Carlo sa paraan ng pagsasalita ng mga tao sa Iloilo?"
+    },
+    "a02_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a02_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a02_q15.prompt": {
+      "en": "Give three \"word for word vs natural\" pairs.",
+      "fil": "Magbigay ng tatlong pares ng “salita por salita laban sa natural”."
+    },
+    "a02_q2.prompt": {
+      "en": "What does \"Diin ka makadto?\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Diin ka makadto?”?"
+    },
+    "a02_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a02_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a02_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a02_q8.options[2]": {
+      "en": "Bacolod Hiligaynon",
+      "fil": "Hiligaynon ng Bacolod"
+    },
+    "a02_q8.prompt": {
+      "en": "Which one is a separate language, not Hiligaynon?",
+      "fil": "Alin ang hiwalay na wika, hindi Hiligaynon?"
+    },
+    "a02_q9.situation": {
+      "en": "You're saying goodbye to a friend in Iloilo.",
+      "fil": "Nagpapaalam ka sa isang kaibigan sa Iloilo."
+    },
+    "a03.objectives[0]": {
+      "en": "Understand 10 everyday expressions beyond their words",
+      "fil": "Intindihin ang 10 pang-araw-araw na pahayag nang higit sa mga salita nito"
+    },
+    "a03.objectives[1]": {
+      "en": "Know the tone of each one and who you can say it to",
+      "fil": "Alamin ang tono ng bawat isa at kung kanino ito puwedeng sabihin"
+    },
+    "a03.objectives[2]": {
+      "en": "Pick the right expression for the moment",
+      "fil": "Piliin ang tamang pahayag para sa sandali"
+    },
+    "a03.title": {
+      "en": "Idioms & Expressions",
+      "fil": "Mga Idyoma at Pahayag"
+    },
+    "a03.unit.title": {
+      "en": "Sounding natural",
+      "fil": "Pagiging natural"
+    },
+    "a03_abaw.literal": {
+      "en": "(a sound of surprise)",
+      "fil": "(tunog ng pagkagulat)"
+    },
+    "a03_abaw.sayTo": {
+      "en": "anyone, in casual talk",
+      "fil": "kahit sino, sa kaswal na usapan"
+    },
+    "a03_abaw.tone": {
+      "en": "Casual",
+      "fil": "Kaswal"
+    },
+    "a03_ambot.literal": {
+      "en": "I don't know",
+      "fil": "ewan ko"
+    },
+    "a03_ambot.sayTo": {
+      "en": "close friends",
+      "fil": "malalapit na kaibigan"
+    },
+    "a03_ambot.tone": {
+      "en": "Can sound rude",
+      "fil": "Puwedeng tunog bastos"
+    },
+    "a03_ambot.warning": {
+      "en": "A bare \"Ambot.\" to an older person can sound rude. Say \"Wala ako kabalo, Manang.\"",
+      "fil": "Puwedeng tunog bastos ang “Ambot.” lang sa nakatatanda. Sabihin ang “Wala ako kabalo, Manang.”"
+    },
+    "a03_ay_kabudlay.literal": {
+      "en": "Oh, the hardship!",
+      "fil": "Ay, ang hirap!"
+    },
+    "a03_ay_kabudlay.sayTo": {
+      "en": "friends and family",
+      "fil": "kaibigan at pamilya"
+    },
+    "a03_ay_kabudlay.tone": {
+      "en": "Complaining",
+      "fil": "Nagrereklamo"
+    },
+    "a03_ay_kaluoy.literal": {
+      "en": "Oh, pity!",
+      "fil": "Ay, kawawa!"
+    },
+    "a03_ay_kaluoy.sayTo": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a03_ay_kaluoy.tone": {
+      "en": "Caring",
+      "fil": "May malasakit"
+    },
+    "a03_bahala_ka.literal": {
+      "en": "It's up to you.",
+      "fil": "Ikaw ang bahala."
+    },
+    "a03_bahala_ka.sayTo": {
+      "en": "anyone, with care",
+      "fil": "kahit sino, nang maingat"
+    },
+    "a03_bahala_ka.tone": {
+      "en": "Depends on tone",
+      "fil": "Depende sa tono"
+    },
+    "a03_bahala_ka.warning": {
+      "en": "Said sharply, it sounds annoyed.",
+      "fil": "Kapag sinabi nang matalas, tunog naiinis."
+    },
+    "a03_ginoo_ko.literal": {
+      "en": "My Lord!",
+      "fil": "Diyos ko!"
+    },
+    "a03_ginoo_ko.sayTo": {
+      "en": "friends and family",
+      "fil": "kaibigan at pamilya"
+    },
+    "a03_ginoo_ko.tone": {
+      "en": "Strong",
+      "fil": "Matapang"
+    },
+    "a03_ginoo_ko.warning": {
+      "en": "Too strong for formal talk or speeches.",
+      "fil": "Masyadong matapang para sa pormal na usapan o talumpati."
+    },
+    "a03_indi_ka_mahadlok.literal": {
+      "en": "Don't be afraid.",
+      "fil": "Huwag kang matakot."
+    },
+    "a03_indi_ka_mahadlok.sayTo": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a03_indi_ka_mahadlok.tone": {
+      "en": "Comforting",
+      "fil": "Nakapagpapagaan ng loob"
+    },
+    "a03_kabay_pa.literal": {
+      "en": "(set phrase)",
+      "fil": "(nakasanayang parirala)"
+    },
+    "a03_kabay_pa.sayTo": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a03_kabay_pa.tone": {
+      "en": "Hopeful",
+      "fil": "Umaasa"
+    },
+    "a03_p01.setting": {
+      "en": "Ana left her phone on the jeepney. Ben tries to help.",
+      "fil": "Naiwan ni Ana ang cellphone niya sa dyip. Sinusubukan siyang tulungan ni Ben."
+    },
+    "a03_p01.tip": {
+      "en": "Count the expressions: *Ginoo ko!*, *Ay, kaluoy!*, *Indi ka mahadlok*, *Ay, kabudlay!*, *Kabay pa!*, *Abaw!*",
+      "fil": "Bilangin ang mga pahayag: *Ginoo ko!*, *Ay, kaluoy!*, *Indi ka mahadlok*, *Ay, kabudlay!*, *Kabay pa!*, *Abaw!*"
+    },
+    "a03_p01.title": {
+      "en": "A Bad Morning",
+      "fil": "Isang Malas na Umaga"
+    },
+    "a03_p02.terms[0].note": {
+      "en": "how it's said",
+      "fil": "paano ito binibigkas"
+    },
+    "a03_p02.terms[1].note": {
+      "en": "what each word means",
+      "fil": "ano ang ibig sabihin ng bawat salita"
+    },
+    "a03_p02.terms[2].note": {
+      "en": "how people use it",
+      "fil": "paano ito ginagamit ng mga tao"
+    },
+    "a03_p02.terms[3].note": {
+      "en": "warm, strong, or careful",
+      "fil": "mainit, matapang, o maingat"
+    },
+    "a03_p02.terms[4].note": {
+      "en": "friends, elders, anyone",
+      "fil": "kaibigan, nakatatanda, kahit sino"
+    },
+    "a03_p02.text": {
+      "en": "An expression means more than its words. For each one, learn five things.",
+      "fil": "Higit pa sa mga salita nito ang ibig sabihin ng isang pahayag. Sa bawat isa, alamin ang limang bagay."
+    },
+    "a03_p02.title": {
+      "en": "More Than the Words",
+      "fil": "Higit pa sa mga Salita"
+    },
+    "a03_p03.title": {
+      "en": "Everyday Expressions",
+      "fil": "Mga Pang-araw-araw na Pahayag"
+    },
+    "a03_p04.prompt": {
+      "en": "Your friend says \"Basi mag-uli si Tatay buwas.\" You hope so too.",
+      "fil": "Sinabi ng kaibigan mo, “Basi mag-uli si Tatay buwas.” Sana nga rin."
+    },
+    "a03_p05.title": {
+      "en": "Strong Feelings",
+      "fil": "Matitinding Damdamin"
+    },
+    "a03_p06.prompt": {
+      "en": "Your little cousin is scared of the thunder. What do you say?",
+      "fil": "Takot sa kulog ang maliit mong pinsan. Ano ang sasabihin mo?"
+    },
+    "a03_p07.columns[0]": {
+      "en": "Expression",
+      "fil": "Pahayag"
+    },
+    "a03_p07.columns[1]": {
+      "en": "Tone",
+      "fil": "Tono"
+    },
+    "a03_p07.columns[2]": {
+      "en": "Safe to say to",
+      "fil": "Ligtas sabihin kay"
+    },
+    "a03_p07.rows[0][1]": {
+      "en": "can sound rude",
+      "fil": "puwedeng tunog bastos"
+    },
+    "a03_p07.rows[0][2]": {
+      "en": "close friends",
+      "fil": "malalapit na kaibigan"
+    },
+    "a03_p07.rows[1][1]": {
+      "en": "casual",
+      "fil": "kaswal"
+    },
+    "a03_p07.rows[1][2]": {
+      "en": "anyone, in casual talk",
+      "fil": "kahit sino, sa kaswal na usapan"
+    },
+    "a03_p07.rows[2][1]": {
+      "en": "strong",
+      "fil": "matapang"
+    },
+    "a03_p07.rows[2][2]": {
+      "en": "friends and family",
+      "fil": "kaibigan at pamilya"
+    },
+    "a03_p07.rows[3][1]": {
+      "en": "depends on tone",
+      "fil": "depende sa tono"
+    },
+    "a03_p07.rows[3][2]": {
+      "en": "anyone, with care",
+      "fil": "kahit sino, nang maingat"
+    },
+    "a03_p07.rows[4][1]": {
+      "en": "complaining",
+      "fil": "pagrereklamo"
+    },
+    "a03_p07.rows[4][2]": {
+      "en": "friends and family",
+      "fil": "kaibigan at pamilya"
+    },
+    "a03_p07.rows[5][1]": {
+      "en": "comforting",
+      "fil": "nakapagpapagaan ng loob"
+    },
+    "a03_p07.rows[5][2]": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a03_p07.rows[6][1]": {
+      "en": "hopeful",
+      "fil": "umaasa"
+    },
+    "a03_p07.rows[6][2]": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a03_p07.title": {
+      "en": "Tone Check",
+      "fil": "Pagsuri ng Tono"
+    },
+    "a03_p08.leftLabel": {
+      "en": "Casual: friends, family",
+      "fil": "Kaswal: kaibigan, pamilya"
+    },
+    "a03_p08.rightLabel": {
+      "en": "Polite: elders, teachers, officials",
+      "fil": "Magalang: nakatatanda, guro, opisyal"
+    },
+    "a03_p08.situations[0].title": {
+      "en": "I don't know",
+      "fil": "ewan ko"
+    },
+    "a03_p08.situations[1].title": {
+      "en": "It's up to you",
+      "fil": "Ikaw ang bahala"
+    },
+    "a03_p08.situations[2].changes[1]": {
+      "en": "strong → softer",
+      "fil": "matapang → mas malambot"
+    },
+    "a03_p08.situations[2].title": {
+      "en": "Surprise",
+      "fil": "Pagkagulat"
+    },
+    "a03_p08.title": {
+      "en": "Softer Ways to Say It",
+      "fil": "Mas Malambot na Paraan ng Pagsabi"
+    },
+    "a03_p09.slots[0].label": {
+      "en": "Hope",
+      "fil": "Pag-asa"
+    },
+    "a03_p09.slots[1].label": {
+      "en": "Link",
+      "fil": "Pandugtong"
+    },
+    "a03_p09.slots[2].label": {
+      "en": "Wish",
+      "fil": "Hiling"
+    },
+    "a03_p09.slots[3].label": {
+      "en": "Who",
+      "fil": "Sino"
+    },
+    "a03_p09.title": {
+      "en": "Kabay pa + nga + Your Wish",
+      "fil": "Kabay pa + nga + Ang Hiling Mo"
+    },
+    "a03_p10.prompt": {
+      "en": "How do you say \"Sana gumaling ka na\"?",
+      "fil": "Paano sabihin ang “Sana gumaling ka na”?"
+    },
+    "a03_p11.terms[0].note": {
+      "en": "kunta inside the sentence",
+      "fil": "kunta sa loob ng pangungusap"
+    },
+    "a03_p11.terms[1].note": {
+      "en": "Kabay pa nga at the start",
+      "fil": "Kabay pa nga sa simula"
+    },
+    "a03_p11.terms[2].note": {
+      "en": "on its own, as a reply",
+      "fil": "nang mag-isa, bilang sagot"
+    },
+    "a03_p11.text": {
+      "en": "Both mean \"sana\". Use *kunta* inside a sentence. Use *Kabay pa* on its own, or at the start with *nga*.",
+      "fil": "Pareho silang “sana”. Gamitin ang *kunta* sa loob ng pangungusap. Gamitin ang *Kabay pa* nang mag-isa, o sa simula kasama ang *nga*."
+    },
+    "a03_p11.title": {
+      "en": "kunta or Kabay pa?",
+      "fil": "kunta o Kabay pa?"
+    },
+    "a03_p12.tip": {
+      "en": "Find all five expressions: *Ginoo ko, Sige lang, Abaw, Indi ka mahadlok, Tuod gid*.",
+      "fil": "Hanapin ang limang pahayag: *Ginoo ko, Sige lang, Abaw, Indi ka mahadlok, Tuod gid*."
+    },
+    "a03_p12.title": {
+      "en": "Texts Between Friends",
+      "fil": "Mga Text ng Magkakaibigan"
+    },
+    "a03_p13.title": {
+      "en": "Words in the Expressions",
+      "fil": "Mga Salita sa mga Pahayag"
+    },
+    "a03_p14.setting": {
+      "en": "Your friend Mia lost her wallet. Comfort her.",
+      "fil": "Nawala ang pitaka ng kaibigan mong si Mia. Aluin siya."
+    },
+    "a03_p14.title": {
+      "en": "A Worried Friend",
+      "fil": "Isang Nag-aalalang Kaibigan"
+    },
+    "a03_p14.turns[0].choices[1].hint": {
+      "en": "that sounds like you don't care",
+      "fil": "parang wala kang pakialam ang dating niyan"
+    },
+    "a03_p14.turns[0].choices[2].hint": {
+      "en": "that's for tasty food",
+      "fil": "para sa masarap na pagkain iyan"
+    },
+    "a03_p14.turns[1].choices[1].hint": {
+      "en": "too cold for a worried friend",
+      "fil": "masyadong malamig para sa nag-aalalang kaibigan"
+    },
+    "a03_p15.bridge[1]": {
+      "en": "Translate the feeling, not the words.",
+      "fil": "Isalin ang damdamin, hindi ang mga salita."
+    },
+    "a03_p15.mistakes[0].right": {
+      "en": "*Abaw!* or nothing",
+      "fil": "*Abaw!* o wala"
+    },
+    "a03_p15.mistakes[0].why": {
+      "en": "it's a strong exclamation; use it only where the moment fits.",
+      "fil": "matinding bulalas ito; gamitin lang kapag bagay sa sandali."
+    },
+    "a03_p15.mistakes[0].wrong": {
+      "en": "*Ginoo ko!* in an ordinary formal talk",
+      "fil": "*Ginoo ko!* sa karaniwang pormal na usapan"
+    },
+    "a03_p15.mistakes[1].why": {
+      "en": "*Ambot* alone can sound rude.",
+      "fil": "Puwedeng tunog bastos ang *Ambot* lang."
+    },
+    "a03_p15.mistakes[1].wrong": {
+      "en": "A bare *Ambot.* to an elder",
+      "fil": "“*Ambot.*” lang sa nakatatanda"
+    },
+    "a03_p15.mistakes[2].why": {
+      "en": "*Ayaw kahadlok* is Cebuano.",
+      "fil": "Cebuano ang *Ayaw kahadlok*."
+    },
+    "a03_p15.mistakes[3].why": {
+      "en": "\"I…you\" is *ta ka*, like *Palangga ta ka*.",
+      "fil": "*ta ka* ang “ako…ikaw”, gaya ng *Palangga ta ka*."
+    },
+    "a03_p16.text": {
+      "en": "Hiligaynon is often called a sweet, gentle-sounding language. Even a complaint like *Ay, kabudlay!* is often said with a sigh and a smile. Listen to the tone as much as the words.",
+      "fil": "Madalas sabihing matamis at malumanay ang tunog ng Hiligaynon. Kahit ang reklamong *Ay, kabudlay!* ay madalas sabihin nang may buntong-hininga at ngiti. Pakinggan ang tono gaya ng pakikinig mo sa mga salita."
+    },
+    "a03_p16.title": {
+      "en": "Sweet-Sounding Ilonggo",
+      "fil": "Matamis ang Tunog ng Ilonggo"
+    },
+    "a03_q11.question": {
+      "en": "Why was Ana worried?",
+      "fil": "Bakit nag-alala si Ana?"
+    },
+    "a03_q12.question": {
+      "en": "What does Ben say about the teacher?",
+      "fil": "Ano ang sinabi ni Ben tungkol sa guro?"
+    },
+    "a03_q13.question": {
+      "en": "What does Ana hope?",
+      "fil": "Ano ang inaasahan ni Ana?"
+    },
+    "a03_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a03_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a03_q15.prompt": {
+      "en": "Write a short text chat (3–4 lines) that uses two expressions from this lesson.",
+      "fil": "Sumulat ng maikling text chat (3–4 na linya) na gumagamit ng dalawang pahayag mula sa araling ito."
+    },
+    "a03_q4.situation": {
+      "en": "A friend says \"Ginoo ko, nalimtan ko ang bag!\"",
+      "fil": "Sinabi ng kaibigan mo, “Ginoo ko, nalimtan ko ang bag!”"
+    },
+    "a03_q5.prompt": {
+      "en": "What does \"Abaw, ang init gid subong!\" mean?",
+      "fil": "Ano ang ibig sabihin ng “Abaw, ang init gid subong!”?"
+    },
+    "a03_q6.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a03_q7.situation": {
+      "en": "Your Lola asks where your brother is. You don't know. Which reply is the most polite?",
+      "fil": "Tinanong ka ng Lola mo kung nasaan ang kapatid mo. Hindi mo alam. Aling sagot ang pinakamagalang?"
+    },
+    "a03_q8.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a03_q9.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a03_sige_lang.literal": {
+      "en": "Just go ahead.",
+      "fil": "Sige lang."
+    },
+    "a03_sige_lang.sayTo": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a03_sige_lang.tone": {
+      "en": "Gentle",
+      "fil": "Malumanay"
+    },
+    "a03_tuod_gid.literal": {
+      "en": "Really true.",
+      "fil": "Totoo talaga."
+    },
+    "a03_tuod_gid.sayTo": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a03_tuod_gid.tone": {
+      "en": "Warm agreement",
+      "fil": "Mainit na pagsang-ayon"
+    },
+    "a04.objectives[0]": {
+      "en": "Talk to elders, teachers and officials with respect",
+      "fil": "Kausapin nang may paggalang ang nakatatanda, guro at opisyal"
+    },
+    "a04.objectives[1]": {
+      "en": "Switch between casual and polite in six everyday situations",
+      "fil": "Lumipat mula kaswal patungong magalang sa anim na pang-araw-araw na sitwasyon"
+    },
+    "a04.objectives[2]": {
+      "en": "Open a short talk to a group",
+      "fil": "Magbukas ng maikling pananalita sa harap ng grupo"
+    },
+    "a04.title": {
+      "en": "Polite vs Casual",
+      "fil": "Magalang Laban sa Kaswal"
+    },
+    "a04.unit.title": {
+      "en": "Right words, right people",
+      "fil": "Tamang salita, tamang tao"
+    },
+    "a04_p01.setting": {
+      "en": "Ana asks the clerk, Ma'am Linda, for a barangay clearance.",
+      "fil": "Humingi si Ana ng barangay clearance sa clerk na si Ma'am Linda."
+    },
+    "a04_p01.tip": {
+      "en": "Ana uses *Ma'am*, *palihog* and *Mahimo bala…?*. The clerk uses *inyo, ninyo, kamo* to be polite.",
+      "fil": "Gumagamit si Ana ng *Ma'am*, *palihog* at *Mahimo bala…?*. Gumagamit ang clerk ng *inyo, ninyo, kamo* para maging magalang."
+    },
+    "a04_p01.title": {
+      "en": "At the Barangay Hall",
+      "fil": "Sa Barangay Hall"
+    },
+    "a04_p02.terms[0].note": {
+      "en": "\"you\" for one older or respected person",
+      "fil": "“ikaw” para sa isang nakatatanda o iginagalang na tao"
+    },
+    "a04_p02.terms[1].note": {
+      "en": "a title before or after what you say",
+      "fil": "isang titulo bago o pagkatapos ng sasabihin mo"
+    },
+    "a04_p02.terms[2].note": {
+      "en": "please",
+      "fil": "pakiusap"
+    },
+    "a04_p02.terms[3].note": {
+      "en": "ask instead of telling",
+      "fil": "magtanong sa halip na mag-utos"
+    },
+    "a04_p02.terms[4].note": {
+      "en": "little words that soften",
+      "fil": "maliliit na salitang pampalambot"
+    },
+    "a04_p02.text": {
+      "en": "Unlike Filipino, Hiligaynon doesn't normally use a word like *po*. Respect comes from these five things. (Some speakers also borrow *po / ho*: see Part 9.)",
+      "fil": "Hindi tulad ng Filipino, hindi karaniwang gumagamit ang Hiligaynon ng salitang gaya ng *po*. Galing ang paggalang sa limang bagay na ito. (Humihiram din ang ilang nagsasalita ng *po / ho*: tingnan ang Bahagi 9.)"
+    },
+    "a04_p02.title": {
+      "en": "Five Ways to Show Respect",
+      "fil": "Limang Paraan ng Pagpapakita ng Paggalang"
+    },
+    "a04_p03.title": {
+      "en": "Polite Words",
+      "fil": "Magagalang na Salita"
+    },
+    "a04_p04.leftLabel": {
+      "en": "Casual: friends, family",
+      "fil": "Kaswal: kaibigan, pamilya"
+    },
+    "a04_p04.rightLabel": {
+      "en": "Polite: elders, teachers, officials",
+      "fil": "Magalang: nakatatanda, guro, opisyal"
+    },
+    "a04_p04.situations[0].title": {
+      "en": "Asking someone's name",
+      "fil": "Pagtatanong ng pangalan"
+    },
+    "a04_p04.situations[1].title": {
+      "en": "Asking someone's age",
+      "fil": "Pagtatanong ng edad"
+    },
+    "a04_p04.situations[2].title": {
+      "en": "Asking for water",
+      "fil": "Paghingi ng tubig"
+    },
+    "a04_p04.situations[3].title": {
+      "en": "Saying sorry for being late",
+      "fil": "Paghingi ng tawad sa pagkahuli"
+    },
+    "a04_p04.situations[4].changes[0]": {
+      "en": "+ Manong (the title carries the respect)",
+      "fil": "+ Manong (ang titulo ang nagdadala ng paggalang)"
+    },
+    "a04_p04.situations[4].title": {
+      "en": "Inviting someone to eat",
+      "fil": "Pag-aanyaya na kumain"
+    },
+    "a04_p04.situations[5].title": {
+      "en": "Saying goodbye",
+      "fil": "Pagpapaalam"
+    },
+    "a04_p04.title": {
+      "en": "Casual or Polite?",
+      "fil": "Kaswal o Magalang?"
+    },
+    "a04_p05.explain": {
+      "en": "*kamo* is the polite \"you\" for one respected person.",
+      "fil": "Ang *kamo* ang magalang na “ikaw” para sa isang iginagalang na tao."
+    },
+    "a04_p05.prompt": {
+      "en": "Which sentence uses the polite *kamo* for one older woman?",
+      "fil": "Aling pangungusap ang gumagamit ng magalang na *kamo* para sa isang nakatatandang babae?"
+    },
+    "a04_p06.slots[0].label": {
+      "en": "Greeting",
+      "fil": "Pagbati"
+    },
+    "a04_p06.slots[1].label": {
+      "en": "Polite you",
+      "fil": "Magalang na ikaw"
+    },
+    "a04_p06.slots[2].label": {
+      "en": "Title",
+      "fil": "Titulo"
+    },
+    "a04_p06.title": {
+      "en": "ka → kamo for Respect",
+      "fil": "ka → kamo para sa Paggalang"
+    },
+    "a04_p07.columns[0]": {
+      "en": "Job",
+      "fil": "Trabaho"
+    },
+    "a04_p07.columns[1]": {
+      "en": "Casual (one friend)",
+      "fil": "Kaswal (isang kaibigan)"
+    },
+    "a04_p07.columns[2]": {
+      "en": "Polite (one elder)",
+      "fil": "Magalang (isang nakatatanda)"
+    },
+    "a04_p07.rows[0][0]": {
+      "en": "In the spotlight",
+      "fil": "Nasa spotlight"
+    },
+    "a04_p07.rows[1][0]": {
+      "en": "Doer with gin-",
+      "fil": "Gumawa sa gin-"
+    },
+    "a04_p07.rows[2][0]": {
+      "en": "Owner (your…)",
+      "fil": "May-ari (iyong…)"
+    },
+    "a04_p07.rows[3][0]": {
+      "en": "Example",
+      "fil": "Halimbawa"
+    },
+    "a04_p07.text": {
+      "en": "These are also the words for \"you all\". Context tells you which one is meant.",
+      "fil": "Ito rin ang mga salita para sa “kayong lahat”. Ang konteksto ang magsasabi kung alin ang ibig sabihin."
+    },
+    "a04_p07.title": {
+      "en": "Casual and Polite 'You'",
+      "fil": "Kaswal at Magalang na “Ikaw”"
+    },
+    "a04_p08.explain": {
+      "en": "*ninyo* is the polite \"your\".",
+      "fil": "Ang *ninyo* ang magalang na “iyong”."
+    },
+    "a04_p09.terms[0].note": {
+      "en": "what this app teaches",
+      "fil": "ang itinuturo ng app na ito"
+    },
+    "a04_p09.terms[1].note": {
+      "en": "also heard; borrowed from Filipino",
+      "fil": "naririnig din; hiram sa Filipino"
+    },
+    "a04_p09.text": {
+      "en": "You may hear some Ilonggos say *ho* (from Filipino *po*), for example *Salamat ho*, especially near Manila-speaking areas. It's understood. This app teaches three common ways to show respect: a title, polite *kamo*, and *palihog* for requests.",
+      "fil": "Puwede mong marinig ang ilang Ilonggo na nagsasabi ng *ho* (mula sa *po* ng Filipino), halimbawa *Salamat ho*, lalo na malapit sa mga lugar na Tagalog ang wika. Naiintindihan ito. Tatlong karaniwang paraan ng paggalang ang itinuturo ng app na ito: titulo, magalang na *kamo*, at *palihog* sa pakiusap."
+    },
+    "a04_p09.title": {
+      "en": "What About ho?",
+      "fil": "Paano ang ho?"
+    },
+    "a04_p10.columns[0]": {
+      "en": "Title",
+      "fil": "Titulo"
+    },
+    "a04_p10.columns[1]": {
+      "en": "Use for",
+      "fil": "Ginagamit para sa"
+    },
+    "a04_p10.rows[0][1]": {
+      "en": "an older woman",
+      "fil": "nakatatandang babae"
+    },
+    "a04_p10.rows[1][1]": {
+      "en": "an older man",
+      "fil": "nakatatandang lalaki"
+    },
+    "a04_p10.rows[2][1]": {
+      "en": "mother / father (or an older woman / man you're close to)",
+      "fil": "nanay / tatay (o malapit na nakatatandang babae / lalaki)"
+    },
+    "a04_p10.rows[3][1]": {
+      "en": "grandmother / grandfather",
+      "fil": "lola / lolo"
+    },
+    "a04_p10.rows[4][1]": {
+      "en": "a teacher, boss or official",
+      "fil": "guro, amo o opisyal"
+    },
+    "a04_p10.rows[5][1]": {
+      "en": "a younger girl / boy",
+      "fil": "nakababatang babae / lalaki"
+    },
+    "a04_p10.title": {
+      "en": "Titles",
+      "fil": "Mga Titulo"
+    },
+    "a04_p11.terms[0].note": {
+      "en": "open a talk",
+      "fil": "magbukas ng pananalita"
+    },
+    "a04_p11.terms[1].note": {
+      "en": "thank people for coming",
+      "fil": "pasalamatan ang mga dumalo"
+    },
+    "a04_p11.terms[2].note": {
+      "en": "ask people to listen",
+      "fil": "pakiusapang makinig ang mga tao"
+    },
+    "a04_p11.terms[3].note": {
+      "en": "disagree politely",
+      "fil": "magalang na pagtutol"
+    },
+    "a04_p11.title": {
+      "en": "Speaking to a Group",
+      "fil": "Pagsasalita sa Harap ng Grupo"
+    },
+    "a04_p12.tip": {
+      "en": "Count the polite words: *inyo, kamo, palihog*.",
+      "fil": "Bilangin ang magagalang na salita: *inyo, kamo, palihog*."
+    },
+    "a04_p12.title": {
+      "en": "A Short Welcome Talk",
+      "fil": "Isang Maikling Pananalita ng Pagbati"
+    },
+    "a04_p13.setting": {
+      "en": "You go to the principal's office to ask about an exam.",
+      "fil": "Pumunta ka sa opisina ng punong-guro para magtanong tungkol sa isang eksamen."
+    },
+    "a04_p13.title": {
+      "en": "Talking to the Principal",
+      "fil": "Pakikipag-usap sa Punong-guro"
+    },
+    "a04_p13.turns[0].choices[1].hint": {
+      "en": "*Hoy* is too casual for a principal",
+      "fil": "masyadong kaswal ang *Hoy* para sa punong-guro"
+    },
+    "a04_p13.turns[0].choices[2].hint": {
+      "en": "that asks his name, and casually",
+      "fil": "itinatanong niyan ang pangalan niya, at kaswal pa"
+    },
+    "a04_p13.turns[1].choices[1].hint": {
+      "en": "that sounds rude",
+      "fil": "tunog bastos iyan"
+    },
+    "a04_p14.bridge[0]": {
+      "en": "*po* → a title, *kamo* and a polite tone; *opo* → *Huo, Manang* / *Huo, Sir*. Some speakers also say *ho*.",
+      "fil": "*po* → titulo, *kamo* at magalang na tono; *opo* → *Huo, Manang* / *Huo, Sir*. May ilang nagsasabi rin ng *ho*."
+    },
+    "a04_p14.mistakes[0].why": {
+      "en": "for a formal or respectful talk, *kamo* is the safer choice; *ka* isn't always rude with people you're close to.",
+      "fil": "sa pormal o magalang na usapan, mas ligtas ang *kamo*; hindi laging bastos ang *ka* sa malalapit sa iyo."
+    },
+    "a04_p14.mistakes[0].wrong": {
+      "en": "*ikaw / ka* to a principal or an elder",
+      "fil": "*ikaw / ka* sa punong-guro o nakatatanda"
+    },
+    "a04_p14.mistakes[1].why": {
+      "en": "*Hoy* sounds rude to elders.",
+      "fil": "Tunog bastos sa nakatatanda ang *Hoy*."
+    },
+    "a04_p14.mistakes[2].why": {
+      "en": "*po* is Filipino; use a title.",
+      "fil": "Filipino ang *po*; gumamit ng titulo."
+    },
+    "a04_p15.text": {
+      "en": "Taking an elder's hand and touching it to your forehead (*pagmano*) is common all over the Philippines, Iloilo included. Kids often say *Mano, La* as they do it when they arrive or leave.",
+      "fil": "Karaniwan sa buong Pilipinas, kasama ang Iloilo, ang pagkuha sa kamay ng nakatatanda at pagdikit nito sa noo (*pagmano*). Madalas sabihin ng mga bata ang *Mano, La* habang ginagawa ito pagdating o pag-alis nila."
+    },
+    "a04_p16.explain": {
+      "en": "*Madamo gid nga salamat* + a title is the polite way.",
+      "fil": "*Madamo gid nga salamat* + titulo ang magalang na paraan."
+    },
+    "a04_p16.prompt": {
+      "en": "You're thanking your teacher.",
+      "fil": "Nagpapasalamat ka sa guro mo."
+    },
+    "a04_q1.prompt": {
+      "en": "Which \"you\" word shows respect to ONE older person?",
+      "fil": "Aling salitang “ikaw” ang nagpapakita ng paggalang sa ISANG nakatatanda?"
+    },
+    "a04_q11.question": {
+      "en": "Who is Ana talking to?",
+      "fil": "Sino ang kinakausap ni Ana?"
+    },
+    "a04_q12.question": {
+      "en": "What will they talk about?",
+      "fil": "Ano ang pag-uusapan nila?"
+    },
+    "a04_q13.question": {
+      "en": "What does Ana ask people to do?",
+      "fil": "Ano ang ipinakikiusap ni Ana sa mga tao?"
+    },
+    "a04_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a04_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a04_q15.prompt": {
+      "en": "Write the same request two ways: casual and polite.",
+      "fil": "Isulat ang iisang pakiusap sa dalawang paraan: kaswal at magalang."
+    },
+    "a04_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a04_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a04_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a04_q8.situation": {
+      "en": "You're opening a barangay meeting.",
+      "fil": "Binubuksan mo ang isang pulong sa barangay."
+    },
+    "a04_q9.prompt": {
+      "en": "\"Hulat lang anay.\" means:",
+      "fil": "Ang “Hulat lang anay.” ay:"
+    },
+    "a05.objectives[0]": {
+      "en": "Talk about festivals, food and places of Panay and Negros",
+      "fil": "Pag-usapan ang mga pista, pagkain at lugar ng Panay at Negros"
+    },
+    "a05.objectives[1]": {
+      "en": "Use big-topic words: education, culture, community, progress",
+      "fil": "Gumamit ng mga salita sa malalaking paksa: edukasyon, kultura, komunidad, pag-unlad"
+    },
+    "a05.objectives[2]": {
+      "en": "Give a short five-part talk and keep facts and opinions apart",
+      "fil": "Magbigay ng maikling pananalitang may limang bahagi at paghiwalayin ang katotohanan at opinyon"
+    },
+    "a05.title": {
+      "en": "Culture & Big Topics",
+      "fil": "Kultura at Malalaking Paksa"
+    },
+    "a05.unit.title": {
+      "en": "Right words, right people",
+      "fil": "Tamang salita, tamang tao"
+    },
+    "a05_kaon_anay_kamo.literal": {
+      "en": "Eat first, you all!",
+      "fil": "Kumain muna kayo!"
+    },
+    "a05_kaon_anay_kamo.sayTo": {
+      "en": "guests at your house",
+      "fil": "mga bisita sa bahay mo"
+    },
+    "a05_kaon_anay_kamo.tone": {
+      "en": "Welcoming",
+      "fil": "Magiliw sa bisita"
+    },
+    "a05_malipayon_nga_pista.literal": {
+      "en": "Happy fiesta!",
+      "fil": "Maligayang pista!"
+    },
+    "a05_malipayon_nga_pista.sayTo": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a05_malipayon_nga_pista.tone": {
+      "en": "Warm",
+      "fil": "Mainit"
+    },
+    "a05_p01.tip": {
+      "en": "Ben gives facts (when, where). Ana gives an opinion (*Sa banta ko…*).",
+      "fil": "Nagbibigay si Ben ng mga katotohanan (kailan, saan). Nagbibigay si Ana ng opinyon (*Sa banta ko…*)."
+    },
+    "a05_p01.title": {
+      "en": "Which Festival?",
+      "fil": "Aling Pista?"
+    },
+    "a05_p02.title": {
+      "en": "Big-Topic Words",
+      "fil": "Mga Salita sa Malalaking Paksa"
+    },
+    "a05_p03.terms[0].note": {
+      "en": "same big word, Hiligaynon sentence",
+      "fil": "parehong malaking salita, pangungusap na Hiligaynon"
+    },
+    "a05_p03.terms[1].note": {
+      "en": "*sang* (not *ng*)",
+      "fil": "*sang* (hindi *ng*)"
+    },
+    "a05_p03.terms[2].note": {
+      "en": "*nga* links the words",
+      "fil": "idinudugtong ng *nga* ang mga salita"
+    },
+    "a05_p03.text": {
+      "en": "Many big-topic words are the same as in Filipino (*kultura, tradisyon, teknolohiya*). What changes are the small words around them.",
+      "fil": "Maraming salita sa malalaking paksa ang kapareho ng sa Filipino (*kultura, tradisyon, teknolohiya*). Ang maliliit na salita sa paligid nila ang nagbabago."
+    },
+    "a05_p03.title": {
+      "en": "Big Words Are Often Shared",
+      "fil": "Madalas Magkapareho ang Malalaking Salita"
+    },
+    "a05_p04.explain": {
+      "en": "Ilonggos say *pag-asenso*.",
+      "fil": "*pag-asenso* ang sinasabi ng mga Ilonggo."
+    },
+    "a05_p04.prompt": {
+      "en": "Which word means \"pag-unlad\"?",
+      "fil": "Aling salita ang ibig sabihin ay “pag-unlad”?"
+    },
+    "a05_p05.title": {
+      "en": "Fiesta Phrases",
+      "fil": "Mga Parirala sa Pista"
+    },
+    "a05_p06.columns[0]": {
+      "en": "Festival",
+      "fil": "Pista"
+    },
+    "a05_p06.columns[1]": {
+      "en": "Where",
+      "fil": "Saan"
+    },
+    "a05_p06.columns[2]": {
+      "en": "When",
+      "fil": "Kailan"
+    },
+    "a05_p06.columns[3]": {
+      "en": "Known for",
+      "fil": "Kilala sa"
+    },
+    "a05_p06.rows[0][2]": {
+      "en": "4th Sunday of January",
+      "fil": "Ikaapat na Linggo ng Enero"
+    },
+    "a05_p06.rows[0][3]": {
+      "en": "tribe dancers, drums, the Santo Niño",
+      "fil": "mga mananayaw na tribu, tambol, ang Santo Niño"
+    },
+    "a05_p06.rows[1][2]": {
+      "en": "October",
+      "fil": "Oktubre"
+    },
+    "a05_p06.rows[1][3]": {
+      "en": "smiling masks, street dancing",
+      "fil": "nakangiting maskara, sayaw sa kalye"
+    },
+    "a05_p06.rows[2][2]": {
+      "en": "February",
+      "fil": "Pebrero"
+    },
+    "a05_p06.rows[2][3]": {
+      "en": "old-style sailboats (*paraw*)",
+      "fil": "makalumang bangkang may layag (*paraw*)"
+    },
+    "a05_p06.rows[3][2]": {
+      "en": "May",
+      "fil": "Mayo"
+    },
+    "a05_p06.rows[3][3]": {
+      "en": "mangoes",
+      "fil": "mangga"
+    },
+    "a05_p06.title": {
+      "en": "Festivals of Panay and Negros",
+      "fil": "Mga Pista ng Panay at Negros"
+    },
+    "a05_p07.explain": {
+      "en": "Dinagyang honours the Santo Niño in January.",
+      "fil": "Pinararangalan ng Dinagyang ang Santo Niño tuwing Enero."
+    },
+    "a05_p07.options[0]": {
+      "en": "4th Sunday of January",
+      "fil": "Ikaapat na Linggo ng Enero"
+    },
+    "a05_p07.options[1]": {
+      "en": "October",
+      "fil": "Oktubre"
+    },
+    "a05_p07.options[2]": {
+      "en": "Christmas",
+      "fil": "Pasko"
+    },
+    "a05_p07.prompt": {
+      "en": "When is Dinagyang held?",
+      "fil": "Kailan ginaganap ang Dinagyang?"
+    },
+    "a05_p08.terms[0].note": {
+      "en": "fact",
+      "fil": "katotohanan"
+    },
+    "a05_p08.terms[1].note": {
+      "en": "opinion",
+      "fil": "opinyon"
+    },
+    "a05_p08.terms[2].note": {
+      "en": "say \"many\", not \"all\"",
+      "fil": "sabihing “marami”, hindi “lahat”"
+    },
+    "a05_p08.text": {
+      "en": "A fact can be checked. An opinion is what you think. Start an opinion with *Sa banta ko* or *Para sa akon*.",
+      "fil": "Napapatunayan ang katotohanan. Ang opinyon ay ang iniisip mo. Simulan ang opinyon sa *Sa banta ko* o *Para sa akon*."
+    },
+    "a05_p08.title": {
+      "en": "Fact or Opinion?",
+      "fil": "Katotohanan o Opinyon?"
+    },
+    "a05_p09.slots[0].label": {
+      "en": "Is held",
+      "fil": "Ginaganap"
+    },
+    "a05_p09.slots[1].label": {
+      "en": "Event",
+      "fil": "Okasyon"
+    },
+    "a05_p09.slots[2].label": {
+      "en": "Where",
+      "fil": "Saan"
+    },
+    "a05_p09.slots[3].label": {
+      "en": "When",
+      "fil": "Kailan"
+    },
+    "a05_p09.title": {
+      "en": "Ginahiwat + Event + Where + When",
+      "fil": "Ginahiwat + Okasyon + Saan + Kailan"
+    },
+    "a05_p10.columns[0]": {
+      "en": "Name",
+      "fil": "Pangalan"
+    },
+    "a05_p10.columns[1]": {
+      "en": "What it is",
+      "fil": "Ano ito"
+    },
+    "a05_p10.columns[2]": {
+      "en": "From",
+      "fil": "Galing sa"
+    },
+    "a05_p10.rows[0][1]": {
+      "en": "noodle soup",
+      "fil": "sopas na may miki"
+    },
+    "a05_p10.rows[1][1]": {
+      "en": "dumpling soup",
+      "fil": "sopas na may dumpling"
+    },
+    "a05_p10.rows[2][1]": {
+      "en": "grilled chicken",
+      "fil": "inihaw na manok"
+    },
+    "a05_p10.rows[3][1]": {
+      "en": "flat sweet bread",
+      "fil": "lapad at matamis na tinapay"
+    },
+    "a05_p10.rows[4][1]": {
+      "en": "old stone church",
+      "fil": "lumang simbahang bato"
+    },
+    "a05_p10.rows[5][1]": {
+      "en": "cathedral with a bell tower",
+      "fil": "katedral na may kampanaryo"
+    },
+    "a05_p10.title": {
+      "en": "Food and Places to Know",
+      "fil": "Mga Pagkain at Lugar na Dapat Malaman"
+    },
+    "a05_p11.terms[0].note": {
+      "en": "1. say the topic",
+      "fil": "1. sabihin ang paksa"
+    },
+    "a05_p11.terms[1].note": {
+      "en": "2. give an example",
+      "fil": "2. magbigay ng halimbawa"
+    },
+    "a05_p11.terms[2].note": {
+      "en": "3. say why it matters",
+      "fil": "3. sabihin kung bakit ito mahalaga"
+    },
+    "a05_p11.terms[3].note": {
+      "en": "4. another side",
+      "fil": "4. ibang panig"
+    },
+    "a05_p11.terms[4].note": {
+      "en": "5. wrap up",
+      "fil": "5. tapusin"
+    },
+    "a05_p11.title": {
+      "en": "A Five-Part Mini Talk",
+      "fil": "Isang Maikling Pananalitang May Limang Bahagi"
+    },
+    "a05_p12.tip": {
+      "en": "Lines 1–5 are facts. Line 6 is an opinion.",
+      "fil": "Mga katotohanan ang linya 1–5. Opinyon ang linya 6."
+    },
+    "a05_p13.explain": {
+      "en": "*Sa banta ko* marks an opinion.",
+      "fil": "Hudyat ng opinyon ang *Sa banta ko*."
+    },
+    "a05_p13.prompt": {
+      "en": "Which line from the reading is an opinion?",
+      "fil": "Aling linya sa babasahin ang opinyon?"
+    },
+    "a05_p14.setting": {
+      "en": "Your cousin Joy is visiting Iloilo for the first time.",
+      "fil": "Unang beses na bumibisita sa Iloilo ang pinsan mong si Joy."
+    },
+    "a05_p14.tip": {
+      "en": "*Tilawi* = taste it (from *tilaw*).",
+      "fil": "*Tilawi* = tikman mo (mula sa *tilaw*)."
+    },
+    "a05_p14.title": {
+      "en": "Your Cousin Is Visiting",
+      "fil": "Bumibisita ang Pinsan Mo"
+    },
+    "a05_p14.turns[0].choices[1].hint": {
+      "en": "be a good host!",
+      "fil": "maging mabuting host!"
+    },
+    "a05_p14.turns[1].choices[1].hint": {
+      "en": "MassKara is in Bacolod, in October",
+      "fil": "sa Bacolod ang MassKara, tuwing Oktubre"
+    },
+    "a05_p15.bridge[0]": {
+      "en": "Big-topic words are often shared (*kultura, tradisyon, teknolohiya*). Listen to how locals say them.",
+      "fil": "Madalas magkapareho ang mga salita sa malalaking paksa (*kultura, tradisyon, teknolohiya*). Pakinggan kung paano ito binibigkas ng mga taga-roon."
+    },
+    "a05_p15.mistakes[0].right": {
+      "en": "*Madamo nga Ilonggo…* (many)",
+      "fil": "*Madamo nga Ilonggo…* (marami)"
+    },
+    "a05_p15.mistakes[0].why": {
+      "en": "don't speak for everyone.",
+      "fil": "huwag magsalita para sa lahat."
+    },
+    "a05_p15.mistakes[0].wrong": {
+      "en": "\"All Ilonggos love…\"",
+      "fil": "“Lahat ng Ilonggo ay mahilig sa…”"
+    },
+    "a05_p15.mistakes[1].right": {
+      "en": "start opinions with *Sa banta ko*",
+      "fil": "simulan ang opinyon sa *Sa banta ko*"
+    },
+    "a05_p15.mistakes[1].why": {
+      "en": "listeners can tell which is which.",
+      "fil": "malalaman ng nakikinig kung alin ang alin."
+    },
+    "a05_p15.mistakes[1].wrong": {
+      "en": "Mixing facts and opinions",
+      "fil": "Paghahalo ng katotohanan at opinyon"
+    },
+    "a05_p16.text": {
+      "en": "A *paraw* is a traditional sailboat with two outriggers. Every February, the Paraw Regatta races them across the Iloilo Strait between Iloilo and Guimaras. It is often called one of the oldest traditional sailing events in Asia.",
+      "fil": "Ang *paraw* ay tradisyonal na bangkang may layag at dalawang katig. Tuwing Pebrero, nagkakarera ang mga ito sa Paraw Regatta sa Iloilo Strait sa pagitan ng Iloilo at Guimaras. Madalas itong tawaging isa sa pinakamatatandang tradisyonal na karera ng layag sa Asya."
+    },
+    "a05_pista_na.literal": {
+      "en": "It's fiesta now!",
+      "fil": "Pista na!"
+    },
+    "a05_pista_na.sayTo": {
+      "en": "anyone",
+      "fil": "kahit sino"
+    },
+    "a05_pista_na.tone": {
+      "en": "Excited",
+      "fil": "Nasasabik"
+    },
+    "a05_q1.options[0]": {
+      "en": "in October",
+      "fil": "tuwing Oktubre"
+    },
+    "a05_q1.options[1]": {
+      "en": "on the fourth Sunday of January",
+      "fil": "sa ikaapat na Linggo ng Enero"
+    },
+    "a05_q1.options[2]": {
+      "en": "in February only",
+      "fil": "tuwing Pebrero lang"
+    },
+    "a05_q1.options[3]": {
+      "en": "every Christmas",
+      "fil": "tuwing Pasko"
+    },
+    "a05_q1.prompt": {
+      "en": "The Dinagyang festival of Iloilo City is held:",
+      "fil": "Ang pista ng Dinagyang sa Iloilo City ay ginaganap:"
+    },
+    "a05_q11.question": {
+      "en": "Where is MassKara held?",
+      "fil": "Saan ginaganap ang MassKara?"
+    },
+    "a05_q12.question": {
+      "en": "When did MassKara start?",
+      "fil": "Kailan nagsimula ang MassKara?"
+    },
+    "a05_q13.question": {
+      "en": "Why did people choose smiling masks?",
+      "fil": "Bakit nakangiting maskara ang pinili ng mga tao?"
+    },
+    "a05_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a05_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a05_q15.prompt": {
+      "en": "Give a short talk (five sentences) about a festival in Panay or Negros. Start opinions with *Sa banta ko*.",
+      "fil": "Magbigay ng maikling pananalita (limang pangungusap) tungkol sa isang pista sa Panay o Negros. Simulan ang mga opinyon sa *Sa banta ko*."
+    },
+    "a05_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a05_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a05_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a05_q8.prompt": {
+      "en": "Which sentence is an opinion?",
+      "fil": "Aling pangungusap ang opinyon?"
+    },
+    "a05_q9.situation": {
+      "en": "A visitor asks what to eat in Iloilo.",
+      "fil": "Nagtanong ang isang bisita kung ano ang kakainin sa Iloilo."
+    },
+    "a05_viva_senor_santo_nino.literal": {
+      "en": "Long live the Holy Child!",
+      "fil": "Mabuhay ang Santo Niño!"
+    },
+    "a05_viva_senor_santo_nino.sayTo": {
+      "en": "the crowd at Dinagyang",
+      "fil": "ang mga tao sa Dinagyang"
+    },
+    "a05_viva_senor_santo_nino.tone": {
+      "en": "Festive, religious",
+      "fil": "Masaya, panrelihiyon"
+    },
+    "a06.objectives[0]": {
+      "en": "Tell a longer story in five steps",
+      "fil": "Magkuwento ng mas mahabang kuwento sa limang hakbang"
+    },
+    "a06.objectives[1]": {
+      "en": "Use story starters, turners and endings",
+      "fil": "Gumamit ng mga pambungad, pampaliko at pangwakas sa kuwento"
+    },
+    "a06.objectives[2]": {
+      "en": "Keep every finished event in the past form",
+      "fil": "Panatilihing nasa anyong nakaraan ang bawat natapos na pangyayari"
+    },
+    "a06.title": {
+      "en": "Telling a Story",
+      "fil": "Pagkukuwento"
+    },
+    "a06.unit.title": {
+      "en": "Telling and explaining",
+      "fil": "Pagkukuwento at pagpapaliwanag"
+    },
+    "a06_p01.terms[0].note": {
+      "en": "1. setting: who, where, when",
+      "fil": "1. tagpuan: sino, saan, kailan"
+    },
+    "a06_p01.terms[1].note": {
+      "en": "2. the problem: what went wrong",
+      "fil": "2. ang problema: ano ang nagkamali"
+    },
+    "a06_p01.terms[2].note": {
+      "en": "3. what happened next",
+      "fil": "3. ano ang sumunod na nangyari"
+    },
+    "a06_p01.terms[3].note": {
+      "en": "4. how it ended",
+      "fil": "4. paano ito nagtapos"
+    },
+    "a06_p01.terms[4].note": {
+      "en": "5. what you learned",
+      "fil": "5. ano ang natutunan mo"
+    },
+    "a06_p01.text": {
+      "en": "A good story moves through five steps. Each step has its own useful words.",
+      "fil": "Dumadaan sa limang hakbang ang magandang kuwento. May sariling magagamit na salita ang bawat hakbang."
+    },
+    "a06_p01.title": {
+      "en": "Five Steps of a Story",
+      "fil": "Limang Hakbang ng Kuwento"
+    },
+    "a06_p02.columns[2]": {
+      "en": "Step",
+      "fil": "Hakbang"
+    },
+    "a06_p02.rows[0][2]": {
+      "en": "setting",
+      "fil": "tagpuan"
+    },
+    "a06_p02.rows[1][2]": {
+      "en": "setting",
+      "fil": "tagpuan"
+    },
+    "a06_p02.rows[2][2]": {
+      "en": "problem",
+      "fil": "problema"
+    },
+    "a06_p02.rows[3][2]": {
+      "en": "what happened next",
+      "fil": "ano ang sumunod na nangyari"
+    },
+    "a06_p02.rows[4][2]": {
+      "en": "what happened next",
+      "fil": "ano ang sumunod na nangyari"
+    },
+    "a06_p02.rows[5][2]": {
+      "en": "ending",
+      "fil": "wakas"
+    },
+    "a06_p02.rows[6][2]": {
+      "en": "what you learned",
+      "fil": "ano ang natutunan mo"
+    },
+    "a06_p02.rows[7][2]": {
+      "en": "what you learned",
+      "fil": "ano ang natutunan mo"
+    },
+    "a06_p02.title": {
+      "en": "Story Starters, Turners and Endings",
+      "fil": "Mga Pambungad, Pampaliko at Pangwakas sa Kuwento"
+    },
+    "a06_p03.title": {
+      "en": "Story Words",
+      "fil": "Mga Salita sa Kuwento"
+    },
+    "a06_p04.explain": {
+      "en": "it already happened, so use *nag-ulan*.",
+      "fil": "nangyari na ito, kaya gamitin ang *nag-ulan*."
+    },
+    "a06_p05.tip": {
+      "en": "Find the five steps: setting (1–3), problem (4), what happened next (5–6), ending (7), what he learned (8).",
+      "fil": "Hanapin ang limang hakbang: tagpuan (1–3), problema (4), ang sumunod na nangyari (5–6), wakas (7), ang natutunan niya (8)."
+    },
+    "a06_p05.title": {
+      "en": "A Trip to Guimaras",
+      "fil": "Isang Biyahe sa Guimaras"
+    },
+    "a06_p06.explain": {
+      "en": "*Gulpi lang* signals that something went wrong.",
+      "fil": "Hudyat ang *Gulpi lang* na may nagkamali."
+    },
+    "a06_p06.prompt": {
+      "en": "Which line is the problem in the story?",
+      "fil": "Aling linya ang problema sa kuwento?"
+    },
+    "a06_p07.columns[0]": {
+      "en": "Step",
+      "fil": "Hakbang"
+    },
+    "a06_p07.columns[1]": {
+      "en": "Lines",
+      "fil": "Mga linya"
+    },
+    "a06_p07.columns[2]": {
+      "en": "Key words",
+      "fil": "Mahahalagang salita"
+    },
+    "a06_p07.rows[0][0]": {
+      "en": "Setting",
+      "fil": "Tagpuan"
+    },
+    "a06_p07.rows[1][0]": {
+      "en": "Problem",
+      "fil": "Problema"
+    },
+    "a06_p07.rows[2][0]": {
+      "en": "What happened next",
+      "fil": "Ang sumunod na nangyari"
+    },
+    "a06_p07.rows[3][0]": {
+      "en": "Ending",
+      "fil": "Wakas"
+    },
+    "a06_p07.rows[4][0]": {
+      "en": "What he learned",
+      "fil": "Ang natutunan niya"
+    },
+    "a06_p07.title": {
+      "en": "The Story, Step by Step",
+      "fil": "Ang Kuwento, Hakbang-hakbang"
+    },
+    "a06_p08.terms[1].note": {
+      "en": "finished, thing/person in focus → gin-",
+      "fil": "tapos na, bagay/tao ang pokus → gin-"
+    },
+    "a06_p08.terms[2].note": {
+      "en": "na- → the slipper got lost",
+      "fil": "na- → nawala ang tsinelas"
+    },
+    "a06_p08.terms[3].note": {
+      "en": "going on at that moment → naga-",
+      "fil": "nangyayari sa sandaling iyon → naga-"
+    },
+    "a06_p08.text": {
+      "en": "For finished events, use *nag-*, *gin-* or *na-*. In a past story, *naga-* shows something that was still going on when another thing happened. (Elsewhere *naga-* is also for ongoing and everyday actions.)",
+      "fil": "Para sa mga natapos na pangyayari, gamitin ang *nag-*, *gin-* o *na-*. Sa kuwentong nakaraan, ipinapakita ng *naga-* ang bagay na nangyayari pa nang may iba pang nangyari. (Sa ibang lugar, para rin sa kilos na ginagawa pa at araw-araw ang *naga-*.)"
+    },
+    "a06_p08.title": {
+      "en": "Keep the Story in the Past",
+      "fil": "Panatilihin sa Nakaraan ang Kuwento"
+    },
+    "a06_p09.slots[0].label": {
+      "en": "While",
+      "fil": "Habang"
+    },
+    "a06_p09.slots[1].label": {
+      "en": "Going on",
+      "fil": "Nangyayari pa"
+    },
+    "a06_p09.slots[2].label": {
+      "en": "Finished",
+      "fil": "Natapos"
+    },
+    "a06_p09.slots[3].label": {
+      "en": "Thing",
+      "fil": "Bagay"
+    },
+    "a06_p09.title": {
+      "en": "Samtang + Ongoing, + Finished",
+      "fil": "Samtang + Nangyayari Pa, + Natapos"
+    },
+    "a06_p10.explain": {
+      "en": "here *nalipay* tells how they felt at the end; the story around it shows it's in the past.",
+      "fil": "dito, sinasabi ng *nalipay* ang naramdaman nila sa huli; ipinapakita ng kuwento sa paligid nito na nakaraan na ito."
+    },
+    "a06_p11.terms[0].note": {
+      "en": "I realized that…",
+      "fil": "naunawaan ko na…"
+    },
+    "a06_p11.terms[1].note": {
+      "en": "I learned that…",
+      "fil": "natutunan ko na…"
+    },
+    "a06_p11.terms[2].note": {
+      "en": "since then,…",
+      "fil": "mula noon,…"
+    },
+    "a06_p11.title": {
+      "en": "Ending With What You Learned",
+      "fil": "Pagtatapos sa Iyong Natutunan"
+    },
+    "a06_p12.tip": {
+      "en": "*permi* = always; *nagdulom* = got dark.",
+      "fil": "*permi* = palagi; *nagdulom* = dumilim."
+    },
+    "a06_p12.title": {
+      "en": "Running in the Rain",
+      "fil": "Pagtakbo sa Ulan"
+    },
+    "a06_p13.setting": {
+      "en": "Your friend Mia asks about your day yesterday. Tell it in order.",
+      "fil": "Tinatanong ng kaibigan mong si Mia ang araw mo kahapon. Ikuwento ito nang sunod-sunod."
+    },
+    "a06_p13.title": {
+      "en": "What Happened?",
+      "fil": "Ano ang Nangyari?"
+    },
+    "a06_p13.turns[0].choices[1].hint": {
+      "en": "that's the ending; start with the setting",
+      "fil": "wakas iyan; magsimula sa tagpuan"
+    },
+    "a06_p13.turns[1].choices[1].hint": {
+      "en": "in a story, use the finished form *nadula*",
+      "fil": "sa kuwento, gamitin ang anyong natapos na *nadula*"
+    },
+    "a06_p14.bridge[0]": {
+      "en": "Keep your story's order, but choose Hiligaynon verbs. Don't translate your Filipino story word by word.",
+      "fil": "Panatilihin ang pagkakasunod ng kuwento mo, pero pumili ng pandiwang Hiligaynon. Huwag isalin nang salita por salita ang kuwento mong Filipino."
+    },
+    "a06_p14.mistakes[0].why": {
+      "en": "a finished event uses *nag-*, not *naga-*.",
+      "fil": "*nag-* ang gamit ng natapos na pangyayari, hindi *naga-*."
+    },
+    "a06_p14.mistakes[1].right": {
+      "en": "add *dayon, gani, sa ulihi*",
+      "fil": "idagdag ang *dayon, gani, sa ulihi*"
+    },
+    "a06_p14.mistakes[1].why": {
+      "en": "without them, it sounds like a list.",
+      "fil": "kung wala ang mga ito, parang listahan ang tunog."
+    },
+    "a06_p14.mistakes[1].wrong": {
+      "en": "A story with no linking words",
+      "fil": "Kuwentong walang pandugtong"
+    },
+    "a06_p14.mistakes[2].why": {
+      "en": "*Biglang* is Filipino; *gulpi lang* is the natural Hiligaynon \"suddenly\".",
+      "fil": "Filipino ang *Biglang*; *gulpi lang* ang natural na “bigla” sa Hiligaynon."
+    },
+    "a06_p15.text": {
+      "en": "*Sugilanon* is the Hiligaynon word for a short story. For decades, the weekly magazine *Hiligaynon* printed sugilanon, poems and serialized novels for Ilonggo readers.",
+      "fil": "*Sugilanon* ang salitang Hiligaynon para sa maikling kuwento. Sa loob ng maraming dekada, naglathala ang lingguhang magasing *Hiligaynon* ng mga sugilanon, tula at nobelang hinati-hati para sa mga mambabasang Ilonggo."
+    },
+    "a06_p16.explain": {
+      "en": "a story starts with the setting.",
+      "fil": "nagsisimula ang kuwento sa tagpuan."
+    },
+    "a06_p16.prompt": {
+      "en": "Which is the best way to start a story?",
+      "fil": "Ano ang pinakamagandang paraan ng pagsisimula ng kuwento?"
+    },
+    "a06_q11.question": {
+      "en": "Why did they go to Guimaras?",
+      "fil": "Bakit sila pumunta sa Guimaras?"
+    },
+    "a06_q12.question": {
+      "en": "What happened when it rained?",
+      "fil": "Ano ang nangyari nang umulan?"
+    },
+    "a06_q13.question": {
+      "en": "What did the storyteller realize?",
+      "fil": "Ano ang naunawaan ng nagkuwento?"
+    },
+    "a06_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a06_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a06_q15.prompt": {
+      "en": "Tell a short story in five sentences, one for each step.",
+      "fil": "Magkuwento ng maikling kuwento sa limang pangungusap, isa sa bawat hakbang."
+    },
+    "a06_q2.options[0]": {
+      "en": "mag- forms",
+      "fil": "mga anyong mag-"
+    },
+    "a06_q2.options[1]": {
+      "en": "naga- forms only",
+      "fil": "mga anyong naga- lang"
+    },
+    "a06_q2.options[2]": {
+      "en": "nag- forms (nagkadto, nagdalagan)",
+      "fil": "mga anyong nag- (nagkadto, nagdalagan)"
+    },
+    "a06_q2.options[3]": {
+      "en": "-on forms",
+      "fil": "mga anyong -on"
+    },
+    "a06_q2.prompt": {
+      "en": "In a story, which verbs show finished events?",
+      "fil": "Sa kuwento, aling mga pandiwa ang nagpapakita ng natapos na pangyayari?"
+    },
+    "a06_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a06_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a06_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a06_q8.prompt": {
+      "en": "\"Naghibi ako.\" means:",
+      "fil": "Ang “Naghibi ako.” ay:"
+    },
+    "a06_q9.situation": {
+      "en": "In the middle of your story, your friend asks \"Kag dayon?\"",
+      "fil": "Sa gitna ng kuwento mo, nagtanong ang kaibigan mo, “Kag dayon?”"
+    },
+    "a07.objectives[0]": {
+      "en": "Make a point with a reason and an example",
+      "fil": "Magpahayag ng punto na may dahilan at halimbawa"
+    },
+    "a07.objectives[1]": {
+      "en": "Answer the other side respectfully",
+      "fil": "Sagutin nang may paggalang ang kabilang panig"
+    },
+    "a07.objectives[2]": {
+      "en": "Wrap up an argument clearly",
+      "fil": "Tapusin nang malinaw ang argumento"
+    },
+    "a07.title": {
+      "en": "Explaining & Debating",
+      "fil": "Pagpapaliwanag at Pagtatalo"
+    },
+    "a07.unit.title": {
+      "en": "Telling and explaining",
+      "fil": "Pagkukuwento at pagpapaliwanag"
+    },
+    "a07_p01.tip": {
+      "en": "Ben makes a point, gives a reason and an example. Ana gives the other side. They meet in the middle.",
+      "fil": "Nagpapahayag si Ben ng punto, nagbibigay ng dahilan at halimbawa. Ibinibigay ni Ana ang kabilang panig. Nagkasundo sila sa gitna."
+    },
+    "a07_p01.title": {
+      "en": "Phones for Kids?",
+      "fil": "Cellphone para sa mga Bata?"
+    },
+    "a07_p02.columns[0]": {
+      "en": "Move",
+      "fil": "Hakbang"
+    },
+    "a07_p02.rows[0][0]": {
+      "en": "Make a point",
+      "fil": "Magpahayag ng punto"
+    },
+    "a07_p02.rows[1][0]": {
+      "en": "Give a reason",
+      "fil": "Magbigay ng dahilan"
+    },
+    "a07_p02.rows[2][0]": {
+      "en": "Give an example",
+      "fil": "Magbigay ng halimbawa"
+    },
+    "a07_p02.rows[3][0]": {
+      "en": "The other side",
+      "fil": "Ang kabilang panig"
+    },
+    "a07_p02.rows[4][0]": {
+      "en": "Agree in part",
+      "fil": "Sumang-ayon nang bahagya"
+    },
+    "a07_p02.rows[5][0]": {
+      "en": "Wrap up",
+      "fil": "Tapusin"
+    },
+    "a07_p02.title": {
+      "en": "Six Moves in an Argument",
+      "fil": "Anim na Hakbang sa Argumento"
+    },
+    "a07_p03.title": {
+      "en": "Argument Words",
+      "fil": "Mga Salita sa Argumento"
+    },
+    "a07_p04.slots[0].label": {
+      "en": "Should",
+      "fil": "Dapat"
+    },
+    "a07_p04.slots[1].label": {
+      "en": "Point",
+      "fil": "Punto"
+    },
+    "a07_p04.slots[2].label": {
+      "en": "Because",
+      "fil": "Dahil"
+    },
+    "a07_p04.slots[3].label": {
+      "en": "Reason",
+      "fil": "Dahilan"
+    },
+    "a07_p04.title": {
+      "en": "Dapat + Point + kay + Reason",
+      "fil": "Dapat + Punto + kay + Dahilan"
+    },
+    "a07_p05.explain": {
+      "en": "*Halimbawa* = for example.",
+      "fil": "*Halimbawa* = halimbawa."
+    },
+    "a07_p05.prompt": {
+      "en": "Which word starts an example?",
+      "fil": "Aling salita ang nagsisimula ng halimbawa?"
+    },
+    "a07_p06.terms[0].note": {
+      "en": "one sentence",
+      "fil": "isang pangungusap"
+    },
+    "a07_p06.terms[1].note": {
+      "en": "two sentences",
+      "fil": "dalawang pangungusap"
+    },
+    "a07_p06.text": {
+      "en": "Join the reason with *kay*, or give it its own sentence with *Ang rason amo nga…*.",
+      "fil": "Idugtong ang dahilan gamit ang *kay*, o gawin itong hiwalay na pangungusap gamit ang *Ang rason amo nga…*."
+    },
+    "a07_p06.title": {
+      "en": "Two Ways to Give a Reason",
+      "fil": "Dalawang Paraan ng Pagbibigay ng Dahilan"
+    },
+    "a07_p07.explain": {
+      "en": "*pihak* = other side.",
+      "fil": "*pihak* = kabilang panig."
+    },
+    "a07_p07.prompt": {
+      "en": "How do you say \"Sa kabilang banda\"?",
+      "fil": "Paano sabihin ang “Sa kabilang banda”?"
+    },
+    "a07_p08.leftLabel": {
+      "en": "Too strong",
+      "fil": "Masyadong matapang"
+    },
+    "a07_p08.rightLabel": {
+      "en": "Respectful",
+      "fil": "Magalang"
+    },
+    "a07_p08.situations[0].title": {
+      "en": "Disagreeing with a friend",
+      "fil": "Pagtutol sa kaibigan"
+    },
+    "a07_p08.situations[1].title": {
+      "en": "Disagreeing with an elder",
+      "fil": "Pagtutol sa nakatatanda"
+    },
+    "a07_p08.situations[2].title": {
+      "en": "Asking for a reason",
+      "fil": "Paghingi ng dahilan"
+    },
+    "a07_p08.title": {
+      "en": "Too Strong vs Respectful",
+      "fil": "Masyadong Matapang Laban sa Magalang"
+    },
+    "a07_p09.terms[0].note": {
+      "en": "agree a little, then add your view",
+      "fil": "sumang-ayon nang kaunti, saka idagdag ang pananaw mo"
+    },
+    "a07_p09.terms[1].note": {
+      "en": "that's true too",
+      "fil": "totoo rin iyan"
+    },
+    "a07_p09.terms[2].note": {
+      "en": "I agree with you there",
+      "fil": "sang-ayon ako sa iyo diyan"
+    },
+    "a07_p09.terms[3].note": {
+      "en": "maybe we both have a point",
+      "fil": "baka pareho tayong may punto"
+    },
+    "a07_p09.title": {
+      "en": "Meeting in the Middle",
+      "fil": "Pagkikita sa Gitna"
+    },
+    "a07_p10.title": {
+      "en": "Mother Tongue First",
+      "fil": "Inang Wika Muna"
+    },
+    "a07_p11.columns[0]": {
+      "en": "Move",
+      "fil": "Hakbang"
+    },
+    "a07_p11.columns[1]": {
+      "en": "Line",
+      "fil": "Linya"
+    },
+    "a07_p11.columns[2]": {
+      "en": "Key words",
+      "fil": "Mahahalagang salita"
+    },
+    "a07_p11.rows[0][0]": {
+      "en": "Make a point",
+      "fil": "Magpahayag ng punto"
+    },
+    "a07_p11.rows[1][0]": {
+      "en": "Give a reason",
+      "fil": "Magbigay ng dahilan"
+    },
+    "a07_p11.rows[2][0]": {
+      "en": "Give an example",
+      "fil": "Magbigay ng halimbawa"
+    },
+    "a07_p11.rows[3][0]": {
+      "en": "The other side",
+      "fil": "Ang kabilang panig"
+    },
+    "a07_p11.rows[4][0]": {
+      "en": "Agree in part",
+      "fil": "Sumang-ayon nang bahagya"
+    },
+    "a07_p11.rows[5][0]": {
+      "en": "Wrap up",
+      "fil": "Tapusin"
+    },
+    "a07_p11.title": {
+      "en": "The Argument, Move by Move",
+      "fil": "Ang Argumento, Hakbang-hakbang"
+    },
+    "a07_p12.explain": {
+      "en": "*Tuod, pero…* agrees a little, then adds a view.",
+      "fil": "Sumasang-ayon nang kaunti ang *Tuod, pero…*, saka nagdaragdag ng pananaw."
+    },
+    "a07_p12.prompt": {
+      "en": "Which line agrees in part with the other side?",
+      "fil": "Aling linya ang bahagyang sumasang-ayon sa kabilang panig?"
+    },
+    "a07_p13.setting": {
+      "en": "The barangay captain asks the people at a meeting what they think.",
+      "fil": "Tinanong ng kapitan ng barangay ang mga tao sa pulong kung ano ang iniisip nila."
+    },
+    "a07_p13.tip": {
+      "en": "*supot* = plastic bag; *bayong* = woven bag.",
+      "fil": "*supot* = plastik na supot; *bayong* = bayong."
+    },
+    "a07_p13.title": {
+      "en": "Barangay Meeting",
+      "fil": "Pulong sa Barangay"
+    },
+    "a07_p13.turns[0].choices[1].hint": {
+      "en": "too strong for a meeting",
+      "fil": "masyadong matapang para sa pulong"
+    },
+    "a07_p13.turns[0].choices[2].hint": {
+      "en": "give your opinion and a reason",
+      "fil": "ibigay ang opinyon mo at dahilan"
+    },
+    "a07_p13.turns[1].choices[1].hint": {
+      "en": "offer a solution instead",
+      "fil": "magmungkahi na lang ng solusyon"
+    },
+    "a07_p14.bridge[0]": {
+      "en": "*Sa palagay ko* = *Sa banta ko*; *sa kabilang banda* = *sa pihak nga bahin*; *halimbawa* is the same.",
+      "fil": "*Sa palagay ko* = *Sa banta ko*; *sa kabilang banda* = *sa pihak nga bahin*; pareho ang *halimbawa*."
+    },
+    "a07_p14.mistakes[0].why": {
+      "en": "a respectful tone wins more people over.",
+      "fil": "mas maraming tao ang nakukumbinsi ng magalang na tono."
+    },
+    "a07_p14.mistakes[0].wrong": {
+      "en": "Sounding angry (*Sayop ka!*)",
+      "fil": "Pagtunog na galit (*Sayop ka!*)"
+    },
+    "a07_p14.mistakes[1].right": {
+      "en": "add *kay…* and *Halimbawa…*",
+      "fil": "idagdag ang *kay…* at *Halimbawa…*"
+    },
+    "a07_p14.mistakes[1].why": {
+      "en": "people need to know why.",
+      "fil": "kailangang malaman ng mga tao kung bakit."
+    },
+    "a07_p14.mistakes[1].wrong": {
+      "en": "A point with no reason or example",
+      "fil": "Puntong walang dahilan o halimbawa"
+    },
+    "a07_p15.text": {
+      "en": "From 2012, many Philippine schools taught the early grades in the children's home language, Hiligaynon included. In 2024 a new law ended that as the main rule. People still debate which is better, so it's a good topic to practise this lesson's moves.",
+      "fil": "Mula 2012, itinuro ng maraming paaralan sa Pilipinas ang mga unang baitang sa wikang kinagisnan ng mga bata, kasama ang Hiligaynon. Noong 2024, tinapos ng isang bagong batas ang pagiging pangunahing tuntunin nito. Pinagtatalunan pa rin ng mga tao kung alin ang mas mabuti, kaya magandang paksa ito para sanayin ang mga hakbang sa araling ito."
+    },
+    "a07_p15.title": {
+      "en": "Which Language in School?",
+      "fil": "Aling Wika sa Paaralan?"
+    },
+    "a07_p16.prompt": {
+      "en": "What's a good way to wrap up an argument?",
+      "fil": "Ano ang magandang paraan ng pagtatapos ng argumento?"
+    },
+    "a07_q11.question": {
+      "en": "What is the writer's main point?",
+      "fil": "Ano ang pangunahing punto ng sumulat?"
+    },
+    "a07_q12.question": {
+      "en": "What example does the writer give?",
+      "fil": "Anong halimbawa ang ibinigay ng sumulat?"
+    },
+    "a07_q13.question": {
+      "en": "What does the writer say about Filipino and English?",
+      "fil": "Ano ang sinabi ng sumulat tungkol sa Filipino at Ingles?"
+    },
+    "a07_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a07_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a07_q15.prompt": {
+      "en": "Make a short argument about an everyday topic: point, reason, example, other side, wrap-up.",
+      "fil": "Gumawa ng maikling argumento tungkol sa pang-araw-araw na paksa: punto, dahilan, halimbawa, kabilang panig, pagtatapos."
+    },
+    "a07_q2.prompt": {
+      "en": "Which phrase brings in the other side?",
+      "fil": "Aling parirala ang nagpapasok sa kabilang panig?"
+    },
+    "a07_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a07_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a07_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a07_q8.prompt": {
+      "en": "Which reply disagrees respectfully with an elder?",
+      "fil": "Aling sagot ang magalang na tumututol sa nakatatanda?"
+    },
+    "a07_q9.situation": {
+      "en": "Your friend gives an opinion but no reason. What do you ask?",
+      "fil": "Nagbigay ng opinyon ang kaibigan mo pero walang dahilan. Ano ang itatanong mo?"
+    },
+    "a08.objectives[0]": {
+      "en": "Follow natural-speed Hiligaynon by listening for chunks",
+      "fil": "Sundan ang Hiligaynon sa natural na bilis sa pakikinig nang pira-piraso"
+    },
+    "a08.objectives[1]": {
+      "en": "Recognise short forms and mixed English words",
+      "fil": "Kilalanin ang maiikling anyo at mga halong salitang Ingles"
+    },
+    "a08.objectives[2]": {
+      "en": "Tell when a speaker is passing on news (kuno)",
+      "fil": "Malaman kung nagpapasa ng balita ang nagsasalita (kuno)"
+    },
+    "a08.title": {
+      "en": "Fast Listening",
+      "fil": "Mabilis na Pakikinig"
+    },
+    "a08.unit.title": {
+      "en": "Hiligaynon in real life",
+      "fil": "Hiligaynon sa totoong buhay"
+    },
+    "a08_p01.terms[0].note": {
+      "en": "what is it about? how does the speaker feel?",
+      "fil": "tungkol saan ito? ano ang nararamdaman ng nagsasalita?"
+    },
+    "a08_p01.terms[1].note": {
+      "en": "who, where, when, how many, how much",
+      "fil": "sino, saan, kailan, ilan, magkano"
+    },
+    "a08_p01.terms[2].note": {
+      "en": "replay unclear parts only after two listens",
+      "fil": "ulitin ang malalabong bahagi pagkatapos lang ng dalawang pakikinig"
+    },
+    "a08_p01.terms[3].note": {
+      "en": "if you hear *ospital* and *hilanat*, the topic is health",
+      "fil": "kapag narinig mo ang *ospital* at *hilanat*, kalusugan ang paksa"
+    },
+    "a08_p01.terms[4].note": {
+      "en": "English words come with Hiligaynon verb starts",
+      "fil": "may unlaping Hiligaynon ang mga salitang Ingles"
+    },
+    "a08_p01.title": {
+      "en": "How to Follow Fast Speech",
+      "fil": "Paano Sundan ang Mabilis na Pananalita"
+    },
+    "a08_p02.columns[0]": {
+      "en": "What happens",
+      "fil": "Ano ang nangyayari"
+    },
+    "a08_p02.columns[1]": {
+      "en": "Example",
+      "fil": "Halimbawa"
+    },
+    "a08_p02.columns[2]": {
+      "en": "What to do",
+      "fil": "Ano ang gagawin"
+    },
+    "a08_p02.rows[0][0]": {
+      "en": "Words run together",
+      "fil": "Nagdidikit ang mga salita"
+    },
+    "a08_p02.rows[0][2]": {
+      "en": "listen for chunks, not words",
+      "fil": "makinig nang pira-piraso, hindi bawat salita"
+    },
+    "a08_p02.rows[1][0]": {
+      "en": "Short forms",
+      "fil": "Maiikling anyo"
+    },
+    "a08_p02.rows[1][2]": {
+      "en": "learn the short forms",
+      "fil": "pag-aralan ang maiikling anyo"
+    },
+    "a08_p02.rows[2][0]": {
+      "en": "English words mixed in",
+      "fil": "may halong salitang Ingles"
+    },
+    "a08_p02.rows[2][2]": {
+      "en": "follow the Hiligaynon frame",
+      "fil": "sundan ang balangkas ng Hiligaynon"
+    },
+    "a08_p02.rows[3][0]": {
+      "en": "Different accents",
+      "fil": "Iba't ibang punto"
+    },
+    "a08_p02.rows[3][2]": {
+      "en": "compare speakers",
+      "fil": "ihambing ang mga nagsasalita"
+    },
+    "a08_p02.title": {
+      "en": "What Happens in Fast Speech",
+      "fil": "Ano ang Nangyayari sa Mabilis na Pananalita"
+    },
+    "a08_p03.title": {
+      "en": "Words You'll Hear",
+      "fil": "Mga Salitang Maririnig Mo"
+    },
+    "a08_p04.options[0]": {
+      "en": "the speaker is passing on what someone said",
+      "fil": "ipinapasa ng nagsasalita ang sinabi ng iba"
+    },
+    "a08_p04.options[1]": {
+      "en": "the speaker saw it",
+      "fil": "nakita ito ng nagsasalita"
+    },
+    "a08_p04.options[2]": {
+      "en": "it's a question",
+      "fil": "tanong ito"
+    },
+    "a08_p04.prompt": {
+      "en": "\"May bagyo kuno.\" What does *kuno* tell you?",
+      "fil": "“May bagyo kuno.” Ano ang sinasabi sa iyo ng *kuno*?"
+    },
+    "a08_p05.terms[0].note": {
+      "en": "kuno = they say (reported news)",
+      "fil": "kuno = raw/daw (ipinasang balita)"
+    },
+    "a08_p05.terms[1].note": {
+      "en": "daw = it seems",
+      "fil": "daw = parang"
+    },
+    "a08_p05.text": {
+      "en": "Use *kuno* when you pass on what someone said. Use *daw* for an impression (it seems). Depending on the place and the speaker, *daw* can also hint at something heard from others.",
+      "fil": "Gamitin ang *kuno* kapag ipinapasa mo ang sinabi ng iba. Gamitin ang *daw* para sa impresyon (parang). Depende sa lugar at sa nagsasalita, puwede ring magpahiwatig ang *daw* ng narinig mula sa iba."
+    },
+    "a08_p05.title": {
+      "en": "kuno and daw",
+      "fil": "kuno at daw"
+    },
+    "a08_p06.tip": {
+      "en": "First listen: what is the news? Second listen: who sent it?",
+      "fil": "Unang pakikinig: ano ang balita? Ikalawang pakikinig: sino ang nagpadala nito?"
+    },
+    "a08_p06.title": {
+      "en": "Typhoon News",
+      "fil": "Balita Tungkol sa Bagyo"
+    },
+    "a08_p07.prompt": {
+      "en": "What is the news?",
+      "fil": "Ano ang balita?"
+    },
+    "a08_p08.options[0]": {
+      "en": "thankful",
+      "fil": "nagpapasalamat"
+    },
+    "a08_p08.options[1]": {
+      "en": "angry",
+      "fil": "galit"
+    },
+    "a08_p08.options[2]": {
+      "en": "bored",
+      "fil": "nainip"
+    },
+    "a08_p08.prompt": {
+      "en": "How does Ben feel about the news?",
+      "fil": "Ano ang naramdaman ni Ben sa balita?"
+    },
+    "a08_p09.columns[0]": {
+      "en": "Full",
+      "fil": "Buo"
+    },
+    "a08_p09.columns[1]": {
+      "en": "Fast",
+      "fil": "Mabilis"
+    },
+    "a08_p09.text": {
+      "en": "These short forms are common in everyday talk and in texts. Use the full forms when you need to be extra clear or formal. (Other words get shorter in fast speech too, like *Diin ka makadto?*: listen for them in the audio.)",
+      "fil": "Karaniwan ang maiikling anyong ito sa pang-araw-araw na usapan at sa text. Gamitin ang buong anyo kapag kailangan mong maging mas malinaw o pormal. (Umiikli rin ang ibang salita sa mabilis na pananalita, gaya ng *Diin ka makadto?*: pakinggan ang mga ito sa audio.)"
+    },
+    "a08_p09.title": {
+      "en": "Short Forms You'll Hear",
+      "fil": "Maiikling Anyong Maririnig Mo"
+    },
+    "a08_p10.title": {
+      "en": "At the Terminal",
+      "fil": "Sa Terminal"
+    },
+    "a08_p11.prompt": {
+      "en": "How much is the fare to Jaro?",
+      "fil": "Magkano ang pamasahe papuntang Jaro?"
+    },
+    "a08_p12.terms[0].note": {
+      "en": "done",
+      "fil": "tapos na"
+    },
+    "a08_p12.terms[1].note": {
+      "en": "will do",
+      "fil": "gagawin"
+    },
+    "a08_p12.terms[2].note": {
+      "en": "I'll be late",
+      "fil": "male-late ako"
+    },
+    "a08_p12.terms[3].note": {
+      "en": "happened to us",
+      "fil": "nangyari sa amin"
+    },
+    "a08_p12.text": {
+      "en": "Borrowed English words can take Hiligaynon verb starts. Learn each one in a sentence; not every borrowed word follows the same pattern.",
+      "fil": "Puwedeng gamitan ng unlaping Hiligaynon ang mga hiram na salitang Ingles. Pag-aralan ang bawat isa sa loob ng pangungusap; hindi lahat ng hiram na salita ay sumusunod sa iisang padron."
+    },
+    "a08_p12.title": {
+      "en": "English Words, Hiligaynon Starts",
+      "fil": "Mga Salitang Ingles, Unlaping Hiligaynon"
+    },
+    "a08_p13.title": {
+      "en": "Radio Weather Report",
+      "fil": "Ulat ng Panahon sa Radyo"
+    },
+    "a08_p14.bridge[0]": {
+      "en": "Filipino gives you many clues, but check the little words before you decide what was meant.",
+      "fil": "Maraming palatandaan ang ibinibigay ng Filipino, pero tingnan muna ang maliliit na salita bago magpasya kung ano ang ibig sabihin."
+    },
+    "a08_p14.bridge[1]": {
+      "en": "*raw / daw* (reported) = *kuno*; *parang* = *daw*.",
+      "fil": "*raw / daw* (ipinasang balita) = *kuno*; *parang* = *daw*."
+    },
+    "a08_p14.mistakes[0].right": {
+      "en": "keep going and use the clues",
+      "fil": "ituloy lang at gamitin ang mga palatandaan"
+    },
+    "a08_p14.mistakes[0].why": {
+      "en": "the next sentence often explains it.",
+      "fil": "madalas ipaliwanag ito ng kasunod na pangungusap."
+    },
+    "a08_p14.mistakes[0].wrong": {
+      "en": "Stopping when you miss one word",
+      "fil": "Paghinto kapag may isang salitang hindi narinig"
+    },
+    "a08_p14.mistakes[1].right": {
+      "en": "listen twice, then read",
+      "fil": "makinig nang dalawang beses, saka magbasa"
+    },
+    "a08_p14.mistakes[1].why": {
+      "en": "reading first trains your eyes, not your ears.",
+      "fil": "sinasanay ng pagbasa muna ang mata mo, hindi ang tainga."
+    },
+    "a08_p14.mistakes[1].wrong": {
+      "en": "Reading the text before listening again",
+      "fil": "Pagbasa ng teksto bago makinig ulit"
+    },
+    "a08_p15.text": {
+      "en": "AM radio is still a big part of daily life in Western Visayas. Families listen to news and weather in Hiligaynon in the morning, especially when a typhoon is coming. Bombo Radyo, one of the biggest radio networks in the country, started in Iloilo.",
+      "fil": "Malaking bahagi pa rin ng araw-araw na buhay sa Western Visayas ang AM radio. Nakikinig ang mga pamilya sa balita at ulat ng panahon sa Hiligaynon tuwing umaga, lalo na kapag may paparating na bagyo. Nagsimula sa Iloilo ang Bombo Radyo, isa sa pinakamalalaking radio network sa bansa."
+    },
+    "a08_p16.options[0]": {
+      "en": "travel by sea",
+      "fil": "bumiyahe sa dagat"
+    },
+    "a08_p16.options[1]": {
+      "en": "go to work",
+      "fil": "pumasok sa trabaho"
+    },
+    "a08_p16.options[2]": {
+      "en": "watch TV",
+      "fil": "manood ng TV"
+    },
+    "a08_p16.prompt": {
+      "en": "In the radio report, what should people not do?",
+      "fil": "Sa ulat sa radyo, ano ang hindi dapat gawin ng mga tao?"
+    },
+    "a08_q10.situation": {
+      "en": "The conductor shouts \"Dali, dali!\" What does he want?",
+      "fil": "Sumigaw ang konduktor ng “Dali, dali!” Ano ang gusto niya?"
+    },
+    "a08_q11.question": {
+      "en": "What is coming?",
+      "fil": "Ano ang paparating?"
+    },
+    "a08_q12.question": {
+      "en": "When will the rain and wind be strong?",
+      "fil": "Kailan magiging malakas ang ulan at hangin?"
+    },
+    "a08_q13.question": {
+      "en": "What should people not do?",
+      "fil": "Ano ang hindi dapat gawin ng mga tao?"
+    },
+    "a08_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a08_q15.prompt": {
+      "en": "Listen to the radio report (Part 13) again. Write the main idea and three details in Filipino.",
+      "fil": "Pakinggan ulit ang ulat sa radyo (Bahagi 13). Isulat sa Filipino ang pangunahing ideya at tatlong detalye."
+    },
+    "a08_q2.options[0]": {
+      "en": "the speaker is passing on what someone else said",
+      "fil": "ipinapasa ng nagsasalita ang sinabi ng iba"
+    },
+    "a08_q2.options[1]": {
+      "en": "a command",
+      "fil": "isang utos"
+    },
+    "a08_q2.options[2]": {
+      "en": "a question",
+      "fil": "isang tanong"
+    },
+    "a08_q2.options[3]": {
+      "en": "the past",
+      "fil": "ang nakaraan"
+    },
+    "a08_q2.prompt": {
+      "en": "In \"May bagyo kuno\", *kuno* shows:",
+      "fil": "Sa “May bagyo kuno”, ipinapakita ng *kuno*:"
+    },
+    "a08_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a08_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a08_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a08_q8.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a08_q9.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a09.objectives[0]": {
+      "en": "Translate the meaning, the feeling and the respect level",
+      "fil": "Isalin ang kahulugan, ang damdamin at ang antas ng paggalang"
+    },
+    "a09.objectives[1]": {
+      "en": "Pass on what someone said (kuno)",
+      "fil": "Ipasa ang sinabi ng iba (kuno)"
+    },
+    "a09.objectives[2]": {
+      "en": "Check a translation by translating it back",
+      "fil": "Suriin ang salin sa pamamagitan ng pagsasalin pabalik"
+    },
+    "a09.title": {
+      "en": "Translation Mastery",
+      "fil": "Husay sa Pagsasalin"
+    },
+    "a09.unit.title": {
+      "en": "Hiligaynon in real life",
+      "fil": "Hiligaynon sa totoong buhay"
+    },
+    "a09_p01.terms[0].note": {
+      "en": "understand the whole message",
+      "fil": "intindihin ang buong mensahe"
+    },
+    "a09_p01.terms[1].note": {
+      "en": "expressions, little words, respect words",
+      "fil": "mga pahayag, maliliit na salita, salitang panggalang"
+    },
+    "a09_p01.terms[2].note": {
+      "en": "not word by word",
+      "fil": "hindi salita por salita"
+    },
+    "a09_p01.terms[3].note": {
+      "en": "does it sound natural?",
+      "fil": "natural ba ang tunog?"
+    },
+    "a09_p01.terms[4].note": {
+      "en": "compare with the original",
+      "fil": "ihambing sa orihinal"
+    },
+    "a09_p01.title": {
+      "en": "Five Steps to a Good Translation",
+      "fil": "Limang Hakbang sa Mahusay na Salin"
+    },
+    "a09_p02.columns[0]": {
+      "en": "Keep the…",
+      "fil": "Panatilihin ang…"
+    },
+    "a09_p02.columns[1]": {
+      "en": "How",
+      "fil": "Paano"
+    },
+    "a09_p02.columns[2]": {
+      "en": "Example",
+      "fil": "Halimbawa"
+    },
+    "a09_p02.rows[0][0]": {
+      "en": "feeling of an expression",
+      "fil": "damdamin ng isang pahayag"
+    },
+    "a09_p02.rows[0][1]": {
+      "en": "translate the feeling",
+      "fil": "isalin ang damdamin"
+    },
+    "a09_p02.rows[1][0]": {
+      "en": "respect level",
+      "fil": "antas ng paggalang"
+    },
+    "a09_p02.rows[1][1]": {
+      "en": "use titles, *kamo* and polite words; don't translate *po* word for word",
+      "fil": "gumamit ng titulo, *kamo* at magagalang na salita; huwag isalin ang *po* nang salita por salita"
+    },
+    "a09_p02.rows[2][0]": {
+      "en": "strength",
+      "fil": "tindi"
+    },
+    "a09_p02.rows[2][1]": {
+      "en": "keep *gid*",
+      "fil": "panatilihin ang *gid*"
+    },
+    "a09_p02.rows[3][0]": {
+      "en": "set phrase",
+      "fil": "nakasanayang parirala"
+    },
+    "a09_p02.rows[3][1]": {
+      "en": "use the matching phrase",
+      "fil": "gamitin ang katapat na parirala"
+    },
+    "a09_p02.rows[4][0]": {
+      "en": "reported speech",
+      "fil": "ipinasang pananalita"
+    },
+    "a09_p02.title": {
+      "en": "Five Things to Keep",
+      "fil": "Limang Bagay na Dapat Panatilihin"
+    },
+    "a09_p03.title": {
+      "en": "Words for Passing Messages",
+      "fil": "Mga Salita sa Pagpapasa ng Mensahe"
+    },
+    "a09_p04.explain": {
+      "en": "translate the feeling, not each word.",
+      "fil": "isalin ang damdamin, hindi ang bawat salita."
+    },
+    "a09_p04.prompt": {
+      "en": "The best Filipino for \"Ginoo ko!\" is…",
+      "fil": "Ang pinakaangkop na Filipino para sa “Ginoo ko!” ay…"
+    },
+    "a09_p05.leftLabel": {
+      "en": "Word for word (from Filipino)",
+      "fil": "Salita por salita (mula sa Filipino)"
+    },
+    "a09_p05.rightLabel": {
+      "en": "Meaning for meaning",
+      "fil": "Kahulugan sa kahulugan"
+    },
+    "a09_p05.situations[0].left.note": {
+      "en": "that's Filipino",
+      "fil": "Filipino iyan"
+    },
+    "a09_p05.situations[1].left.note": {
+      "en": "*po* and *ingat* are Filipino",
+      "fil": "Filipino ang *po* at *ingat*"
+    },
+    "a09_p05.situations[2].left.note": {
+      "en": "*sana* is Filipino",
+      "fil": "Filipino ang *sana*"
+    },
+    "a09_p05.situations[3].left.note": {
+      "en": "*talaga* is Filipino",
+      "fil": "Filipino ang *talaga*"
+    },
+    "a09_p05.situations[4].changes[0]": {
+      "en": "a set phrase for a set phrase",
+      "fil": "nakasanayang parirala para sa nakasanayang parirala"
+    },
+    "a09_p05.situations[4].left.note": {
+      "en": "word for word",
+      "fil": "salita por salita"
+    },
+    "a09_p05.title": {
+      "en": "Word for Word vs Meaning for Meaning",
+      "fil": "Salita por Salita Laban sa Kahulugan sa Kahulugan"
+    },
+    "a09_p06.explain": {
+      "en": "*kamo* and the title carry the respect.",
+      "fil": "Ang *kamo* at ang titulo ang nagdadala ng paggalang."
+    },
+    "a09_p06.prompt": {
+      "en": "\"Mag-ingat po kayo, Lola.\" Which keeps the respect?",
+      "fil": "“Mag-ingat po kayo, Lola.” Alin ang nagpapanatili ng paggalang?"
+    },
+    "a09_p07.terms[0].note": {
+      "en": "Hiligaynon → Filipino: add po",
+      "fil": "Hiligaynon → Filipino: idagdag ang po"
+    },
+    "a09_p07.terms[1].note": {
+      "en": "Filipino → Hiligaynon (add *Manang* only if you're talking to an older woman)",
+      "fil": "Filipino → Hiligaynon (idagdag lang ang *Manang* kung nakatatandang babae ang kausap mo)"
+    },
+    "a09_p07.text": {
+      "en": "Translate *kayo* by context, often as *kamo*. Don't add or drop *po* mechanically: keep the same level of respect with titles, *kamo* and polite words.",
+      "fil": "Isalin ang *kayo* ayon sa konteksto, kadalasan bilang *kamo*. Huwag basta magdagdag o mag-alis ng *po*: panatilihin ang parehong antas ng paggalang gamit ang titulo, *kamo* at magagalang na salita."
+    },
+    "a09_p07.title": {
+      "en": "Keeping Respect Without po",
+      "fil": "Paggalang Kahit Walang po"
+    },
+    "a09_p08.slots[0].label": {
+      "en": "What was said",
+      "fil": "Ang sinabi"
+    },
+    "a09_p08.slots[1].label": {
+      "en": "They say",
+      "fil": "Raw/Daw"
+    },
+    "a09_p08.slots[2].label": {
+      "en": "About what",
+      "fil": "Tungkol saan"
+    },
+    "a09_p08.title": {
+      "en": "Passing On a Message: … + kuno",
+      "fil": "Pagpapasa ng Mensahe: … + kuno"
+    },
+    "a09_p09.explain": {
+      "en": "reported speech in Hiligaynon is *kuno*.",
+      "fil": "*kuno* ang ipinasang pananalita sa Hiligaynon."
+    },
+    "a09_p10.text": {
+      "en": "Your cousin wrote a message in Filipino. Here is the Hiligaynon translation.",
+      "fil": "Sumulat ng mensahe sa Filipino ang pinsan mo. Heto ang salin nito sa Hiligaynon."
+    },
+    "a09_p10.tip": {
+      "en": "There's no *po* in the Hiligaynon, but the respect is still there: *Lola* and *kamo*.",
+      "fil": "Walang *po* sa Hiligaynon, pero naroon pa rin ang paggalang: *Lola* at *kamo*."
+    },
+    "a09_p10.title": {
+      "en": "A Message to Lola",
+      "fil": "Isang Mensahe para kay Lola"
+    },
+    "a09_p11.columns[0]": {
+      "en": "Hiligaynon draft",
+      "fil": "Burador sa Hiligaynon"
+    },
+    "a09_p11.columns[1]": {
+      "en": "Back to Filipino",
+      "fil": "Pabalik sa Filipino"
+    },
+    "a09_p11.columns[2]": {
+      "en": "Result",
+      "fil": "Resulta"
+    },
+    "a09_p11.rows[0][2]": {
+      "en": "✓ respect kept",
+      "fil": "✓ napanatili ang paggalang"
+    },
+    "a09_p11.rows[1][2]": {
+      "en": "✓ meaning kept",
+      "fil": "✓ napanatili ang kahulugan"
+    },
+    "a09_p11.rows[2][2]": {
+      "en": "more casual than intended → *Halong kamo permi.*",
+      "fil": "mas kaswal kaysa dapat → *Halong kamo permi.*"
+    },
+    "a09_p11.title": {
+      "en": "Translate It Back to Check",
+      "fil": "Isalin Pabalik para Suriin"
+    },
+    "a09_p12.setting": {
+      "en": "Your friend from Manila is visiting. She speaks Filipino; Lola speaks Hiligaynon. You translate.",
+      "fil": "Bumibisita ang kaibigan mong taga-Maynila. Filipino ang wika niya; Hiligaynon ang kay Lola. Ikaw ang nagsasalin."
+    },
+    "a09_p12.title": {
+      "en": "Translating for Lola",
+      "fil": "Pagsasalin para kay Lola"
+    },
+    "a09_p12.turns[0].choices[1].hint": {
+      "en": "*sarap* is Filipino; say *namit*",
+      "fil": "Filipino ang *sarap*; sabihin ang *namit*"
+    },
+    "a09_p12.turns[0].quote": {
+      "en": "Your friend said: \"Ang sarap po ng luto ninyo, Lola!\"",
+      "fil": "Sinabi ng kaibigan mo: “Ang sarap po ng luto ninyo, Lola!”"
+    },
+    "a09_p12.turns[1].choices[0].note": {
+      "en": "Filipino, to your friend",
+      "fil": "Filipino, para sa kaibigan mo"
+    },
+    "a09_p12.turns[1].choices[1].hint": {
+      "en": "your friend speaks Filipino",
+      "fil": "Filipino ang wika ng kaibigan mo"
+    },
+    "a09_p12.turns[2].choices[1].hint": {
+      "en": "that's still Filipino, and it's about her, not you",
+      "fil": "Filipino pa rin iyan, at tungkol iyan sa kanya, hindi sa iyo"
+    },
+    "a09_p12.turns[2].quote": {
+      "en": "Your friend said: \"Busog na po ako. Salamat po!\"",
+      "fil": "Sinabi ng kaibigan mo: “Busog na po ako. Salamat po!”"
+    },
+    "a09_p13.terms[0].note": {
+      "en": "Filipino \"Mahal kita\" (I…you) is *ta ka* in Hiligaynon",
+      "fil": "Ang “Mahal kita” (ako…ikaw) sa Filipino ay *ta ka* sa Hiligaynon"
+    },
+    "a09_p13.terms[1].note": {
+      "en": "Hiligaynon *kita* = we (you and me)",
+      "fil": "Hiligaynon *kita* = tayo (ikaw at ako)"
+    },
+    "a09_p13.text": {
+      "en": "*kita* looks the same in both languages but means something else.",
+      "fil": "Magkamukha ang *kita* sa dalawang wika pero iba ang kahulugan."
+    },
+    "a09_p13.title": {
+      "en": "Watch Out for kita",
+      "fil": "Mag-ingat sa kita"
+    },
+    "a09_p14.bridge[0]": {
+      "en": "Use the swap list from Intermediate Lesson 11 as a checklist, then add the feeling.",
+      "fil": "Gamitin ang listahan ng palitan mula sa Aralin 11 ng Katamtaman bilang checklist, saka idagdag ang damdamin."
+    },
+    "a09_p14.bridge[1]": {
+      "en": "*raw / daw* = *kuno*; *po* → keep the respect with titles, *kamo* and polite words; *talaga* = *gid*.",
+      "fil": "*raw / daw* = *kuno*; *po* → panatilihin ang paggalang gamit ang titulo, *kamo* at magagalang na salita; *talaga* = *gid*."
+    },
+    "a09_p14.mistakes[0].why": {
+      "en": "set phrases don't match word for word.",
+      "fil": "hindi nagtutugma nang salita por salita ang mga nakasanayang parirala."
+    },
+    "a09_p14.mistakes[0].wrong": {
+      "en": "Translating word by word",
+      "fil": "Pagsasalin nang salita por salita"
+    },
+    "a09_p14.mistakes[1].why": {
+      "en": "*ka* is for friends.",
+      "fil": "para sa kaibigan ang *ka*."
+    },
+    "a09_p14.mistakes[1].wrong": {
+      "en": "Losing the respect (*Halong ka* to Lola)",
+      "fil": "Pagkawala ng paggalang (*Halong ka* kay Lola)"
+    },
+    "a09_p14.mistakes[2].right": {
+      "en": "keep it (*Napakaganda* → *Matahom gid*)",
+      "fil": "panatilihin ito (*Napakaganda* → *Matahom gid*)"
+    },
+    "a09_p14.mistakes[2].why": {
+      "en": "the feeling gets weaker.",
+      "fil": "humihina ang damdamin."
+    },
+    "a09_p14.mistakes[2].wrong": {
+      "en": "Dropping *gid*",
+      "fil": "Pag-alis ng *gid*"
+    },
+    "a09_p15.text": {
+      "en": "*Dandansoy* is one of the best-known Hiligaynon folk songs, sung in schools all over the Philippines. Songs are the hardest things to translate: you have to keep the meaning, the feeling and the rhythm at the same time.",
+      "fil": "Isa ang *Dandansoy* sa pinakakilalang awiting-bayan ng Hiligaynon, na inaawit sa mga paaralan sa buong Pilipinas. Ang mga kanta ang pinakamahirap isalin: kailangan mong panatilihin nang sabay ang kahulugan, ang damdamin at ang indayog."
+    },
+    "a09_p16.explain": {
+      "en": "translating back shows what was lost.",
+      "fil": "ipinapakita ng pagsasalin pabalik kung ano ang nawala."
+    },
+    "a09_p16.options[0]": {
+      "en": "Translate it back and compare.",
+      "fil": "Isalin pabalik at ihambing."
+    },
+    "a09_p16.options[1]": {
+      "en": "Count the words.",
+      "fil": "Bilangin ang mga salita."
+    },
+    "a09_p16.options[2]": {
+      "en": "Add po everywhere",
+      "fil": "Lagyan ng po kahit saan"
+    },
+    "a09_p16.prompt": {
+      "en": "What's the last step of a good translation?",
+      "fil": "Ano ang huling hakbang ng mahusay na salin?"
+    },
+    "a09_q11.question": {
+      "en": "Who is the message for?",
+      "fil": "Para kanino ang mensahe?"
+    },
+    "a09_q12.question": {
+      "en": "When are they visiting?",
+      "fil": "Kailan sila bibisita?"
+    },
+    "a09_q13.options[0]": {
+      "en": "It uses \"Lola\" and \"kamo\"",
+      "fil": "Gumagamit ito ng “Lola” at “kamo”"
+    },
+    "a09_q13.options[1]": {
+      "en": "It uses English",
+      "fil": "Gumagamit ito ng Ingles"
+    },
+    "a09_q13.options[2]": {
+      "en": "It doesn't show respect",
+      "fil": "Hindi ito nagpapakita ng paggalang"
+    },
+    "a09_q13.question": {
+      "en": "How does the Hiligaynon show respect without po?",
+      "fil": "Paano ipinapakita ng Hiligaynon ang paggalang kahit walang po?"
+    },
+    "a09_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a09_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a09_q15.prompt": {
+      "en": "Translate this message into Hiligaynon, then back into Filipino: \"Magandang hapon po, Manang. Salamat po sa tulong ninyo. Ingat po kayo.\"",
+      "fil": "Isalin ang mensaheng ito sa Hiligaynon, saka pabalik sa Filipino: “Magandang hapon po, Manang. Salamat po sa tulong ninyo. Ingat po kayo.”"
+    },
+    "a09_q2.options[3]": {
+      "en": "Translate each word alone",
+      "fil": "Isalin nang hiwalay ang bawat salita"
+    },
+    "a09_q2.prompt": {
+      "en": "The best Filipino for \"Ginoo ko!\" is:",
+      "fil": "Ang pinakaangkop na Filipino para sa “Ginoo ko!” ay:"
+    },
+    "a09_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a09_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a09_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a09_q8.prompt": {
+      "en": "The best Filipino for \"Palangga ta ka\" is:",
+      "fil": "Ang pinakaangkop na Filipino para sa “Palangga ta ka” ay:"
+    },
+    "a09_q9.situation": {
+      "en": "You're translating \"Ingat po kayo\" for Lola. Which keeps the respect?",
+      "fil": "Isinasalin mo ang “Ingat po kayo” para kay Lola. Alin ang nagpapanatili ng paggalang?"
+    },
+    "a10.objectives[0]": {
+      "en": "Open and close texts, calls, interviews and meetings",
+      "fil": "Magbukas at magtapos ng text, tawag, interview at pulong"
+    },
+    "a10.objectives[1]": {
+      "en": "Write a polite message to a teacher or boss",
+      "fil": "Sumulat ng magalang na mensahe sa guro o amo"
+    },
+    "a10.objectives[2]": {
+      "en": "Use everything you've learned in real situations",
+      "fil": "Gamitin ang lahat ng natutunan mo sa totoong sitwasyon"
+    },
+    "a10.title": {
+      "en": "Texts, Calls & Meetings",
+      "fil": "Text, Tawag at Pulong"
+    },
+    "a10.unit.title": {
+      "en": "Hiligaynon in real life",
+      "fil": "Hiligaynon sa totoong buhay"
+    },
+    "a10_p01.tip": {
+      "en": "Ana says who she is right away: *Si Ana Reyes ini.*",
+      "fil": "Sinabi agad ni Ana kung sino siya: *Si Ana Reyes ini.*"
+    },
+    "a10_p01.title": {
+      "en": "Calling the Clinic",
+      "fil": "Pagtawag sa Klinika"
+    },
+    "a10_p02.columns[0]": {
+      "en": "Where",
+      "fil": "Saan"
+    },
+    "a10_p02.columns[1]": {
+      "en": "Opening",
+      "fil": "Pagbubukas"
+    },
+    "a10_p02.columns[2]": {
+      "en": "Closing",
+      "fil": "Pagtatapos"
+    },
+    "a10_p02.rows[0][0]": {
+      "en": "Text to a friend",
+      "fil": "Text sa kaibigan"
+    },
+    "a10_p02.rows[1][0]": {
+      "en": "Text to an elder",
+      "fil": "Text sa nakatatanda"
+    },
+    "a10_p02.rows[2][0]": {
+      "en": "Phone call",
+      "fil": "Tawag sa telepono"
+    },
+    "a10_p02.rows[4][0]": {
+      "en": "Community meeting",
+      "fil": "Pulong sa komunidad"
+    },
+    "a10_p02.title": {
+      "en": "Openings and Closings",
+      "fil": "Pagbubukas at Pagtatapos"
+    },
+    "a10_p03.title": {
+      "en": "Words for Real Life",
+      "fil": "Mga Salita para sa Totoong Buhay"
+    },
+    "a10_p04.explain": {
+      "en": "greet, then say who you are.",
+      "fil": "bumati, saka sabihin kung sino ka."
+    },
+    "a10_p04.prompt": {
+      "en": "You're calling the clinic. How do you start?",
+      "fil": "Tumatawag ka sa klinika. Paano ka magsisimula?"
+    },
+    "a10_p05.leftLabel": {
+      "en": "To a friend",
+      "fil": "Sa kaibigan"
+    },
+    "a10_p05.rightLabel": {
+      "en": "To an elder or teacher",
+      "fil": "Sa nakatatanda o guro"
+    },
+    "a10_p05.situations[0].title": {
+      "en": "Saying you're outside",
+      "fil": "Pagsasabing nasa labas ka na"
+    },
+    "a10_p05.situations[1].title": {
+      "en": "Asking if they're free",
+      "fil": "Pagtatanong kung bakante sila"
+    },
+    "a10_p05.situations[2].title": {
+      "en": "Saying thanks",
+      "fil": "Pagpapasalamat"
+    },
+    "a10_p05.situations[3].title": {
+      "en": "Sorry for a late reply",
+      "fil": "Paumanhin sa huling sagot"
+    },
+    "a10_p05.title": {
+      "en": "Text to a Friend vs Text to an Elder",
+      "fil": "Text sa Kaibigan Laban sa Text sa Nakatatanda"
+    },
+    "a10_p06.terms[0].note": {
+      "en": "1. greet and say who you are",
+      "fil": "1. bumati at sabihin kung sino ka"
+    },
+    "a10_p06.terms[1].note": {
+      "en": "2. the reason",
+      "fil": "2. ang dahilan"
+    },
+    "a10_p06.terms[2].note": {
+      "en": "3. your plan",
+      "fil": "3. ang plano mo"
+    },
+    "a10_p06.terms[3].note": {
+      "en": "4. thank them",
+      "fil": "4. pasalamatan sila"
+    },
+    "a10_p06.title": {
+      "en": "A Polite Message in Four Steps",
+      "fil": "Magalang na Mensahe sa Apat na Hakbang"
+    },
+    "a10_p07.title": {
+      "en": "A Message to Ma'am",
+      "fil": "Isang Mensahe kay Ma'am"
+    },
+    "a10_p08.explain": {
+      "en": "a title and *Madamo gid nga salamat* keep it polite.",
+      "fil": "pinananatiling magalang ng titulo at ng *Madamo gid nga salamat*."
+    },
+    "a10_p08.prompt": {
+      "en": "Which closing fits a message to your teacher?",
+      "fil": "Aling pangwakas ang bagay sa mensahe sa guro mo?"
+    },
+    "a10_p09.terms[0].note": {
+      "en": "say who you are",
+      "fil": "sabihin kung sino ka"
+    },
+    "a10_p09.terms[1].note": {
+      "en": "who is this? (friends only)",
+      "fil": "sino ito? (sa kaibigan lang)"
+    },
+    "a10_p09.terms[2].note": {
+      "en": "can I talk to Ben?",
+      "fil": "puwede ko bang makausap si Ben?"
+    },
+    "a10_p09.terms[3].note": {
+      "en": "I can't hear you well",
+      "fil": "hindi kita marinig nang mabuti"
+    },
+    "a10_p09.terms[4].note": {
+      "en": "end the call",
+      "fil": "tapusin ang tawag"
+    },
+    "a10_p09.title": {
+      "en": "On the Phone",
+      "fil": "Sa Telepono"
+    },
+    "a10_p10.slots[0].label": {
+      "en": "Can't make it",
+      "fil": "Hindi makakarating"
+    },
+    "a10_p10.slots[1].label": {
+      "en": "Where, when",
+      "fil": "Saan, kailan"
+    },
+    "a10_p10.slots[2].label": {
+      "en": "Because",
+      "fil": "Dahil"
+    },
+    "a10_p10.slots[3].label": {
+      "en": "Reason",
+      "fil": "Dahilan"
+    },
+    "a10_p10.title": {
+      "en": "Indi ako makaabot + kay + Reason",
+      "fil": "Indi ako makaabot + kay + Dahilan"
+    },
+    "a10_p11.prompt": {
+      "en": "The line is bad and you can't hear the caller.",
+      "fil": "Malabo ang linya at hindi mo marinig ang tumatawag."
+    },
+    "a10_p12.setting": {
+      "en": "You're at a job interview with Ma'am Cruz.",
+      "fil": "Nasa job interview ka kasama si Ma'am Cruz."
+    },
+    "a10_p12.turns[0].choices[1].hint": {
+      "en": "too casual for an interview",
+      "fil": "masyadong kaswal para sa interview"
+    },
+    "a10_p12.turns[1].choices[1].hint": {
+      "en": "tell her about yourself",
+      "fil": "ikuwento sa kanya ang tungkol sa sarili mo"
+    },
+    "a10_p12.turns[2].choices[1].hint": {
+      "en": "give a real reason",
+      "fil": "magbigay ng totoong dahilan"
+    },
+    "a10_p13.terms[0].note": {
+      "en": "open the meeting",
+      "fil": "buksan ang pulong"
+    },
+    "a10_p13.terms[1].note": {
+      "en": "give someone the floor",
+      "fil": "ibigay sa isang tao ang pagkakataong magsalita"
+    },
+    "a10_p13.terms[2].note": {
+      "en": "ask for questions",
+      "fil": "magtanong kung may mga tanong"
+    },
+    "a10_p13.terms[3].note": {
+      "en": "close the meeting",
+      "fil": "isara ang pulong"
+    },
+    "a10_p13.title": {
+      "en": "Running a Community Meeting",
+      "fil": "Pamamahala ng Pulong sa Komunidad"
+    },
+    "a10_p14.terms[0].note": {
+      "en": "greet with respect (Lesson 4)",
+      "fil": "bumati nang may paggalang (Aralin 4)"
+    },
+    "a10_p14.terms[1].note": {
+      "en": "react naturally (Lesson 3)",
+      "fil": "tumugon nang natural (Aralin 3)"
+    },
+    "a10_p14.terms[2].note": {
+      "en": "give your view and a reason (Lesson 7)",
+      "fil": "ibigay ang pananaw mo at dahilan (Aralin 7)"
+    },
+    "a10_p14.terms[3].note": {
+      "en": "tell a story (Lesson 6)",
+      "fil": "magkuwento (Aralin 6)"
+    },
+    "a10_p14.terms[4].note": {
+      "en": "pass on a message (Lesson 9)",
+      "fil": "magpasa ng mensahe (Aralin 9)"
+    },
+    "a10_p14.text": {
+      "en": "You've learned to do all of this in Hiligaynon. Here's one line for each.",
+      "fil": "Natutunan mong gawin lahat ito sa Hiligaynon. Heto ang isang linya para sa bawat isa."
+    },
+    "a10_p14.title": {
+      "en": "Your Hiligaynon Toolkit",
+      "fil": "Ang Iyong Kagamitan sa Hiligaynon"
+    },
+    "a10_p15.bridge[0]": {
+      "en": "Openings and closings change with the person: *Hoy* for friends, a title for elders.",
+      "fil": "Nagbabago ang pagbubukas at pagtatapos ayon sa kausap: *Hoy* sa kaibigan, titulo sa nakatatanda."
+    },
+    "a10_p15.bridge[1]": {
+      "en": "*po* → keep the respect with a title, *kamo* (when the sentence needs \"you\") and polite words; *Ingat!* → *Halong!*; *ito* → *ini*.",
+      "fil": "*po* → panatilihin ang paggalang gamit ang titulo, *kamo* (kapag kailangan ng “ikaw” sa pangungusap) at magagalang na salita; *Ingat!* → *Halong!*; *ito* → *ini*."
+    },
+    "a10_p15.mistakes[0].why": {
+      "en": "*Hoy* is only for close friends.",
+      "fil": "para lang sa malalapit na kaibigan ang *Hoy*."
+    },
+    "a10_p15.mistakes[0].wrong": {
+      "en": "*Hoy!* to a teacher",
+      "fil": "*Hoy!* sa guro"
+    },
+    "a10_p15.mistakes[1].why": {
+      "en": "the other person may not have your number saved.",
+      "fil": "baka hindi naka-save ang number mo sa kausap mo."
+    },
+    "a10_p15.mistakes[1].wrong": {
+      "en": "A message with no name",
+      "fil": "Mensaheng walang pangalan"
+    },
+    "a10_p15.mistakes[2].why": {
+      "en": "Hiligaynon shows respect with a title.",
+      "fil": "Ipinapakita ng Hiligaynon ang paggalang gamit ang titulo."
+    },
+    "a10_p16.text": {
+      "en": "Many Ilonggos text in a mix of Hiligaynon, English and Filipino, often in short forms like *slmt* (salamat) or *ok lng*. That's fine with friends. For teachers, bosses and elders, write full words and start with a greeting.",
+      "fil": "Maraming Ilonggo ang nagte-text sa halo ng Hiligaynon, Ingles at Filipino, kadalasan sa maiikling anyo gaya ng *slmt* (salamat) o *ok lng*. Okay lang iyan sa kaibigan. Sa guro, amo at nakatatanda, isulat nang buo ang mga salita at magsimula sa pagbati."
+    },
+    "a10_p16.title": {
+      "en": "Texting in Three Languages",
+      "fil": "Pag-text sa Tatlong Wika"
+    },
+    "a10_p17.explain": {
+      "en": "thank them, then say *Halong!*",
+      "fil": "pasalamatan sila, saka sabihin ang *Halong!*"
+    },
+    "a10_p17.prompt": {
+      "en": "How do you end a phone call politely?",
+      "fil": "Paano tapusin nang magalang ang tawag?"
+    },
+    "a10_q11.question": {
+      "en": "Why did Ana call?",
+      "fil": "Bakit tumawag si Ana?"
+    },
+    "a10_q12.question": {
+      "en": "When is her appointment?",
+      "fil": "Kailan ang appointment niya?"
+    },
+    "a10_q13.question": {
+      "en": "How does the call end?",
+      "fil": "Paano natapos ang tawag?"
+    },
+    "a10_q14.prompt": {
+      "en": "What does the speaker say?",
+      "fil": "Ano ang sinasabi ng nagsasalita?"
+    },
+    "a10_q15.hint": {
+      "en": "Write a few sentences. Any answer is accepted.",
+      "fil": "Sumulat ng ilang pangungusap. Tatanggapin ang anumang sagot."
+    },
+    "a10_q15.prompt": {
+      "en": "Write a polite message to a teacher: you'll be absent and will hand in your work tomorrow.",
+      "fil": "Sumulat ng magalang na mensahe sa guro: liliban ka at ipapasa mo ang gawain mo bukas."
+    },
+    "a10_q2.prompt": {
+      "en": "Which closing fits a message to a teacher?",
+      "fil": "Aling pangwakas ang bagay sa mensahe sa guro?"
+    },
+    "a10_q5.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a10_q6.prompt": {
+      "en": "Tap the wrong word.",
+      "fil": "I-tap ang maling salita."
+    },
+    "a10_q7.prompt": {
+      "en": "Match the words.",
+      "fil": "Pagtapatin ang mga salita."
+    },
+    "a10_q8.situation": {
+      "en": "You're texting a friend that you've arrived outside.",
+      "fil": "Nagte-text ka sa kaibigan na nasa labas ka na."
+    },
+    "a10_q9.prompt": {
+      "en": "\"Indi ko kamo mabatian sing maayo.\" means:",
+      "fil": "Ang “Indi ko kamo mabatian sing maayo.” ay:"
+    },
+    "advanced.title": {
+      "en": "Advanced",
+      "fil": "Abante"
+    },
+    "advanced.units[0].title": {
+      "en": "Sounding natural",
+      "fil": "Pagiging natural"
+    },
+    "advanced.units[1].title": {
+      "en": "Right words, right people",
+      "fil": "Tamang salita, tamang tao"
+    },
+    "advanced.units[2].title": {
+      "en": "Telling and explaining",
+      "fil": "Pagkukuwento at pagpapaliwanag"
+    },
+    "advanced.units[3].title": {
+      "en": "Hiligaynon in real life",
+      "fil": "Hiligaynon sa totoong buhay"
+    }
+  }
+}

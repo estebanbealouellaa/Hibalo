@@ -1,0 +1,55 @@
+{
+  "_meta": {
+    "language": "fil",
+    "source": "learning_settings.json",
+    "note": "Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.",
+    "updated": "2026-11-16",
+    "count": 11
+  },
+  "strings": {
+    "advanced.title": {
+      "en": "Advanced",
+      "fil": "Abante"
+    },
+    "beginner.title": {
+      "en": "Beginner",
+      "fil": "Baguhan"
+    },
+    "intermediate.title": {
+      "en": "Intermediate",
+      "fil": "Katamtaman"
+    },
+    "settings.resultTiers[2].title": {
+      "en": "Keep practicing",
+      "fil": "Magsanay pa"
+    },
+    "speakers.Driver": {
+      "en": "Driver",
+      "fil": "Drayber"
+    },
+    "speakers.Friend": {
+      "en": "Friend",
+      "fil": "Kaibigan"
+    },
+    "speakers.Guard": {
+      "en": "Guard",
+      "fil": "Guwardiya"
+    },
+    "speakers.Man": {
+      "en": "Man",
+      "fil": "Lalaki"
+    },
+    "speakers.Seller": {
+      "en": "Seller",
+      "fil": "Tindero"
+    },
+    "speakers.Server": {
+      "en": "Server",
+      "fil": "Weyter"
+    },
+    "speakers.You": {
+      "en": "You",
+      "fil": "Ikaw"
+    }
+  }
+}
