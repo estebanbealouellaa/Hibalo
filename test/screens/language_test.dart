@@ -1,5 +1,6 @@
 // The language pop-up (after Sign Up only), Me › Language, and every UI string in English, Filipino and Hiligaynon.
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -132,6 +133,34 @@ void main() {
 
     await lang.setLanguage('English');
     await lang.useAccount('ana');
+    expect(lang.language, 'English');
+  });
+
+  test('the account restored a moment after start still gets its language, and a new choice sticks', () async {
+    final lang = AppLanguage.instance;
+    final accounts = StreamController<String?>();
+    addTearDown(accounts.close);
+    SharedPreferences.setMockInitialValues({'app_language_ana': 'Filipino'});
+
+    // App start: Firebase hasn't restored the user yet.
+    await lang.useAccount(null);
+    lang.followAccounts(accounts.stream);
+    expect(lang.language, 'English');
+
+    // The user is restored: the account's language shows.
+    accounts.add('ana');
+    await pumpEventQueue();
+    expect(lang.language, 'Filipino');
+
+    // The learner picks English: saved for the account.
+    await lang.setLanguage('English');
+    expect((await SharedPreferences.getInstance()).getString('app_language_ana'), 'English');
+
+    // Next start, same late restore: English stays.
+    await lang.useAccount(null);
+    accounts.add(null);
+    accounts.add('ana');
+    await pumpEventQueue();
     expect(lang.language, 'English');
   });
 

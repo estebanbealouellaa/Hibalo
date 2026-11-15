@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +27,18 @@ class AppLanguage extends ChangeNotifier {
 
   String _language = 'English';
   String? _uid;
+  StreamSubscription<String?>? _accounts;
+
+  /// Follows the signed-in account (pass Firebase's authStateChanges as uids). Firebase can
+  /// restore the signed-in user a moment after the app starts, so a single read at startup
+  /// may still see "signed out": then the account's language wasn't applied and a new choice
+  /// wasn't saved for it. Following the account applies and saves it whenever it is known.
+  void followAccounts(Stream<String?> accounts) {
+    _accounts?.cancel();
+    _accounts = accounts.listen((uid) {
+      if (uid != _uid) useAccount(uid);
+    });
+  }
 
   String get language => _language;
   Locale get locale => locales[_language]!;
@@ -42,6 +57,7 @@ class AppLanguage extends ChangeNotifier {
       }
     }
     if (uid != _uid) return;
+    if (kDebugMode) debugPrint('[AppLanguage] ${uid == null ? 'signed out' : 'account'}: $language');
     _show(language);
   }
 

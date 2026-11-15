@@ -28,6 +28,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await AppLanguage.instance.useAccount(FirebaseAuth.instance.currentUser?.uid);
+  AppLanguage.instance.followAccounts(FirebaseAuth.instance.authStateChanges().map((user) => user?.uid));
 
   // First open (fresh install or cleared data) shows the full splash and
   // onboarding; every later launch shows the short plain splash.
