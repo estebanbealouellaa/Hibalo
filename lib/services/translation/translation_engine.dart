@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onnxruntime/flutter_onnxruntime.dart';
 
+import '../model_cache.dart';
+
 /// Number of hypotheses kept by beam search. Change it here.
 const int kBeamSize = 4;
 
@@ -143,6 +145,8 @@ class TranslationEngine {
       '$modelDir/$_decoderFile',
       options: options,
     );
+    await ModelCache.dropCopy('$modelDir/$_encoderFile');
+    await ModelCache.dropCopy('$modelDir/$_decoderFile');
 
     _zeroPast = await OrtValue.fromList(Float32List(heads * headSize), [
       1,

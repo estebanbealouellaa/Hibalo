@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onnxruntime/flutter_onnxruntime.dart';
 
+import '../model_cache.dart';
 import 'hiligaynon_tts_dsp.dart';
 import 'hiligaynon_tts_text.dart';
 
@@ -122,6 +123,7 @@ class HiligaynonTtsEngine {
     };
 
     _session = await _createSession();
+    await ModelCache.dropCopy('$modelDir/$modelFile');
     debugPrint(
       '[HiligaynonTTS] voice loaded in ${sw.elapsedMilliseconds} ms '
       '(seed ${cfg['seed']}, noise_scale ${cfg['noise_scale']}, '
