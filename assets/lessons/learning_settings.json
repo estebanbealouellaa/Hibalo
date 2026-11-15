@@ -304,6 +304,14 @@
       ],
       "default": "English",
       "note": "Only the app's own words (menus, buttons, labels, messages) follow this setting. Lesson content in lessons.json does not change: Hiligaynon stays Hiligaynon, meanings stay Filipino, and lesson explanations stay as written."
+    },
+    "pronunciationFeedback": {
+      "enabled": false,
+      "veryClose": null,
+      "almost": null,
+      "minSpeechMs": 250,
+      "minLevelDb": -40,
+      "note": "Q09 pronunciation similarity feedback (practice only: no score, no XP). Shown only when enabled is true and both thresholds are set; lower score = closer. veryClose/almost come from the team's test recordings. A recording counts as heard when its loudest 25 ms reaches minLevelDb (dBFS) and the sound lasts at least minSpeechMs; otherwise 'Couldn't hear'. No native clip = 'Comparison coming soon'."
     }
   },
   "templates": {

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../l10n/app_language.dart';
 import '../models/progress.dart';
 import '../state/learning_progress.dart';
+import 'pronunciation_tuning_screen.dart';
 
 /// Debug builds only (no bug icon in release): sets lesson progress and the app language for testing; English on purpose.
 void showLearnDebugMenu(BuildContext context) {
@@ -123,6 +124,20 @@ void showLearnDebugMenu(BuildContext context) {
                 ));
               },
             ),
+          const Divider(),
+          ListTile(
+            title: const Text('DEBUG · Pronunciation tuning (Q09)'),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () {
+              Navigator.pop(sheet);
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                builder: (_) => ChangeNotifierProvider.value(
+                  value: progress,
+                  child: const PronunciationTuningScreen(),
+                ),
+              ));
+            },
+          ),
           const Divider(),
           const ListTile(title: Text('DEBUG · App language')),
           for (final language in AppLanguage.locales.keys)

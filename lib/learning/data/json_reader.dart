@@ -40,6 +40,13 @@ class JsonReader {
     return v.toDouble();
   }
 
+  double? numberOrNull(String key) {
+    final v = map[key];
+    if (v == null) return null;
+    if (v is! num) fail('"$key" should be a number or null');
+    return v.toDouble();
+  }
+
   bool boolean(String key, {bool? fallback}) {
     final v = map[key];
     if (v == null && fallback != null) return fallback;

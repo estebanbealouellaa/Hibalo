@@ -91,7 +91,11 @@ class LearningSettings {
     required this.lastPartNoQuizButton,
     required this.uiLanguages,
     required this.defaultUiLanguage,
+    this.pronunciation = PronunciationSettings.off,
   });
+
+  /// Q09 pronunciation similarity feedback (off until tuned).
+  final PronunciationSettings pronunciation;
 
   /// Share of scored questions needed to pass (0.8 = 80%).
   final double passMark;
@@ -166,6 +170,55 @@ class LearningSettings {
       lastPartNoQuizButton: buttons.str('lastPartNoQuiz'),
       uiLanguages: languages.strings('options'),
       defaultUiLanguage: languages.str('default'),
+      pronunciation: PronunciationSettings.fromJson(r.objectOrNull('pronunciationFeedback')),
+    );
+  }
+}
+
+/// settings.pronunciationFeedback. Missing block = off.
+class PronunciationSettings {
+  const PronunciationSettings({
+    required this.enabled,
+    required this.veryClose,
+    required this.almost,
+    required this.minSpeechMs,
+    required this.minLevelDb,
+  });
+
+  static const off = PronunciationSettings(
+    enabled: false,
+    veryClose: null,
+    almost: null,
+    minSpeechMs: 250,
+    minLevelDb: -40,
+  );
+
+  final bool enabled;
+
+  /// Score at or below this = "Very close"; at or below [almost] = "Almost".
+  final double? veryClose;
+  final double? almost;
+
+  /// "Couldn't hear" when the sound is shorter or quieter than these.
+  final int minSpeechMs;
+  final double minLevelDb;
+
+  /// Learners see the feedback only when it's switched on and tuned.
+  bool get active => enabled && veryClose != null && almost != null;
+
+  factory PronunciationSettings.fromJson(JsonReader? r) {
+    if (r == null) return off;
+    final veryClose = r.numberOrNull('veryClose');
+    final almost = r.numberOrNull('almost');
+    if (veryClose != null && almost != null && veryClose > almost) {
+      r.fail('veryClose should not be above almost');
+    }
+    return PronunciationSettings(
+      enabled: r.boolean('enabled'),
+      veryClose: veryClose,
+      almost: almost,
+      minSpeechMs: r.integer('minSpeechMs'),
+      minLevelDb: r.number('minLevelDb'),
     );
   }
 }
