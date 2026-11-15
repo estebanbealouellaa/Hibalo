@@ -58,8 +58,8 @@
       ],
       "estMinutes": 22,
       "partsCount": 17,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a01-who-did-what-2.webp",
+      "coverImage": "images/lessons/lesson-a01-who-did-what-2-hero.webp",
       "unlock": {
         "after": null,
         "needs": null
@@ -613,7 +613,7 @@
           "type": "culture_note",
           "title": "Pancit Molo",
           "text": "*Pancit Molo* is a dumpling soup named after the Molo district of Iloilo City. Many Ilonggo families serve it at birthdays and family gatherings, especially when it rains.",
-          "image": null
+          "image": "images/culture/culture-lesson-a01.webp"
         }
       ],
       "items": [
@@ -622,7 +622,7 @@
           "hil": "sulat",
           "fil": "sulat / liham",
           "audio": "audio/a01/a01_sulat.m4a",
-          "image": null,
+          "image": "images/words/word-sulat.webp",
           "example": {
             "hil": "Nagsulat ako sang sulat.",
             "fil": "Sumulat ako ng liham."
@@ -670,7 +670,7 @@
           "hil": "ginhinlo",
           "fil": "nilinis",
           "audio": "audio/a01/a01_ginhinlo.m4a",
-          "image": null,
+          "image": "images/words/word-ginhinlo.webp",
           "example": {
             "hil": "Ginhinlo ko ang balay.",
             "fil": "Nilinis ko ang bahay."
@@ -682,7 +682,7 @@
           "hil": "kaadlawan",
           "fil": "kaarawan",
           "audio": "audio/a01/a01_kaadlawan.m4a",
-          "image": null,
+          "image": "images/words/word-kaadlawan.webp",
           "example": {
             "hil": "Kaadlawan ni Lola buwas.",
             "fil": "Kaarawan ni Lola bukas."
@@ -1007,8 +1007,8 @@
       ],
       "estMinutes": 20,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a02-sounding-local.webp",
+      "coverImage": "images/lessons/lesson-a02-sounding-local-hero.webp",
       "unlock": {
         "after": "a01",
         "needs": "passQuiz"
@@ -1546,7 +1546,7 @@
           "type": "culture_note",
           "title": "Ilonggo Everywhere",
           "text": "Hiligaynon travelled with families who moved for work and land. You can hear it in Mindanao towns like Koronadal and Isulan, in Manila, and here in Batangas, where Ilonggo families live in Sta. Maria, Sto. Tomas.",
-          "image": null
+          "image": "images/culture/culture-lesson-a02.webp"
         },
         {
           "id": "a02_p16",
@@ -1932,8 +1932,8 @@
       ],
       "estMinutes": 20,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a03-idioms.webp",
+      "coverImage": "images/lessons/lesson-a03-idioms-hero.webp",
       "unlock": {
         "after": "a02",
         "needs": "passQuiz"
@@ -2609,7 +2609,7 @@
           "type": "culture_note",
           "title": "Sweet-Sounding Ilonggo",
           "text": "Hiligaynon is often called a sweet, gentle-sounding language. Even a complaint like *Ay, kabudlay!* is often said with a sigh and a smile. Listen to the tone as much as the words.",
-          "image": null
+          "image": "images/culture/culture-lesson-a03.webp"
         }
       ],
       "items": [
@@ -2982,8 +2982,8 @@
       ],
       "estMinutes": 21,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a04-polite-casual.webp",
+      "coverImage": "images/lessons/lesson-a04-polite-casual-hero.webp",
       "unlock": {
         "after": "a03",
         "needs": "passQuiz"
@@ -3521,7 +3521,7 @@
           "type": "culture_note",
           "title": "Mano",
           "text": "Taking an elder's hand and touching it to your forehead (*pagmano*) is common all over the Philippines, Iloilo included. Kids often say *Mano, La* as they do it when they arrive or leave.",
-          "image": null
+          "image": "images/culture/culture-lesson-a04.webp"
         },
         {
           "id": "a04_p16",
@@ -3911,8 +3911,8 @@
       ],
       "estMinutes": 21,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a05-culture-topics.webp",
+      "coverImage": "images/lessons/lesson-a05-culture-topics-hero.webp",
       "unlock": {
         "after": "a04",
         "needs": "passQuiz"
@@ -4447,7 +4447,7 @@
           "type": "culture_note",
           "title": "Paraw Regatta",
           "text": "A *paraw* is a traditional sailboat with two outriggers. Every February, the Paraw Regatta races them across the Iloilo Strait between Iloilo and Guimaras. It is often called one of the oldest traditional sailing events in Asia.",
-          "image": null
+          "image": "images/culture/culture-lesson-a05.webp"
         }
       ],
       "items": [
@@ -4839,8 +4839,8 @@
       ],
       "estMinutes": 21,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a06-telling-a-story.webp",
+      "coverImage": "images/lessons/lesson-a06-telling-a-story-hero.webp",
       "unlock": {
         "after": "a05",
         "needs": "passQuiz"
@@ -5306,7 +5306,7 @@
           "type": "culture_note",
           "title": "Sugilanon",
           "text": "*Sugilanon* is the Hiligaynon word for a short story. For decades, the weekly magazine *Hiligaynon* printed sugilanon, poems and serialized novels for Ilonggo readers.",
-          "image": null
+          "image": "images/culture/culture-lesson-a06.webp"
         },
         {
           "id": "a06_p16",
@@ -5376,7 +5376,7 @@
           "hil": "lunang",
           "fil": "putik",
           "audio": "audio/a06/a06_lunang.m4a",
-          "image": null,
+          "image": "images/words/word-lunang.webp",
           "example": {
             "hil": "Nadula ang tsinelas ko sa lunang.",
             "fil": "Nawala ang tsinelas ko sa putik."
@@ -5388,7 +5388,7 @@
           "hil": "uma",
           "fil": "bukid / sakahan",
           "audio": "audio/a06/a06_uma.m4a",
-          "image": null,
+          "image": "images/words/word-uma.webp",
           "example": {
             "hil": "May uma si Lolo sa Guimaras.",
             "fil": "May bukid si Lolo sa Guimaras."
@@ -5715,8 +5715,8 @@
       ],
       "estMinutes": 21,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a07-debating.webp",
+      "coverImage": "images/lessons/lesson-a07-debating-hero.webp",
       "unlock": {
         "after": "a06",
         "needs": "passQuiz"
@@ -6191,7 +6191,7 @@
           "type": "culture_note",
           "title": "Which Language in School?",
           "text": "From 2012, many Philippine schools taught the early grades in the children's home language, Hiligaynon included. In 2024 a new law ended that as the main rule. People still debate which is better, so it's a good topic to practise this lesson's moves.",
-          "image": null
+          "image": "images/culture/culture-lesson-a07.webp"
         },
         {
           "id": "a07_p16",
@@ -6593,8 +6593,8 @@
       ],
       "estMinutes": 22,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a08-fast-listening.webp",
+      "coverImage": "images/lessons/lesson-a08-fast-listening-hero.webp",
       "unlock": {
         "after": "a07",
         "needs": "passQuiz"
@@ -7003,7 +7003,7 @@
           "type": "culture_note",
           "title": "Radyo",
           "text": "AM radio is still a big part of daily life in Western Visayas. Families listen to news and weather in Hiligaynon in the morning, especially when a typhoon is coming. Bombo Radyo, one of the biggest radio networks in the country, started in Iloilo.",
-          "image": null
+          "image": "images/culture/culture-lesson-a08.webp"
         },
         {
           "id": "a08_p16",
@@ -7400,8 +7400,8 @@
       ],
       "estMinutes": 21,
       "partsCount": 16,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a09-translation.webp",
+      "coverImage": "images/lessons/lesson-a09-translation-hero.webp",
       "unlock": {
         "after": "a08",
         "needs": "passQuiz"
@@ -7877,7 +7877,7 @@
           "type": "culture_note",
           "title": "Dandansoy",
           "text": "*Dandansoy* is one of the best-known Hiligaynon folk songs, sung in schools all over the Philippines. Songs are the hardest things to translate: you have to keep the meaning, the feeling and the rhythm at the same time.",
-          "image": null
+          "image": "images/culture/culture-lesson-a09.webp"
         },
         {
           "id": "a09_p16",
@@ -8253,8 +8253,8 @@
       ],
       "estMinutes": 22,
       "partsCount": 17,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-a10-texts-calls-meetings.webp",
+      "coverImage": "images/lessons/lesson-a10-texts-calls-meetings-hero.webp",
       "unlock": {
         "after": "a09",
         "needs": "passQuiz"
@@ -8801,7 +8801,7 @@
           "type": "culture_note",
           "title": "Texting in Three Languages",
           "text": "Many Ilonggos text in a mix of Hiligaynon, English and Filipino, often in short forms like *slmt* (salamat) or *ok lng*. That's fine with friends. For teachers, bosses and elders, write full words and start with a greeting.",
-          "image": null
+          "image": "images/culture/culture-lesson-a10.webp"
         },
         {
           "id": "a10_p17",

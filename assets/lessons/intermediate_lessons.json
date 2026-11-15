@@ -60,8 +60,8 @@
       ],
       "estMinutes": 16,
       "partsCount": 15,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i01-feelings.webp",
+      "coverImage": "images/lessons/lesson-i01-feelings-hero.webp",
       "unlock": {
         "after": null,
         "needs": null
@@ -513,7 +513,7 @@
           "type": "culture_note",
           "title": "Typhoon season",
           "text": "The Visayas gets many typhoons from June to November. Ilonggos often greet each other after a storm with *Okay lang kamo?* and share news about *baha* (floods) and *brownout*.",
-          "image": null
+          "image": "images/culture/culture-lesson-i01.webp"
         }
       ],
       "items": [
@@ -547,7 +547,7 @@
           "hil": "kapoy",
           "fil": "pagod",
           "audio": "audio/i01/i01_kapoy.m4a",
-          "image": null,
+          "image": "images/words/word-kapoy.webp",
           "example": {
             "hil": "Kapoy na ako.",
             "fil": "Pagod na ako."
@@ -559,7 +559,7 @@
           "hil": "akig",
           "fil": "galit",
           "audio": "audio/i01/i01_akig.m4a",
-          "image": null,
+          "image": "images/words/word-akig.webp",
           "example": {
             "hil": "Naakig siya.",
             "fil": "Nagalit siya."
@@ -571,7 +571,7 @@
           "hil": "kahadlok",
           "fil": "takot",
           "audio": "audio/i01/i01_kahadlok.m4a",
-          "image": null,
+          "image": "images/words/word-kahadlok.webp",
           "example": {
             "hil": "Nahadlok ako.",
             "fil": "Natakot ako."
@@ -595,7 +595,7 @@
           "hil": "hilanat",
           "fil": "lagnat",
           "audio": "audio/i01/i01_hilanat.m4a",
-          "image": null,
+          "image": "images/words/word-hilanat.webp",
           "example": {
             "hil": "Ginahilanat ako.",
             "fil": "May lagnat ako."
@@ -607,7 +607,7 @@
           "hil": "ubo",
           "fil": "ubo",
           "audio": "audio/i01/i01_ubo.m4a",
-          "image": null,
+          "image": "images/words/word-ubo.webp",
           "example": {
             "hil": "Nagaubo ako.",
             "fil": "Inuubo ako."
@@ -655,7 +655,7 @@
           "hil": "tambal",
           "fil": "gamot",
           "audio": "audio/i01/i01_tambal.m4a",
-          "image": null,
+          "image": "images/words/word-tambal.webp",
           "example": {
             "hil": "Inom ka sang tambal.",
             "fil": "Uminom ka ng gamot."
@@ -679,7 +679,7 @@
           "hil": "ulan",
           "fil": "ulan",
           "audio": "audio/i01/i01_ulan.m4a",
-          "image": null,
+          "image": "images/words/word-ulan.webp",
           "example": {
             "hil": "Nagaulan.",
             "fil": "Umuulan."
@@ -691,7 +691,7 @@
           "hil": "mainit",
           "fil": "mainit",
           "audio": "audio/i01/i01_mainit.m4a",
-          "image": null,
+          "image": "images/words/word-mainit.webp",
           "example": {
             "hil": "Mainit subong.",
             "fil": "Mainit ngayon."
@@ -715,7 +715,7 @@
           "hil": "bagyo",
           "fil": "bagyo",
           "audio": "audio/i01/i01_bagyo.m4a",
-          "image": null,
+          "image": "images/words/word-bagyo.webp",
           "example": {
             "hil": "May bagyo.",
             "fil": "May bagyo."
@@ -727,7 +727,7 @@
           "hil": "baha",
           "fil": "baha",
           "audio": "audio/i01/i01_baha.m4a",
-          "image": null,
+          "image": "images/words/word-baha.webp",
           "example": {
             "hil": "May baha sa dalan.",
             "fil": "May baha sa daan."
@@ -975,8 +975,8 @@
       ],
       "estMinutes": 16,
       "partsCount": 13,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i02-getting-around.webp",
+      "coverImage": "images/lessons/lesson-i02-getting-around-hero.webp",
       "unlock": {
         "after": "i01",
         "needs": "passQuiz"
@@ -1368,7 +1368,7 @@
           "type": "culture_note",
           "title": "Jeepneys in Iloilo",
           "text": "Iloilo's jeepneys are known for their long, rounded \"sedan-like\" front, different from Manila jeepneys. Riders pass their fare forward with *Bayad!* and ask the driver to stop with *Lugar lang!*",
-          "image": null
+          "image": "images/culture/culture-lesson-i02.webp"
         }
       ],
       "items": [
@@ -1377,7 +1377,7 @@
           "hil": "trabaho",
           "fil": "trabaho",
           "audio": "audio/i02/i02_trabaho.m4a",
-          "image": null,
+          "image": "images/words/word-trabaho.webp",
           "example": {
             "hil": "Ano ang imo trabaho?",
             "fil": "Ano ang trabaho mo?"
@@ -1389,7 +1389,7 @@
           "hil": "kaupod sa trabaho",
           "fil": "katrabaho",
           "audio": "audio/i02/i02_kaupod_sa_trabaho.m4a",
-          "image": null,
+          "image": "images/words/word-kaupod-sa-trabaho.webp",
           "example": {
             "hil": "Si Ben ang kaupod ko sa trabaho.",
             "fil": "Si Ben ang katrabaho ko."
@@ -1410,7 +1410,7 @@
           "hil": "klase",
           "fil": "klase",
           "audio": "audio/i02/i02_klase.m4a",
-          "image": null,
+          "image": "images/words/word-klase.webp",
           "example": {
             "hil": "May klase ako buwas.",
             "fil": "May klase ako bukas."
@@ -1422,7 +1422,7 @@
           "hil": "eksamen",
           "fil": "pagsusulit",
           "audio": "audio/i02/i02_eksamen.m4a",
-          "image": null,
+          "image": "images/words/word-eksamen.webp",
           "example": {
             "hil": "May eksamen kami subong.",
             "fil": "May pagsusulit kami ngayon."
@@ -1443,7 +1443,7 @@
           "hil": "dyip",
           "fil": "dyip",
           "audio": "audio/i02/i02_dyip.m4a",
-          "image": null,
+          "image": "images/words/word-dyip.webp",
           "example": {
             "hil": "Nagsakay ako sa dyip.",
             "fil": "Sumakay ako sa dyip."
@@ -1455,7 +1455,7 @@
           "hil": "traysikel",
           "fil": "traysikel",
           "audio": "audio/i02/i02_traysikel.m4a",
-          "image": null,
+          "image": "images/words/word-traysikel.webp",
           "example": null,
           "check": "ok"
         },
@@ -1464,7 +1464,7 @@
           "hil": "traysikad",
           "fil": "padyak",
           "audio": "audio/i02/i02_traysikad.m4a",
-          "image": null,
+          "image": "images/words/word-traysikad.webp",
           "example": null,
           "check": "ok"
         },
@@ -1473,7 +1473,7 @@
           "hil": "pamasahe",
           "fil": "pamasahe",
           "audio": "audio/i02/i02_pamasahe.m4a",
-          "image": null,
+          "image": "images/words/word-pamasahe.webp",
           "example": {
             "hil": "Pila ang pamasahe?",
             "fil": "Magkano ang pamasahe?"
@@ -1497,7 +1497,7 @@
           "hil": "Lugar lang!",
           "fil": "Para! / Dito na lang!",
           "audio": "audio/i02/i02_lugar_lang.m4a",
-          "image": null,
+          "image": "images/words/word-lugar-lang.webp",
           "example": {
             "hil": "Lugar lang, Manong.",
             "fil": "Dito na lang, Manong."
@@ -1746,8 +1746,8 @@
       ],
       "estMinutes": 18,
       "partsCount": 15,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i03-time.webp",
+      "coverImage": "images/lessons/lesson-i03-time-hero.webp",
       "unlock": {
         "after": "i02",
         "needs": "passQuiz"
@@ -2160,7 +2160,7 @@
           "type": "culture_note",
           "title": "Rest After Lunch",
           "text": "In many Ilonggo homes, the family rests for a while after lunch (*panyaga*) before going back to work. People say *Pahuway anay* (rest first).",
-          "image": null
+          "image": "images/culture/culture-lesson-i03.webp"
         },
         {
           "id": "i03_p15",
@@ -2199,7 +2199,7 @@
           "hil": "kada aga",
           "fil": "tuwing umaga",
           "audio": "audio/i03/i03_kada_aga.m4a",
-          "image": null,
+          "image": "images/words/word-kada-aga.webp",
           "example": {
             "hil": "Kada aga nagabasa ako.",
             "fil": "Tuwing umaga nagbabasa ako."
@@ -2211,7 +2211,7 @@
           "hil": "sang Sabado",
           "fil": "noong Sabado",
           "audio": "audio/i03/i03_sang_sabado.m4a",
-          "image": null,
+          "image": "images/words/word-sang-sabado.webp",
           "example": {
             "hil": "Sang Sabado nagkadto kami sa merkado.",
             "fil": "Noong Sabado pumunta kami sa palengke."
@@ -2473,8 +2473,8 @@
       ],
       "estMinutes": 18,
       "partsCount": 14,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i04-who-did-what.webp",
+      "coverImage": "images/lessons/lesson-i04-who-did-what-hero.webp",
       "unlock": {
         "after": "i03",
         "needs": "passQuiz"
@@ -2882,7 +2882,7 @@
           "type": "culture_note",
           "title": "La Paz Batchoy",
           "text": "Iloilo is proud of *La Paz batchoy*, a noodle soup named after the La Paz district of Iloilo City. Ilonggos say *Namit gid ang batchoy!*",
-          "image": null
+          "image": "images/culture/culture-lesson-i04.webp"
         },
         {
           "id": "i04_p14",
@@ -3191,8 +3191,8 @@
       ],
       "estMinutes": 16,
       "partsCount": 13,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i05-little-words.webp",
+      "coverImage": "images/lessons/lesson-i05-little-words-hero.webp",
       "unlock": {
         "after": "i04",
         "needs": "passQuiz"
@@ -3630,7 +3630,7 @@
           "type": "culture_note",
           "title": "Ambot!",
           "text": "*Ambot* can mean \"I don't know\", \"whatever\" or \"I'm not sure…\", depending on your tone. Ilonggos are known for a soft, sing-song way of speaking, so listen to the tone, not just the words.",
-          "image": null
+          "image": "images/culture/culture-lesson-i05.webp"
         }
       ],
       "items": [
@@ -3969,8 +3969,8 @@
       ],
       "estMinutes": 17,
       "partsCount": 14,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i06-describing.webp",
+      "coverImage": "images/lessons/lesson-i06-describing-hero.webp",
       "unlock": {
         "after": "i05",
         "needs": "passQuiz"
@@ -4377,7 +4377,7 @@
           "type": "culture_note",
           "title": "Guimaras Mangoes",
           "text": "Guimaras, an island province next to Iloilo, is famous for its sweet mangoes. Ilonggos proudly call them some of the sweetest in the world: *Matam-is gid!*",
-          "image": null
+          "image": "images/culture/culture-lesson-i06.webp"
         }
       ],
       "items": [
@@ -4386,7 +4386,7 @@
           "hil": "mataas",
           "fil": "matangkad / mataas",
           "audio": "audio/i06/i06_mataas.m4a",
-          "image": null,
+          "image": "images/words/word-mataas.webp",
           "example": {
             "hil": "Mataas si Ben.",
             "fil": "Matangkad si Ben."
@@ -4398,7 +4398,7 @@
           "hil": "mubo",
           "fil": "maikli / pandak",
           "audio": "audio/i06/i06_mubo.m4a",
-          "image": null,
+          "image": "images/words/word-mubo.webp",
           "example": {
             "hil": "Mubo ang lapis.",
             "fil": "Maikli ang lapis."
@@ -4410,7 +4410,7 @@
           "hil": "madasig",
           "fil": "mabilis",
           "audio": "audio/i06/i06_madasig.m4a",
-          "image": null,
+          "image": "images/words/word-madasig.webp",
           "example": {
             "hil": "Madasig ang dyip.",
             "fil": "Mabilis ang dyip."
@@ -4422,7 +4422,7 @@
           "hil": "mahinay",
           "fil": "mabagal",
           "audio": "audio/i06/i06_mahinay.m4a",
-          "image": null,
+          "image": "images/words/word-mahinay.webp",
           "example": {
             "hil": "Mahinay ang traysikad.",
             "fil": "Mabagal ang padyak."
@@ -4446,7 +4446,7 @@
           "hil": "tigulang",
           "fil": "matanda",
           "audio": "audio/i06/i06_tigulang.m4a",
-          "image": null,
+          "image": "images/words/word-tigulang.webp",
           "example": {
             "hil": "Tigulang na ang akon lolo.",
             "fil": "Matanda na ang lolo ko."
@@ -4458,7 +4458,7 @@
           "hil": "daan",
           "fil": "luma",
           "audio": "audio/i06/i06_daan.m4a",
-          "image": null,
+          "image": "images/words/word-daan.webp",
           "example": {
             "hil": "Daan na ang akon sapatos.",
             "fil": "Luma na ang sapatos ko."
@@ -4470,7 +4470,7 @@
           "hil": "matam-is",
           "fil": "matamis",
           "audio": "audio/i06/i06_matam_is.m4a",
-          "image": null,
+          "image": "images/words/word-matam-is.webp",
           "example": {
             "hil": "Matam-is gid ang mangga.",
             "fil": "Matamis talaga ang mangga."
@@ -4724,8 +4724,8 @@
       ],
       "estMinutes": 17,
       "partsCount": 14,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i07-opinions.webp",
+      "coverImage": "images/lessons/lesson-i07-opinions-hero.webp",
       "unlock": {
         "after": "i06",
         "needs": "passQuiz"
@@ -5171,7 +5171,7 @@
           "type": "culture_note",
           "title": "Soft Words, Strong Ideas",
           "text": "Ilonggos are known for speaking softly, even when they disagree. Starting with *Tuod, pero…* or adding *lang* keeps the talk friendly. A blunt *Sayop!* can sound rude, especially to an older person.",
-          "image": null
+          "image": "images/culture/culture-lesson-i07.webp"
         }
       ],
       "items": [
@@ -5529,8 +5529,8 @@
       ],
       "estMinutes": 18,
       "partsCount": 14,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i08-real-life.webp",
+      "coverImage": "images/lessons/lesson-i08-real-life-hero.webp",
       "unlock": {
         "after": "i07",
         "needs": "passQuiz"
@@ -6041,7 +6041,7 @@
           "type": "culture_note",
           "title": "Suki",
           "text": "In Iloilo markets, a regular customer is called a *suki*. Vendors often give their *suki* a better price or a little extra. Buy from the same stall a few times and you may hear: *Para sa suki ko!*",
-          "image": null
+          "image": "images/culture/culture-lesson-i08.webp"
         }
       ],
       "items": [
@@ -6050,7 +6050,7 @@
           "hil": "lamesa",
           "fil": "mesa",
           "audio": "audio/i08/i08_lamesa.m4a",
-          "image": null,
+          "image": "images/words/word-lamesa.webp",
           "example": {
             "hil": "May lamesa pa bala?",
             "fil": "May mesa pa ba?"
@@ -6062,7 +6062,7 @@
           "hil": "bayad",
           "fil": "bayad",
           "audio": "audio/i08/i08_bayad.m4a",
-          "image": null,
+          "image": "images/words/word-bayad.webp",
           "example": {
             "hil": "Ari ang bayad.",
             "fil": "Heto ang bayad."
@@ -6074,7 +6074,7 @@
           "hil": "sukli",
           "fil": "sukli",
           "audio": "audio/i08/i08_sukli.m4a",
-          "image": null,
+          "image": "images/words/word-sukli.webp",
           "example": {
             "hil": "Ang sukli ko?",
             "fil": "Ang sukli ko?"
@@ -6098,7 +6098,7 @@
           "hil": "manaog",
           "fil": "bumaba",
           "audio": "audio/i08/i08_manaog.m4a",
-          "image": null,
+          "image": "images/words/word-manaog.webp",
           "example": {
             "hil": "Diin ako manaog?",
             "fil": "Saan ako bababa?"
@@ -6383,8 +6383,8 @@
       ],
       "estMinutes": 16,
       "partsCount": 12,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i09-story.webp",
+      "coverImage": "images/lessons/lesson-i09-story-hero.webp",
       "unlock": {
         "after": "i08",
         "needs": "passQuiz"
@@ -6720,7 +6720,7 @@
           "type": "culture_note",
           "title": "Sugidanon",
           "text": "*Sugid* means to tell, and a *sugidanon* is a story. In the mountains of central Panay, the Panay Bukidnon people keep long epic stories, also called *sugidanon*, that are chanted from memory and passed down through families.",
-          "image": null
+          "image": "images/culture/culture-lesson-i09.webp"
         }
       ],
       "items": [
@@ -6765,7 +6765,7 @@
           "hil": "payong",
           "fil": "payong",
           "audio": "audio/i09/i09_payong.m4a",
-          "image": null,
+          "image": "images/words/word-payong.webp",
           "example": {
             "hil": "Wala ako sing payong.",
             "fil": "Wala akong payong."
@@ -6777,7 +6777,7 @@
           "hil": "tyangge",
           "fil": "tindahan",
           "audio": "audio/i09/i09_tyangge.m4a",
-          "image": null,
+          "image": "images/words/word-tindahan.webp",
           "example": {
             "hil": "Naghulat kami sa tyangge.",
             "fil": "Naghintay kami sa tindahan."
@@ -7057,8 +7057,8 @@
       ],
       "estMinutes": 16,
       "partsCount": 12,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i10-listening.webp",
+      "coverImage": "images/lessons/lesson-i10-listening-hero.webp",
       "unlock": {
         "after": "i09",
         "needs": "passQuiz"
@@ -7356,7 +7356,7 @@
           "type": "culture_note",
           "title": "Telling Time",
           "text": "Ilonggos usually tell the time with Spanish numbers: *alas-dos* (2:00), *alas-singko* (5:00). *Antes* (before) is also from Spanish. Prices and dates often mix Spanish, English and Hiligaynon numbers, so listen closely.",
-          "image": null
+          "image": "images/culture/culture-lesson-i10.webp"
         }
       ],
       "items": [
@@ -7699,8 +7699,8 @@
       ],
       "estMinutes": 17,
       "partsCount": 13,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i11-translating.webp",
+      "coverImage": "images/lessons/lesson-i11-translating-hero.webp",
       "unlock": {
         "after": "i10",
         "needs": "passQuiz"
@@ -8161,7 +8161,7 @@
           "type": "culture_note",
           "title": "Palangga",
           "text": "*Palangga* is one of the best-loved Hiligaynon words. It means love, or someone dear to you. You'll hear it in songs, in names of shops and in *Palangga ta ka* (I love you).",
-          "image": null
+          "image": "images/culture/culture-lesson-i11.webp"
         }
       ],
       "items": [],
@@ -8410,8 +8410,8 @@
       ],
       "estMinutes": 18,
       "partsCount": 13,
-      "icon": null,
-      "coverImage": null,
+      "icon": "images/lessons/lesson-i12-conversation.webp",
+      "coverImage": "images/lessons/lesson-i12-conversation-hero.webp",
       "unlock": {
         "after": "i11",
         "needs": "passQuiz"
@@ -8897,7 +8897,7 @@
           "type": "culture_note",
           "title": "Abaw!",
           "text": "*Abaw!* is the sound of an Ilonggo conversation. People say it when they're surprised, amazed or even a little shocked: *Abaw, matahom gid!* (Wow, so beautiful!) or *Abaw, mahal!* (Whoa, expensive!). You've finished Intermediate. *Abaw, maayo gid!*",
-          "image": null
+          "image": "images/culture/culture-lesson-i12.webp"
         }
       ],
       "items": [

@@ -210,7 +210,7 @@ void main() {
       expect(y(find.text('Unit 2 · Building sentences')).dy, lessThan(y(find.text('Who Did What')).dy));
     });
 
-    testWidgets('rows: Lesson N numbers, meta, locked messages, placeholder thumbnails', (tester) async {
+    testWidgets('rows: Lesson N numbers, meta, locked messages, lesson pictures', (tester) async {
       await openIntermediate(tester);
       expect(find.text('15 parts • 16 min'), findsOneWidget, reason: 'i01 is open');
       expect(find.text('Pass Lesson 1 quiz to unlock'), findsOneWidget, reason: 'i02 waits for i01');
@@ -218,9 +218,10 @@ void main() {
       for (var n = 1; n <= 12; n++) {
         expect(find.text('$n'), findsOneWidget, reason: 'number $n');
       }
-      // No icons yet: the Figma placeholder, never the firefly.
-      expect(find.byWidgetPredicate((w) => w.runtimeType.toString() == '_PlaceholderThumbnail'), findsNWidgets(12));
-      expect(find.byType(LessonImage), findsNothing);
+      // Every row shows its own icon (Nov 16), no placeholder.
+      expect(find.byWidgetPredicate((w) => w.runtimeType.toString() == '_PlaceholderThumbnail'), findsNothing);
+      final paths = tester.widgetList<LessonImage>(find.byType(LessonImage)).map((w) => w.path).toList();
+      expect(paths, [for (final l in catalog.levels[1].lessons) l.icon]);
     });
 
     testWidgets('locked number badge is #79718B, on every level', (tester) async {
@@ -279,7 +280,7 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('unit headers, Lesson N numbers, placeholders, locked messages', (tester) async {
+    testWidgets('unit headers, Lesson N numbers, lesson pictures, locked messages', (tester) async {
       await openAdvanced(tester);
       for (final header in [
         'Unit 1 · Sounding natural',
@@ -297,7 +298,9 @@ void main() {
       }
       expect(find.text('Pass Lesson 1 quiz to unlock'), findsOneWidget);
       expect(find.text('Pass Lesson 9 quiz to unlock'), findsOneWidget);
-      expect(find.byWidgetPredicate((w) => w.runtimeType.toString() == '_PlaceholderThumbnail'), findsNWidgets(10));
+      expect(find.byWidgetPredicate((w) => w.runtimeType.toString() == '_PlaceholderThumbnail'), findsNothing);
+      final paths = tester.widgetList<LessonImage>(find.byType(LessonImage)).map((w) => w.path).toList();
+      expect(paths, [for (final l in advancedLessons()) l.icon]);
       // Unit 2 starts at Lesson 4.
       final y = tester.getTopLeft;
       expect(y(find.text(advancedLessons()[2].title)).dy, lessThan(y(find.text('Unit 2 · Right words, right people')).dy));

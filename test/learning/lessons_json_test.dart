@@ -63,9 +63,11 @@ void main() {
       expect(intermediate[i].unlock.after, intermediate[i - 1].id);
       expect(intermediate[i].unlock.needs, UnlockNeed.passQuiz);
     }
-    // Pictures aren't made yet.
-    expect(intermediate.map((l) => l.icon), everyElement(isNull));
-    expect(intermediate.map((l) => l.coverImage), everyElement(isNull));
+    // Pictures (Nov 16): every lesson has its icon and banner.
+    for (final l in intermediate) {
+      expect(l.icon, startsWith('assets/images/lessons/lesson-${l.id}-'), reason: l.id);
+      expect(l.coverImage, l.icon!.replaceFirst('.webp', '-hero.webp'), reason: l.id);
+    }
   });
 
   test('loads all 10 Advanced lessons in order, in 4 units', () {
@@ -87,8 +89,8 @@ void main() {
       expect(l.partsCount, inInclusiveRange(16, 17), reason: l.id);
       expect(l.quiz!.questions, hasLength(15), reason: l.id);
       expect(l.quiz!.scoredQuestions, hasLength(14), reason: l.id);
-      expect(l.icon, isNull);
-      expect(l.coverImage, isNull);
+      expect(l.icon, startsWith('assets/images/lessons/lesson-${l.id}-'), reason: l.id);
+      expect(l.coverImage, l.icon!.replaceFirst('.webp', '-hero.webp'), reason: l.id);
     }
   });
 
@@ -430,16 +432,23 @@ void main() {
     final audio = rest.where((r) => r.jsonPath.startsWith('audio/')).toList();
     expect(audio.map((r) => r.jsonPath).toSet(), hasLength(133));
 
-    // Intermediate and Advanced: clips aren't recorded yet. Report them, don't fail.
+    // Intermediate and Advanced: every picture is in the app (Nov 16; tyangge reuses
+    // Beginner's word-tindahan.webp). Clips aren't recorded yet: report them, don't fail.
+    for (final (letter, name, pictures) in [('i', 'Intermediate', 70), ('a', 'Advanced', 35)]) {
+      final refs = repo.assetRefs.where((r) => isLevel(r, letter) && r.jsonPath.startsWith('images/')).toList();
+      expect(refs, hasLength(pictures), reason: '$name pictures');
+      expect(refs.where((r) => !r.found).map((r) => '${r.where}: ${r.jsonPath}'), isEmpty);
+    }
+    expect(repo.assetRefs.where((r) => r.where.startsWith('i09') && r.jsonPath == 'images/words/word-tindahan.webp'),
+        hasLength(1), reason: 'tyangge keeps the Beginner picture');
     for (final (letter, name, total) in [('i', 'Intermediate', 132), ('a', 'Advanced', 118)]) {
-      final refs = repo.assetRefs.where((r) => isLevel(r, letter)).toList();
+      final refs = repo.assetRefs.where((r) => isLevel(r, letter) && r.jsonPath.startsWith('audio/')).toList();
       final missing = {for (final r in refs) if (!r.found) r.jsonPath}.toList()..sort();
       final found = {for (final r in refs) if (r.found) r.jsonPath};
       // ignore: avoid_print
       print('$name clips: ${found.length} in the app, ${missing.length} missing'
           '${missing.isEmpty ? '' : ':\n  ${missing.join('\n  ')}'}');
-      expect(refs.every((r) => r.jsonPath.startsWith('audio/$letter')), isTrue,
-          reason: '$name has no pictures yet, only clips');
+      expect(refs.every((r) => r.jsonPath.startsWith('audio/$letter')), isTrue, reason: name);
       expect(found.length + missing.length, total, reason: name);
     }
   });
