@@ -74,14 +74,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String learnLockedLevelsHint(String levels, String previous) {
-    return '$levels: finish $previous to unlock';
-  }
-
-  @override
-  String get listAnd => 'and';
-
-  @override
   String learnLevelLocked(String previous, String level) {
     return 'Finish $previous to unlock $level';
   }
@@ -615,20 +607,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonProfilePicture => 'Profile picture';
-
-  @override
-  String commonCharCounter(Object count, Object max) {
-    return '$count/$max';
-  }
-
-  @override
-  String get commonHiligaynon => 'Hiligaynon';
-
-  @override
-  String get commonFilipino => 'Filipino';
-
-  @override
-  String get commonEnglish => 'English';
 
   @override
   String get commonListen => 'Listen';
@@ -1598,9 +1576,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String adminActiveCount(Object count) {
     return '$count active';
   }
-
-  @override
-  String get adminEntry => 'Admin';
 
   @override
   String get settingsClearHistory => 'Clear translation history';

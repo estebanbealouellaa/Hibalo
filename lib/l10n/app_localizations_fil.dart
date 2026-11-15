@@ -77,14 +77,6 @@ class AppLocalizationsFil extends AppLocalizations {
   }
 
   @override
-  String learnLockedLevelsHint(String levels, String previous) {
-    return '$levels: tapusin ang $previous para mabuksan';
-  }
-
-  @override
-  String get listAnd => 'at';
-
-  @override
   String learnLevelLocked(String previous, String level) {
     return 'Tapusin ang $previous para mabuksan ang $level';
   }
@@ -619,20 +611,6 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get commonProfilePicture => 'Larawan sa profile';
-
-  @override
-  String commonCharCounter(Object count, Object max) {
-    return '$count/$max';
-  }
-
-  @override
-  String get commonHiligaynon => 'Hiligaynon';
-
-  @override
-  String get commonFilipino => 'Filipino';
-
-  @override
-  String get commonEnglish => 'English';
 
   @override
   String get commonListen => 'Pakinggan';
@@ -1614,9 +1592,6 @@ class AppLocalizationsFil extends AppLocalizations {
   String adminActiveCount(Object count) {
     return '$count aktibo';
   }
-
-  @override
-  String get adminEntry => 'Admin';
 
   @override
   String get settingsClearHistory => 'Burahin ang history ng salin';

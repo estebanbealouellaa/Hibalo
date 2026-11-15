@@ -226,18 +226,6 @@ abstract class AppLocalizations {
   /// **'Unit {number} · {title}'**
   String learnUnitHeader(int number, String title);
 
-  /// S01 hint under the level tabs while later levels are locked, e.g. 'Intermediate and Advanced: finish Beginner to unlock'.
-  ///
-  /// In en, this message translates to:
-  /// **'{levels}: finish {previous} to unlock'**
-  String learnLockedLevelsHint(String levels, String previous);
-
-  /// Joins the last two names in a list: 'Intermediate and Advanced'.
-  ///
-  /// In en, this message translates to:
-  /// **'and'**
-  String get listAnd;
-
   /// S01 snackbar when a locked level tab is tapped.
   ///
   /// In en, this message translates to:
@@ -1167,30 +1155,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile picture'**
   String get commonProfilePicture;
-
-  /// Common.
-  ///
-  /// In en, this message translates to:
-  /// **'{count}/{max}'**
-  String commonCharCounter(Object count, Object max);
-
-  /// Common.
-  ///
-  /// In en, this message translates to:
-  /// **'Hiligaynon'**
-  String get commonHiligaynon;
-
-  /// Common.
-  ///
-  /// In en, this message translates to:
-  /// **'Filipino'**
-  String get commonFilipino;
-
-  /// Common.
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get commonEnglish;
 
   /// Common.
   ///
@@ -2967,12 +2931,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} active'**
   String adminActiveCount(Object count);
-
-  /// Admin.
-  ///
-  /// In en, this message translates to:
-  /// **'Admin'**
-  String get adminEntry;
 
   /// History / Saved.
   ///

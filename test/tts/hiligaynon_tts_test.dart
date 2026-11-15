@@ -332,15 +332,6 @@ void main() {
     ]);
   });
 
-  test('encodeWav header and length', () {
-    final wav = encodeWav(Float32List.fromList([0, 0.5, -1, 1]));
-    expect(ascii.decode(wav.sublist(0, 4)), 'RIFF');
-    expect(wav.length, 44 + 8);
-    final data = ByteData.sublistView(wav, 44);
-    expect(data.getInt16(2, Endian.little), 16384);
-    expect(data.getInt16(4, Endian.little), -32767);
-  });
-
   group('pickOfflineVoice', () {
     Map<String, String> voice(
       String name,

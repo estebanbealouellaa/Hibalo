@@ -1,4 +1,4 @@
-// Filipino lesson text (Stage 2): every lesson part and every quiz (+ its review) in Filipino on a
+// Filipino lesson text: every lesson part and every quiz (+ its review) in Filipino on a
 // 360 × 740 phone, with the Filipino app words. Any layout overflow fails the test.
 //   flutter test test/learning/filipino_overflow_test.dart
 

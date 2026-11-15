@@ -75,7 +75,7 @@ SpeechSpan findSpeech(Float64List x, SpeechCheck check) {
 /// The three practice levels. Lower distance or relative score = closer.
 enum PronunciationLevel { veryClose, almost, tryAgain }
 
-/// Null until both thresholds are set (Stage 2 picks them from the test recordings).
+/// Null when a threshold is missing (settings.pronunciationFeedback has both, set from test recordings).
 PronunciationLevel? levelFor(double score, {double? veryClose, double? almost}) {
   if (veryClose == null || almost == null || score.isNaN) return null;
   if (score <= veryClose) return PronunciationLevel.veryClose;

@@ -43,11 +43,11 @@ ALWAYS = {'title', 'objectives', 'question', 'hint', 'setting', 'situation', 'so
           'literal', 'sayTo', 'tone', 'warning', 'leftLabel', 'rightLabel', 'label', 'columns', 'tip', 'why'}
 # Fields that hold English or Hiligaynon/Filipino: exported only when the text is English.
 MIXED = {'text', 'prompt', 'bridge', 'explain', 'note', 'changes', 'right', 'wrong'}  # not 'sentence': Q03/Q12 check it against the blank and the tiles
-# English mixed with Hiligaynon that the language check misses (reviewed by hand, Nov 16).
+# English mixed with Hiligaynon that the language check misses (reviewed by hand).
 ALWAYS_KEYS = {'b03_bm.mistakes[0].wrong', 'b12_c1.prompt', 'b13_k1.terms[2].note', 'i04_p08.terms[2].note',
                'i06_p02.rows[4][2]', 'i09_p05.terms[0].note', 'a03_p11.terms[1].note', 'a05_p07.explain',
                'a05_p15.mistakes[1].wrong'}
-# Rows whose *…* parts may change in Filipino (Lance, Stage 2): English inside *…* translated,
+# Rows whose *…* parts may change in Filipino (approved): English inside *…* translated,
 # or the same Hiligaynon in another order. Every non-English *…* part must still be in the text.
 MARKUP_CHANGES = {'b01_k1.text', 'b03_bm.bridge[1]', 'i01_p14.mistakes[2].why', 'i02_p05.text', 'i02_p11.tip',
                   'i03_p01.tip', 'i03_p02.text', 'i04_p14.turns[0].choices[1].hint',
@@ -55,7 +55,7 @@ MARKUP_CHANGES = {'b01_k1.text', 'b03_bm.bridge[1]', 'i01_p14.mistakes[2].why', 
 # Option lists that look English but must stay as they are (Hiligaynon loanwords).
 KEEP_OPTIONS = {'a08_q14.options'}
 
-# Lance's decisions (Stage 0, Nov 16): shown in the notes; the Filipino column stays empty.
+# Agreed names: shown in the notes; the Filipino column stays empty.
 DECIDED = {
     'Beginner': 'Baguhan', 'Intermediate': 'Katamtaman', 'Advanced': 'Abante', 'Keep practicing': 'Magsanay pa',
 }
@@ -263,13 +263,13 @@ def notes(field, key, english, owner):
     if re.search(r'\bFilipino\b', plain) and field not in ('columns', 'title'):
         out.append('compares with Filipino: reword for a Filipino reader')
     if re.search(r'\bEnglish\b', plain) or field == 'soundHint':
-        out.append('use a Filipino example instead of English (Lance)')
+        out.append('use a Filipino example instead of English')
     if '.units[' in key or '.unit.title' in key:
         out.append('unit name: one translation for all its lessons')
     if field == 'columns' and english == 'English':
-        out.append('Lance: this column becomes "Filipino"')
+        out.append('this column becomes "Filipino"')
     if field == 'rows' and owner is not None and (owner.get('columns') or [None])[0] == 'English':
-        out.append('Lance: English column becomes Filipino (Magandang umaga / ano / saan / wala)')
+        out.append('the English column becomes Filipino (Magandang umaga / ano / saan / wala)')
     if english in DECIDED:
         out.append(f'decided: {DECIDED[english]}')
     return '; '.join(out)

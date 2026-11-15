@@ -1,6 +1,6 @@
-// Filipino lesson text (Stage 1): overlay keys, applying and checking overlays, the English
-// fallback, Learn search on the Filipino title, the language switch and speaker display names.
-// The Filipino here is a stand-in ("(fil) " + the English); the real text comes later.
+// Filipino lesson text: overlay keys, applying and checking overlays, the English fallback,
+// Learn search on the Filipino title, the language switch and speaker display names.
+// Most tests use a stand-in Filipino ("(fil) " + the English) so they don't depend on the wording.
 
 import 'dart:convert';
 import 'dart:io';

@@ -1,4 +1,4 @@
-// Q09 pronunciation feedback (Stage 2): Checking → Very close / Almost / Try again,
+// Q09 pronunciation feedback: Checking → Very close / Almost / Try again,
 // Couldn't hear, Record again, No clip, and the flag switched off.
 
 import 'dart:async';

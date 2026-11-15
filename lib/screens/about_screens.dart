@@ -13,7 +13,7 @@ class InfoSection {
   final VoidCallback? onTap;
 }
 
-/// Settings › Privacy policy: Lance's text, word for word in English (fil/hil are drafts).
+/// Settings › Privacy policy: the approved text, word for word in English (fil/hil are drafts).
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
@@ -35,8 +35,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }
 }
 
-/// Settings › Credits & licences (Figma 612:5896 layout). Lance's text (Nov
-/// 6). The last row opens Flutter's licence list.
+/// Settings › Credits & licences (Figma 612:5896 layout): the approved text. The last row opens
+/// Flutter's licence list.
 class CreditsScreen extends StatelessWidget {
   const CreditsScreen({super.key});
 

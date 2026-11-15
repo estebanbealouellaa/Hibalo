@@ -88,22 +88,6 @@
       "title": {"type": "String"}
     }
   },
-  "learnLockedLevelsHint": "{levels}: finish {previous} to unlock",
-  "@learnLockedLevelsHint": {
-    "description": "S01 hint under the level tabs while later levels are locked, e.g. 'Intermediate and Advanced: finish Beginner to unlock'.",
-    "placeholders": {
-      "levels": {
-        "type": "String"
-      },
-      "previous": {
-        "type": "String"
-      }
-    }
-  },
-  "listAnd": "and",
-  "@listAnd": {
-    "description": "Joins the last two names in a list: 'Intermediate and Advanced'."
-  },
   "learnLevelLocked": "Finish {previous} to unlock {level}",
   "@learnLevelLocked": {
     "description": "S01 snackbar when a locked level tab is tapped.",
@@ -932,30 +916,6 @@
   },
   "commonProfilePicture": "Profile picture",
   "@commonProfilePicture": {
-    "description": "Common."
-  },
-  "commonCharCounter": "{count}/{max}",
-  "@commonCharCounter": {
-    "description": "Common.",
-    "placeholders": {
-      "count": {
-        "type": "Object"
-      },
-      "max": {
-        "type": "Object"
-      }
-    }
-  },
-  "commonHiligaynon": "Hiligaynon",
-  "@commonHiligaynon": {
-    "description": "Common."
-  },
-  "commonFilipino": "Filipino",
-  "@commonFilipino": {
-    "description": "Common."
-  },
-  "commonEnglish": "English",
-  "@commonEnglish": {
     "description": "Common."
   },
   "commonListen": "Listen",
@@ -2262,10 +2222,6 @@
         "type": "Object"
       }
     }
-  },
-  "adminEntry": "Admin",
-  "@adminEntry": {
-    "description": "Admin."
   },
   "settingsClearHistory": "Clear translation history",
   "@settingsClearHistory": {

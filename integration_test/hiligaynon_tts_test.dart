@@ -74,7 +74,7 @@ Future<_Result> _measure(
     final run = _Run(firstMs!, sw.elapsedMilliseconds, audio);
     runs[name] = run;
     final file = File('${outDir.path}/${name}_$tag.wav')
-      ..writeAsBytesSync(encodeWav(audio));
+      ..writeAsBytesSync(_wav(audio));
     _log(
       '[$tag] TTS $name: ${run.seconds.toStringAsFixed(2)} s audio, '
       'first sound ${_s(run.firstMs)} s, total ${_s(run.totalMs)} s, '
@@ -171,4 +171,34 @@ void main() {
       _log('WAVs: ${outDir.path} (<name>_cpu.wav / <name>_xnnpack.wav)');
     });
   });
+}
+
+/// 16-bit mono WAV of the generated voice, to listen to the test output (test only: the app
+/// never writes audio files).
+Uint8List _wav(Float32List audio, {int sampleRate = kSampleRate}) {
+  final dataLen = audio.length * 2;
+  final b = ByteData(44 + dataLen);
+  void ascii(int off, String s) {
+    for (var i = 0; i < s.length; i++) {
+      b.setUint8(off + i, s.codeUnitAt(i));
+    }
+  }
+
+  ascii(0, 'RIFF');
+  b.setUint32(4, 36 + dataLen, Endian.little);
+  ascii(8, 'WAVE');
+  ascii(12, 'fmt ');
+  b.setUint32(16, 16, Endian.little);
+  b.setUint16(20, 1, Endian.little); // PCM
+  b.setUint16(22, 1, Endian.little); // mono
+  b.setUint32(24, sampleRate, Endian.little);
+  b.setUint32(28, sampleRate * 2, Endian.little);
+  b.setUint16(32, 2, Endian.little);
+  b.setUint16(34, 16, Endian.little);
+  ascii(36, 'data');
+  b.setUint32(40, dataLen, Endian.little);
+  for (var i = 0; i < audio.length; i++) {
+    b.setInt16(44 + i * 2, (audio[i].clamp(-1.0, 1.0) * 32767).round(), Endian.little);
+  }
+  return b.buffer.asUint8List();
 }

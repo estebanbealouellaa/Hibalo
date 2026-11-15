@@ -317,7 +317,7 @@ class ReplyOption extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Small grey label above the reply (Lance, Nov 12), e.g. "Filipino, to your friend".
+                      // Small grey label above the reply, e.g. "Filipino, to your friend".
                       if (choice.note case final note?) ...[
                         Text(note, style: V6Text.caption.copyWith(color: V6Colors.textMuted)),
                         const SizedBox(height: 2),

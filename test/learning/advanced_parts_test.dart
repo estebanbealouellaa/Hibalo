@@ -73,7 +73,7 @@ void main() {
       expect(find.text('— Diin si Ben?'), findsOneWidget);
       expect(find.text('— Nasaan si Ben?'), findsOneWidget);
       expect(find.byType(AudioButton), findsNothing, reason: 'no clip recorded yet');
-      // No part title on idiom cards (Lance).
+      // No part title on idiom cards.
       final part = catalog.lessonById('a03')!.parts[partIndex('a03', 'a03_p03')];
       expect(find.text((part as dynamic).title as String), findsNothing);
 

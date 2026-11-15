@@ -63,7 +63,7 @@ void main() {
       expect(intermediate[i].unlock.after, intermediate[i - 1].id);
       expect(intermediate[i].unlock.needs, UnlockNeed.passQuiz);
     }
-    // Pictures (Nov 16): every lesson has its icon and banner.
+    // Pictures: every lesson has its icon and banner.
     for (final l in intermediate) {
       expect(l.icon, startsWith('assets/images/lessons/lesson-${l.id}-'), reason: l.id);
       expect(l.coverImage, l.icon!.replaceFirst('.webp', '-hero.webp'), reason: l.id);
@@ -432,7 +432,7 @@ void main() {
     final audio = rest.where((r) => r.jsonPath.startsWith('audio/')).toList();
     expect(audio.map((r) => r.jsonPath).toSet(), hasLength(133));
 
-    // Intermediate and Advanced: every picture is in the app (Nov 16; tyangge reuses
+    // Intermediate and Advanced: every picture is in the app (tyangge reuses
     // Beginner's word-tindahan.webp). Clips aren't recorded yet: report them, don't fail.
     for (final (letter, name, pictures) in [('i', 'Intermediate', 70), ('a', 'Advanced', 35)]) {
       final refs = repo.assetRefs.where((r) => isLevel(r, letter) && r.jsonPath.startsWith('images/')).toList();

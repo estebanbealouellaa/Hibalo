@@ -252,12 +252,15 @@ class HiligaynonTtsEngine {
       out.setAll(off, p);
       off += p.length;
     }
-    debugPrint(
-      '[HiligaynonTTS] ${(total / kSampleRate).toStringAsFixed(2)} s audio '
-      'in ${(sw.elapsedMilliseconds / 1000).toStringAsFixed(2)} s, '
-      'first sound after ${((firstMs ?? 0) / 1000).toStringAsFixed(2)} s '
-      '(${said.length} part(s): ${said.join(' | ')})',
-    );
+    // Timing only, never the words (logs also reach logcat in release builds).
+    if (kDebugMode) {
+      debugPrint(
+        '[HiligaynonTTS] ${(total / kSampleRate).toStringAsFixed(2)} s audio '
+        'in ${(sw.elapsedMilliseconds / 1000).toStringAsFixed(2)} s, '
+        'first sound after ${((firstMs ?? 0) / 1000).toStringAsFixed(2)} s '
+        '(${said.length} part(s))',
+      );
+    }
     return out;
   }
 

@@ -229,7 +229,7 @@ void main() {
       catalog = (await LessonRepository.load(rootBundle)).catalog;
     });
 
-    test('on, relative score, thresholds from the tuning session (Nov 16)', () {
+    test('on, relative score, thresholds from the tuning session', () {
       final p = catalog.settings.pronunciation;
       expect(p.enabled, isTrue);
       expect(p.score, PronunciationScore.relative);

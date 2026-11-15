@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/v6/v6.dart';
 
-/// The support address (Lance, Nov 6).
+/// The support address.
 const String kSupportEmail = 'hibalo@gmail.com';
 
 /// Figma 612:6044 questions. The first answer is Figma's; the others are

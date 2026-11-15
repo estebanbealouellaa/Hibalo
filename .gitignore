@@ -48,3 +48,17 @@ app.*.map.json
 .claude/
 .vscode/
 devtools_options.yaml
+
+# Working files (exports, screenshots, scratch): local only
+Claude outputs/
+
+# Kotlin compiler sessions
+android/.kotlin/
+
+# docs/: only the guides the code refers to are in the repo; drafts, zips, CSVs,
+# build plans and handoffs stay local
+/docs/*
+!/docs/LEARNING_BEHAVIOR.md
+!/docs/LEARNING_TEMPLATES.md
+!/docs/FUTURE_FEATURES.md
+!/docs/translation/

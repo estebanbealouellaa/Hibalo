@@ -693,7 +693,7 @@ class VerbRoot {
 class IdiomCardsPartData extends LessonPart {
   IdiomCardsPartData(String id, {required this.title, required this.cards}) : super(id, 'P13');
 
-  /// Not shown (Lance, Nov 12: like word cards).
+  /// Not shown (like word cards).
   final String title;
   final List<IdiomCard> cards;
 
@@ -774,7 +774,7 @@ class IdiomCard {
 }
 
 /// P14: two ways to say the same thing, one situation at a time with "n / N" (Back/Next).
-/// Header = the situation title; the part title shows under it (Lance, Nov 12). No audio.
+/// Header = the situation title; the part title shows under it. No audio.
 class RegisterPairsPartData extends LessonPart {
   RegisterPairsPartData(
     String id, {

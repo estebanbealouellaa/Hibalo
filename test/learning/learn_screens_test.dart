@@ -74,7 +74,7 @@ void main() {
       expect(find.text('Finish Lesson\u00A01 to unlock'), findsOneWidget);
       expect(find.text('Pass Lesson\u00A02 quiz to unlock'), findsOneWidget);
       expect(find.text('Pass Lesson\u00A012 quiz to unlock'), findsOneWidget);
-      // No hint line under the level tabs (Lance, Nov 7); tabs stay locked.
+      // No hint line under the level tabs; tabs stay locked.
       expect(find.textContaining('finish Beginner to unlock'), findsNothing);
       // Rows keep their numbers.
       for (var n = 1; n <= 13; n++) {
@@ -218,7 +218,7 @@ void main() {
       for (var n = 1; n <= 12; n++) {
         expect(find.text('$n'), findsOneWidget, reason: 'number $n');
       }
-      // Every row shows its own icon (Nov 16), no placeholder.
+      // Every row shows its own icon, no placeholder.
       expect(find.byWidgetPredicate((w) => w.runtimeType.toString() == '_PlaceholderThumbnail'), findsNothing);
       final paths = tester.widgetList<LessonImage>(find.byType(LessonImage)).map((w) => w.path).toList();
       expect(paths, [for (final l in catalog.levels[1].lessons) l.icon]);
