@@ -4,7 +4,7 @@
     "source": "advanced_lessons.json",
     "note": "Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.",
     "updated": "2026-11-16",
-    "count": 914
+    "count": 915
   },
   "strings": {
     "a01.objectives[0]": {
@@ -2080,6 +2080,10 @@
     "a06_p07.title": {
       "en": "The Story, Step by Step",
       "fil": "Ang Kuwento, Hakbang-hakbang"
+    },
+    "a06_p08.terms[0].note": {
+      "en": "finished → nag-",
+      "fil": "tapos na → nag-"
     },
     "a06_p08.terms[1].note": {
       "en": "finished, thing/person in focus → gin-",

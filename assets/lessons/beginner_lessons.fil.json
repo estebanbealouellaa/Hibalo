@@ -4,7 +4,7 @@
     "source": "beginner_lessons.json",
     "note": "Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.",
     "updated": "2026-11-16",
-    "count": 618
+    "count": 624
   },
   "strings": {
     "b01.note": {
@@ -256,6 +256,10 @@
       "en": "morning, until about 11 a.m.",
       "fil": "umaga, hanggang mga 11 n.u."
     },
+    "b02_k1.terms[1].note": {
+      "en": "around noon",
+      "fil": "bandang tanghali"
+    },
     "b02_k1.terms[2].note": {
       "en": "about 1 p.m. to sunset",
       "fil": "mga 1 n.h. hanggang paglubog ng araw"
@@ -279,6 +283,10 @@
     "b02_k2.terms[1].note": {
       "en": "answering",
       "fil": "pagsagot"
+    },
+    "b02_k2.terms[2].note": {
+      "en": "asking back",
+      "fil": "pagtatanong pabalik"
     },
     "b02_k2.text": {
       "en": "*Kamusta ka?* comes from Spanish “¿cómo está?”, just like Filipino *Kumusta*. Answer with *Maayo man ako*, then ask back with *Kag ikaw man?* The little word *man* works like *naman*.",
@@ -428,6 +436,10 @@
     "b03_cn.title": {
       "en": "Did you know?",
       "fil": "Alam mo ba?"
+    },
+    "b03_k1.terms[0].note": {
+      "en": "I",
+      "fil": "ako"
     },
     "b03_k1.terms[1].note": {
       "en": "you",
@@ -664,6 +676,10 @@
     "b04_k3.title": {
       "en": "Age and Work",
       "fil": "Edad at Trabaho"
+    },
+    "b04_k4.terms[0].note": {
+      "en": "asking back",
+      "fil": "pagtatanong pabalik"
     },
     "b04_k4.terms[1].note": {
       "en": "friend",
@@ -1773,6 +1789,10 @@
       "en": "done",
       "fil": "tapos na"
     },
+    "b10_k1.terms[3].note": {
+      "en": "later",
+      "fil": "mamaya"
+    },
     "b10_k1.text": {
       "en": "English changes the word itself (eat, ate). Hiligaynon keeps the root, like *kaon* (eat), and changes the start: *naga-* for now, *nag-* for done, *mag-* for later.",
       "fil": "Sa Ingles, ang salita mismo ang nagbabago (eat, ate). Sa Hiligaynon, nananatili ang ugat, gaya ng *kaon* (kain), at ang simula ang nagbabago: *naga-* para sa ngayon, *nag-* para sa tapos na, *mag-* para sa gagawin pa lang."
@@ -1968,6 +1988,10 @@
     "b11_k1.terms[1].note": {
       "en": "yes",
       "fil": "oo"
+    },
+    "b11_k1.terms[2].note": {
+      "en": "no",
+      "fil": "hindi"
     },
     "b11_k1.terms[3].note": {
       "en": "not yet",

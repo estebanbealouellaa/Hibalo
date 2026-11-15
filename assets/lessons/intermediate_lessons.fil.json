@@ -4,7 +4,7 @@
     "source": "intermediate_lessons.json",
     "note": "Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.",
     "updated": "2026-11-16",
-    "count": 751
+    "count": 757
   },
   "strings": {
     "i01.objectives[0]": {
@@ -1186,6 +1186,14 @@
       "en": "it seems",
       "fil": "parang"
     },
+    "i05_p09.terms[2].note": {
+      "en": "I wonder",
+      "fil": "kaya kaya"
+    },
+    "i05_p09.terms[3].note": {
+      "en": "I hope / I wish",
+      "fil": "sana"
+    },
     "i05_p09.title": {
       "en": "Maybe, I Wonder, I Hope",
       "fil": "Baka, Kaya Kaya, Sana"
@@ -1546,6 +1554,10 @@
       "en": "Where Should We Eat?",
       "fil": "Saan Tayo Kakain?"
     },
+    "i07_p02.terms[0].note": {
+      "en": "I like…",
+      "fil": "gusto ko ang…"
+    },
     "i07_p02.terms[1].note": {
       "en": "I don't like…",
       "fil": "ayaw ko ang…"
@@ -1837,6 +1849,14 @@
     "i08_p02.terms[0].note": {
       "en": "friendly (to a friend)",
       "fil": "magiliw (sa kaibigan)"
+    },
+    "i08_p02.terms[1].note": {
+      "en": "polite",
+      "fil": "magalang"
+    },
+    "i08_p02.terms[2].note": {
+      "en": "very polite",
+      "fil": "napakagalang"
     },
     "i08_p02.text": {
       "en": "Add *palihog* (please) or ask with *pwede bala…?* (may I…?) to make a request softer. Use *Manong / Manang* for older people.",
@@ -2641,6 +2661,10 @@
     "i11_p08.title": {
       "en": "Number + ka + Thing",
       "fil": "Numero + ka + Bagay"
+    },
+    "i11_p09.terms[0].note": {
+      "en": "polite (Filipino *po / pakiusap*)",
+      "fil": "magalang (sa Filipino: *po / pakiusap*)"
     },
     "i11_p09.terms[1].note": {
       "en": "soft",
