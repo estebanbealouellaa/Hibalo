@@ -15,7 +15,8 @@ class AppLocalizationsFil extends AppLocalizations {
   String get q09VeryClose => 'Napakalapit';
 
   @override
-  String get q09VeryCloseText => 'Halos kapareho mo na ang native speaker.';
+  String get q09VeryCloseText =>
+      'Halos kapareho mo na ang tagapagsalita ng Hiligaynon.';
 
   @override
   String get q09Almost => 'Malapit na';
@@ -29,7 +30,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get q09TryAgainText =>
-      'Pakinggan ang native speaker, saka subukan ulit.';
+      'Pakinggan ang tagapagsalita ng Hiligaynon, saka subukan ulit.';
 
   @override
   String get q09CouldntHear => 'Hindi ka namin narinig';
