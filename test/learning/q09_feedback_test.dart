@@ -89,8 +89,9 @@ void main() {
     PronunciationSettings feedback = _on,
     ClipDecoder? decoder,
     String? lang,
+    Size size = const Size(360, 1000),
   }) async {
-    tester.view.physicalSize = const Size(360, 1000);
+    tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     recorder = _Recorder();
@@ -249,6 +250,23 @@ void main() {
       await pump(tester, lang: lang, data: _question(audio: null));
       await record(tester, wordA()); // No clip
       expect(tester.takeException(), isNull);
+    });
+  }
+
+  for (final (lang, nativeLabel) in [('fil', 'Tagapagsalita ng Hiligaynon'), ('hil', 'Manughambal sang Hiligaynon')]) {
+    testWidgets('$lang No clip at 360 × 740: Native speaker wraps, nothing overflows', (tester) async {
+      await pump(tester, lang: lang, data: _question(audio: null), size: const Size(360, 740));
+      expect(tester.takeException(), isNull);
+      final label = find.text(nativeLabel);
+      expect(label, findsOneWidget, reason: 'the disabled Native speaker row in the prompt card');
+      final lineHeight = tester.widget<Text>(label).style!.height! * tester.widget<Text>(label).style!.fontSize!;
+      expect(tester.getSize(label).height, greaterThan(lineHeight * 1.5), reason: 'the label wraps to a second line');
+      expect(tester.getRect(label).right, lessThanOrEqualTo(360 - 20 - 20), reason: 'stays inside the prompt card');
+
+      await record(tester, wordA());
+      expect(tester.takeException(), isNull, reason: 'Recorded · tap to record again + Play mine also fit');
+      expect(find.text(lang == 'fil' ? 'Paparating pa ang pagkumpara' : 'Madali na lang ang pagtandi'), findsOneWidget);
+      expect(find.text(lang == 'fil' ? 'Boses ko' : 'Tingog ko'), findsOneWidget);
     });
   }
 }

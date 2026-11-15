@@ -15,8 +15,7 @@ class AppLocalizationsFil extends AppLocalizations {
   String get q09VeryClose => 'Napakalapit';
 
   @override
-  String get q09VeryCloseText =>
-      'Halos kapareho mo na ang tagapagsalita ng Hiligaynon.';
+  String get q09VeryCloseText => 'Halos kapareho mo na ang native speaker.';
 
   @override
   String get q09Almost => 'Malapit na';
@@ -30,7 +29,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String get q09TryAgainText =>
-      'Pakinggan ang tagapagsalita ng Hiligaynon, saka subukan ulit.';
+      'Pakinggan ang native speaker, saka subukan ulit.';
 
   @override
   String get q09CouldntHear => 'Hindi ka namin narinig';
@@ -39,10 +38,10 @@ class AppLocalizationsFil extends AppLocalizations {
   String get q09CouldntHearText => 'Ilapit ang phone at subukan ulit.';
 
   @override
-  String get q09PlayMine => 'I-play ang akin';
+  String get q09PlayMine => 'Boses ko';
 
   @override
-  String get q09PlayNative => 'I-play ang tagapagsalita';
+  String get q09PlayNative => 'Tagapagsalita ng Hiligaynon';
 
   @override
   String get q09RecordAgain => 'I-record ulit';
@@ -51,10 +50,10 @@ class AppLocalizationsFil extends AppLocalizations {
   String get q09RecordedAgain => 'Na-record · i-tap para mag-record ulit';
 
   @override
-  String get q09ComparisonComingSoon => 'Malapit na ang paghahambing';
+  String get q09ComparisonComingSoon => 'Paparating pa ang pagkumpara';
 
   @override
-  String get trPreparingTranslator => 'Inihahanda ang tagasalin…';
+  String get trPreparingTranslator => 'Inihahanda ang translator…';
 
   @override
   String get trPreparingShort => 'Inihahanda…';

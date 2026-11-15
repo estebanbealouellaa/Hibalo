@@ -9,7 +9,7 @@ class AppLocalizationsHil extends AppLocalizations {
   AppLocalizationsHil([String locale = 'hil']) : super(locale);
 
   @override
-  String get q09Checking => 'Ginausisa…';
+  String get q09Checking => 'Ginatsek…';
 
   @override
   String get q09VeryClose => 'Malapit gid';
@@ -22,8 +22,7 @@ class AppLocalizationsHil extends AppLocalizations {
   String get q09Almost => 'Malapit na';
 
   @override
-  String get q09AlmostText =>
-      'Malapit na. Pamati liwat kag tilawi liwat sing isa pa.';
+  String get q09AlmostText => 'Malapit na. Pamati liwat kag tilawi pa gid.';
 
   @override
   String get q09TryAgain => 'Tilawi liwat';
@@ -39,10 +38,10 @@ class AppLocalizationsHil extends AppLocalizations {
   String get q09CouldntHearText => 'Ilapit ang phone kag tilawi liwat.';
 
   @override
-  String get q09PlayMine => 'I-play ang akon';
+  String get q09PlayMine => 'Tingog ko';
 
   @override
-  String get q09PlayNative => 'I-play ang manughambal';
+  String get q09PlayNative => 'Manughambal sang Hiligaynon';
 
   @override
   String get q09RecordAgain => 'I-record liwat';
