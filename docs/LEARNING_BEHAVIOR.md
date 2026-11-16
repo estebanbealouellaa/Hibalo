@@ -128,7 +128,7 @@ Any X button → S06 Leave pop-up
   - Locked tabs show a small lock badge on the top-right corner.
   - Tapping a locked tab does not switch the tab. It shows a short snackbar: "Finish Beginner to unlock". **(Proposal)**
   - No hint line under the tabs (removed Nov 7, Lance); locked tabs keep their lock badge and the snackbar on tap. Leaving the Learn tab resets S01 (search cleared, Beginner tab).
-- **Units (Intermediate, Nov 11):** a header "Unit N · title" (Label/Large Bold, Primary; fil/hil "Yunit N · title", the title stays as in the JSON) above the first lesson of each unit, 12 px like the rows. Search keeps the header of each unit that still has a shown lesson. Beginner has no units.
+- **Units (every level):** a header "Unit N · title" (Label/Large Bold, Primary; fil/hil "Yunit N · title" with the Filipino unit title from the overlay) above the first lesson of each unit, 12 px like the rows. Search keeps the header of each unit that still has a shown lesson. Beginner has no units.
 - **Lesson row:** number box, icon (`icon`, 52×52; null → the Figma "Image Placeholder": grey tile, dashed border, X), title, one meta line, trailing icon. Locked number box colour = V6/Color/Lesson/Locked Badge #79718B on every level (Nov 11). The four states:
 
 | State | Number box | Meta line | Trailing | Tap |

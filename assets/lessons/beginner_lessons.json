@@ -7,6 +7,10 @@
       "order": 1,
       "kind": "letters",
       "sourceLesson": "B1 (alphabet part)",
+      "unit": {
+        "number": 1,
+        "title": "First steps"
+      },
       "title": "Letters & Sounds",
       "objectives": [
         "Know the 19 letters used in Hiligaynon",
@@ -402,6 +406,10 @@
       "order": 2,
       "kind": "words",
       "sourceLesson": "B1",
+      "unit": {
+        "number": 1,
+        "title": "First steps"
+      },
       "title": "Greetings & Courtesy",
       "objectives": [
         "Greet people at any time of day",
@@ -965,6 +973,10 @@
       "order": 3,
       "kind": "words",
       "sourceLesson": "B2",
+      "unit": {
+        "number": 1,
+        "title": "First steps"
+      },
       "title": "Pronouns & Identity",
       "objectives": [
         "Use the words for I, you, he and she",
@@ -1458,6 +1470,10 @@
       "order": 4,
       "kind": "words",
       "sourceLesson": "B3",
+      "unit": {
+        "number": 1,
+        "title": "First steps"
+      },
       "title": "Introducing Yourself",
       "objectives": [
         "Say your name",
@@ -2019,6 +2035,10 @@
       "order": 5,
       "kind": "words",
       "sourceLesson": "B4",
+      "unit": {
+        "number": 2,
+        "title": "Numbers and time"
+      },
       "title": "Numbers 1 to 10",
       "objectives": [
         "Count from 1 to 10",
@@ -2543,6 +2563,10 @@
       "order": 6,
       "kind": "words",
       "sourceLesson": "B5",
+      "unit": {
+        "number": 2,
+        "title": "Numbers and time"
+      },
       "title": "Time, Days & Months",
       "objectives": [
         "Name the days and months",
@@ -3186,6 +3210,10 @@
       "order": 7,
       "kind": "words",
       "sourceLesson": "B6",
+      "unit": {
+        "number": 3,
+        "title": "People and places"
+      },
       "title": "Family & People",
       "objectives": [
         "Name family members",
@@ -3739,6 +3767,10 @@
       "order": 8,
       "kind": "words",
       "sourceLesson": "B7",
+      "unit": {
+        "number": 3,
+        "title": "People and places"
+      },
       "title": "Places & Directions",
       "objectives": [
         "Name places in town",
@@ -4332,6 +4364,10 @@
       "order": 9,
       "kind": "words",
       "sourceLesson": "B8",
+      "unit": {
+        "number": 3,
+        "title": "People and places"
+      },
       "title": "Food, Market & Money",
       "objectives": [
         "Name common food",
@@ -4972,6 +5008,10 @@
       "order": 10,
       "kind": "words",
       "sourceLesson": "B9",
+      "unit": {
+        "number": 4,
+        "title": "Making sentences"
+      },
       "title": "Basic Verbs",
       "objectives": [
         "Use common action words",
@@ -5526,6 +5566,10 @@
       "order": 11,
       "kind": "words",
       "sourceLesson": "B10",
+      "unit": {
+        "number": 4,
+        "title": "Making sentences"
+      },
       "title": "Asking Questions",
       "objectives": [
         "Ask who, what, where and when",
@@ -6118,6 +6162,10 @@
       "order": 12,
       "kind": "words",
       "sourceLesson": "B11",
+      "unit": {
+        "number": 4,
+        "title": "Making sentences"
+      },
       "title": "Building Sentences",
       "objectives": [
         "Put words in the right order",
@@ -6694,6 +6742,10 @@
       "order": 13,
       "kind": "words",
       "sourceLesson": "B12",
+      "unit": {
+        "number": 4,
+        "title": "Making sentences"
+      },
       "title": "Daily Conversations",
       "objectives": [
         "Hold a short conversation",
@@ -7257,5 +7309,44 @@
       }
     }
   ],
-  "unlock": null
+  "unlock": null,
+  "units": [
+    {
+      "number": 1,
+      "title": "First steps",
+      "lessons": [
+        "b01",
+        "b02",
+        "b03",
+        "b04"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Numbers and time",
+      "lessons": [
+        "b05",
+        "b06"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "People and places",
+      "lessons": [
+        "b07",
+        "b08",
+        "b09"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Making sentences",
+      "lessons": [
+        "b10",
+        "b11",
+        "b12",
+        "b13"
+      ]
+    }
+  ]
 }

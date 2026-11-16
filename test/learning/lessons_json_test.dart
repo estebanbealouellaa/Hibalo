@@ -43,7 +43,9 @@ void main() {
     expect(beginner.map((l) => l.order), List.generate(13, (i) => i + 1));
     expect(beginner.map((l) => l.id),
         List.generate(13, (i) => 'b${(i + 1).toString().padLeft(2, '0')}'));
-    expect(beginner.map((l) => l.unit), everyElement(isNull));
+    expect(beginner.map((l) => l.unit?.number), [1, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]);
+    expect(beginner.map((l) => l.unit!.title).toSet(),
+        {'First steps', 'Numbers and time', 'People and places', 'Making sentences'});
   });
 
   test('loads all 12 Intermediate lessons in order, in 4 units of 3', () {

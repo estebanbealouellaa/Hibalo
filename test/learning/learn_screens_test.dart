@@ -250,9 +250,22 @@ void main() {
       expect(find.text('Unit 1 · Everyday life'), findsNothing);
     });
 
-    testWidgets('Beginner has no unit headers', (tester) async {
+    testWidgets('Beginner shows its 4 unit headers above the right lessons', (tester) async {
       await show(tester, const LearnScreen());
-      expect(find.textContaining('Unit '), findsNothing);
+      for (final header in [
+        'Unit 1 · First steps',
+        'Unit 2 · Numbers and time',
+        'Unit 3 · People and places',
+        'Unit 4 · Making sentences',
+      ]) {
+        expect(find.text(header), findsOneWidget, reason: header);
+      }
+      final lessons = catalog.levels.first.lessons;
+      final y = tester.getTopLeft;
+      // Unit 2 starts at Lesson 5, Unit 4 at Lesson 10.
+      expect(y(find.text(lessons[3].title)).dy, lessThan(y(find.text('Unit 2 · Numbers and time')).dy));
+      expect(y(find.text('Unit 2 · Numbers and time')).dy, lessThan(y(find.text(lessons[4].title)).dy));
+      expect(y(find.text('Unit 4 · Making sentences')).dy, lessThan(y(find.text(lessons[9].title)).dy));
     });
 
     testWidgets('unit header in Filipino and Hiligaynon; the unit title stays as it is', (tester) async {

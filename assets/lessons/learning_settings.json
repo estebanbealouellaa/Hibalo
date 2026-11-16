@@ -29,7 +29,7 @@
       "hilColumns": "Tables only: which columns hold Hiligaynon. Those cells are italic violet; the rest are plain.",
       "terms[].note": "A short English note shown under the word with the label NOTE (not WHEN).",
       "alt": "Another way to say the word in Hiligaynon (shown as 'Also said: …'). Never the Filipino meaning.",
-      "unit": "Intermediate only. {number, title}. The Learn list shows a header 'Unit N · title' before the first lesson of each unit.",
+      "unit": "Every level (Beginner, Intermediate, Advanced). {number, title}. The Learn list shows a header 'Unit N · title' before the first lesson of each unit.",
       "dialogue lines[].audio": "Only on dialogues used for listening. One clip per line.",
       "listening (dialogue)": "true = hide the Hiligaynon text until the learner has played the audio once (or taps 'Show text').",
       "terms[].example": "Optional example under a term: {hil, fil}. fil may be null.",

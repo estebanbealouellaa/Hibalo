@@ -4,7 +4,7 @@
     "source": "beginner_lessons.json",
     "note": "Filipino lesson text, made with tools/lesson_strings.py import. Keys: see lib/learning/data/lesson_overlay.dart.",
     "updated": "2026-11-16",
-    "count": 624
+    "count": 641
   },
   "strings": {
     "b01.note": {
@@ -26,6 +26,10 @@
     "b01.title": {
       "en": "Letters & Sounds",
       "fil": "Mga Titik at Tunog"
+    },
+    "b01.unit.title": {
+      "en": "First steps",
+      "fil": "Unang hakbang"
     },
     "b01_a.soundHint": {
       "en": "like a in \"father\"",
@@ -199,6 +203,10 @@
     "b02.title": {
       "en": "Greetings & Courtesy",
       "fil": "Pagbati at Paggalang"
+    },
+    "b02.unit.title": {
+      "en": "First steps",
+      "fil": "Unang hakbang"
     },
     "b02_bm.bridge[0]": {
       "en": "*Maayong* = *Magandang*. Put the time of day after it.",
@@ -396,6 +404,10 @@
       "en": "Pronouns & Identity",
       "fil": "Mga Panghalip at Pagkakakilanlan"
     },
+    "b03.unit.title": {
+      "en": "First steps",
+      "fil": "Unang hakbang"
+    },
     "b03_bm.bridge[1]": {
       "en": "In Filipino, “mahal *kita*” uses kita for “you”. In Hiligaynon, *kita* means “we, you and me”.",
       "fil": "Sa Filipino, ang *kita* sa “mahal *kita*” ay “ikaw”. Sa Hiligaynon, ang *kita* ay “tayo, ikaw at ako”.",
@@ -572,6 +584,10 @@
     "b04.title": {
       "en": "Introducing Yourself",
       "fil": "Pagpapakilala sa Sarili"
+    },
+    "b04.unit.title": {
+      "en": "First steps",
+      "fil": "Unang hakbang"
     },
     "b04_bm.bridge[0]": {
       "en": "*Ngalan* = *pangalan*, without *pa-*.",
@@ -781,6 +797,10 @@
       "en": "Numbers 1 to 10",
       "fil": "Mga Numero 1 hanggang 10"
     },
+    "b05.unit.title": {
+      "en": "Numbers and time",
+      "fil": "Numero at oras"
+    },
     "b05_bm.bridge[0]": {
       "en": "Filipino *-ng* or *na* = Hiligaynon *ka*.",
       "fil": "Filipino *-ng* o *na* = Hiligaynon *ka*."
@@ -920,6 +940,10 @@
     "b06.title": {
       "en": "Time, Days & Months",
       "fil": "Oras, Araw at Buwan"
+    },
+    "b06.unit.title": {
+      "en": "Numbers and time",
+      "fil": "Numero at oras"
     },
     "b06_bm.mistakes[0].why": {
       "en": "Use Domingo for Sunday.",
@@ -1104,6 +1128,10 @@
     "b07.title": {
       "en": "Family & People",
       "fil": "Pamilya at mga Tao"
+    },
+    "b07.unit.title": {
+      "en": "People and places",
+      "fil": "Tao at lugar"
     },
     "b07_bm.bridge[1]": {
       "en": "*Ate* and *Kuya* become *Manang* and *Manong* (or *Nang* and *Nong*).",
@@ -1325,6 +1353,10 @@
       "en": "Places & Directions",
       "fil": "Mga Lugar at Direksyon"
     },
+    "b08.unit.title": {
+      "en": "People and places",
+      "fil": "Tao at lugar"
+    },
     "b08_bm.bridge[3]": {
       "en": "For “behind”, you'll hear both *sa likod sang* and *sa luyo sang*.",
       "fil": "Para sa “likod”, maririnig mo ang *sa likod sang* at ang *sa luyo sang*."
@@ -1536,6 +1568,10 @@
     "b09.title": {
       "en": "Food, Market & Money",
       "fil": "Pagkain, Palengke at Pera"
+    },
+    "b09.unit.title": {
+      "en": "People and places",
+      "fil": "Tao at lugar"
     },
     "b09_bm.mistakes[0].why": {
       "en": "Use sang, not ng.",
@@ -1749,6 +1785,10 @@
       "en": "Basic Verbs",
       "fil": "Mga Pangunahing Pandiwa"
     },
+    "b10.unit.title": {
+      "en": "Making sentences",
+      "fil": "Pagbuo ng pangungusap"
+    },
     "b10_bm.bridge[1]": {
       "en": "The root never changes; only the start does.",
       "fil": "Hindi nagbabago ang ugat; ang simula lang ang nagbabago."
@@ -1941,6 +1981,10 @@
       "en": "Asking Questions",
       "fil": "Pagtatanong"
     },
+    "b11.unit.title": {
+      "en": "Making sentences",
+      "fil": "Pagbuo ng pangungusap"
+    },
     "b11_bm.bridge[2]": {
       "en": "*Oo* = *Huo* (you may also hear Oo).",
       "fil": "*Oo* = *Huo* (puwede mo ring marinig ang Oo)."
@@ -2096,6 +2140,10 @@
     "b12.title": {
       "en": "Building Sentences",
       "fil": "Pagbuo ng Pangungusap"
+    },
+    "b12.unit.title": {
+      "en": "Making sentences",
+      "fil": "Pagbuo ng pangungusap"
     },
     "b12_bm.bridge[0]": {
       "en": "*hindi* = *indi* (is not, will not) or *wala* (did not, none).",
@@ -2313,6 +2361,10 @@
       "en": "Daily Conversations",
       "fil": "Pang-araw-araw na Usapan"
     },
+    "b13.unit.title": {
+      "en": "Making sentences",
+      "fil": "Pagbuo ng pangungusap"
+    },
     "b13_bm.bridge[0]": {
       "en": "Plan your sentence in Filipino if it helps, then build it in Hiligaynon.",
       "fil": "Planuhin muna sa Filipino ang pangungusap mo kung makakatulong, saka buuin ito sa Hiligaynon."
@@ -2504,6 +2556,22 @@
     "beginner.title": {
       "en": "Beginner",
       "fil": "Baguhan"
+    },
+    "beginner.units[0].title": {
+      "en": "First steps",
+      "fil": "Unang hakbang"
+    },
+    "beginner.units[1].title": {
+      "en": "Numbers and time",
+      "fil": "Numero at oras"
+    },
+    "beginner.units[2].title": {
+      "en": "People and places",
+      "fil": "Tao at lugar"
+    },
+    "beginner.units[3].title": {
+      "en": "Making sentences",
+      "fil": "Pagbuo ng pangungusap"
     }
   }
 }
